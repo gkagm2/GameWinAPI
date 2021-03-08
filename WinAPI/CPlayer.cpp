@@ -17,6 +17,7 @@
 
 #include "CMissile.h"
 #include "CMonster.h"
+#include "CCamera.h"
 
 CPlayer::CPlayer(E_GroupType _eGroupType = E_GroupType::DEFAULT) :
 	CObject(_eGroupType),
@@ -71,8 +72,28 @@ void CPlayer::Update()
 	if (GetAsyncKeyState(0x34) & 0x8000) {
  		m_eUpgradeLevel = E_UpgradeLevelType::LEVEL4;
 	}
-	
-	
+
+
+	// Mouse Click test code
+	POINT lpp;
+	if (keyMrg->GetKeyState(E_Key::LBUTTON) == E_KeyState::PRESS) {
+		if (GetCursorPos(&lpp)) {
+			LONG ia = lpp.x;
+			LONG ja = lpp.y;
+			Vector3 clickPos(lpp.x, lpp.y);
+			clickPos = CCamera::GetInstance()->GetScreenToWorldPosition(clickPos);
+			Vector3 position = GetPosition();
+			Vector3 playerPos = position;
+
+			Vector3 resultPos = clickPos - playerPos;
+			resultPos.y *= -1;
+			float fDegree = CMyMath::VectorToDegree(resultPos);
+
+			Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetTexture()->GetHeight() / 2.0f);
+			CreateMissile(m_fMissileSpeed, vNozzlePosition, fDegree);
+		}
+	}
+
 
 	m_fFireCoolTime += DeltaTime;
 	if (keyMrg->GetKeyState(E_Key::SPACE) == E_KeyState::PRESS) {

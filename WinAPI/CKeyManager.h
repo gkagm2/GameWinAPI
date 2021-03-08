@@ -11,6 +11,9 @@ enum class E_Key {
 	S,
 	A,
 	D,
+	LBUTTON,
+	RBUTTON,
+	
 	END,
 };
 

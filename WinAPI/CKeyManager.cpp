@@ -12,6 +12,8 @@ int g_arrVK[(int)E_Key::END] = {
 	'S',
 	'A',
 	'D',
+	VK_LBUTTON,
+	VK_RBUTTON
 };
 
 CKeyManager::CKeyManager() {
