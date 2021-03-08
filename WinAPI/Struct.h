@@ -4,8 +4,6 @@ struct Vector2;
 struct Vector3;
 
 ////////////////// Vector ///////////////////
-
-
 struct Vector2 {
 	float x;
 	float y;
