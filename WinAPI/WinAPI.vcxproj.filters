@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{69630895-656d-4b9a-bf2e-c2b2c8946127}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PCH">
+      <UniqueIdentifier>{d246bec0-074e-4c6a-9256-af955fa7cbe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{1b8723a0-6908-420e-ac29-39b8d99dc6aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager">
+      <UniqueIdentifier>{c2989ab6-5082-4c45-8f66-e1b3448df418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\TimeMrg">
+      <UniqueIdentifier>{283b5d03-e5f8-45b2-a6b3-5d854c556323}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\KeyMrg">
+      <UniqueIdentifier>{cd384857-01d8-4966-99cc-3034a919db26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\SceneMrg">
+      <UniqueIdentifier>{af17edd6-b2f6-47b5-b7b1-2b1052696da3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Header">
+      <UniqueIdentifier>{e7a64c22-6820-4156-8be8-4c4ca57c5560}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Define">
+      <UniqueIdentifier>{45277063-905c-4d94-ba66-2c28c6de2ac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Core">
+      <UniqueIdentifier>{c05999c8-4cfb-40f0-b0d7-966983531794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object">
+      <UniqueIdentifier>{f7e07798-b830-42f3-97a6-820c36b7673f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene">
+      <UniqueIdentifier>{25eb7f57-1b5c-420f-a3c5-81cbf9c8d71a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\StartScene">
+      <UniqueIdentifier>{3097f2a2-5e39-4017-a472-ecedbe049283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\Stage01">
+      <UniqueIdentifier>{6c8127a0-e178-4805-8927-1f3c3f55cad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Player">
+      <UniqueIdentifier>{7b7b2818-9eea-4d5e-84ae-089a73500722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\PathMrg">
+      <UniqueIdentifier>{62a679d1-18cb-47a5-96e7-08380d7be658}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\ResourceMrg">
+      <UniqueIdentifier>{8c5863a7-9165-4464-855d-24b59401b8f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Resource">
+      <UniqueIdentifier>{62ab8b19-bed6-4eb0-9b36-c24559c3084b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Resource\Sound">
+      <UniqueIdentifier>{3fd0fda7-614e-4f12-b988-64366bbeccb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Resource\Texture">
+      <UniqueIdentifier>{c05c8a7a-8e63-46dc-b46f-314d8b209f59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Monster">
+      <UniqueIdentifier>{de960475-96bb-42fd-8517-d2c81ad5a4eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Missile">
+      <UniqueIdentifier>{6a91d4ca-b9f3-4193-9166-c5c7572e59df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\Camera">
+      <UniqueIdentifier>{9a4d49b9-df01-4dcb-a34a-4668ec19d53c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Collider">
+      <UniqueIdentifier>{7f322ffb-5b0d-4209-8d08-447f876f679a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\CollisionMgr">
+      <UniqueIdentifier>{9dfad5b6-d8bd-4cb3-8b4c-6694a69a82b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Collider\ColliderCircle">
+      <UniqueIdentifier>{7cf8e71b-ee9a-4e97-adcc-55dec18ce897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Collider\ColliderRect">
+      <UniqueIdentifier>{981494e8-5382-4a45-a287-3acf4c161137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\EventMrg">
+      <UniqueIdentifier>{c458175f-5a31-4d83-806f-e434afc6145b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\MonsterRespawner">
+      <UniqueIdentifier>{720b29ce-8cca-4e40-8732-e3f626d52c56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\MonsterSmall">
+      <UniqueIdentifier>{992249d1-780c-4e20-8460-195afcb2a0c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Background">
+      <UniqueIdentifier>{318908e4-01f9-4f1c-9d6b-7b79beafa142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\BackgroundController">
+      <UniqueIdentifier>{5c70de07-0285-4f3d-8de6-9594694380b6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="Define.h">
+      <Filter>Game\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimeManager.h">
+      <Filter>Game\Manager\TimeMrg</Filter>
+    </ClInclude>
+    <ClInclude Include="CKeyManager.h">
+      <Filter>Game\Manager\KeyMrg</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="WinAPI.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="CCore.h">
+      <Filter>Game\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CObject.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct.h">
+      <Filter>Game\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CSceneManager.h">
+      <Filter>Game\Manager\SceneMrg</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>Game\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene_Stage01.h">
+      <Filter>Game\Scene\Stage01</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene_Start.h">
+      <Filter>Game\Scene\StartScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CPathManager.h">
+      <Filter>Game\Manager\PathMrg</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterPath.h">
+      <Filter>Game\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonster.h">
+      <Filter>Game\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>Game\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="CResourceManager.h">
+      <Filter>Game\Manager\ResourceMrg</Filter>
+    </ClInclude>
+    <ClInclude Include="CResource.h">
+      <Filter>Game\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CSound.h">
+      <Filter>Game\Resource\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="StringTable.h">
+      <Filter>Game\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="CMissile.h">
+      <Filter>Game\Object\Missile</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera.h">
+      <Filter>Game\Manager\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider.h">
+      <Filter>Game\Object\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollisionManager.h">
+      <Filter>Game\Manager\CollisionMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CColliderCircle.h">
+      <Filter>Game\Object\Collider\ColliderCircle</Filter>
+    </ClInclude>
+    <ClInclude Include="CColliderRect.h">
+      <Filter>Game\Object\Collider\ColliderRect</Filter>
+    </ClInclude>
+    <ClInclude Include="CEventManager.h">
+      <Filter>Game\Manager\EventMrg</Filter>
+    </ClInclude>
+    <ClInclude Include="Func.h">
+      <Filter>Game\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterRespawner.h">
+      <Filter>Game\Object\MonsterRespawner</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonster_Small.h">
+      <Filter>Game\Object\MonsterSmall</Filter>
+    </ClInclude>
+    <ClInclude Include="CBackground.h">
+      <Filter>Game\Object\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="CBackgroundController.h">
+      <Filter>Game\Object\BackgroundController</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WinAPI.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="WinAPI.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CTimeManager.cpp">
+      <Filter>Game\Manager\TimeMrg</Filter>
+    </ClCompile>
+    <ClCompile Include="CKeyManager.cpp">
+      <Filter>Game\Manager\KeyMrg</Filter>
+    </ClCompile>
+    <ClCompile Include="CCore.cpp">
+      <Filter>Game\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CObject.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CSceneManager.cpp">
+      <Filter>Game\Manager\SceneMrg</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>Game\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene_Stage01.cpp">
+      <Filter>Game\Scene\Stage01</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene_Start.cpp">
+      <Filter>Game\Scene\StartScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CPathManager.cpp">
+      <Filter>Game\Manager\PathMrg</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonster.cpp">
+      <Filter>Game\Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterPath.cpp">
+      <Filter>Game\Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CTexture.cpp">
+      <Filter>Game\Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CResourceManager.cpp">
+      <Filter>Game\Manager\ResourceMrg</Filter>
+    </ClCompile>
+    <ClCompile Include="CResource.cpp">
+      <Filter>Game\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CSound.cpp">
+      <Filter>Game\Resource\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="CMissile.cpp">
+      <Filter>Game\Object\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="CCamera.cpp">
+      <Filter>Game\Manager\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider.cpp">
+      <Filter>Game\Object\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionManager.cpp">
+      <Filter>Game\Manager\CollisionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CColliderCircle.cpp">
+      <Filter>Game\Object\Collider\ColliderCircle</Filter>
+    </ClCompile>
+    <ClCompile Include="CColliderRect.cpp">
+      <Filter>Game\Object\Collider\ColliderRect</Filter>
+    </ClCompile>
+    <ClCompile Include="CEventManager.cpp">
+      <Filter>Game\Manager\EventMrg</Filter>
+    </ClCompile>
+    <ClCompile Include="Func.cpp">
+      <Filter>Game\Define</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterRespawner.cpp">
+      <Filter>Game\Object\MonsterRespawner</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonster_Small.cpp">
+      <Filter>Game\Object\MonsterSmall</Filter>
+    </ClCompile>
+    <ClCompile Include="CBackground.cpp">
+      <Filter>Game\Object\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="CBackgroundController.cpp">
+      <Filter>Game\Object\BackgroundController</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
