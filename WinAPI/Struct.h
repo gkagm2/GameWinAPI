@@ -168,7 +168,7 @@ public:
 		SetZero();
 	}
 	Matrix4x4 SetZero() {
-		memset(m_afElements, 0, sizeof(m_afElements));
+		std::memset(m_afElements, 0, sizeof(m_afElements));
 		return *this;
 	}
 
@@ -196,7 +196,7 @@ public:
 		return mRet;
 	}
 
-	Vector3 operator*(Vector3& vLeft) {
+	Vector3 operator*(Vector3& vLeft) const {
 		Vector3 vRet;
 		vRet.x =
 			vLeft.x * m_afElements[0][0] +
@@ -216,7 +216,7 @@ public:
 		return vRet;
 	}
 
-	Matrix4x4 operator+(Matrix4x4& mRight) {
+	Matrix4x4 operator+(Matrix4x4& mRight) const {
 		Matrix4x4 mRet;
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {
@@ -226,7 +226,7 @@ public:
 	}
 
 	Matrix4x4 operator=(Matrix4x4& mRight) {
-		memcpy(m_afElements, mRight.m_afElements, sizeof(m_afElements));
+		std::memcpy(m_afElements, mRight.m_afElements, sizeof(m_afElements));
 		return *this;
 	}
 
@@ -240,12 +240,7 @@ public:
 		return *this;
 	}
 };
-
-// 매트릭스를 출력한다.
-inline void PrintMatrix(Matrix4x4& m) {
-
-}
-
+/*
 // 단위행렬
 inline void SetIdentityMatrix4x4(Matrix4x4& m) {
 	memset(m.m_afElements, 0, sizeof(m.m_afElements));
@@ -253,7 +248,7 @@ inline void SetIdentityMatrix4x4(Matrix4x4& m) {
 }
 
 // 행렬 덧셈
-void MatrixPlus(Matrix4x4& q, Matrix4x4& a, Matrix4x4& b) {
+void MatrixPlus(Matrix4x4& q, Matrix4x4& a, Matrix4x4& b){
 	for (WORD i = 0; i < 4; ++i) {
 		for (WORD j = 0; j < 4; ++j) {
 			q(i, j) = a(i, j) + b(i, j);
@@ -356,7 +351,7 @@ void TransposedMatrix(Matrix4x4& m) {
 
 // 행렬 외적
 
-
+*/
 
 class CMyMath {
 public:
