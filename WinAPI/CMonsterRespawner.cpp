@@ -66,7 +66,7 @@ void CMonsterRespawner::Update()
 			++m_iPhase;
 	}
 	else if (m_iPhase >= 5) {
-		DeleteObject(this);
+		DestroyObject(this);
 	}
 }
 

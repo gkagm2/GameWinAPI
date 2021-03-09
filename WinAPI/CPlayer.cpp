@@ -19,6 +19,8 @@
 #include "CMonster.h"
 #include "CCamera.h"
 
+#include "CAnimator.h"
+
 CPlayer::CPlayer(E_GroupType _eGroupType = E_GroupType::DEFAULT) :
 	CObject(_eGroupType),
 	m_iHp(10),
@@ -40,20 +42,43 @@ CPlayer::~CPlayer()
 #define KEY_AWAY(key) CKeyMgr::GetInst()->GetKeyState(key) == KSTATE::AWAY
 #define KEY_NONE(key) CKeyMgr::GetInst()->GetKeyState(key) == KSTATE::NONE
 */
+#define KEY_STATE(key) CKeyMgr::GetInst()->GetKeyState(key)
 
 void CPlayer::Update()
-{	
+{
 	CKeyManager* keyMrg = CKeyManager::GetInstance();
-	
+
 	Vector3 vMoveVec(0, 0, 0);
-	if (keyMrg->GetKeyState(E_Key::LEFT) == E_KeyState::HOLD) // ¿ÞÂÊ Å°°¡ ´­·È´Ù¸é
+
+	if (keyMrg->GetKeyState(E_Key::LEFT) == E_KeyState::HOLD) {// ¿ÞÂÊ Å°°¡ ´­·È´Ù¸é
 		vMoveVec.x -= 1;
-	if (keyMrg->GetKeyState(E_Key::RIGHT) == E_KeyState::HOLD)
+		GetAnimator()->PlayAnimation(L"WALK_LEFT", E_AnimationPlayType::LOOP);
+	}
+	if (keyMrg->GetKeyState(E_Key::RIGHT) == E_KeyState::HOLD) {
 		vMoveVec.x += 1;
-	if (keyMrg->GetKeyState(E_Key::UP) == E_KeyState::HOLD)
+		GetAnimator()->PlayAnimation(L"WALK_RIGHT", E_AnimationPlayType::LOOP);
+	}
+	if (keyMrg->GetKeyState(E_Key::UP) == E_KeyState::HOLD) {
 		vMoveVec.y -= 1;
-	if (keyMrg->GetKeyState(E_Key::DOWN) == E_KeyState::HOLD)
+		GetAnimator()->PlayAnimation(L"WALK_UP", E_AnimationPlayType::LOOP);
+	}
+	if (keyMrg->GetKeyState(E_Key::DOWN) == E_KeyState::HOLD) {
 		vMoveVec.y += 1;
+		GetAnimator()->PlayAnimation(L"WALK_DOWN", E_AnimationPlayType::LOOP);
+	}
+	if (keyMrg->GetKeyState(E_Key::LEFT) == E_KeyState::RELEASE) {// ¿ÞÂÊ Å°°¡ ´­·È´Ù¸é
+		GetAnimator()->PlayAnimation(L"IDLE_LEFT", E_AnimationPlayType::LOOP);
+	}
+	if (keyMrg->GetKeyState(E_Key::RIGHT) == E_KeyState::RELEASE) {
+		GetAnimator()->PlayAnimation(L"IDLE_RIGHT", E_AnimationPlayType::LOOP);
+	}
+	if (keyMrg->GetKeyState(E_Key::UP) == E_KeyState::RELEASE) {
+		GetAnimator()->PlayAnimation(L"IDLE_UP", E_AnimationPlayType::LOOP);
+	}
+	if (keyMrg->GetKeyState(E_Key::DOWN) == E_KeyState::RELEASE) {
+		GetAnimator()->PlayAnimation(L"IDLE_DOWN", E_AnimationPlayType::LOOP);
+	}
+
 	vMoveVec.Normalized();
 
 	Vector3 vPosition = GetPosition();
@@ -73,9 +98,8 @@ void CPlayer::Update()
  		m_eUpgradeLevel = E_UpgradeLevelType::LEVEL4;
 	}
 
-
 	// Mouse Click test code
-	POINT lpp;
+	/*POINT lpp;
 	if (keyMrg->GetKeyState(E_Key::LBUTTON) == E_KeyState::PRESS) {
 		if (GetCursorPos(&lpp)) {
 			LONG ia = lpp.x;
@@ -85,14 +109,14 @@ void CPlayer::Update()
 			Vector3 position = GetPosition();
 			Vector3 playerPos = position;
 
-			Vector3 resultPos = clickPos - playerPos;
+			Vector3 resultPos = clickPos - play	erPos;
 			resultPos.y *= -1;
 			float fDegree = CMyMath::VectorToDegree(resultPos);
 
 			Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetTexture()->GetHeight() / 2.0f);
 			CreateMissile(m_fMissileSpeed, vNozzlePosition, fDegree);
 		}
-	}
+	}*/
 
 
 	m_fFireCoolTime += DeltaTime;
@@ -110,6 +134,7 @@ void CPlayer::Update()
 
 void CPlayer::LateUpdate()
 {
+	CObject::LateUpdate();
 	HDC hdc = CCore::GetInstance()->GetDC();
 	wchar_t strHpBuffer[255];
 	swprintf_s(strHpBuffer, 255, L"HP : %d", m_iHp);
@@ -123,7 +148,7 @@ void CPlayer::OnCollisionEnter(CObject* _pOther)
 		if (pMissile->GetGroupType() == E_GroupType::MONSTER_PROJECTILE) {
 			--m_iHp;
 			if (m_iHp <= 0)
-				DeleteObject(this);
+				DestroyObject(this);
 		}
 	}
 	CMonster* pMonster = dynamic_cast<CMonster*>(_pOther);
@@ -131,9 +156,14 @@ void CPlayer::OnCollisionEnter(CObject* _pOther)
 		if (pMonster->GetGroupType() == E_GroupType::MONSTER) {
 			--m_iHp;
 			if (m_iHp <= 0)
-				DeleteObject(this);
+				DestroyObject(this);
 		}
 	}
+}
+
+void CPlayer::Render(HDC _hDC)
+{
+	GetAnimator()->Render(_hDC);
 }
 
 void CPlayer::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDirAngle)

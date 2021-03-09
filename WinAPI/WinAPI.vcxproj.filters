@@ -74,17 +74,8 @@
     <Filter Include="Game\Manager\Camera">
       <UniqueIdentifier>{9a4d49b9-df01-4dcb-a34a-4668ec19d53c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object\Collider">
-      <UniqueIdentifier>{7f322ffb-5b0d-4209-8d08-447f876f679a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Manager\CollisionMgr">
       <UniqueIdentifier>{9dfad5b6-d8bd-4cb3-8b4c-6694a69a82b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\Collider\ColliderCircle">
-      <UniqueIdentifier>{7cf8e71b-ee9a-4e97-adcc-55dec18ce897}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\Collider\ColliderRect">
-      <UniqueIdentifier>{981494e8-5382-4a45-a287-3acf4c161137}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Manager\EventMrg">
       <UniqueIdentifier>{c458175f-5a31-4d83-806f-e434afc6145b}</UniqueIdentifier>
@@ -100,6 +91,21 @@
     </Filter>
     <Filter Include="Game\Object\BackgroundController">
       <UniqueIdentifier>{5c70de07-0285-4f3d-8de6-9594694380b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Component">
+      <UniqueIdentifier>{fec7e179-47c9-4af9-a7ec-606366f88d6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Component\Collider">
+      <UniqueIdentifier>{7f322ffb-5b0d-4209-8d08-447f876f679a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Component\Collider\ColliderCircle">
+      <UniqueIdentifier>{7cf8e71b-ee9a-4e97-adcc-55dec18ce897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Component\Collider\ColliderRect">
+      <UniqueIdentifier>{981494e8-5382-4a45-a287-3acf4c161137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Component\Animator">
+      <UniqueIdentifier>{d467c61a-dcd3-4381-90a8-6c42236b9702}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -182,16 +188,16 @@
       <Filter>Game\Manager\Camera</Filter>
     </ClInclude>
     <ClInclude Include="CCollider.h">
-      <Filter>Game\Object\Collider</Filter>
+      <Filter>Game\Component\Collider</Filter>
     </ClInclude>
     <ClInclude Include="CCollisionManager.h">
       <Filter>Game\Manager\CollisionMgr</Filter>
     </ClInclude>
     <ClInclude Include="CColliderCircle.h">
-      <Filter>Game\Object\Collider\ColliderCircle</Filter>
+      <Filter>Game\Component\Collider\ColliderCircle</Filter>
     </ClInclude>
     <ClInclude Include="CColliderRect.h">
-      <Filter>Game\Object\Collider\ColliderRect</Filter>
+      <Filter>Game\Component\Collider\ColliderRect</Filter>
     </ClInclude>
     <ClInclude Include="CEventManager.h">
       <Filter>Game\Manager\EventMrg</Filter>
@@ -210,6 +216,12 @@
     </ClInclude>
     <ClInclude Include="CBackgroundController.h">
       <Filter>Game\Object\BackgroundController</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimator.h">
+      <Filter>Game\Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimation.h">
+      <Filter>Game\Component\Animator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -284,16 +296,16 @@
       <Filter>Game\Manager\Camera</Filter>
     </ClCompile>
     <ClCompile Include="CCollider.cpp">
-      <Filter>Game\Object\Collider</Filter>
+      <Filter>Game\Component\Collider</Filter>
     </ClCompile>
     <ClCompile Include="CCollisionManager.cpp">
       <Filter>Game\Manager\CollisionMgr</Filter>
     </ClCompile>
     <ClCompile Include="CColliderCircle.cpp">
-      <Filter>Game\Object\Collider\ColliderCircle</Filter>
+      <Filter>Game\Component\Collider\ColliderCircle</Filter>
     </ClCompile>
     <ClCompile Include="CColliderRect.cpp">
-      <Filter>Game\Object\Collider\ColliderRect</Filter>
+      <Filter>Game\Component\Collider\ColliderRect</Filter>
     </ClCompile>
     <ClCompile Include="CEventManager.cpp">
       <Filter>Game\Manager\EventMrg</Filter>
@@ -312,6 +324,12 @@
     </ClCompile>
     <ClCompile Include="CBackgroundController.cpp">
       <Filter>Game\Object\BackgroundController</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimator.cpp">
+      <Filter>Game\Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimation.cpp">
+      <Filter>Game\Component\Animator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

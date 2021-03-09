@@ -7,6 +7,11 @@
 #define STR_FILE_NAME_Player L"Player"
 #define STR_FILE_PATH_Player L"Texture\\Player.bmp"
 
+#define STR_FILE_NAME_PlayerAnim L"Link"
+#define STR_FILE_PATH_PlayerAnim L"Texture\\Animation\\link_0.bmp"
+
+
+
 #define STR_FILE_NAME_Monster L"Monster"
 #define STR_FILE_PATH_Monster L"Texture\\Monster.bmp"
 

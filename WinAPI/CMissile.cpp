@@ -22,7 +22,7 @@ void CMissile::Update()
 {
 	m_fLivingTime += DeltaTime;
 	if (m_fLivingTime >= m_fLivingMaxTime) {
- 		DeleteObject(this);
+ 		DestroyObject(this);
  		return;
 	}
 		

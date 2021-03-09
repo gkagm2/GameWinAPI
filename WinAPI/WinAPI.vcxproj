@@ -142,6 +142,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAnimation.h" />
+    <ClInclude Include="CAnimator.h" />
     <ClInclude Include="CBackground.h" />
     <ClInclude Include="CBackgroundController.h" />
     <ClInclude Include="CCamera.h" />
@@ -180,6 +182,8 @@
     <ClInclude Include="WinAPI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAnimation.cpp" />
+    <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CBackground.cpp" />
     <ClCompile Include="CBackgroundController.cpp" />
     <ClCompile Include="CCamera.cpp" />

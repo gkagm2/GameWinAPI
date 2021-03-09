@@ -5,12 +5,14 @@
 #include "CCollider.h"
 #include "CSceneManager.h"
 #include "CScene.h"
+#include "CAnimator.h"
 
 CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_vPosition{ 0, 0, 0 },
 	m_vScale{ 100.0f, 100.0f, 100.0f },
 	m_pTexture(nullptr),
 	m_pCollider(nullptr),
+	m_pAnimator(nullptr),
 	m_eGroupType(e_GroupType),
 	m_strName(STR_OBJECT_DEFAULT_NAME),
 	m_bIsDead(false),
@@ -22,10 +24,14 @@ CObject::~CObject()
 {
 	if (nullptr != m_pCollider) // 존재하면
 		delete m_pCollider;
+	if (nullptr != m_pAnimator)
+		delete m_pAnimator;
 }
 
 void CObject::LateUpdate()
 {
+	if (nullptr != m_pAnimator)
+		m_pAnimator->LateUpdate();
 	if (nullptr != m_pCollider)
 		m_pCollider->LateUpdate();
 }

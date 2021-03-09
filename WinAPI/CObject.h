@@ -3,6 +3,7 @@
 
 class CTexture;
 class CCollider;
+class CAnimator;
 class CObject
 {
 private:
@@ -11,6 +12,7 @@ private:
 
 	CTexture* m_pTexture;	// 텍스쳐
 	CCollider* m_pCollider; // 충돌체 컴포넌트
+	CAnimator* m_pAnimator;	// 애니메이터
 
 	wstring m_strName;		// 오브젝트 이름
 	bool m_bIsDead;			// 오브젝트가 죽었으면 flag true
@@ -45,12 +47,11 @@ public:
 	CTexture* GetTexture() { return  m_pTexture; }
 
 	void SetCollider(CCollider* _pCollider) { m_pCollider = _pCollider;}
+	void SetAnimator(CAnimator* _pAnimator) { m_pAnimator = _pAnimator; }
 	CCollider* GetCollider() { return m_pCollider; }
+	CAnimator* GetAnimator() { return m_pAnimator; }
 
 	E_GroupType GetGroupType() {
-		if (this == nullptr)
- 			int j = 0;
-		int i = 0;
 		return m_eGroupType; 
 	}
 
@@ -69,7 +70,7 @@ public:
 public:
 	virtual void Update() = 0;
 	virtual void LateUpdate();
-	virtual void Render(HDC _hDC) final;
+	virtual void Render(HDC _hDC);
 
 	virtual void OnCollisionEnter(CObject* _pOther){}
 	virtual void OnCollisionStay(CObject* _pOther){}

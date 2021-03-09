@@ -16,6 +16,8 @@
 #include <cassert>
 #include <ctime>
 
+#include <map>
+using std::map;
 #include <unordered_map>
 using std::unordered_map;
 using std::make_pair;
@@ -35,7 +37,6 @@ using std::bitset;
 
 #include <queue>
 using std::queue;
-
 
 #include "Define.h"
 #include "Struct.h"

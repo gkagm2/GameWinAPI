@@ -71,12 +71,12 @@ void CMonster::OnCollisionEnter(CObject* _pOther)
 		m_bIsHit = true;
 		SetScale(GetScale() + 30);
 		if (GetScale().x > m_vOriginalScale.x * 4.0f)
-			DeleteObject(this);
+			DestroyObject(this);
 	}
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(_pOther);
 	if (pPlayer) {
 		E_GroupType  groupType = pPlayer->GetGroupType();
-		DeleteObject(this);
+		DestroyObject(this);
 	}
 }
 

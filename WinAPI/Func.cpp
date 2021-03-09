@@ -11,7 +11,7 @@ void CreateObject(CObject* _pObject)
 	CEventManager::GetInstance()->AddEvent(evt);
 }
 
-void DeleteObject(CObject* _pObject)
+void DestroyObject(CObject* _pObject)
 {
 	tEvent evt = {};
 	evt.eType = E_EventType::DELETE_OBJECT;

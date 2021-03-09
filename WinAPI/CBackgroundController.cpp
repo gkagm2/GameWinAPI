@@ -15,13 +15,13 @@ CBackgroundController::CBackgroundController(E_GroupType e_GroupType) :
 CBackgroundController::~CBackgroundController()
 {
 	for (int i = 0; i < m_vecBackground.size(); ++i)
-		DeleteObject(m_vecBackground[i]);
+		DestroyObject(m_vecBackground[i]);
 	for (int i = 0; i < m_vecBackgroundFront1.size(); ++i)
-		DeleteObject(m_vecBackgroundFront1[i]);
+		DestroyObject(m_vecBackgroundFront1[i]);
 	for (int i = 0; i < m_vecBackgroundFront2.size(); ++i)
-		DeleteObject(m_vecBackgroundFront2[i]);
+		DestroyObject(m_vecBackgroundFront2[i]);
 	for (int i = 0; i < m_vecBackgroundFront3.size(); ++i)
-		DeleteObject(m_vecBackgroundFront3[i]);
+		DestroyObject(m_vecBackgroundFront3[i]);
 
 	delete m_pBackgroundTextrue;
 	delete m_pBackgroundTextrueF1;

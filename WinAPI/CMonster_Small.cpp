@@ -47,8 +47,8 @@ void CMonster_Small::OnCollisionEnter(CObject* _pOther)
 			m_bIsHit = true;
 			SetScale(GetScale() + 20.0f);
 			if (GetScale().x > m_vOriginalScale.x * 1.5f)
-				DeleteObject(this);
-			DeleteObject(pMissile);
+				DestroyObject(this);
+			DestroyObject(pMissile);
 		}
 	}
 }
