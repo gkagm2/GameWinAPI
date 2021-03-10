@@ -36,46 +36,35 @@ CPlayer::~CPlayer()
 {
 }
 
-/*
-#define KEY_TAP(key) CKeyMgr::GetInst()->GetKeyState(key) == KSTATE::TAP
-#define KEY_HOLD(key) CKeyMgr::GetInst()->GetKeyState(key) == KSTATE::HOLD
-#define KEY_AWAY(key) CKeyMgr::GetInst()->GetKeyState(key) == KSTATE::AWAY
-#define KEY_NONE(key) CKeyMgr::GetInst()->GetKeyState(key) == KSTATE::NONE
-*/
-#define KEY_STATE(key) CKeyMgr::GetInst()->GetKeyState(key)
-
 void CPlayer::Update()
 {
-	CKeyManager* keyMrg = CKeyManager::GetInstance();
-
 	Vector3 vMoveVec(0, 0, 0);
-
-	if (keyMrg->GetKeyState(E_Key::LEFT) == E_KeyState::HOLD) {// ¿ÞÂÊ Å°°¡ ´­·È´Ù¸é
+	if (InputKeyHold(E_Key::LEFT)) {// ¿ÞÂÊ Å°°¡ ´­·È´Ù¸é
 		vMoveVec.x -= 1;
 		GetAnimator()->PlayAnimation(L"WALK_LEFT", E_AnimationPlayType::LOOP);
 	}
-	if (keyMrg->GetKeyState(E_Key::RIGHT) == E_KeyState::HOLD) {
+	if (InputKeyHold(E_Key::RIGHT)) {
 		vMoveVec.x += 1;
 		GetAnimator()->PlayAnimation(L"WALK_RIGHT", E_AnimationPlayType::LOOP);
 	}
-	if (keyMrg->GetKeyState(E_Key::UP) == E_KeyState::HOLD) {
+	if (InputKeyHold(E_Key::UP)) {
 		vMoveVec.y -= 1;
 		GetAnimator()->PlayAnimation(L"WALK_UP", E_AnimationPlayType::LOOP);
 	}
-	if (keyMrg->GetKeyState(E_Key::DOWN) == E_KeyState::HOLD) {
+	if (InputKeyHold(E_Key::DOWN)) {
 		vMoveVec.y += 1;
 		GetAnimator()->PlayAnimation(L"WALK_DOWN", E_AnimationPlayType::LOOP);
 	}
-	if (keyMrg->GetKeyState(E_Key::LEFT) == E_KeyState::RELEASE) {// ¿ÞÂÊ Å°°¡ ´­·È´Ù¸é
+	if (InputKeyRelease(E_Key::LEFT) ) {// ¿ÞÂÊ Å°°¡ ´­·È´Ù¸é
 		GetAnimator()->PlayAnimation(L"IDLE_LEFT", E_AnimationPlayType::LOOP);
 	}
-	if (keyMrg->GetKeyState(E_Key::RIGHT) == E_KeyState::RELEASE) {
+	if (InputKeyRelease(E_Key::RIGHT)) {
 		GetAnimator()->PlayAnimation(L"IDLE_RIGHT", E_AnimationPlayType::LOOP);
 	}
-	if (keyMrg->GetKeyState(E_Key::UP) == E_KeyState::RELEASE) {
+	if (InputKeyRelease(E_Key::UP)) {
 		GetAnimator()->PlayAnimation(L"IDLE_UP", E_AnimationPlayType::LOOP);
 	}
-	if (keyMrg->GetKeyState(E_Key::DOWN) == E_KeyState::RELEASE) {
+	if (InputKeyRelease(E_Key::DOWN)) {
 		GetAnimator()->PlayAnimation(L"IDLE_DOWN", E_AnimationPlayType::LOOP);
 	}
 
@@ -85,16 +74,16 @@ void CPlayer::Update()
 	SetPosition(vPosition + vMoveVec * m_fSpeed * DeltaTime);
 
 	
-	if (GetAsyncKeyState(0x31) & 0x8000) {
+	if (GetAsyncKeyState(0x31) & 0x8000) { // num 1
 		m_eUpgradeLevel = E_UpgradeLevelType::LEVEL1;
 	}
-	if (GetAsyncKeyState(0x32) & 0x8000) {
+	if (GetAsyncKeyState(0x32) & 0x8000) { // num 2
 		m_eUpgradeLevel = E_UpgradeLevelType::LEVEL2;
 	}
-	if (GetAsyncKeyState(0x33) & 0x8000) {
+	if (GetAsyncKeyState(0x33) & 0x8000) { // num 3
 		m_eUpgradeLevel = E_UpgradeLevelType::LEVEL3;
 	}
-	if (GetAsyncKeyState(0x34) & 0x8000) {
+	if (GetAsyncKeyState(0x34) & 0x8000) { // num4
  		m_eUpgradeLevel = E_UpgradeLevelType::LEVEL4;
 	}
 
@@ -120,13 +109,13 @@ void CPlayer::Update()
 
 
 	m_fFireCoolTime += DeltaTime;
-	if (keyMrg->GetKeyState(E_Key::SPACE) == E_KeyState::PRESS) {
+	if (InputKeyPress(E_Key::SPACE)) {
 		FireMissile();
 		m_fFireCoolTime = 0.0f;
 	}
 		
 	if (m_fFireCoolTime >= m_fFireMaxCoolTime) {
-		if (keyMrg->GetKeyState(E_Key::SPACE) == E_KeyState::HOLD)
+		if (InputKeyHold(E_Key::SPACE))
 			FireMissile();
 		m_fFireCoolTime = 0.0f;
 	}

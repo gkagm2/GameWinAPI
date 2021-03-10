@@ -11,6 +11,11 @@ private:\
 
 #define DeltaTime CTimeManager::GetInstance()->GetDeltaTime()
 
+#define InputKeyHold(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::HOLD)
+#define InputKeyPress(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::PRESS)
+#define InputKeyRelease(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::RELEASE)
+
+
 // Scene Type
 enum class E_SceneType{
 	START,
