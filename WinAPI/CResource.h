@@ -12,11 +12,13 @@ private:
 	void SetRelativePath(const wstring& _strRelativePath) { m_strRelativePath = _strRelativePath; }
 	void SetRelativePath(const wchar_t* _pStrRelativePath) { m_strRelativePath = _pStrRelativePath; }
 
+public:
+	const wstring& GetKey() const { return m_strKey; }
+	const wstring& GetRelativePath() const { return m_strRelativePath; }
 
 public:
 	CResource();
-	~CResource();
+	virtual ~CResource();
 
 	friend class CResourceManager;
 };
-

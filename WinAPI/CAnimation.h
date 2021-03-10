@@ -3,6 +3,7 @@
 struct tAnimFrame { //Anim : Animation
 	Vector3 vLT;
 	Vector3 vSlice;
+	Vector3 vOffset;
 	float fDuration;
 };
 
@@ -27,11 +28,16 @@ public:
 public:
 	void Create(const wstring& _strName, CTexture* _pTexture, Vector2 _vLT, Vector2 _vSlice, int _iMaxFrame, float _fDuration);
 	bool IsFinish() { return m_bFinish; }
+	tAnimFrame& GetFrame(int _idx) { return m_vecFrame[_idx]; }
+	const wstring& GetName() { return m_strName; }
 	void Reset() {
 		m_fAccumulationTime = 0.0f;
 		m_bFinish = false;
 		m_iCurFrameIdx = 0;
 	}
+
+	void Save(FILE* _pFile);
+	void Load(FILE* _pFile);
 
 public:
 	CAnimation();

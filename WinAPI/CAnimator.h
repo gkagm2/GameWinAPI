@@ -28,10 +28,13 @@ public:
 public:
 	CObject* GetOwnerObject() { return m_pOwner; }
 	void CreateAnimation(const wstring& _strName, CTexture* _pTex, Vector2 _vLT, Vector2 _vSlice, int _iMaxFrame, float _fDuration);
+	CAnimation* GetAnimator(const wstring& _strName);
 
 	void PlayAnimation(const wstring& _strName, E_AnimationPlayType _eType);
 
-
+public:
+	void Save(const wstring& _strRelativePath);
+	void Load(const wstring& _strRelativePath);
 
 public:
 	CAnimator() = delete;
@@ -40,4 +43,3 @@ public:
 
 	friend class CObject;
 };
-

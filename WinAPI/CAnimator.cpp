@@ -2,6 +2,7 @@
 #include "CAnimator.h"
 #include "CAnimation.h"
 #include "CObject.h"
+#include "CPathManager.h"
 
 CAnimator::CAnimator(CObject* _pOwner) :
 	m_pOwner(_pOwner),
@@ -24,6 +25,15 @@ void CAnimator::CreateAnimation(const wstring& _strName, CTexture* _pTex, Vector
 	pAnimation->Create(_strName, _pTex, _vLT, _vSlice, _iMaxFrame, _fDuration);
 	m_mapAnimation.insert(make_pair(_strName, pAnimation));
 	pAnimation->m_pAnimator = this;
+}
+
+CAnimation* CAnimator::GetAnimator(const wstring& _strName)
+{
+	map<wstring, CAnimation*>::iterator iter = m_mapAnimation.find(_strName);
+	if (iter == m_mapAnimation.end())
+		return nullptr;
+
+	return iter->second;
 }
 
 void CAnimator::PlayAnimation(const wstring& _strName, E_AnimationPlayType _eType)
@@ -63,4 +73,27 @@ void CAnimator::Render(HDC _hDC)
 		return;
 
 	m_pCurAnimation->Render(_hDC);
+}
+
+void CAnimator::Save(const wstring& _strRelativePath)
+{
+	wstring strFilePath = CPathManager::GetInstance()->GetContentPath();
+	strFilePath += _strRelativePath;
+
+	FILE* pFile = nullptr;
+	errno_t err = _wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+	assert(pFile);
+
+	// Animation count
+	int iAnimCnt = m_mapAnimation.size();
+	// fwrite(iAnimCn)
+	// TODO : 구현하기
+
+
+
+}
+
+void CAnimator::Load(const wstring& _strRelativePath)
+{
+
 }

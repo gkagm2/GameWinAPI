@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "CAnimation.h"
+
+#include "CResourceManager.h"
+#include "CResource.h"
 #include "CTexture.h"
+
 #include "CCamera.h"
 #include "CObject.h"
 #include "CAnimator.h"
@@ -45,8 +49,8 @@ void CAnimation::Render(HDC _hDC)
 
 	TransparentBlt(
 			_hDC,																/*_hDC*/
-			int(vRenderPosition.x - m_vecFrame[m_iCurFrameIdx].vSlice.x / 2),	/*대상 사각형 왼쪽 위 모서리의 x 좌표 (논리 단위)*/
-			int(vRenderPosition.y - m_vecFrame[m_iCurFrameIdx].vSlice.y / 2),	/*대상 사각형의 왼쪽 위 모서리에 대한 논리 단위의 y 좌표*/
+			int(vRenderPosition.x - m_vecFrame[m_iCurFrameIdx].vSlice.x / 2) + m_vecFrame[m_iCurFrameIdx].vOffset.x,	/*대상 사각형 왼쪽 위 모서리의 x 좌표 (논리 단위)*/
+			int(vRenderPosition.y - m_vecFrame[m_iCurFrameIdx].vSlice.y / 2) + m_vecFrame[m_iCurFrameIdx].vOffset.y,	/*대상 사각형의 왼쪽 위 모서리에 대한 논리 단위의 y 좌표*/
 			int(m_vecFrame[m_iCurFrameIdx].vSlice.x),							/*대상 사각형의 너비 (논리 단위)*/
 			int(m_vecFrame[m_iCurFrameIdx].vSlice.y),							/*대상 사각형의 높이 (논리 단위)*/
 			m_pTexture->GetDC(),												/*소스 장치 컨텍스트에 대한 핸들*/
@@ -72,4 +76,46 @@ void CAnimation::Create(const wstring& _strName, CTexture* _pTexture, Vector2 _v
 		frame.fDuration = _fDuration;
 		m_vecFrame.push_back(frame);
 	}
+}
+
+void CAnimation::Save(FILE* _pFile)
+{
+	// Animation Name
+	SaveWString(m_strName, _pFile);
+	assert(m_pTexture);
+
+	// 참조 텍스쳐
+	SaveWString(m_pTexture->GetKey(), _pFile);
+	SaveWString(m_pTexture->GetRelativePath(), _pFile);
+
+	// 각 프레임 데이터
+	int iFrameCount = m_vecFrame.size();
+	fwrite(&iFrameCount, sizeof(int), 1, _pFile);
+	fwrite(m_vecFrame.data(), sizeof(tAnimFrame), iFrameCount, _pFile); //vector.data() 첫 데이터의 주소를 리턴
+}
+
+void CAnimation::Load(FILE* _pFile)
+{
+	LoadWString(m_strName, _pFile);
+
+	// 참조 텍스쳐
+	wstring strKey, strRelativePath;
+	LoadWString(strKey, _pFile);
+	LoadWString(strRelativePath, _pFile);
+
+	m_pTexture = CResourceManager::GetInstance()->FindTexture(strKey);
+	if (nullptr == m_pTexture)
+		m_pTexture = CResourceManager::GetInstance()->LoadTexture(strKey, strRelativePath);
+
+	// 각 프레임 데이터
+	int iFrameCount = 0;
+	fread(&iFrameCount, sizeof(int), 1, _pFile);
+
+	tAnimFrame tFrame{};
+	for (int i = 0; i < iFrameCount; ++i) {
+		
+		fread(&tFrame, sizeof(tAnimFrame), 1, _pFile);
+		m_vecFrame.push_back(tFrame);
+	}
+
 }
