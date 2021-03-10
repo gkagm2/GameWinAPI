@@ -9,7 +9,7 @@ void CPathManager::Init() {
 	wchar_t path[MAX_PATH] = L"";
 	GetCurrentDirectory(MAX_PATH, path);
 
-	int iLen = wcslen(path);
+	int iLen = (int)wcslen(path);
 
 	for (int i = iLen - 1; i > 0; --i) {
 		if (L'\\' == path[i]) {

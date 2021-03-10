@@ -242,6 +242,7 @@ bool CCollisionManager::IsCollision(CCollider* _col1, CCollider* _col2)
 		if (childCol1 && childCol2)
 			return _IsCollision(childCol1, childCol2);
 	}
+	return false;
 }
 
 void CCollisionManager::SetOnOffCollisionGroup(E_GroupType _eGroup1, E_GroupType _eGroup2, bool _bIsOn)

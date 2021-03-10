@@ -52,7 +52,7 @@ void CBackgroundController::Update()
 		Vector3 vResolution = CCore::GetInstance()->GetResolution();
 		Vector2 middlePos = vResolution / 2.0f;
 		if (position.y > middlePos.y + vResolution.y) {
-			float randomX = rand() % (int)vResolution.x + 30;
+			float randomX = float(rand() % (int)vResolution.x + 30);
 			position.x = randomX; 
 			position.y = position.y - vResolution.y * 2;
 		}
@@ -67,7 +67,7 @@ void CBackgroundController::Update()
 		Vector3 vResolution = CCore::GetInstance()->GetResolution();
 		Vector2 middlePos = vResolution / 2.0f;
 		if (position.y > middlePos.y + vResolution.y) {
-			float randomX = rand() % (int)vResolution.x + 30;
+			float randomX = float(rand() % (int)vResolution.x + 30);
 			position.x = randomX;
 			position.y = position.y - vResolution.y * 2;
 		}
@@ -83,7 +83,7 @@ void CBackgroundController::Update()
 		Vector3 vResolution = CCore::GetInstance()->GetResolution();
 		Vector2 middlePos = vResolution / 2.0f;
 		if (position.y > middlePos.y + vResolution.y) {
-			float randomX = rand() % (int)vResolution.x + 30;
+			float randomX = float(rand() % (int)vResolution.x + 30);
 			position.x = randomX;
 			position.y = position.y - vResolution.y * 2;
 		}

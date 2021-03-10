@@ -34,7 +34,7 @@ void CColliderCircle::Render(HDC _hDC)
     HBRUSH myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
     HBRUSH oldBrush = (HBRUSH)SelectObject(_hDC, myBrush);
 
-    Ellipse(_hDC, vRenderPosition.x - radius, vRenderPosition.y - radius, vRenderPosition.x + radius, vRenderPosition.y + radius);
+    Ellipse(_hDC, int(vRenderPosition.x - radius), int(vRenderPosition.y - radius), int(vRenderPosition.x + radius), int(vRenderPosition.y + radius));
 
     SelectObject(_hDC, oldBrush);
     SelectObject(_hDC, hOldPen);

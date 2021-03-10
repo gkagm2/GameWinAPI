@@ -223,6 +223,9 @@
     <ClInclude Include="CAnimation.h">
       <Filter>Game\Component\Animator</Filter>
     </ClInclude>
+    <ClInclude Include="Tools.h">
+      <Filter>Game\Define</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -330,6 +333,9 @@
     </ClCompile>
     <ClCompile Include="CAnimation.cpp">
       <Filter>Game\Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools.cpp">
+      <Filter>Game\Define</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

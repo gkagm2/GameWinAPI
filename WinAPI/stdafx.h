@@ -42,3 +42,4 @@ using std::queue;
 #include "Struct.h"
 #include "StringTable.h"
 #include "Func.h"
+#include "Tools.h"

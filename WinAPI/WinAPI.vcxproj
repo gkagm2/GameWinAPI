@@ -179,6 +179,7 @@
     <ClInclude Include="StringTable.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Tools.h" />
     <ClInclude Include="WinAPI.h" />
   </ItemGroup>
   <ItemGroup>
@@ -213,6 +214,7 @@
     <ClCompile Include="Func.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
+    <ClCompile Include="Tools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc" />
