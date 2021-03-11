@@ -16,6 +16,8 @@ private:\
 #define InputKeyRelease(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::RELEASE)
 
 
+#define MousePosition CKeyManager::GetInstance()->GetMousePosition()
+
 // Scene Type
 enum class E_SceneType{
 	START,

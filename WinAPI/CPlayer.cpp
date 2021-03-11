@@ -72,7 +72,6 @@ void CPlayer::Update()
 
 	Vector3 vPosition = GetPosition();
 	SetPosition(vPosition + vMoveVec * m_fSpeed * DeltaTime);
-
 	
 	if (GetAsyncKeyState(0x31) & 0x8000) { // num 1
 		m_eUpgradeLevel = E_UpgradeLevelType::LEVEL1;
@@ -88,24 +87,15 @@ void CPlayer::Update()
 	}
 
 	// Mouse Click test code
-	/*POINT lpp;
-	if (keyMrg->GetKeyState(E_Key::LBUTTON) == E_KeyState::PRESS) {
-		if (GetCursorPos(&lpp)) {
-			LONG ia = lpp.x;
-			LONG ja = lpp.y;
-			Vector3 clickPos(lpp.x, lpp.y);
-			clickPos = CCamera::GetInstance()->GetScreenToWorldPosition(clickPos);
-			Vector3 position = GetPosition();
-			Vector3 playerPos = position;
-
-			Vector3 resultPos = clickPos - play	erPos;
-			resultPos.y *= -1;
-			float fDegree = CMyMath::VectorToDegree(resultPos);
-
-			Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetTexture()->GetHeight() / 2.0f);
-			CreateMissile(m_fMissileSpeed, vNozzlePosition, fDegree);
-		}
-	}*/
+	if (InputKeyPress(E_Key::LBUTTON)) {
+		Vector2 clickPos = MousePosition;
+		clickPos = CCamera::GetInstance()->GetScreenToWorldPosition(clickPos);
+		Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetScale().y / 2.0f);
+		Vector2 directPos = clickPos - vNozzlePosition;
+		directPos.y *= -1;
+		float fDegree = CMyMath::VectorToDegree(directPos);
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, fDegree);
+	}
 
 
 	m_fFireCoolTime += DeltaTime;
@@ -150,14 +140,14 @@ void CPlayer::OnCollisionEnter(CObject* _pOther)
 	}
 }
 
-void CPlayer::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDirAngle)
+void CPlayer::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDegree)
 {
 	CMissile* pMissile = new CMissile(E_GroupType::PLAYER_PROJECTILE);
 	pMissile->SetObjectName(L"Player Missile");
 	pMissile->SetSpeed(_fSpeed);
 	pMissile->SetPosition(_vNozzlePosition);
 	pMissile->SetScale(Vector3(10.0f, 10.0f));
-	pMissile->SetDirectionAngle(_fDirAngle);
+	pMissile->SetDirectionDegree(_fDegree);
 	
 	// 미사일 충돌 컴포넌트 생성 및 추가
 	CColliderCircle* pMissileCircleCollider = new CColliderCircle(pMissile);
@@ -175,7 +165,7 @@ void CPlayer::FireMissile() {
 		break;
 	case E_UpgradeLevelType::LEVEL2:
 	{
-    		Vector3 vNozzlePosition(vPosition.x, vPosition.y);
+		Vector3 vNozzlePosition(vPosition.x, vPosition.y);
 
 		Vector3 vLeftNozzlePosition(vNozzlePosition.x - GetScale().x / 2.0f + 5.0f, vNozzlePosition.y);
 		Vector3 vRightNozzlePosition(vNozzlePosition.x + GetScale().x / 2.0f -5.0f, vNozzlePosition.y);

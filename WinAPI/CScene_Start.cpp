@@ -46,9 +46,8 @@ void CScene_Start::Start()
 	pPlayer->SetObjectName(L"Player");
 	pPlayer->SetPosition(Vector3{ ptResolution.x / 2.0f, ptResolution.y - 100.0f, .0f });
 	pPlayer->SetTexture(pPlayerTexture2); // 텍스쳐 설정
-	//Vector2 vScale =ResizeScaleMaintainRatio(400, 450, pPlayer->GetTextureHeight(), pPlayer->GetTextureWidth());
-	//pPlayer->SetScale(Vector3(vScale.x, vScale.y, 1.0f));
-	pPlayer->SetScale(Vector3(200, 100, 1.0f));
+	Vector2 vScale =ResizeScaleMaintainRatio(50, 50, pPlayer->GetTextureHeight(), pPlayer->GetTextureWidth());
+	pPlayer->SetScale(Vector3(vScale.x, vScale.y, 1.0f));
 
 
 	// 플레이어 충돌 컴포넌트 생성 및 추가
@@ -72,18 +71,15 @@ void CScene_Start::Start()
 
 	pPlayerAnimator->PlayAnimation(L"IDLE_DOWN", E_AnimationPlayType::LOOP);
 
-	// 몬스터 텍스쳐 로딩
-	CTexture * pMonsterTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Monster, STR_FILE_PATH_Monster);
+	//// 몬스터 텍스쳐 로딩
+	//CTexture * pMonsterTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Monster, STR_FILE_PATH_Monster);
 
-	// Monster Respawner 생성
-	CMonsterRespawner* pMonsterRespawner = new CMonsterRespawner(E_GroupType::MONSTER);
-	pMonsterRespawner->SetRender(false);
-	pMonsterRespawner->SetObjectName(L"Monster Respawner");
-	AddObject(pMonsterRespawner);
+	//// Monster Respawner 생성
+	//CMonsterRespawner* pMonsterRespawner = new CMonsterRespawner(E_GroupType::MONSTER);
+	//pMonsterRespawner->SetRender(false);
+	//pMonsterRespawner->SetObjectName(L"Monster Respawner");
+	//AddObject(pMonsterRespawner);
 	
-	
-
-
 	// 충돌 설정
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::PLAYER, E_GroupType::MONSTER, true);

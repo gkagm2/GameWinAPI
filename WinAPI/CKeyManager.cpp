@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CKeyManager.h"
+#include "CCore.h"
 
 // TIP : VK_RETURN 키가 엔터키임
 int g_arrVK[(int)E_Key::END] = {
@@ -16,7 +17,9 @@ int g_arrVK[(int)E_Key::END] = {
 	VK_RBUTTON
 };
 
-CKeyManager::CKeyManager() {
+CKeyManager::CKeyManager() :
+	m_mousePosition{}
+{
 
 }
 CKeyManager::~CKeyManager() {
@@ -63,4 +66,8 @@ void CKeyManager::Update()
 			m_vecKey[i] = keyInfo;
 		}
 	}
+	POINT ptMousePoint;
+	GetCursorPos(&ptMousePoint);
+	ScreenToClient(CCore::GetInstance()->GetWndHandle(), &ptMousePoint);
+	m_mousePosition = ptMousePoint;
 }

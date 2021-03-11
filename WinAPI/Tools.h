@@ -290,13 +290,17 @@ public:
 
 	//라디안을 각도로 변환
 	static float RadianToDegree(float radian) {
-		return (radian * 180.0f / PI);
+		// 1라디안 = 180도 / PI -> 57.29578도
+		return radian * (180.0f / PI);
 	}
+	static float Rad2Deg() { return 57.29578f; } // 라디안을 각도로
 
 	//각도를 라디안으로 변환 
 	static float DegreeToRadian(float degree) {
-		return (PI / 180.0f) * degree;
+		// 1도 = PI / 180도 -> 0.017453924라디안
+		return degree * (PI / 180.0f);
 	}
+	static float Deg2Rad() { return 0.0174532924f; } // 각도를 라디안으로
 
 	// 외적
 	Vector3 GetCross(const Vector3& v1, const Vector3& v2) {

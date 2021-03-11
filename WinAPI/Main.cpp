@@ -84,7 +84,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance;
     wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINAPI));
-    wcex.hCursor = LoadCursor(nullptr, IDC_CROSS);
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
     wcex.lpszMenuName = 0; //MAKEINTRESOURCEW(IDC_WINAPI);
     wcex.lpszClassName = szWindowClass;

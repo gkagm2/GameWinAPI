@@ -113,8 +113,8 @@ void TransposedMatrix(Matrix4x4& m) {
 
 // 행렬 내적
 
-
 // 행렬 외적
+
 
 
 // 비율을 유지하면서 원하는 사이즈로 맞춘다.

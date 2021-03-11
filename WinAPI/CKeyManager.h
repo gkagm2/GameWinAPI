@@ -34,6 +34,7 @@ class CKeyManager
 	SINGLETON(CKeyManager)
 private:
 	vector<tKey> m_vecKey; // 누를 수 있는 키의 정보를 모아놓음.
+	Vector2 m_mousePosition;
 	
 public:
 	void Init();
@@ -41,4 +42,5 @@ public:
 
 public:
 	E_KeyState GetKeyState(E_Key _eKey) const { return m_vecKey[(int)_eKey].eState; }
+	Vector2& GetMousePosition() { return m_mousePosition; }
 };

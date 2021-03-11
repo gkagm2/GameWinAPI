@@ -80,14 +80,14 @@ void CMonster::OnCollisionEnter(CObject* _pOther)
 	}
 }
 
-void CMonster::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDirAngle)
+void CMonster::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDegree)
 {
 	CMissile* pMissile = new CMissile(E_GroupType::MONSTER_PROJECTILE);
 	pMissile->SetObjectName(L"Monster Misisle");
 	pMissile->SetSpeed(_fSpeed);
 	pMissile->SetPosition(_vNozzlePosition);
 	pMissile->SetScale(Vector3(10.0f, 10.0f));
-	pMissile->SetDirectionAngle(_fDirAngle);
+	pMissile->SetDirectionDegree(_fDegree);
 
 	// 미사일 충돌 컴포넌트 생성 및 추가
 	CColliderCircle* pMissileCircleCollider = new CColliderCircle(pMissile);
@@ -103,7 +103,6 @@ void CMonster::FireMissile()
 	Vector3 vMonsterPos = GetPosition();
 	Vector3 vTargetPos = m_pTargetObj->GetPosition();
 	Vector3 vDir = vTargetPos - vMonsterPos;
-	vDir.Normalized();
 	vDir.y *= -1;
 	float fDegree = CMyMath::VectorToDegree(vDir);
 

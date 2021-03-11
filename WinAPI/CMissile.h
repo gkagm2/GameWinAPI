@@ -14,7 +14,7 @@ private:
 private:
 	float m_fSpeed;
 	E_MissileType m_eMissileType;
-	float m_fDirAngle;
+	float m_fDirDegree;
 	
 	float m_fLivingMaxTime;
 	float m_fLivingTime;
@@ -22,7 +22,7 @@ private:
 
 public:
 	void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
-	void SetDirectionAngle(float _fDirAngle) { m_fDirAngle = _fDirAngle; }
+	void SetDirectionDegree(float _fDegree) { m_fDirDegree = _fDegree; }
 public:
 	virtual void Update() override;
 
