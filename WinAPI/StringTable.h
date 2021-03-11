@@ -10,6 +10,7 @@
 #define STR_FILE_NAME_PlayerAnim L"Link"
 #define STR_FILE_PATH_PlayerAnim L"Texture\\Animation\\link_0.bmp"
 
+#define STR_FILE_PATH_PlayerAnim_Save L"Data\\AnimFile\\Player.anim"
 
 
 #define STR_FILE_NAME_Monster L"Monster"

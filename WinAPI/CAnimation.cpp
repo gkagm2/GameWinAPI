@@ -31,14 +31,17 @@ void CAnimation::LateUpdate()
 
 	m_fAccumulationTime += DeltaTime;
 
-	if (m_fAccumulationTime > m_vecFrame[m_iCurFrameIdx].fDuration) {
+	// 초과량이 다음 프레임의 유지시간을 또 넘어서는 경우 반복적으로 계산해서 
+	// 현재 시간대에 맞는 프레임까지 증가시킴
+	while (m_fAccumulationTime > m_vecFrame[m_iCurFrameIdx].fDuration) {
+		m_fAccumulationTime -= m_vecFrame[m_iCurFrameIdx].fDuration;
 		++m_iCurFrameIdx;
 
 		if (m_iCurFrameIdx >= m_vecFrame.size()) {
 			m_bFinish = true;
 			--m_iCurFrameIdx;
+			break;
 		}
-		m_fAccumulationTime = 0.0f;
 	}
 }
 
@@ -52,7 +55,7 @@ void CAnimation::Render(HDC _hDC)
 
 	TransparentBlt(
 		_hDC,
-		(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight/2),
+		(int)(vRenderPosition.x - iWidth / 2.0f), (int)(vRenderPosition.y - iHeight / 2.0f),
 		iWidth, iHeight,
 		m_pTexture->GetDC(),
 		int(m_vecFrame[m_iCurFrameIdx].vLT.x),
@@ -131,5 +134,4 @@ void CAnimation::Load(FILE* _pFile)
 		fread(&tFrame, sizeof(tAnimFrame), 1, _pFile);
 		m_vecFrame.push_back(tFrame);
 	}
-
 }

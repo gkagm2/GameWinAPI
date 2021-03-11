@@ -60,7 +60,7 @@ void CScene_Start::Start()
 	CAnimator* pPlayerAnimator = new CAnimator(pPlayer);
 
 	// 애니메이션 추가
-	pPlayerAnimator->CreateAnimation(L"IDLE_DOWN", pPlayerTexture2, Vector2(0, 65 * 0), Vector2(60, 65), 3, 0.1f);
+	/*pPlayerAnimator->CreateAnimation(L"IDLE_DOWN", pPlayerTexture2, Vector2(0, 65 * 0), Vector2(60, 65), 3, 0.1f);
 	pPlayerAnimator->CreateAnimation(L"IDLE_LEFT", pPlayerTexture2, Vector2(0, 65 * 1), Vector2(60, 65), 3, 0.1f);
 	pPlayerAnimator->CreateAnimation(L"IDLE_UP", pPlayerTexture2, Vector2(0, 65 * 2), Vector2(60, 65), 1, 0.1f);
 	pPlayerAnimator->CreateAnimation(L"IDLE_RIGHT", pPlayerTexture2, Vector2(0, 65 * 3), Vector2(60, 65), 3, 0.1f);
@@ -70,6 +70,10 @@ void CScene_Start::Start()
 	pPlayerAnimator->CreateAnimation(L"WALK_RIGHT", pPlayerTexture2, Vector2(0, 65 * 7), Vector2(60, 65), 10, 0.1f);
 
 	pPlayerAnimator->PlayAnimation(L"IDLE_DOWN", E_AnimationPlayType::LOOP);
+	pPlayerAnimator->Save(STR_FILE_PATH_PlayerAnim_Save);*/
+
+	pPlayerAnimator->Load(STR_FILE_PATH_PlayerAnim_Save);
+	pPlayerAnimator->PlayAnimation(L"WALK_UP", E_AnimationPlayType::LOOP);
 
 	//// 몬스터 텍스쳐 로딩
 	//CTexture * pMonsterTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Monster, STR_FILE_PATH_Monster);
