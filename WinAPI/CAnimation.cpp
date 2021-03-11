@@ -47,18 +47,32 @@ void CAnimation::Render(HDC _hDC)
 	Vector3 vPosition = m_pAnimator->GetOwnerObject()->GetPosition();
 	Vector3 vRenderPosition = CCamera::GetInstance()->GetRenderPosition(vPosition);
 
+	UINT iWidth = (UINT)m_pAnimator->GetOwnerObject()->GetScale().x;
+	UINT iHeight = (UINT)m_pAnimator->GetOwnerObject()->GetScale().y;
+
 	TransparentBlt(
-			_hDC,																/*_hDC*/
-			int(vRenderPosition.x - m_vecFrame[m_iCurFrameIdx].vSlice.x / 2) + m_vecFrame[m_iCurFrameIdx].vOffset.x,	/*대상 사각형 왼쪽 위 모서리의 x 좌표 (논리 단위)*/
-			int(vRenderPosition.y - m_vecFrame[m_iCurFrameIdx].vSlice.y / 2) + m_vecFrame[m_iCurFrameIdx].vOffset.y,	/*대상 사각형의 왼쪽 위 모서리에 대한 논리 단위의 y 좌표*/
-			int(m_vecFrame[m_iCurFrameIdx].vSlice.x),							/*대상 사각형의 너비 (논리 단위)*/
-			int(m_vecFrame[m_iCurFrameIdx].vSlice.y),							/*대상 사각형의 높이 (논리 단위)*/
-			m_pTexture->GetDC(),												/*소스 장치 컨텍스트에 대한 핸들*/
-			int(m_vecFrame[m_iCurFrameIdx].vLT.x),								/*소스 사각형의 x 좌표 (논리 단위)*/
-			int(m_vecFrame[m_iCurFrameIdx].vLT.y),								/*소스 직사각형의 논리 단위로 표시된 y 좌표*/
-			int(m_vecFrame[m_iCurFrameIdx].vSlice.x),							/*소스 직사각형의 너비 (논리 단위)*/
-			int(m_vecFrame[m_iCurFrameIdx].vSlice.y),							/*소스 직사각형의 높이(논리 단위)*/
-			EXCEPTION_COLOR_RGB);												/*투명하게 처리 할 소스 비트 맵의 RGB 색상*/
+		_hDC,
+		(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight/2),
+		iWidth, iHeight,
+		m_pTexture->GetDC(),
+		int(m_vecFrame[m_iCurFrameIdx].vLT.x),
+		int(m_vecFrame[m_iCurFrameIdx].vLT.y),
+		int(m_vecFrame[m_iCurFrameIdx].vSlice.x),
+		int(m_vecFrame[m_iCurFrameIdx].vSlice.y),
+		EXCEPTION_COLOR_RGB	);
+
+	//TransparentBlt(
+	//		_hDC,																/*_hDC*/
+	//		int(vRenderPosition.x - m_vecFrame[m_iCurFrameIdx].vSlice.x / 2) + m_vecFrame[m_iCurFrameIdx].vOffset.x,	/*대상 사각형 왼쪽 위 모서리의 x 좌표 (논리 단위)*/
+	//		int(vRenderPosition.y - m_vecFrame[m_iCurFrameIdx].vSlice.y / 2) + m_vecFrame[m_iCurFrameIdx].vOffset.y,	/*대상 사각형의 왼쪽 위 모서리에 대한 논리 단위의 y 좌표*/
+	//		int(m_vecFrame[m_iCurFrameIdx].vSlice.x),							/*대상 사각형의 너비 (논리 단위)*/
+	//		int(m_vecFrame[m_iCurFrameIdx].vSlice.y),							/*대상 사각형의 높이 (논리 단위)*/
+	//		m_pTexture->GetDC(),												/*소스 장치 컨텍스트에 대한 핸들*/
+	//		int(m_vecFrame[m_iCurFrameIdx].vLT.x),								/*소스 사각형의 x 좌표 (논리 단위)*/
+	//		int(m_vecFrame[m_iCurFrameIdx].vLT.y),								/*소스 직사각형의 논리 단위로 표시된 y 좌표*/
+	//		int(m_vecFrame[m_iCurFrameIdx].vSlice.x),							/*소스 직사각형의 너비 (논리 단위)*/
+	//		int(m_vecFrame[m_iCurFrameIdx].vSlice.y),							/*소스 직사각형의 높이(논리 단위)*/
+	//		EXCEPTION_COLOR_RGB);												/*투명하게 처리 할 소스 비트 맵의 RGB 색상*/
 }
 
 void CAnimation::Create(const wstring& _strName, CTexture* _pTexture, Vector2 _vLT, Vector2 _vSlice, int _iMaxFrame, float _fDuration)

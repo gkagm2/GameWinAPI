@@ -319,3 +319,6 @@ public:
 		return scala;
 	}
 };
+
+// 비율을 유지한채로 지정된 크기로 사이즈를 변경.
+Vector2 ResizeScaleMaintainRatio(float _fitWidth, float _fitHeight, float _width, float _height);

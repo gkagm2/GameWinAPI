@@ -116,7 +116,7 @@ void CPlayer::Update()
 		
 	if (m_fFireCoolTime >= m_fFireMaxCoolTime) {
 		if (InputKeyHold(E_Key::SPACE))
-			FireMissile();
+ 			FireMissile();
 		m_fFireCoolTime = 0.0f;
 	}
 }
@@ -150,17 +150,6 @@ void CPlayer::OnCollisionEnter(CObject* _pOther)
 	}
 }
 
-void CPlayer::Render(HDC _hDC)
-{
-	CAnimator* pAnimator = GetAnimator();
-	if(nullptr != pAnimator)
-		GetAnimator()->Render(_hDC);
-
-	CCollider* pCollider = GetCollider();
-	if (nullptr != pCollider)
-		GetCollider()->Render(_hDC);
-}
-
 void CPlayer::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDirAngle)
 {
 	CMissile* pMissile = new CMissile(E_GroupType::PLAYER_PROJECTILE);
@@ -180,16 +169,16 @@ void CPlayer::FireMissile() {
 	switch (m_eUpgradeLevel) {
 	case E_UpgradeLevelType::LEVEL1:
 	{
-		Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetPosition().y - GetScale().y / 2.0f);
+		Vector3 vNozzlePosition(vPosition.x, vPosition.y - (GetScale().y / 2.0f));
 		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f);
 	}
 		break;
 	case E_UpgradeLevelType::LEVEL2:
 	{
-		Vector3 vNozzlePosition(vPosition.x, vPosition.y);
+    		Vector3 vNozzlePosition(vPosition.x, vPosition.y);
 
-		Vector3 vLeftNozzlePosition(vNozzlePosition.x - GetPosition().x - GetScale().x / 2.0f + 5.0f, vNozzlePosition.y);
-		Vector3 vRightNozzlePosition(vNozzlePosition.x + GetPosition().x - GetScale().x / 2.0f -5.0f, vNozzlePosition.y);
+		Vector3 vLeftNozzlePosition(vNozzlePosition.x - GetScale().x / 2.0f + 5.0f, vNozzlePosition.y);
+		Vector3 vRightNozzlePosition(vNozzlePosition.x + GetScale().x / 2.0f -5.0f, vNozzlePosition.y);
 		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, 90.0f);
 		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, 90.0f);
 	}
@@ -197,17 +186,17 @@ void CPlayer::FireMissile() {
 	case E_UpgradeLevelType::LEVEL3:
 	{
 		Vector3 vNozzlePosition(vPosition.x, vPosition.y);
-		Vector3 vLeftNozzlePosition(vNozzlePosition.x - GetPosition().x - GetScale().x / 2.0f +5.0f, vNozzlePosition.y);
-		Vector3 vRightNozzlePosition(vNozzlePosition.x + GetPosition().x - GetScale().x / 2.0f -5.0f, vNozzlePosition.y);
+		Vector3 vLeftNozzlePosition(vNozzlePosition.x - GetScale().x / 2.0f +5.0f, vNozzlePosition.y);
+		Vector3 vRightNozzlePosition(vNozzlePosition.x + GetScale().x / 2.0f -5.0f, vNozzlePosition.y);
 		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, 90.0f + 15.0f);
 		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, 90.0f - 15.0f);
-		vNozzlePosition.Set(vPosition.x, vPosition.y - GetPosition().y - GetScale().y / 2.0f);
+		vNozzlePosition.Set(vPosition.x, vPosition.y - GetScale().y / 2.0f);
 		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f);
 	}
 		break;
 	case E_UpgradeLevelType::LEVEL4:
 	{
-		Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetPosition().y - GetScale().y / 2.0f);
+		Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetScale().y / 2.0f);
 		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f - 15.0f);
 		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f + 15.0f);
 		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f - 30.0f);

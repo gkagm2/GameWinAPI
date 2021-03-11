@@ -46,6 +46,9 @@ public:
 	void SetTexture(CTexture* _pTexture);
 	CTexture* GetTexture() { return  m_pTexture; }
 
+	float GetTextureWidth();
+	float GetTextureHeight();
+
 	void SetCollider(CCollider* _pCollider) { m_pCollider = _pCollider;}
 	void SetAnimator(CAnimator* _pAnimator) { m_pAnimator = _pAnimator; }
 	CCollider* GetCollider() { return m_pCollider; }

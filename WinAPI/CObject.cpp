@@ -62,41 +62,35 @@ void CObject::Render(HDC _hDC)
 		}
 	}
 	else {
-		UINT iWidth = (UINT)ScaleX();
-		UINT iHeight = (UINT)ScaleY();
-		UINT iWidth1 = m_pTexture->GetWidth();
-		UINT iHeight1 = m_pTexture->GetHeight();
-		HDC hTextureDC = m_pTexture->GetDC();
 
-		// 예외처리할 색상 RGB값을 처리하기 위해 BitBlt대신 TransparentBlt을 이용 (library 필요)
-		TransparentBlt(
-			_hDC,
-			(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight / 2),
-			iWidth, iHeight,
-			hTextureDC,
-			0, 0,
-			iWidth1, iHeight1,
-			(COLORREF)EXCEPTION_COLOR_RGB); // 제거 할 색상
+		if (nullptr != m_pAnimator)
+			m_pAnimator->Render(_hDC);
+		else {
+			UINT iWidth = (UINT)ScaleX();
+			UINT iHeight = (UINT)ScaleY();
+			UINT iWidth1 = m_pTexture->GetWidth();
+			UINT iHeight1 = m_pTexture->GetHeight();
+			HDC hTextureDC = m_pTexture->GetDC();
 
-		/*BitBlt(
-			_hDC,
-			(int)(m_vPos.x - iWidth / 2),
-			(int)(m_vPos.y - iHeight / 2),
-			iWidth, iHeight,
-			hTextureDC,
-			0, 0,
-			SRCCOPY);*/
+			// 예외처리할 색상 RGB값을 처리하기 위해 BitBlt대신 TransparentBlt을 이용 (library 필요)
+			TransparentBlt(
+				_hDC,
+				(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight / 2),
+				iWidth, iHeight,
+				hTextureDC,
+				0, 0,
+				iWidth1, iHeight1,
+				(COLORREF)EXCEPTION_COLOR_RGB); // 제거 할 색상
 
-		
-		// Print Position
-		if (GetAsyncKeyState(0x30) & 0x8000) {
-			wchar_t pStrPosition[100] = { 0, };
-			swprintf(pStrPosition, 100, L"(%.2f, %.2f)", vRenderPosition.x, vRenderPosition.y);
-
-
-			SetTextAlign(_hDC, TA_CENTER);
-			TextOut(_hDC, (int)vRenderPosition.x, (int)(vRenderPosition.y - iWidth / 2 - 30), pStrPosition, (int)wcslen(pStrPosition));
-			SetTextAlign(_hDC, TA_LEFT | TA_TOP);
+			/*BitBlt(
+				_hDC,
+				(int)(m_vPos.x - iWidth / 2),
+				(int)(m_vPos.y - iHeight / 2),
+				iWidth, iHeight,
+				hTextureDC,
+				0, 0,
+				SRCCOPY);*/
+			// Print Position
 		}
 	}
 
@@ -140,8 +134,18 @@ Vector3 CObject::GetMax()
 void CObject::SetTexture(CTexture* _pTexture)
 {
 	m_pTexture = _pTexture;
-	m_vScale.x = (float)m_pTexture->GetWidth();
-	m_vScale.y = (float)m_pTexture->GetHeight();
+	//m_vScale.x = (float)m_pTexture->GetWidth();
+	//m_vScale.y = (float)m_pTexture->GetHeight();
+}
+
+float CObject::GetTextureWidth()
+{
+	return nullptr != m_pTexture ? (float)m_pTexture->GetWidth() : 0.0f;
+}
+
+float CObject::GetTextureHeight()
+{
+	return nullptr != m_pTexture ? (float)m_pTexture->GetHeight() : 0.0f;
 }
 
 Vector3 CObject::GetMin()

@@ -88,9 +88,6 @@ void CAnimator::Save(const wstring& _strRelativePath)
 	int iAnimCnt = m_mapAnimation.size();
 	// fwrite(iAnimCn)
 	// TODO : 구현하기
-
-
-
 }
 
 void CAnimator::Load(const wstring& _strRelativePath)

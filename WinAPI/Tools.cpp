@@ -115,3 +115,16 @@ void TransposedMatrix(Matrix4x4& m) {
 
 
 // 행렬 외적
+
+
+// 비율을 유지하면서 원하는 사이즈로 맞춘다.
+Vector2 ResizeScaleMaintainRatio(float _fitWidth, float _fitHeight, float _width, float _height)
+{
+	float maxValue = _width > _height ? _width : _height;
+	float x = _width / maxValue;
+	float y = _height / maxValue;
+	float minGap = _fitWidth - x > _fitHeight - y ? _fitHeight : _fitWidth;
+	x *= minGap;
+	y *= minGap;
+	return Vector2(x, y);
+}

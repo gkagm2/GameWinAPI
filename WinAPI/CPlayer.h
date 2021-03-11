@@ -23,7 +23,6 @@ public:
 	virtual void Update() override;
 	virtual void LateUpdate() override;
 	virtual void OnCollisionEnter(CObject* _pOther) override;
-	virtual void Render(HDC _hDC) override;
 
 private:
 	void CreateMissile(float _fSpeed, Vector3 _vPosition, float _fDirAngle);
