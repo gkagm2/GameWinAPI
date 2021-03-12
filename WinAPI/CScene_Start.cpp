@@ -75,14 +75,14 @@ void CScene_Start::Start()
 	pPlayerAnimator->Load(STR_FILE_PATH_PlayerAnim_Save);
 	pPlayerAnimator->PlayAnimation(L"WALK_UP", E_AnimationPlayType::LOOP);
 
-	//// 몬스터 텍스쳐 로딩
-	//CTexture * pMonsterTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Monster, STR_FILE_PATH_Monster);
+	// 몬스터 텍스쳐 로딩
+	CTexture * pMonsterTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Monster, STR_FILE_PATH_Monster);
 
-	//// Monster Respawner 생성
-	//CMonsterRespawner* pMonsterRespawner = new CMonsterRespawner(E_GroupType::MONSTER);
-	//pMonsterRespawner->SetRender(false);
-	//pMonsterRespawner->SetObjectName(L"Monster Respawner");
-	//AddObject(pMonsterRespawner);
+	// Monster Respawner 생성
+	CMonsterRespawner* pMonsterRespawner = new CMonsterRespawner(E_GroupType::MONSTER);
+	pMonsterRespawner->SetRender(false);
+	pMonsterRespawner->SetObjectName(L"Monster Respawner");
+	AddObject(pMonsterRespawner);
 	
 	// 충돌 설정
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();

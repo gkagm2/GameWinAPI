@@ -1,5 +1,7 @@
 #pragma once
 #include "CObject.h"
+#include "CMissile.h"
+enum class E_MissileType;
 class CMonster : public CObject
 {
 protected:
@@ -10,8 +12,6 @@ protected:
 	float m_fRatioX;
 	float m_fRatioY;
 	CObject* m_pTargetObj; // target to attack
-
-	
 
 	enum class E_UpgradeLevelType {
 		LEVEL1,
@@ -45,7 +45,7 @@ public:
 
 public:
 	void SetStartPosition(Vector3 _vPosition) { m_vStartPosition = _vPosition; }
-	void CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDirAngle);
+	void CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDirAngle, E_MissileType _eMissileType);
 	void FireMissile();
 
 	void Move(int _type);

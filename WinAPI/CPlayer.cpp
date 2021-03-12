@@ -23,7 +23,7 @@
 
 CPlayer::CPlayer(E_GroupType _eGroupType = E_GroupType::DEFAULT) :
 	CObject(_eGroupType),
-	m_iHp(10),
+	m_iHp(9999),
 	m_fSpeed(300.0f),
 	m_fMissileSpeed(600.0f),
 	m_eUpgradeLevel(E_UpgradeLevelType::LEVEL1),

@@ -7,7 +7,7 @@
 #include "CScene.h"
 #include "CSceneManager.h"
 #include "CPlayer.h"
-
+enum class E_MissileType;
 CMonster::CMonster(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
 	m_fSpeed(1.0f),
@@ -80,14 +80,27 @@ void CMonster::OnCollisionEnter(CObject* _pOther)
 	}
 }
 
-void CMonster::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDegree)
+void CMonster::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDegree, E_MissileType _eMissileType = E_MissileType::NORMAL)
 {
 	CMissile* pMissile = new CMissile(E_GroupType::MONSTER_PROJECTILE);
-	pMissile->SetObjectName(L"Monster Misisle");
+	pMissile->SetMissileType(_eMissileType);
 	pMissile->SetSpeed(_fSpeed);
 	pMissile->SetPosition(_vNozzlePosition);
 	pMissile->SetScale(Vector3(10.0f, 10.0f));
 	pMissile->SetDirectionDegree(_fDegree);
+
+	switch (_eMissileType) {
+	case E_MissileType::NORMAL:
+		pMissile->SetObjectName(L"Monster Misisle");
+		break;
+	case E_MissileType::GUIDED:
+	{
+		pMissile->SetObjectName(L"Monster Guided Missile");
+		if (nullptr != m_pTargetObj)
+			pMissile->SetTargetObject(m_pTargetObj);
+	}
+		break;
+	}
 
 	// 미사일 충돌 컴포넌트 생성 및 추가
 	CColliderCircle* pMissileCircleCollider = new CColliderCircle(pMissile);
@@ -109,7 +122,7 @@ void CMonster::FireMissile()
 	switch (m_eUpgradeLevel) {
 	case E_UpgradeLevelType::LEVEL1:
 	{
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, fDegree);
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, fDegree, E_MissileType::GUIDED);
 	}
 	break;
 	case E_UpgradeLevelType::LEVEL2:
