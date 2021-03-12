@@ -122,6 +122,7 @@ void CMonster::FireMissile()
 	switch (m_eUpgradeLevel) {
 	case E_UpgradeLevelType::LEVEL1:
 	{
+		m_fMissileSpeed = 200.0f;
 		CreateMissile(m_fMissileSpeed, vNozzlePosition, fDegree, E_MissileType::GUIDED);
 	}
 	break;

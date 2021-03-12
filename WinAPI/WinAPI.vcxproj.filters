@@ -41,15 +41,6 @@
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{25eb7f57-1b5c-420f-a3c5-81cbf9c8d71a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Scene\StartScene">
-      <UniqueIdentifier>{3097f2a2-5e39-4017-a472-ecedbe049283}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\Stage01">
-      <UniqueIdentifier>{6c8127a0-e178-4805-8927-1f3c3f55cad5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\Player">
-      <UniqueIdentifier>{7b7b2818-9eea-4d5e-84ae-089a73500722}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Manager\PathMrg">
       <UniqueIdentifier>{62a679d1-18cb-47a5-96e7-08380d7be658}</UniqueIdentifier>
     </Filter>
@@ -65,12 +56,6 @@
     <Filter Include="Game\Resource\Texture">
       <UniqueIdentifier>{c05c8a7a-8e63-46dc-b46f-314d8b209f59}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object\Monster">
-      <UniqueIdentifier>{de960475-96bb-42fd-8517-d2c81ad5a4eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\Missile">
-      <UniqueIdentifier>{6a91d4ca-b9f3-4193-9166-c5c7572e59df}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Manager\Camera">
       <UniqueIdentifier>{9a4d49b9-df01-4dcb-a34a-4668ec19d53c}</UniqueIdentifier>
     </Filter>
@@ -79,18 +64,6 @@
     </Filter>
     <Filter Include="Game\Manager\EventMrg">
       <UniqueIdentifier>{c458175f-5a31-4d83-806f-e434afc6145b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\MonsterRespawner">
-      <UniqueIdentifier>{720b29ce-8cca-4e40-8732-e3f626d52c56}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\MonsterSmall">
-      <UniqueIdentifier>{992249d1-780c-4e20-8460-195afcb2a0c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\Background">
-      <UniqueIdentifier>{318908e4-01f9-4f1c-9d6b-7b79beafa142}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\BackgroundController">
-      <UniqueIdentifier>{5c70de07-0285-4f3d-8de6-9594694380b6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Component">
       <UniqueIdentifier>{fec7e179-47c9-4af9-a7ec-606366f88d6a}</UniqueIdentifier>
@@ -106,6 +79,48 @@
     </Filter>
     <Filter Include="Game\Component\Animator">
       <UniqueIdentifier>{d467c61a-dcd3-4381-90a8-6c42236b9702}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\PlaneShooting_PJ">
+      <UniqueIdentifier>{18a16bff-4753-4925-bc62-b60f7b7ba110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\PlaneShooting_PJ\Player">
+      <UniqueIdentifier>{7b7b2818-9eea-4d5e-84ae-089a73500722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\PlaneShooting_PJ\MonsterSmall">
+      <UniqueIdentifier>{992249d1-780c-4e20-8460-195afcb2a0c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\PlaneShooting_PJ\Background">
+      <UniqueIdentifier>{318908e4-01f9-4f1c-9d6b-7b79beafa142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\PlaneShooting_PJ\BackgroundController">
+      <UniqueIdentifier>{5c70de07-0285-4f3d-8de6-9594694380b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\PlaneShooting_PJ\Missile">
+      <UniqueIdentifier>{6a91d4ca-b9f3-4193-9166-c5c7572e59df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\PlaneShooting_PJ\Monster">
+      <UniqueIdentifier>{de960475-96bb-42fd-8517-d2c81ad5a4eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\PlaneShooting_PJ\MonsterRespawner">
+      <UniqueIdentifier>{720b29ce-8cca-4e40-8732-e3f626d52c56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\PlaneShooting_PJ">
+      <UniqueIdentifier>{ff76d25b-7a84-4618-972d-19b9d9444d69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\PlaneShooting_PJ\StartScene">
+      <UniqueIdentifier>{3097f2a2-5e39-4017-a472-ecedbe049283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\PlaneShooting_PJ\Stage01">
+      <UniqueIdentifier>{6c8127a0-e178-4805-8927-1f3c3f55cad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\Gta_PJ">
+      <UniqueIdentifier>{bd590f74-6fc9-468a-bddd-f1f30131b0b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\Gta_PJ\Scene_Main">
+      <UniqueIdentifier>{b611988f-5465-4cd0-ad75-344a9f91d867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\Gta_PJ\Scene_InGame">
+      <UniqueIdentifier>{35175435-403f-4df8-a4bf-a80d55c78b92}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -149,22 +164,22 @@
       <Filter>Game\Manager\SceneMrg</Filter>
     </ClInclude>
     <ClInclude Include="CPlayer.h">
-      <Filter>Game\Object\Player</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\Player</Filter>
     </ClInclude>
     <ClInclude Include="CScene_Stage01.h">
-      <Filter>Game\Scene\Stage01</Filter>
+      <Filter>Game\Scene\PlaneShooting_PJ\Stage01</Filter>
     </ClInclude>
     <ClInclude Include="CScene_Start.h">
-      <Filter>Game\Scene\StartScene</Filter>
+      <Filter>Game\Scene\PlaneShooting_PJ\StartScene</Filter>
     </ClInclude>
     <ClInclude Include="CPathManager.h">
       <Filter>Game\Manager\PathMrg</Filter>
     </ClInclude>
     <ClInclude Include="CMonsterPath.h">
-      <Filter>Game\Object\Monster</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\Monster</Filter>
     </ClInclude>
     <ClInclude Include="CMonster.h">
-      <Filter>Game\Object\Monster</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\Monster</Filter>
     </ClInclude>
     <ClInclude Include="CTexture.h">
       <Filter>Game\Resource\Texture</Filter>
@@ -182,7 +197,7 @@
       <Filter>Game\Define</Filter>
     </ClInclude>
     <ClInclude Include="CMissile.h">
-      <Filter>Game\Object\Missile</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\Missile</Filter>
     </ClInclude>
     <ClInclude Include="CCamera.h">
       <Filter>Game\Manager\Camera</Filter>
@@ -206,16 +221,16 @@
       <Filter>Game\Define</Filter>
     </ClInclude>
     <ClInclude Include="CMonsterRespawner.h">
-      <Filter>Game\Object\MonsterRespawner</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\MonsterRespawner</Filter>
     </ClInclude>
     <ClInclude Include="CMonster_Small.h">
-      <Filter>Game\Object\MonsterSmall</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\MonsterSmall</Filter>
     </ClInclude>
     <ClInclude Include="CBackground.h">
-      <Filter>Game\Object\Background</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\Background</Filter>
     </ClInclude>
     <ClInclude Include="CBackgroundController.h">
-      <Filter>Game\Object\BackgroundController</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\BackgroundController</Filter>
     </ClInclude>
     <ClInclude Include="CAnimator.h">
       <Filter>Game\Component\Animator</Filter>
@@ -225,6 +240,12 @@
     </ClInclude>
     <ClInclude Include="Tools.h">
       <Filter>Game\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="Gta_CScene_Main.h">
+      <Filter>Game\Scene\Gta_PJ\Scene_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Gta_CScene_InGame.h">
+      <Filter>Game\Scene\Gta_PJ\Scene_InGame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -263,22 +284,22 @@
       <Filter>Game\Manager\SceneMrg</Filter>
     </ClCompile>
     <ClCompile Include="CPlayer.cpp">
-      <Filter>Game\Object\Player</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\Player</Filter>
     </ClCompile>
     <ClCompile Include="CScene_Stage01.cpp">
-      <Filter>Game\Scene\Stage01</Filter>
+      <Filter>Game\Scene\PlaneShooting_PJ\Stage01</Filter>
     </ClCompile>
     <ClCompile Include="CScene_Start.cpp">
-      <Filter>Game\Scene\StartScene</Filter>
+      <Filter>Game\Scene\PlaneShooting_PJ\StartScene</Filter>
     </ClCompile>
     <ClCompile Include="CPathManager.cpp">
       <Filter>Game\Manager\PathMrg</Filter>
     </ClCompile>
     <ClCompile Include="CMonster.cpp">
-      <Filter>Game\Object\Monster</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\Monster</Filter>
     </ClCompile>
     <ClCompile Include="CMonsterPath.cpp">
-      <Filter>Game\Object\Monster</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\Monster</Filter>
     </ClCompile>
     <ClCompile Include="CTexture.cpp">
       <Filter>Game\Resource\Texture</Filter>
@@ -293,7 +314,7 @@
       <Filter>Game\Resource\Sound</Filter>
     </ClCompile>
     <ClCompile Include="CMissile.cpp">
-      <Filter>Game\Object\Missile</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\Missile</Filter>
     </ClCompile>
     <ClCompile Include="CCamera.cpp">
       <Filter>Game\Manager\Camera</Filter>
@@ -317,16 +338,16 @@
       <Filter>Game\Define</Filter>
     </ClCompile>
     <ClCompile Include="CMonsterRespawner.cpp">
-      <Filter>Game\Object\MonsterRespawner</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\MonsterRespawner</Filter>
     </ClCompile>
     <ClCompile Include="CMonster_Small.cpp">
-      <Filter>Game\Object\MonsterSmall</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\MonsterSmall</Filter>
     </ClCompile>
     <ClCompile Include="CBackground.cpp">
-      <Filter>Game\Object\Background</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\Background</Filter>
     </ClCompile>
     <ClCompile Include="CBackgroundController.cpp">
-      <Filter>Game\Object\BackgroundController</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\BackgroundController</Filter>
     </ClCompile>
     <ClCompile Include="CAnimator.cpp">
       <Filter>Game\Component\Animator</Filter>
@@ -336,6 +357,12 @@
     </ClCompile>
     <ClCompile Include="Tools.cpp">
       <Filter>Game\Define</Filter>
+    </ClCompile>
+    <ClCompile Include="Gta_CScene_Main.cpp">
+      <Filter>Game\Scene\Gta_PJ\Scene_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Gta_CScene_InGame.cpp">
+      <Filter>Game\Scene\Gta_PJ\Scene_InGame</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

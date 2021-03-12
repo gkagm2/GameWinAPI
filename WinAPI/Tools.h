@@ -303,7 +303,7 @@ public:
 	static float Deg2Rad() { return 0.0174532924f; } // 각도를 라디안으로
 
 	// 외적
-	Vector3 GetCross(const Vector3& v1, const Vector3& v2) {
+	static Vector3 GetCross(const Vector3& v1, const Vector3& v2) {
 		Vector3 p;
 		p.x = (v1.y * v2.z - v1.z * v2.y);
 		p.y = (v1.z * v2.x - v1.x * v2.z);
@@ -312,13 +312,13 @@ public:
 	}
 
 	// 내적 Vector3
-	float GetDot(const Vector3& v1, const Vector3& v2) {
+	static float GetDot(const Vector3& v1, const Vector3& v2) {
 		float scala = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 		return scala;
 	}
 
 	// 내적 Vector2
-	float GetDot(const Vector2& v1, const Vector2& v2) {
+	static float GetDot(const Vector2& v1, const Vector2& v2) {
 		float scala = v1.x * v2.x + v1.y * v2.y;
 		return scala;
 	}

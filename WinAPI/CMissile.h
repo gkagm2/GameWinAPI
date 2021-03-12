@@ -25,9 +25,20 @@ protected:
 	CObject* m_pTargetObject; // 타격할 오브젝트
 
 
+	// Guided Missile Setting
+	float m_testCoolTime;
+	float m_testMaxCoolTime;
+	float m_fPrevRadian;
+
+private:
+	float GetTargetAngle(const Vector3& _vPos, const Vector3& _vTargetPos);
+
 public:
 	void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
-	void SetDirectionDegree(float _fDegree) { m_fDirDegree = _fDegree; }
+	void SetDirectionDegree(float _fDegree) { 
+		m_fDirDegree = _fDegree;
+		m_fPrevRadian = m_fDirDegree * CMyMath::Deg2Rad();
+	}
 	void SetMissileType(E_MissileType _eMissileType);
 
 public:

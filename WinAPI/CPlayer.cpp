@@ -128,6 +128,7 @@ void CPlayer::OnCollisionEnter(CObject* _pOther)
 			--m_iHp;
 			if (m_iHp <= 0)
 				DestroyObject(this);
+			DestroyObject(pMissile);
 		}
 	}
 	CMonster* pMonster = dynamic_cast<CMonster*>(_pOther);
