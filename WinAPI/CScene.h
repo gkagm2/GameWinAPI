@@ -1,5 +1,5 @@
 #pragma once
-
+//#include "stdafx.h"
 class CObject; // 전방 선언을 해야 찾아가는 번거로움을 안함.
 class CScene
 {

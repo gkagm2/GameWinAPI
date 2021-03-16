@@ -46,6 +46,7 @@ public:
 public:
 	void SetStartPosition(Vector3 _vPosition) { m_vStartPosition = _vPosition; }
 	void CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDirAngle, E_MissileType _eMissileType);
+	void CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, Vector3 , E_MissileType _eMissileType);
 	void FireMissile();
 
 	void Move(int _type);

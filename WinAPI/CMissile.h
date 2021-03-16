@@ -17,8 +17,6 @@ private:
 protected:
 	float m_fSpeed;
 	E_MissileType m_eMissileType;
-	float m_fDirDegree;
-	
 	float m_fLivingMaxTime;
 	float m_fLivingTime;
 
@@ -28,17 +26,14 @@ protected:
 	// Guided Missile Setting
 	float m_testCoolTime;
 	float m_testMaxCoolTime;
-	float m_fPrevRadian;
+	Vector3 m_vPrevHeadDir;
 
 private:
 	float GetTargetAngle(const Vector3& _vPos, const Vector3& _vTargetPos);
 
 public:
 	void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
-	void SetDirectionDegree(float _fDegree) { 
-		m_fDirDegree = _fDegree;
-		m_fPrevRadian = m_fDirDegree * CMyMath::Deg2Rad();
-	}
+	void SetDirectionVector(Vector3 _vDirVec) { m_vPrevHeadDir = _vDirVec; }
 	void SetMissileType(E_MissileType _eMissileType);
 
 public:

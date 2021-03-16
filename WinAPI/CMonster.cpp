@@ -80,14 +80,14 @@ void CMonster::OnCollisionEnter(CObject* _pOther)
 	}
 }
 
-void CMonster::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDegree, E_MissileType _eMissileType = E_MissileType::NORMAL)
+void CMonster::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, Vector3 _vDirVec, E_MissileType _eMissileType = E_MissileType::NORMAL)
 {
 	CMissile* pMissile = new CMissile(E_GroupType::MONSTER_PROJECTILE);
 	pMissile->SetMissileType(_eMissileType);
 	pMissile->SetSpeed(_fSpeed);
 	pMissile->SetPosition(_vNozzlePosition);
 	pMissile->SetScale(Vector3(10.0f, 10.0f));
-	pMissile->SetDirectionDegree(_fDegree);
+	pMissile->SetDirectionVector(_vDirVec);
 
 	switch (_eMissileType) {
 	case E_MissileType::NORMAL:
@@ -116,42 +116,42 @@ void CMonster::FireMissile()
 	Vector3 vMonsterPos = GetPosition();
 	Vector3 vTargetPos = m_pTargetObj->GetPosition();
 	Vector3 vDir = vTargetPos - vMonsterPos;
+	vDir.Normalized();
 	vDir.y *= -1;
-	float fDegree = CMyMath::VectorToDegree(vDir);
 
 	switch (m_eUpgradeLevel) {
 	case E_UpgradeLevelType::LEVEL1:
 	{
 		m_fMissileSpeed = 200.0f;
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, fDegree, E_MissileType::GUIDED);
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, vDir, E_MissileType::GUIDED);
 	}
 	break;
 	case E_UpgradeLevelType::LEVEL2:
 	{
 		Vector3 vLeftNozzlePosition(vNozzlePosition.x - ScaleX() / 2.0f, vNozzlePosition.y);
 		Vector3 vRightNozzlePosition(vNozzlePosition.x + ScaleX() / 2.0f, vNozzlePosition.y);
-		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, fDegree);
-		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, fDegree);
+		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, vDir);
+		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, vDir);
 	}
 	break;
 	case E_UpgradeLevelType::LEVEL3:
 	{
 		Vector3 vLeftNozzlePosition(vNozzlePosition.x - ScaleX() / 2.0f, vNozzlePosition.y);
 		Vector3 vRightNozzlePosition(vNozzlePosition.x + ScaleX() / 2.0f, vNozzlePosition.y);
-		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, fDegree + 15.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, fDegree);
-		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, fDegree - 15.0f);
+		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, Rotate(vDir, 15.0f));
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, vDir);
+		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, Rotate(vDir, -15.0f));
 	}
 	break;
 	case E_UpgradeLevelType::LEVEL4:
 	{
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, -90.0f - 15.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, -90.0f + 15.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, -90.0f - 30.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, -90.0f + 30.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, -90.0f - 45.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, -90.0f + 45.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, -90.0f);
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDir, -15.0f));
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDir, +15.0f));
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDir, -30.0f));
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDir, +30.0f));
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDir, -45.0f));
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDir, +45.0f) );
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, vDir);
 	}
 	break;
 	default:

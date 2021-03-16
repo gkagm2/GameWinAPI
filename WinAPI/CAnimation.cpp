@@ -106,7 +106,7 @@ void CAnimation::Save(FILE* _pFile)
 	SaveWString(m_pTexture->GetRelativePath(), _pFile);
 
 	// 각 프레임 데이터
-	int iFrameCount = m_vecFrame.size();
+	size_t iFrameCount = m_vecFrame.size();
 	fwrite(&iFrameCount, sizeof(int), 1, _pFile);
 	fwrite(m_vecFrame.data(), sizeof(tAnimFrame), iFrameCount, _pFile); //vector.data() 첫 데이터의 주소를 리턴
 }

@@ -25,7 +25,8 @@ public:
 	virtual void OnCollisionEnter(CObject* _pOther) override;
 
 private:
-	void CreateMissile(float _fSpeed, Vector3 _vPosition, float _fDirAngle);
+	void CreateMissile(float _fSpeed, Vector3 _vPosition, Vector2 _vDirVec);
+	void CreateMissile(float _fSpeed, Vector3 _vPosition, Vector3 _vDirVec);
 	void FireMissile();
 	
 

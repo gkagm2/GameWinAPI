@@ -128,3 +128,17 @@ Vector2 ResizeScaleMaintainRatio(float _fitWidth, float _fitHeight, float _width
 	y *= minGap;
 	return Vector2(x, y);
 }
+
+// 벡터 회전 2D Rotate
+Vector3 Rotate(const Vector3& _vVec, float _fDegree)
+{
+	float fRadian = CMyMath::DegreeToRadian(_fDegree);
+
+	// 회전 
+	Vector3 vNewVec(
+		_vVec.x * cosf(fRadian) - _vVec.y * sinf(fRadian),
+		_vVec.x * sinf(fRadian) + _vVec.y * cosf(fRadian),
+		0.0f
+	);
+	return vNewVec;
+}

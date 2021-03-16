@@ -49,7 +49,6 @@ void CScene_Start::Start()
 	Vector2 vScale =ResizeScaleMaintainRatio(50, 50, pPlayer->GetTextureHeight(), pPlayer->GetTextureWidth());
 	pPlayer->SetScale(Vector3(vScale.x, vScale.y, 1.0f));
 
-
 	// 플레이어 충돌 컴포넌트 생성 및 추가
 	CColliderRect* pPlayerRectCollider = new CColliderRect(pPlayer);
 	pPlayerRectCollider->SetScale(Vector3(20.0f, 30.0f, 0.0f));

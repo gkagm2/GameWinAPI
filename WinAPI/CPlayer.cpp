@@ -92,9 +92,9 @@ void CPlayer::Update()
 		clickPos = CCamera::GetInstance()->GetScreenToWorldPosition(clickPos);
 		Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetScale().y / 2.0f);
 		Vector2 directPos = clickPos - vNozzlePosition;
+		directPos.Normalized();
 		directPos.y *= -1;
-		float fDegree = CMyMath::VectorToDegree(directPos);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, fDegree);
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, directPos);
 	}
 
 
@@ -141,14 +141,18 @@ void CPlayer::OnCollisionEnter(CObject* _pOther)
 	}
 }
 
-void CPlayer::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDegree)
+void CPlayer::CreateMissile(float _fSpeed, Vector3 _vPosition, Vector2 _vDirVec) {
+	CreateMissile(_fSpeed, _vPosition, Vector3(_vDirVec.x, _vDirVec.y));
+}
+
+void CPlayer::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, Vector3 _vDirVec)
 {
 	CMissile* pMissile = new CMissile(E_GroupType::PLAYER_PROJECTILE);
 	pMissile->SetObjectName(L"Player Missile");
 	pMissile->SetSpeed(_fSpeed);
 	pMissile->SetPosition(_vNozzlePosition);
 	pMissile->SetScale(Vector3(10.0f, 10.0f));
-	pMissile->SetDirectionDegree(_fDegree);
+	pMissile->SetDirectionVector(_vDirVec);
 	
 	// 미사일 충돌 컴포넌트 생성 및 추가
 	CColliderCircle* pMissileCircleCollider = new CColliderCircle(pMissile);
@@ -157,11 +161,12 @@ void CPlayer::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDeg
 
 void CPlayer::FireMissile() {
 	Vector3 vPosition = GetPosition();
+	Vector3 vDirUp = Vector3(0, 1, 0);
 	switch (m_eUpgradeLevel) {
 	case E_UpgradeLevelType::LEVEL1:
 	{
 		Vector3 vNozzlePosition(vPosition.x, vPosition.y - (GetScale().y / 2.0f));
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f);
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, vDirUp);
 	}
 		break;
 	case E_UpgradeLevelType::LEVEL2:
@@ -170,8 +175,8 @@ void CPlayer::FireMissile() {
 
 		Vector3 vLeftNozzlePosition(vNozzlePosition.x - GetScale().x / 2.0f + 5.0f, vNozzlePosition.y);
 		Vector3 vRightNozzlePosition(vNozzlePosition.x + GetScale().x / 2.0f -5.0f, vNozzlePosition.y);
-		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, 90.0f);
-		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, 90.0f);
+		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, vDirUp);
+		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, vDirUp);
 	}
 		break;
 	case E_UpgradeLevelType::LEVEL3:
@@ -179,22 +184,22 @@ void CPlayer::FireMissile() {
 		Vector3 vNozzlePosition(vPosition.x, vPosition.y);
 		Vector3 vLeftNozzlePosition(vNozzlePosition.x - GetScale().x / 2.0f +5.0f, vNozzlePosition.y);
 		Vector3 vRightNozzlePosition(vNozzlePosition.x + GetScale().x / 2.0f -5.0f, vNozzlePosition.y);
-		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, 90.0f + 15.0f);
-		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, 90.0f - 15.0f);
+		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, Rotate(vDirUp, 15.0f));
+		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, Rotate(vDirUp, - 15.0f));
 		vNozzlePosition.Set(vPosition.x, vPosition.y - GetScale().y / 2.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f);
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, vDirUp);
 	}
 		break;
 	case E_UpgradeLevelType::LEVEL4:
 	{
 		Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetScale().y / 2.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f - 15.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f + 15.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f - 30.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f + 30.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f - 45.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f + 45.0f);
-		CreateMissile(m_fMissileSpeed, vNozzlePosition, 90.0f);
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDirUp, - 15.0f));
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDirUp, + 15.0f));
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDirUp, - 30.0f));
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDirUp, + 30.0f));
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDirUp, - 45.0f));
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDirUp, + 45.0f));
+		CreateMissile(m_fMissileSpeed, vNozzlePosition, vDirUp);
 	}
 		break;
 	default:

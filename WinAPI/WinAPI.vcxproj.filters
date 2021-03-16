@@ -241,12 +241,6 @@
     <ClInclude Include="Tools.h">
       <Filter>Game\Define</Filter>
     </ClInclude>
-    <ClInclude Include="Gta_CScene_Main.h">
-      <Filter>Game\Scene\Gta_PJ\Scene_Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Gta_CScene_InGame.h">
-      <Filter>Game\Scene\Gta_PJ\Scene_InGame</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -357,12 +351,6 @@
     </ClCompile>
     <ClCompile Include="Tools.cpp">
       <Filter>Game\Define</Filter>
-    </ClCompile>
-    <ClCompile Include="Gta_CScene_Main.cpp">
-      <Filter>Game\Scene\Gta_PJ\Scene_Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Gta_CScene_InGame.cpp">
-      <Filter>Game\Scene\Gta_PJ\Scene_InGame</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

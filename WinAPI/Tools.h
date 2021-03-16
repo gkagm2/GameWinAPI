@@ -16,6 +16,21 @@ struct Vector2 {
 	void Set(float _x, float _y) { x = _x, y = _y; }
 	void Set(int _x, int _y) { x = (float)_x, y = (float)_y; }
 
+	void Normalized() {
+		float w = GetDistance();
+		if (w == 0) Set(0, 0);
+		else Set(x / w, y / w);
+	}
+
+	float GetDistance() {
+		return sqrtf(x * x + y * y);
+	}
+
+	float GetDistance(const Vector2& _vec1) {
+		Vector2 gap(_vec1.x - x, _vec1.y - y);
+		return sqrtf(gap.x * gap.x + gap.y * gap.y);
+	}
+
 	Vector2 operator=(const Vector2& _rhs) {
 		x = _rhs.x;
 		y = _rhs.y;
@@ -54,6 +69,7 @@ struct Vector2 {
 	bool operator!=(const Vector2& _rhs) const {
 		return !(*this == _rhs);
 	}
+
 };
 
 struct Vector3 : public Vector2 {
@@ -326,3 +342,6 @@ public:
 
 // 비율을 유지한채로 지정된 크기로 사이즈를 변경.
 Vector2 ResizeScaleMaintainRatio(float _fitWidth, float _fitHeight, float _width, float _height);
+
+// 벡터 회전 (2D Rotate)
+Vector3 Rotate(const Vector3& _vVec, float _degree);

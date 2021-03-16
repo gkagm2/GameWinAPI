@@ -87,7 +87,7 @@ void CAnimator::Save(const wstring& _strRelativePath)
 	assert(pFile);
 
 	// Animation count
-	int iAnimCnt = m_mapAnimation.size();
+	size_t iAnimCnt = m_mapAnimation.size();
 	fwrite(&iAnimCnt, sizeof(int), 1, pFile);
 
 	map<wstring, CAnimation*>::iterator iter = m_mapAnimation.begin();
