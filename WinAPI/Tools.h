@@ -48,8 +48,8 @@ struct Vector2 {
 		return Vector2{ x - _rhs.x, y - _rhs.y };
 	}
 	Vector2 operator/=(const float& rhs) {
-		x /= rhs;
-		y /= rhs;
+		if (0.0f == rhs) Set(0.0f, 0.0f);
+		else Set(x / rhs, y / rhs);
 		return *this;
 	}
 	Vector2 operator-=(const Vector2& rhs) {
@@ -89,7 +89,7 @@ struct Vector3 : public Vector2 {
 
 	void Normalized() {
 		float w = GetDistance();
-		if (w == 0) Set(0, 0, 0);
+		if (w == 0.0f) Set(0.0f, 0.0f, 0.0f);
 		else Set(x / w, y / w, z / w);
 	}
 
@@ -133,12 +133,13 @@ struct Vector3 : public Vector2 {
 		return Vector3(x - rhs, y - rhs, z - rhs);
 	}
 	Vector3 operator/=(const float& rhs) {
-		x /= rhs;
-		y /= rhs;
-		z /= rhs;
+		if (rhs == 0.0f) Set(0.0f, 0.0f, 0.0f);
+		else Set(x / rhs, y / rhs, z / rhs);
 		return *this;
 	}
 	Vector3 operator/(const float& rhs) const {
+		if (0.0f == rhs)
+			return Vector3(0.0f, 0.0f, 0.0f);
 		return Vector3(x / rhs, y / rhs, z / rhs);
 	}
 	Vector3 operator+=(const Vector3& rhs) {
