@@ -65,9 +65,9 @@ void CKeyManager::Update()
 			}
 			m_vecKey[i] = keyInfo;
 		}
+		POINT ptMousePoint;
+		GetCursorPos(&ptMousePoint);
+		ScreenToClient(CCore::GetInstance()->GetWndHandle(), &ptMousePoint);
+		m_mousePosition = ptMousePoint;
 	}
-	POINT ptMousePoint;
-	GetCursorPos(&ptMousePoint);
-	ScreenToClient(CCore::GetInstance()->GetWndHandle(), &ptMousePoint);
-	m_mousePosition = ptMousePoint;
 }
