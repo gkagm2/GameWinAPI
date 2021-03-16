@@ -81,10 +81,7 @@ void CMissile::Update()
 
 		// 현재 향하고있는 방향과 목표의 방향을 Cross한다.
 		Vector3 vCross = CMyMath::GetCross(vTargetDir, vHeadDir);
-		if (vCross.z == 0) { // 수직일 경우
-			assert(nullptr);
-		}
-		else if (vCross.z < 0 ) { // 
+		if (vCross.z < 0 ) {
 			vHeadDir = Rotate(vHeadDir, 120.0f * DeltaTime);
 		}
 		else if (vCross.z > 0) {
