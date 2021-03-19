@@ -122,6 +122,9 @@
     <Filter Include="Game\Scene\Gta_PJ\Scene_InGame">
       <UniqueIdentifier>{35175435-403f-4df8-a4bf-a80d55c78b92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Rigidbody">
+      <UniqueIdentifier>{5907db62-b3da-4167-a762-241f6b592590}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -241,6 +244,12 @@
     <ClInclude Include="Tools.h">
       <Filter>Game\Define</Filter>
     </ClInclude>
+    <ClInclude Include="CRigidbody2D.h">
+      <Filter>Game\Object\Rigidbody</Filter>
+    </ClInclude>
+    <ClInclude Include="CRigidbody.h">
+      <Filter>Game\Object\Rigidbody</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -351,6 +360,12 @@
     </ClCompile>
     <ClCompile Include="Tools.cpp">
       <Filter>Game\Define</Filter>
+    </ClCompile>
+    <ClCompile Include="CRigidbody2D.cpp">
+      <Filter>Game\Object\Rigidbody</Filter>
+    </ClCompile>
+    <ClCompile Include="CRigidbody.cpp">
+      <Filter>Game\Object\Rigidbody</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

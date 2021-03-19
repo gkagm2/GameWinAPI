@@ -16,6 +16,9 @@ struct Vector2 {
 	void Set(float _x, float _y) { x = _x, y = _y; }
 	void Set(int _x, int _y) { x = (float)_x, y = (float)_y; }
 
+	bool IsZero() {
+		return (0 == x && 0 == y);
+	}
 	void Normalized() {
 		float w = GetDistance();
 		if (w == 0) Set(0, 0);
@@ -89,12 +92,14 @@ struct Vector3 : public Vector2 {
 	void Set(int _x, int _y, int _z) { Vector2::Set((float)_x, (float)_y); z = (float)_z; }
 	void Set(const Vector3& _vec) { *this = _vec; }
 
+	bool IsZero() {
+		return (0 == x && 0 == y && 0 == z);
+	}
 	void Normalized() {
 		float w = GetDistance();
 		if (w == 0.0f) Set(0.0f, 0.0f, 0.0f);
 		else Set(x / w, y / w, z / w);
 	}
-
 	float GetDistance() {
 		return sqrtf(x * x + y * y + z * z);
 	}

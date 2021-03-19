@@ -19,7 +19,7 @@
 #include "CColliderRect.h"
 
 #include "CAnimator.h"
-
+#include "CRigidbody2D.h"
 CScene_Start::CScene_Start()
 {
 }
@@ -44,7 +44,7 @@ void CScene_Start::Start()
 	// 플레이어 오브젝트 생성
 	CPlayer* pPlayer = new CPlayer(E_GroupType::PLAYER);
 	pPlayer->SetObjectName(L"Player");
-	pPlayer->SetPosition(Vector3{ ptResolution.x / 2.0f, ptResolution.y - 100.0f, .0f });
+	pPlayer->SetPosition(Vector3{ ptResolution.x / 2.0f, ptResolution.y - 600.0f, .0f });
 	pPlayer->SetTexture(pPlayerTexture2); // 텍스쳐 설정
 	Vector2 vScale =ResizeScaleMaintainRatio(50, 50, pPlayer->GetTextureHeight(), pPlayer->GetTextureWidth());
 	pPlayer->SetScale(Vector3(vScale.x, vScale.y, 1.0f));
@@ -53,7 +53,6 @@ void CScene_Start::Start()
 	CColliderRect* pPlayerRectCollider = new CColliderRect(pPlayer);
 	pPlayerRectCollider->SetScale(Vector3(20.0f, 30.0f, 0.0f));
 	pPlayerRectCollider->SetOffsetPosition(Vector3(0.0f, 10.0f, 0.0f));
-	AddObject(pPlayer);
 
 	// 플레이어 애니메이터 생성 및 추가
 	CAnimator* pPlayerAnimator = new CAnimator(pPlayer);
@@ -74,6 +73,9 @@ void CScene_Start::Start()
 	pPlayerAnimator->Load(STR_FILE_PATH_PlayerAnim_Save);
 	pPlayerAnimator->PlayAnimation(L"WALK_UP", E_AnimationPlayType::LOOP);
 
+	AddObject(pPlayer);
+
+	/*
 	// 몬스터 텍스쳐 로딩
 	CTexture * pMonsterTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Monster, STR_FILE_PATH_Monster);
 
@@ -82,7 +84,7 @@ void CScene_Start::Start()
 	pMonsterRespawner->SetRender(false);
 	pMonsterRespawner->SetObjectName(L"Monster Respawner");
 	AddObject(pMonsterRespawner);
-	
+	*/
 	// 충돌 설정
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::PLAYER, E_GroupType::MONSTER, true);

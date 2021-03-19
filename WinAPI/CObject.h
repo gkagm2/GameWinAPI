@@ -4,19 +4,21 @@
 class CTexture;
 class CCollider;
 class CAnimator;
+class CRigidbody;
 class CObject
 {
 private:
 	Vector3 m_vPosition;
 	Vector3 m_vScale;
 
-	CTexture* m_pTexture;	// 텍스쳐
-	CCollider* m_pCollider; // 충돌체 컴포넌트
-	CAnimator* m_pAnimator;	// 애니메이터
+	CTexture* m_pTexture;		// 텍스쳐
+	CCollider* m_pCollider;		// 충돌체 컴포넌트
+	CAnimator* m_pAnimator;		// 애니메이터
+	CRigidbody* m_pRigidbody;	// 리지드바디
 
-	wstring m_strName;		// 오브젝트 이름
-	bool m_bIsDead;			// 오브젝트가 죽었으면 flag true
-	bool m_bIsRender;		// 렌더링 여부
+	wstring m_strName;			// 오브젝트 이름
+	bool m_bIsDead;				// 오브젝트가 죽었으면 flag true
+	bool m_bIsRender;			// 렌더링 여부
 
 
 private:
@@ -51,8 +53,10 @@ public:
 
 	void SetCollider(CCollider* _pCollider) { m_pCollider = _pCollider;}
 	void SetAnimator(CAnimator* _pAnimator) { m_pAnimator = _pAnimator; }
+	void SetRigidbody(CRigidbody* _pRigidbody) { m_pRigidbody = _pRigidbody; }
 	CCollider* GetCollider() { return m_pCollider; }
 	CAnimator* GetAnimator() { return m_pAnimator; }
+	CRigidbody* GetRigidbody() { return m_pRigidbody; }
 
 	E_GroupType GetGroupType() {
 		return m_eGroupType; 
@@ -71,6 +75,7 @@ public:
 	inline float ScaleZ() const { return m_vScale.z; }
 
 public:
+	virtual void PrevUpdate();
 	virtual void Update() = 0;
 	virtual void LateUpdate();
 	virtual void Render(HDC _hDC);

@@ -6,6 +6,7 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CAnimator.h"
+#include "CRigidbody.h"
 
 CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_vPosition{ 0, 0, 0 },
@@ -13,6 +14,7 @@ CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_pTexture(nullptr),
 	m_pCollider(nullptr),
 	m_pAnimator(nullptr),
+	m_pRigidbody(nullptr),
 	m_eGroupType(e_GroupType),
 	m_strName(STR_OBJECT_DEFAULT_NAME),
 	m_bIsDead(false),
@@ -22,10 +24,18 @@ CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 
 CObject::~CObject()
 {
-	if (nullptr != m_pCollider) // 존재하면
+   	if (nullptr != m_pCollider)
 		delete m_pCollider;
 	if (nullptr != m_pAnimator)
 		delete m_pAnimator;
+	if (nullptr != m_pRigidbody)
+		delete m_pRigidbody;
+}
+
+void CObject::PrevUpdate()
+{
+	if (nullptr != m_pRigidbody)
+		m_pRigidbody->PrevUpdate();
 }
 
 void CObject::LateUpdate()
@@ -34,6 +44,8 @@ void CObject::LateUpdate()
 		m_pAnimator->LateUpdate();
 	if (nullptr != m_pCollider)
 		m_pCollider->LateUpdate();
+	if (nullptr != m_pRigidbody)
+		m_pRigidbody->LateUpdate();
 }
 
 void CObject::Render(HDC _hDC)

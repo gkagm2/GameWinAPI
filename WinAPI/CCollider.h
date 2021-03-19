@@ -20,10 +20,7 @@ public:
 	void SetOffsetPosition(const Vector3& _position) { m_vOffsetPosition += _position; }
 	
 	CObject* GetOwnerObject() { return m_pOwnerObject; }
-	E_GroupType GetGroupType() { 
-		if (m_pOwnerObject == nullptr)
-			int i = 0;
-		return m_pOwnerObject->GetGroupType(); }
+	E_GroupType GetGroupType() { return m_pOwnerObject->GetGroupType(); }
 
 	UINT GetID() { return m_iID; }
 

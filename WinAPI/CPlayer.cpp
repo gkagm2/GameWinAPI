@@ -20,6 +20,7 @@
 #include "CCamera.h"
 
 #include "CAnimator.h"
+#include "CRigidbody2D.h"
 
 CPlayer::CPlayer(E_GroupType _eGroupType = E_GroupType::DEFAULT) :
 	CObject(_eGroupType),
@@ -30,29 +31,43 @@ CPlayer::CPlayer(E_GroupType _eGroupType = E_GroupType::DEFAULT) :
 	m_fFireCoolTime(0.0f),
 	m_fFireMaxCoolTime(0.1f)
 {
+	// 플레이어 리지드바디 추가
+	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
+	pRigidbody->SetMass(10.0f);
+	pRigidbody->UseGravity(true);
+	pRigidbody->SetDrag(3.0f);
 }
 
 CPlayer::~CPlayer()
 {
+
 }
 
 void CPlayer::Update()
 {
 	Vector3 vMoveVec(0, 0, 0);
+	float fForce = 200.0f;
+	// Force
+	if (InputKeyHold(E_Key::RBUTTON)) {
+	}
 	if (InputKeyHold(E_Key::LEFT)) {// 왼쪽 키가 눌렸다면
-		vMoveVec.x -= 1;
+		GetRigidbody()->AddForce(Vector3(-fForce, 0, 0));
+
 		GetAnimator()->PlayAnimation(L"WALK_LEFT", E_AnimationPlayType::LOOP);
 	}
 	if (InputKeyHold(E_Key::RIGHT)) {
-		vMoveVec.x += 1;
+		GetRigidbody()->AddForce(Vector3(fForce, 0, 0));
+
 		GetAnimator()->PlayAnimation(L"WALK_RIGHT", E_AnimationPlayType::LOOP);
 	}
 	if (InputKeyHold(E_Key::UP)) {
-		vMoveVec.y -= 1;
+		GetRigidbody()->AddForce(Vector3(0, -fForce, 0));
+
 		GetAnimator()->PlayAnimation(L"WALK_UP", E_AnimationPlayType::LOOP);
 	}
 	if (InputKeyHold(E_Key::DOWN)) {
-		vMoveVec.y += 1;
+		GetRigidbody()->AddForce(Vector3(0, fForce, 0));
+
 		GetAnimator()->PlayAnimation(L"WALK_DOWN", E_AnimationPlayType::LOOP);
 	}
 	if (InputKeyRelease(E_Key::LEFT) ) {// 왼쪽 키가 눌렸다면
@@ -73,6 +88,23 @@ void CPlayer::Update()
 	Vector3 vPosition = GetPosition();
 	SetPosition(vPosition + vMoveVec * m_fSpeed * DeltaTime);
 	
+	if (vPosition.y > CCore::GetInstance()->GetResolution().y) {
+		vPosition.y = 0;
+		SetPosition(vPosition);
+	}
+	if (vPosition.y < 0) {
+		vPosition.y = CCore::GetInstance()->GetResolution().y;
+		SetPosition(vPosition);
+	}
+	if (vPosition.x > CCore::GetInstance()->GetResolution().x) {
+		vPosition.x = 0;
+		SetPosition(vPosition);
+	}
+	if (vPosition.x < 0) {
+		vPosition.x = CCore::GetInstance()->GetResolution().x;
+		SetPosition(vPosition);
+	}
+
 	if (GetAsyncKeyState(0x31) & 0x8000) { // num 1
 		m_eUpgradeLevel = E_UpgradeLevelType::LEVEL1;
 	}
@@ -96,7 +128,6 @@ void CPlayer::Update()
 		directPos.y *= -1;
 		CreateMissile(m_fMissileSpeed, vNozzlePosition, directPos);
 	}
-
 
 	m_fFireCoolTime += DeltaTime;
 	if (InputKeyPress(E_Key::SPACE)) {

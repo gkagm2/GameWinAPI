@@ -47,6 +47,15 @@ CObject* CScene::FindObject(wstring _objectName)
 	return nullptr;
 }
 
+void CScene::PrevUpdate()
+{
+	for (UINT i = 0; i < (UINT)E_GroupType::END; ++i) {
+		for (UINT j = 0; j < m_vecObj[i].size(); ++j)
+			if (!m_vecObj[i][j]->IsDead())
+				m_vecObj[i][j]->PrevUpdate();
+	}
+}
+
 void CScene::Update()
 {
 	for (UINT i = 0; i < (UINT)E_GroupType::END; ++i) {

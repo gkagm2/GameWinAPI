@@ -25,6 +25,7 @@ void CSceneManager::Init()
 
 void CSceneManager::Progress()
 {
+	m_pCurScene->PrevUpdate();
 	m_pCurScene->Update();
 	m_pCurScene->LateUpdate();
 }

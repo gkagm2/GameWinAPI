@@ -6,6 +6,7 @@ class CScene
 private:
 	vector<CObject*> m_vecObj[(UINT)E_GroupType::END];
 public:
+	virtual void PrevUpdate();
 	virtual void Update();
 	virtual void LateUpdate();
 	virtual void Render(HDC _hDC);
