@@ -36,6 +36,7 @@ enum class E_GroupType {
 	PLAYER_PROJECTILE,
 	MONSTER,
 	MONSTER_PROJECTILE,
+	UI,
 	END = 32,
 };
 

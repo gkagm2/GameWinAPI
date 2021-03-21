@@ -134,6 +134,12 @@
     <Filter Include="Game\Object\Tile">
       <UniqueIdentifier>{b216cafa-70c3-4eee-9909-ca56982be4f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\UI">
+      <UniqueIdentifier>{305d8c27-98ad-4016-a7e9-2485d3e0ad59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\UIMgr">
+      <UniqueIdentifier>{702c0907-852d-412e-94c2-4d4bcf1b86d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -268,6 +274,12 @@
     <ClInclude Include="CTile.h">
       <Filter>Game\Object\Tile</Filter>
     </ClInclude>
+    <ClInclude Include="CUI.h">
+      <Filter>Game\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIManager.h">
+      <Filter>Game\Manager\UIMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -393,6 +405,12 @@
     </ClCompile>
     <ClCompile Include="CTile.cpp">
       <Filter>Game\Object\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI.cpp">
+      <Filter>Game\Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIManager.cpp">
+      <Filter>Game\Manager\UIMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

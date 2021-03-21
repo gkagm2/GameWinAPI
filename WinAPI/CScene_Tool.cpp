@@ -6,6 +6,7 @@
 #include "CKeyManager.h"
 #include "CSceneManager.h"
 #include "CPathManager.h"
+#include "CUIManager.h"
 
 #include "CScene.h"
 #include "CScene_Tool.h"
@@ -15,6 +16,8 @@
 
 #include "CObject.h"
 #include "CCamera.h"
+
+#include "CUI.h"
 
 
 CScene_Tool::CScene_Tool() :
@@ -50,6 +53,13 @@ void CScene_Tool::Start()
 	m_pTileMap->SetPosition(0, 0, 0);
 	m_pTileMap->CreateTileGrid(10, 10);
 	AddObject(m_pTileMap);
+
+
+	//CUI* pUI = new CUI(E_GroupType::UI);
+	//pUI->SetPosition(Vector3{});
+	//pUI->SetPivotState()
+
+
 }
 
 void CScene_Tool::Update()

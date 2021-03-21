@@ -9,6 +9,7 @@
 #include "CCamera.h"
 #include "CCollisionManager.h"
 #include "CEventManager.h"
+#include "CUIManager.h"
 
 #ifdef DYNAMIC_SINGLETON
 CCore* CCore::g_pCore = nullptr; // static이므로 초기화
@@ -94,7 +95,7 @@ void CCore::Progress()
 	CCamera::GetInstance()->Update();
 	
 	CCollisionManager::GetInstance()->Update();
-
+	CUIManager::GetInstance()->Update();
 	
 	// 렌더링
 	HBRUSH hBrush = CreateSolidBrush(RGB(128, 128, 128));

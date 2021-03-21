@@ -175,6 +175,8 @@
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CTileMap.h" />
     <ClInclude Include="CTimeManager.h" />
+    <ClInclude Include="CUI.h" />
+    <ClInclude Include="CUIManager.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Func.h" />
@@ -221,6 +223,8 @@
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CTileMap.cpp" />
     <ClCompile Include="CTimeManager.cpp" />
+    <ClCompile Include="CUI.cpp" />
+    <ClCompile Include="CUIManager.cpp" />
     <ClCompile Include="Func.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
