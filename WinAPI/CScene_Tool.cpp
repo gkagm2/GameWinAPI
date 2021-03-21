@@ -24,13 +24,6 @@ CScene_Tool::CScene_Tool() :
 	// 메뉴바 생성
 	m_hMenu = LoadMenu(nullptr, MAKEINTRESOURCE(IDC_WINAPI));
 	//errno_t err = GetLastError();
-
-
-	// 타일 격자 생성
-	m_pTileMap = new CTileMap(E_GroupType::TILEMAP);
-	m_pTileMap->SetPosition(0, 0, 0);
-	m_pTileMap->CreateTileGrid(10, 10);
-	AddObject(m_pTileMap);
 }
 
 CScene_Tool::~CScene_Tool()
@@ -51,6 +44,12 @@ void CScene_Tool::Start()
 	ptResolution.x /= 2;
 	ptResolution.y /= 2;
 	CCamera::GetInstance()->SetLookAt(Vector2((float)ptResolution.x, (float)ptResolution.y));
+
+	// 타일 격자 생성
+	m_pTileMap = new CTileMap(E_GroupType::TILEMAP);
+	m_pTileMap->SetPosition(0, 0, 0);
+	m_pTileMap->CreateTileGrid(10, 10);
+	AddObject(m_pTileMap);
 }
 
 void CScene_Tool::Update()
@@ -147,12 +146,10 @@ void CScene_Tool::LoadTile(wstring _strRelativePath)
 	fread(&iRow, sizeof(int), 1, pFile);
 	fread(&iCol, sizeof(int), 1, pFile);
 
-	// TODO : 타일 개수 변환 후 저장하면 그대로 안나옴 삭제기능을 넣어야되는데
-	// 이벤트 처리로 되어있어서
+	DeleteObjects(E_GroupType::TILE);
 	m_pTileMap->CreateTileGrid((UINT)iRow, (UINT)iCol);
 
 	vector<CObject*>& vecTiles = GetObjects(E_GroupType::TILE);
-	int size = vecTiles.size();
 	for (int i = 0; i < iRow * iCol; ++i) {
 		CTile* pTile = dynamic_cast<CTile*>(vecTiles[i]);
 		if (pTile)
