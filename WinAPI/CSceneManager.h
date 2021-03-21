@@ -15,6 +15,4 @@ public:
 public:
 	void ChangeScene(E_SceneType _eSceneType);
 	CScene* GetCurScene() { return m_pCurScene; }
-	// TODO : Change scene
 };
-

@@ -139,8 +139,8 @@ void CMonsterRespawner::CreateSmallMonster()
 	pMonster->SetStartPosition(pMonster->GetPosition());
 	pMonster->SetRange(150.0f);
 	pMonster->SetSpeed(2.0f);
-	pMonster->SetScale(Vector3(70.0f,70.0f,0));
-	pMonster->SetOriginalScale(Vector3(70.0f, 70.0f, 0));
+	pMonster->SetScale(Vector3(70.0f,70.0f,0.f));
+	pMonster->SetOriginalScale(Vector3(70.0f, 70.0f, 0.f));
 	
 	// 몬스터 충돌 컴포넌트 생성 및 추가
 	CColliderRect* pMonsterRectCollider = new CColliderRect(pMonster);
@@ -159,7 +159,7 @@ void CMonsterRespawner::CreateMonster()
 	CMonster* pMonster = new CMonster(E_GroupType::MONSTER);
 	pMonster->SetObjectName(L"Monster2");
 	pMonster->SetTexture(pMonsterTexture);
-	pMonster->SetPosition(Vector2(ptResolution.x / 2.0f, 100));
+	pMonster->SetPosition(Vector2(ptResolution.x / 2.0f, 100.0f));
 
 	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
 	CObject* pPlayerObj = pCurScene->FindObject(L"Player");

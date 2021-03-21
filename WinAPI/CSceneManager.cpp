@@ -2,6 +2,7 @@
 #include "CSceneManager.h"
 #include "CScene_Start.h"
 #include "CScene_Stage01.h"
+#include "CScene_Tool.h"
 
 CSceneManager::CSceneManager() :
 	m_arrScene{},
@@ -19,8 +20,8 @@ void CSceneManager::Init()
 {
 	m_arrScene[(UINT)E_SceneType::START] = new CScene_Start;
 	m_arrScene[(UINT)E_SceneType::STAGE01] = new CScene_Stage01;
-	ChangeScene(E_SceneType::START);
-
+	m_arrScene[(UINT)E_SceneType::TOOL] = new CScene_Tool;
+	ChangeScene(E_SceneType::TOOL);
 }
 
 void CSceneManager::Progress()

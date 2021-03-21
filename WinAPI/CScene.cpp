@@ -87,4 +87,3 @@ void CScene::Render(HDC _hDC)
 		}
 	}
 }
-

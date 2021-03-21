@@ -30,6 +30,16 @@ protected:
 	void SetGroupType(E_GroupType _eGroupType) { m_eGroupType = _eGroupType; }
 
 public:
+	virtual void PrevUpdate();
+	virtual void Update() = 0;
+	virtual void LateUpdate();
+	virtual void Render(HDC _hDC);
+
+	virtual void OnCollisionEnter(CObject* _pOther) {}
+	virtual void OnCollisionStay(CObject* _pOther) {}
+	virtual void OnCollisionExit(CObject* _pOther) {}
+
+public:
 	void SetRender(bool _bIsRender) { m_bIsRender = _bIsRender; }
 	bool IsRender() { return m_bIsRender; }
 
@@ -42,8 +52,8 @@ public:
 	void SetScale(float _x, float _y, float _z = 1) { m_vScale.x = _x; m_vScale.y = _y; m_vScale.z = _z; }
 	Vector3 GetScale() { return m_vScale; }
 
-	Vector3 GetMin();
-	Vector3 GetMax();
+	virtual Vector3 GetMin();
+	virtual Vector3 GetMax();
 
 	void SetTexture(CTexture* _pTexture);
 	CTexture* GetTexture() { return  m_pTexture; }
@@ -73,16 +83,6 @@ public:
 	inline float ScaleX() const { return m_vScale.x; }
 	inline float ScaleY() const { return m_vScale.y; }
 	inline float ScaleZ() const { return m_vScale.z; }
-
-public:
-	virtual void PrevUpdate();
-	virtual void Update() = 0;
-	virtual void LateUpdate();
-	virtual void Render(HDC _hDC);
-
-	virtual void OnCollisionEnter(CObject* _pOther){}
-	virtual void OnCollisionStay(CObject* _pOther){}
-	virtual void OnCollisionExit(CObject* _pOther){}
 
 public:
 	CObject() = delete;

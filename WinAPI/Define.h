@@ -22,11 +22,14 @@ private:\
 enum class E_SceneType{
 	START,
 	STAGE01,
+	TOOL,
 	END,
 };
 
 // Layer Type
 enum class E_GroupType {
+	TILEMAP,
+	TILE,
 	DEFAULT,
 	BACKGROUND,
 	PLAYER,

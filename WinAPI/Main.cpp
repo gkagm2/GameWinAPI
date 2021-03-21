@@ -125,7 +125,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         switch (wmId)
         {
         case IDM_ABOUT:
-            DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+            DialogBox(nullptr, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+            break;
+        case ID_TILE_CREATE:
+        case ID_TILE_SAVE:
+        case ID_TILE_LOAD:
+            MenuContainer(wmId);
             break;
         case IDM_EXIT:
             DestroyWindow(hWnd);

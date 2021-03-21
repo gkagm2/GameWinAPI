@@ -88,20 +88,20 @@ void CPlayer::Update()
 	Vector3 vPosition = GetPosition();
 	SetPosition(vPosition + vMoveVec * m_fSpeed * DeltaTime);
 	
-	if (vPosition.y > CCore::GetInstance()->GetResolution().y) {
+	if (vPosition.y > (float)CCore::GetInstance()->GetResolution().y) {
 		vPosition.y = 0;
 		SetPosition(vPosition);
 	}
 	if (vPosition.y < 0) {
-		vPosition.y = CCore::GetInstance()->GetResolution().y;
+		vPosition.y = (float)CCore::GetInstance()->GetResolution().y;
 		SetPosition(vPosition);
 	}
-	if (vPosition.x > CCore::GetInstance()->GetResolution().x) {
+	if (vPosition.x > (float)CCore::GetInstance()->GetResolution().x) {
 		vPosition.x = 0;
 		SetPosition(vPosition);
 	}
 	if (vPosition.x < 0) {
-		vPosition.x = CCore::GetInstance()->GetResolution().x;
+		vPosition.x = (float)CCore::GetInstance()->GetResolution().x;
 		SetPosition(vPosition);
 	}
 

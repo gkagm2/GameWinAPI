@@ -104,15 +104,6 @@
     <Filter Include="Game\Object\PlaneShooting_PJ\MonsterRespawner">
       <UniqueIdentifier>{720b29ce-8cca-4e40-8732-e3f626d52c56}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Scene\PlaneShooting_PJ">
-      <UniqueIdentifier>{ff76d25b-7a84-4618-972d-19b9d9444d69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\PlaneShooting_PJ\StartScene">
-      <UniqueIdentifier>{3097f2a2-5e39-4017-a472-ecedbe049283}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\PlaneShooting_PJ\Stage01">
-      <UniqueIdentifier>{6c8127a0-e178-4805-8927-1f3c3f55cad5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Scene\Gta_PJ">
       <UniqueIdentifier>{bd590f74-6fc9-468a-bddd-f1f30131b0b3}</UniqueIdentifier>
     </Filter>
@@ -124,6 +115,24 @@
     </Filter>
     <Filter Include="Game\Object\Rigidbody">
       <UniqueIdentifier>{5907db62-b3da-4167-a762-241f6b592590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\PlaneShooting_PJ">
+      <UniqueIdentifier>{ff76d25b-7a84-4618-972d-19b9d9444d69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\PlaneShooting_PJ\StartScene">
+      <UniqueIdentifier>{3097f2a2-5e39-4017-a472-ecedbe049283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\PlaneShooting_PJ\Stage01">
+      <UniqueIdentifier>{6c8127a0-e178-4805-8927-1f3c3f55cad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\PlaneShooting_PJ\Tool">
+      <UniqueIdentifier>{0bd1a2b5-e7de-40c3-8d9a-1d08fea45614}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\TileMap">
+      <UniqueIdentifier>{1c6b6a54-4cab-4705-944c-53470ac4e7c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Tile">
+      <UniqueIdentifier>{b216cafa-70c3-4eee-9909-ca56982be4f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +259,15 @@
     <ClInclude Include="CRigidbody.h">
       <Filter>Game\Object\Rigidbody</Filter>
     </ClInclude>
+    <ClInclude Include="CScene_Tool.h">
+      <Filter>Game\Scene\PlaneShooting_PJ\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileMap.h">
+      <Filter>Game\Object\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="CTile.h">
+      <Filter>Game\Object\Tile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -367,5 +385,19 @@
     <ClCompile Include="CRigidbody.cpp">
       <Filter>Game\Object\Rigidbody</Filter>
     </ClCompile>
+    <ClCompile Include="CScene_Tool.cpp">
+      <Filter>Game\Scene\PlaneShooting_PJ\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileMap.cpp">
+      <Filter>Game\Object\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="CTile.cpp">
+      <Filter>Game\Object\Tile</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="arrow.cur">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -14,6 +14,10 @@ private:
 public:
 	int Init(HWND _hMainWnd, POINT _ptResolution);
 	void Progress();
+
+public:
+	void ResizeWindowScreen(POINT _ptResolution, bool _bActiveMenu);
+
 public:
 	HWND GetWndHandle() { return m_hMainWnd; }
 	HDC GetDC() { return m_hDC; }

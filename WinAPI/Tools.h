@@ -8,7 +8,8 @@ struct Vector2 {
 	float x;
 	float y;
 
-	Vector2() :x(0), y(0) {}
+	Vector2() :x(0.f), y(0.f) {}
+	Vector2(int _x, int _y) : x(float(_x)), y(float(_y)) {}
 	Vector2(float _x, float _y) : x(_x), y(_y) {}
 	Vector2(const POINT& _point) : x((float)_point.x), y((float)_point.y) {}
 	Vector2(const Vector2& _vec) : x(_vec.x), y(_vec.y) {}
@@ -80,10 +81,11 @@ struct Vector2 {
 struct Vector3 : public Vector2 {
 	float z;
 
-	Vector3() : Vector2(), z(0) {}
-	Vector3(float _x, float _y) : Vector2(_x, _y), z(0) {}
+	Vector3() : Vector2(), z(0.f) {}
+	Vector3(int _x, int _y) : Vector2(_x, _y), z(0.f) {}
+	Vector3(float _x, float _y) : Vector2(_x, _y), z(0.f) {}
 	Vector3(float _x, float _y, float _z) : Vector2(_x, _y), z(_z) {}
-	Vector3(const POINT& _point) : Vector2((float)_point.x, (float)_point.y), z(0) {}
+	Vector3(const POINT& _point) : Vector2((float)_point.x, (float)_point.y), z(0.f) {}
 	Vector3(const Vector3& _vec) : Vector2(_vec.x, _vec.y), z(_vec.z) {}
 
 	void Set(float _x, float _y) { Vector2::Set(_x, _y); }

@@ -10,7 +10,9 @@
 #define STR_FILE_NAME_PlayerAnim L"Link"
 #define STR_FILE_PATH_PlayerAnim L"Texture\\Animation\\link_0.bmp"
 
+// Data
 #define STR_FILE_PATH_PlayerAnim_Save L"Data\\AnimFile\\Player.anim"
+#define STR_FILE_PATH_Tile_Save L"Data\\TileFile\\Tile.tile"
 
 
 #define STR_FILE_NAME_Monster L"Monster"
@@ -25,6 +27,10 @@
 #define STR_FILE_PATH_Background2 L"Texture\\Bg2.bmp"
 #define STR_FILE_NAME_Background3 L"Bg3"
 #define STR_FILE_PATH_Background3 L"Texture\\Bg3.bmp"
+
+#define STR_FILE_NAME_Tile L"TILE.bmp"
+#define STR_FILE_PATH_Tile L"Texture\\Tile\\TILE.bmp"
+
 
 
 // PATH

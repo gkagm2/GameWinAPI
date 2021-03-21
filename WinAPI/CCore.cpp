@@ -33,12 +33,8 @@ int CCore::Init(HWND _hMainWnd, POINT _ptResolution)
 {
 	// Windows Screen setting initialize
 	m_hMainWnd = _hMainWnd;
-	m_ptResolution = _ptResolution;
 
-	// 화면에 그리는 영역을 지정된 해상도만큼 확보
-	RECT rect = { 0, 0, m_ptResolution.x ,m_ptResolution.y };
-	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false); // 메뉴바, 테두리 픽셀까지 계산해줌.
-	SetWindowPos(m_hMainWnd, nullptr, 10, 10, rect.right - rect.left, rect.bottom - rect.top, 0);
+	ResizeWindowScreen(_ptResolution, false); // 윈도우 사이즈 재설정
 	
 	m_hDC = ::GetDC(m_hMainWnd); // Main windows 창에 대한 dc를 가져옴
 
@@ -122,4 +118,14 @@ void CCore::Progress()
 
 	// 이벤트 처리
 	CEventManager::GetInstance()->Update();
+}
+
+void CCore::ResizeWindowScreen(POINT _ptResolution, bool _bActiveMenu)
+{
+	m_ptResolution = _ptResolution;
+
+	// 화면에 그리는 영역을 지정된 해상도만큼 확보
+	RECT rect = { 0, 0, m_ptResolution.x ,m_ptResolution.y };
+	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false); // 메뉴바, 테두리 픽셀까지 계산해줌.
+	SetWindowPos(m_hMainWnd, nullptr, 10, 10, rect.right - rect.left, rect.bottom - rect.top, 0);
 }
