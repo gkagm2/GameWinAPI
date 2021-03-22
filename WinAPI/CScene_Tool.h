@@ -16,8 +16,8 @@ public:
 	
 	void MouseClick();
 	CTileMap* GetTileMap() { return m_pTileMap; }
-	void SaveTile(wstring _strRelativePath);
-	void LoadTile(wstring _strRelativePath);
+	void SaveTile(wstring _strPath);
+	void LoadTile(wstring _strPath);
 
 public:
 	CScene_Tool();

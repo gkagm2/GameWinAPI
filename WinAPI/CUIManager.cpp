@@ -5,6 +5,7 @@
 #include "CUIManager.h"
 #include "CSceneManager.h"
 #include "CScene.h"
+#include "CUI.h"
 
 CUIManager::CUIManager() {
 
@@ -24,15 +25,31 @@ void CUIManager::Update()
 
 	// Click event
 	for (UINT i = 0; i < vecUI.size(); ++i) {
-		if (InputKeyPress(E_Key::LBUTTON)) {
-			// 영역 내부에 있는지 체크한다.
+		CUI* pUI = dynamic_cast<CUI*>(vecUI[i]);
+		if (nullptr == pUI)
+			continue;
 
+		if (pUI->IsPointerOn(MousePosition)) { // 영역 내로 들어왔을 때 
+			if (false == pUI->m_bIsOn)
+				pUI->OnPointerEnter();
+				
+			if (InputKeyPress(E_Key::LBUTTON)) {
+				pUI->OnPointerDown();
+			}
+			else if (InputKeyRelease(E_Key::LBUTTON)) {
+				pUI->OnPointerUp();
+				if (pUI->m_bIsOn)
+					pUI->OnPointerClick();
+			}
+
+			if (false == pUI->m_bIsOn)
+				pUI->m_bIsOn = true;
 		}
-		if (InputKeyRelease(E_Key::LBUTTON)) {
-
-		}
-		if (InputKeyHold(E_Key::LBUTTON)) {
-
+		else { // 영역 밖일 때 
+			if (pUI->m_bIsOn) {
+				pUI->OnPointerExit();
+				pUI->m_bIsOn = false;
+			}
 		}
 	}
 }

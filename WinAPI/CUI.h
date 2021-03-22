@@ -21,12 +21,35 @@ private:
 
 	E_UIPivot m_ePivotState;
 	Vector3 m_vPivotPosition;
+
+	bool m_bIsOn;
+
 public:
 	virtual void Update() override;
 	virtual void LateUpdate() override;
 	virtual void Render(HDC _hDC) override;
 
 public:
+	// TODO : 이걸 다른걸로 뺄까?
+	// EventTrigger
+	virtual void OnPointerEnter();
+	virtual void OnPointerExit();
+	virtual void OnPointerDown();
+	virtual void OnPointerUp();
+	virtual void OnPointerClick();
+	/*virtual void OnPointerMove();
+	virtual void OnPointerBeginDrag();
+	virtual void OnPointerDrag();
+	virtual void OnPointerEndDrag();*/
+
+	bool IsPointerOn(const Vector2& _vPointerPosition);
+
+public:
+	void AddChildUI(CUI* _pChildUI) {
+		_pChildUI->m_pParentUI = this;
+		m_vecChildUI.push_back(_pChildUI);
+	}
+	
 	vector<CUI*>& GetChildsUI() { return m_vecChildUI; }
 	CUI* GetParentUI() { return m_pParentUI; }
 
@@ -36,10 +59,13 @@ public:
 	Vector3 GetPivotPosition() { return m_vPivotPosition; }
 
 	// TODO : Min, Max 구하기 구현
-	//virtual Vector3 GetMin() override;
-	//virtual Vector3 GetMax() override;
+	virtual Vector3 GetMin() override;
+	virtual Vector3 GetMax() override;
 public:
 	CUI() = delete;
 	CUI(E_GroupType _eGroupType);
 	virtual ~CUI() override;
+
+public:
+	friend class CUIManager;
 };

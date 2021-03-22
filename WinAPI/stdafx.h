@@ -13,6 +13,7 @@
 #include <tchar.h>
 
 #pragma comment(lib, "Msimg32.lib") // for transparnetBlt
+#include <commdlg.h> // open file dialog
 #include <cassert>
 #include <ctime>
 

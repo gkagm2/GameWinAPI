@@ -52,16 +52,46 @@ void MenuContainer(WPARAM _wmId)
 		break;
 	case ID_TILE_LOAD:
 	{
-		CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(CSceneManager::GetInstance()->GetCurScene());
-		assert(pToolScene);
-		pToolScene->LoadTile(STR_FILE_PATH_Tile_Save);
+		OPENFILENAME ofn;
+		wchar_t strMaxPath[MAX_PATH] = L"";
+		memset(&ofn, 0, sizeof(OPENFILENAME));
+		ofn.lStructSize = sizeof(OPENFILENAME);
+		ofn.hwndOwner = CCore::GetInstance()->GetWndHandle();
+		ofn.lpstrFilter = L"葛电颇老(*.*)\0*.*\0*";
+		ofn.lpstrFile = strMaxPath;
+		ofn.nMaxFile = MAX_PATH;
+
+		
+		if (0 != GetOpenFileName(&ofn)) {
+			CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(CSceneManager::GetInstance()->GetCurScene());
+			assert(pToolScene);
+			pToolScene->LoadTile(ofn.lpstrFile);
+
+			wchar_t str[255] = L"File Load";
+			MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Load", MB_OK);
+		}
 	}
 		break;
 	case ID_TILE_SAVE:
 	{
-		CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(CSceneManager::GetInstance()->GetCurScene());
+		OPENFILENAME ofn;
+		wchar_t strMaxPath[MAX_PATH] = L"";
+		memset(&ofn, 0, sizeof(OPENFILENAME));
+		ofn.lStructSize = sizeof(OPENFILENAME);
+		ofn.hwndOwner = CCore::GetInstance()->GetWndHandle();
+		ofn.lpstrFilter = L"葛电颇老(*.*)\0*.*\0*";
+		ofn.lpstrFile = strMaxPath;
+		ofn.nMaxFile = MAX_PATH;
+
+		
+		if (0 != GetOpenFileName(&ofn)) {
+			CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(CSceneManager::GetInstance()->GetCurScene());
 			assert(pToolScene);
-		pToolScene->SaveTile(STR_FILE_PATH_Tile_Save);
+			pToolScene->SaveTile(ofn.lpstrFile);
+
+			wchar_t str[255] = L"File Save";
+			MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Save", MB_OK);
+		}
 	}
 		break;
 	default:

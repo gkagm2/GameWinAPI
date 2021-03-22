@@ -55,11 +55,15 @@ void CScene_Tool::Start()
 	AddObject(m_pTileMap);
 
 
-	//CUI* pUI = new CUI(E_GroupType::UI);
-	//pUI->SetPosition(Vector3{});
-	//pUI->SetPivotState()
+	CUI* pUI = new CUI(E_GroupType::UI);
+	pUI->SetPosition(Vector3{});
+	pUI->SetScale(Vector3{ 300.f,300.f,0.f });
+	AddObject(pUI);
 
-
+	CUI* pChildUI = new CUI(E_GroupType::UI);
+	pChildUI->SetPosition(Vector3{});
+	pChildUI->SetScale(Vector3{ 100.f, 100.f, 0.f });
+	pUI->AddChildUI(pChildUI);
 }
 
 void CScene_Tool::Update()
@@ -114,10 +118,11 @@ void CScene_Tool::MouseClick()
 	}
 }
 
-void CScene_Tool::SaveTile(wstring _strRelativePath)
+void CScene_Tool::SaveTile(wstring _strPath)
 {
 	vector<CObject*>& vecTiles = GetObjects(E_GroupType::TILE);
-	wstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativePath;
+	//wstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativePath;
+	wstring strFilePath = _strPath;
 
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
@@ -141,9 +146,10 @@ void CScene_Tool::SaveTile(wstring _strRelativePath)
 	fclose(pFile);
 }
 
-void CScene_Tool::LoadTile(wstring _strRelativePath)
+void CScene_Tool::LoadTile(wstring _strPath)
 {
-	wstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativePath;
+	//wstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativePath;
+	wstring strFilePath = _strPath;
 
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");

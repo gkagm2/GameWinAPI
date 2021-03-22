@@ -140,6 +140,9 @@
     <Filter Include="Game\Manager\UIMgr">
       <UniqueIdentifier>{702c0907-852d-412e-94c2-4d4bcf1b86d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\EventTrigger">
+      <UniqueIdentifier>{ea83af06-4d01-49c3-afd6-f763680152f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

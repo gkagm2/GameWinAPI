@@ -2,7 +2,6 @@
 #include "framework.h"
 #include "WinAPI.h"
 #include "CCore.h"
-using std::vector;
 
 #define MAX_LOADSTRING 100
 
