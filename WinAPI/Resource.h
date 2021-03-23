@@ -9,7 +9,6 @@
 #define IDD_ABOUTBOX                    103
 #define IDM_ABOUT                       104
 #define IDC_POINTER                     104
-#define IDD_ABOUTBOX1                   104
 #define IDM_EXIT                        105
 #define IDI_WINAPI                      107
 #define IDI_SMALL                       108

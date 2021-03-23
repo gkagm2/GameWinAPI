@@ -13,7 +13,10 @@ enum class E_Key {
 	D,
 	LBUTTON,
 	RBUTTON,
-	
+
+	LSHIFT,
+	F5,
+
 	END,
 };
 

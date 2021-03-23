@@ -20,6 +20,9 @@
 #include "CUI.h"
 
 
+#include "CDebug.h"
+
+
 CScene_Tool::CScene_Tool() :
 	m_hMenu(nullptr),
 	m_pTileMap(nullptr)
@@ -47,14 +50,14 @@ void CScene_Tool::Start()
 	ptResolution.x /= 2;
 	ptResolution.y /= 2;
 	CCamera::GetInstance()->SetLookAt(Vector2((float)ptResolution.x, (float)ptResolution.y));
-
+	/*
 	// 타일 격자 생성
 	m_pTileMap = new CTileMap(E_GroupType::TILEMAP);
 	m_pTileMap->SetPosition(0, 0, 0);
 	m_pTileMap->CreateTileGrid(10, 10);
 	AddObject(m_pTileMap);
-
-
+	*/
+	/*
 	CUI* pUI = new CUI(E_GroupType::UI);
 	pUI->SetPosition(Vector3{});
 	pUI->SetScale(Vector3{ 300.f,300.f,0.f });
@@ -64,12 +67,16 @@ void CScene_Tool::Start()
 	pChildUI->SetPosition(Vector3{});
 	pChildUI->SetScale(Vector3{ 100.f, 100.f, 0.f });
 	pUI->AddChildUI(pChildUI);
+	*/
 }
 
 void CScene_Tool::Update()
 {
 	CScene::Update();
 	MouseClick();
+	Debug->Print(L"sdd", L"MousePosition : ", MousePosition.x, MousePosition.y);
+	Debug->Print(L"si", L"number : ", 1230);
+	Debug->Print(L"c", L's');
 }
 
 void CScene_Tool::End()

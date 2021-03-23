@@ -15,8 +15,9 @@ private:\
 #define InputKeyPress(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::PRESS)
 #define InputKeyRelease(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::RELEASE)
 
-
 #define MousePosition CKeyManager::GetInstance()->GetMousePosition()
+
+#define Debug CDebug::GetInstance()
 
 // Scene Type
 enum class E_SceneType{
@@ -41,6 +42,7 @@ enum class E_GroupType {
 };
 
 #define EXCEPTION_COLOR_RGB RGB(255,0,255) // Magenta color
+
 
 // Math
 #define PI 3.14159265f

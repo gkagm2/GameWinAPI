@@ -152,6 +152,7 @@
     <ClInclude Include="CColliderRect.h" />
     <ClInclude Include="CCollisionManager.h" />
     <ClInclude Include="CCore.h" />
+    <ClInclude Include="CDebug.h" />
     <ClInclude Include="CEventManager.h" />
     <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CMissile.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="CColliderRect.cpp" />
     <ClCompile Include="CCollisionManager.cpp" />
     <ClCompile Include="CCore.cpp" />
+    <ClCompile Include="CDebug.cpp" />
     <ClCompile Include="CEventManager.cpp" />
     <ClCompile Include="CKeyManager.cpp" />
     <ClCompile Include="CMissile.cpp" />

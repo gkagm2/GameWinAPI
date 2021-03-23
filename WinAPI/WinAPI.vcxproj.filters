@@ -17,15 +17,6 @@
     <Filter Include="Game\Manager">
       <UniqueIdentifier>{c2989ab6-5082-4c45-8f66-e1b3448df418}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Manager\TimeMrg">
-      <UniqueIdentifier>{283b5d03-e5f8-45b2-a6b3-5d854c556323}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\KeyMrg">
-      <UniqueIdentifier>{cd384857-01d8-4966-99cc-3034a919db26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\SceneMrg">
-      <UniqueIdentifier>{af17edd6-b2f6-47b5-b7b1-2b1052696da3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Header">
       <UniqueIdentifier>{e7a64c22-6820-4156-8be8-4c4ca57c5560}</UniqueIdentifier>
     </Filter>
@@ -41,12 +32,6 @@
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{25eb7f57-1b5c-420f-a3c5-81cbf9c8d71a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Manager\PathMrg">
-      <UniqueIdentifier>{62a679d1-18cb-47a5-96e7-08380d7be658}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\ResourceMrg">
-      <UniqueIdentifier>{8c5863a7-9165-4464-855d-24b59401b8f4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Resource">
       <UniqueIdentifier>{62ab8b19-bed6-4eb0-9b36-c24559c3084b}</UniqueIdentifier>
     </Filter>
@@ -61,9 +46,6 @@
     </Filter>
     <Filter Include="Game\Manager\CollisionMgr">
       <UniqueIdentifier>{9dfad5b6-d8bd-4cb3-8b4c-6694a69a82b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\EventMrg">
-      <UniqueIdentifier>{c458175f-5a31-4d83-806f-e434afc6145b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Component">
       <UniqueIdentifier>{fec7e179-47c9-4af9-a7ec-606366f88d6a}</UniqueIdentifier>
@@ -143,6 +125,27 @@
     <Filter Include="Game\Object\EventTrigger">
       <UniqueIdentifier>{ea83af06-4d01-49c3-afd6-f763680152f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Manager\DebugMgr">
+      <UniqueIdentifier>{c246ea6f-176f-49a3-9348-62f1cc5ba058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\PathMgr">
+      <UniqueIdentifier>{62a679d1-18cb-47a5-96e7-08380d7be658}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\ResourceMgr">
+      <UniqueIdentifier>{8c5863a7-9165-4464-855d-24b59401b8f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\TimeMgr">
+      <UniqueIdentifier>{283b5d03-e5f8-45b2-a6b3-5d854c556323}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\SceneMgr">
+      <UniqueIdentifier>{af17edd6-b2f6-47b5-b7b1-2b1052696da3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\KeyMgr">
+      <UniqueIdentifier>{cd384857-01d8-4966-99cc-3034a919db26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\EventMgr">
+      <UniqueIdentifier>{c458175f-5a31-4d83-806f-e434afc6145b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -152,10 +155,10 @@
       <Filter>Game\Define</Filter>
     </ClInclude>
     <ClInclude Include="CTimeManager.h">
-      <Filter>Game\Manager\TimeMrg</Filter>
+      <Filter>Game\Manager\TimeMgr</Filter>
     </ClInclude>
     <ClInclude Include="CKeyManager.h">
-      <Filter>Game\Manager\KeyMrg</Filter>
+      <Filter>Game\Manager\KeyMgr</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>Main</Filter>
@@ -182,7 +185,7 @@
       <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="CSceneManager.h">
-      <Filter>Game\Manager\SceneMrg</Filter>
+      <Filter>Game\Manager\SceneMgr</Filter>
     </ClInclude>
     <ClInclude Include="CPlayer.h">
       <Filter>Game\Object\PlaneShooting_PJ\Player</Filter>
@@ -194,7 +197,7 @@
       <Filter>Game\Scene\PlaneShooting_PJ\StartScene</Filter>
     </ClInclude>
     <ClInclude Include="CPathManager.h">
-      <Filter>Game\Manager\PathMrg</Filter>
+      <Filter>Game\Manager\PathMgr</Filter>
     </ClInclude>
     <ClInclude Include="CMonsterPath.h">
       <Filter>Game\Object\PlaneShooting_PJ\Monster</Filter>
@@ -206,7 +209,7 @@
       <Filter>Game\Resource\Texture</Filter>
     </ClInclude>
     <ClInclude Include="CResourceManager.h">
-      <Filter>Game\Manager\ResourceMrg</Filter>
+      <Filter>Game\Manager\ResourceMgr</Filter>
     </ClInclude>
     <ClInclude Include="CResource.h">
       <Filter>Game\Resource</Filter>
@@ -236,7 +239,7 @@
       <Filter>Game\Component\Collider\ColliderRect</Filter>
     </ClInclude>
     <ClInclude Include="CEventManager.h">
-      <Filter>Game\Manager\EventMrg</Filter>
+      <Filter>Game\Manager\EventMgr</Filter>
     </ClInclude>
     <ClInclude Include="Func.h">
       <Filter>Game\Define</Filter>
@@ -283,6 +286,9 @@
     <ClInclude Include="CUIManager.h">
       <Filter>Game\Manager\UIMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CDebug.h">
+      <Filter>Game\Manager\DebugMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -299,10 +305,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTimeManager.cpp">
-      <Filter>Game\Manager\TimeMrg</Filter>
+      <Filter>Game\Manager\TimeMgr</Filter>
     </ClCompile>
     <ClCompile Include="CKeyManager.cpp">
-      <Filter>Game\Manager\KeyMrg</Filter>
+      <Filter>Game\Manager\KeyMgr</Filter>
     </ClCompile>
     <ClCompile Include="CCore.cpp">
       <Filter>Game\Core</Filter>
@@ -317,7 +323,7 @@
       <Filter>Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="CSceneManager.cpp">
-      <Filter>Game\Manager\SceneMrg</Filter>
+      <Filter>Game\Manager\SceneMgr</Filter>
     </ClCompile>
     <ClCompile Include="CPlayer.cpp">
       <Filter>Game\Object\PlaneShooting_PJ\Player</Filter>
@@ -329,7 +335,7 @@
       <Filter>Game\Scene\PlaneShooting_PJ\StartScene</Filter>
     </ClCompile>
     <ClCompile Include="CPathManager.cpp">
-      <Filter>Game\Manager\PathMrg</Filter>
+      <Filter>Game\Manager\PathMgr</Filter>
     </ClCompile>
     <ClCompile Include="CMonster.cpp">
       <Filter>Game\Object\PlaneShooting_PJ\Monster</Filter>
@@ -341,7 +347,7 @@
       <Filter>Game\Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="CResourceManager.cpp">
-      <Filter>Game\Manager\ResourceMrg</Filter>
+      <Filter>Game\Manager\ResourceMgr</Filter>
     </ClCompile>
     <ClCompile Include="CResource.cpp">
       <Filter>Game\Resource</Filter>
@@ -368,7 +374,7 @@
       <Filter>Game\Component\Collider\ColliderRect</Filter>
     </ClCompile>
     <ClCompile Include="CEventManager.cpp">
-      <Filter>Game\Manager\EventMrg</Filter>
+      <Filter>Game\Manager\EventMgr</Filter>
     </ClCompile>
     <ClCompile Include="Func.cpp">
       <Filter>Game\Define</Filter>
@@ -414,6 +420,9 @@
     </ClCompile>
     <ClCompile Include="CUIManager.cpp">
       <Filter>Game\Manager\UIMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CDebug.cpp">
+      <Filter>Game\Manager\DebugMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

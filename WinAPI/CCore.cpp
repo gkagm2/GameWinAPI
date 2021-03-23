@@ -10,6 +10,7 @@
 #include "CCollisionManager.h"
 #include "CEventManager.h"
 #include "CUIManager.h"
+#include "CDebug.h"
 
 #ifdef DYNAMIC_SINGLETON
 CCore* CCore::g_pCore = nullptr; // static이므로 초기화
@@ -96,6 +97,8 @@ void CCore::Progress()
 	
 	CCollisionManager::GetInstance()->Update();
 	CUIManager::GetInstance()->Update();
+
+	CDebug::GetInstance()->Update();
 	
 	// 렌더링
 	HBRUSH hBrush = CreateSolidBrush(RGB(128, 128, 128));
@@ -113,6 +116,7 @@ void CCore::Progress()
 
 	CSceneManager::GetInstance()->Render(m_memDC);
 	CTimeManager::GetInstance()->Render(m_memDC);
+	CDebug::GetInstance()->Render(m_memDC);
 
 	// Copy Bitmap
 	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y, m_memDC, 0, 0, SRCCOPY);
