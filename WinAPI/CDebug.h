@@ -6,7 +6,7 @@ class CDebug
 	SINGLETON(CDebug);
 private:
 	wstring m_str;
-	list<wstring> m_vecLog;
+	list<wstring> m_listLog;
 
 	bool m_bIsShow;
 protected:

@@ -29,13 +29,13 @@ void CDebug::Render(HDC _hDC)
 	TextOut(_hDC, 10, 2, L"DEBUG LOG", wcslen(L"DEBUG LOG"));
 
 	int y = 1;
-	for (auto iter = m_vecLog.begin(); iter != m_vecLog.end(); ++iter) {
+	for (auto iter = m_listLog.begin(); iter != m_listLog.end(); ++iter) {
 		TextOut(_hDC, 10, 20 * y, iter->c_str(), wcslen(iter->c_str()));
 		++y;
 	}
 
-	while (!m_vecLog.empty())
-		m_vecLog.pop_back();
+	while (!m_listLog.empty())
+		m_listLog.pop_back();
 	SetTextColor(_hDC, RGB(255, 0, 0));
 	SetTextColor(_hDC, originalColor);
 	SetBkMode(_hDC, originalMode);
@@ -76,7 +76,7 @@ void CDebug::Print(const wchar_t* types, ...)
 		++i;
 	}
 	
-	m_vecLog.push_back(strLog);
+	m_listLog.push_back(strLog);
 
 	va_end(ap);
 }
