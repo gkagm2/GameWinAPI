@@ -43,6 +43,7 @@ enum class E_GroupType {
 
 #define EXCEPTION_COLOR_RGB RGB(255,0,255) // Magenta color
 
+#define TILE_SIZE 64
 
 // Math
 #define PI 3.14159265f

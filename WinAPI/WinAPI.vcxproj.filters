@@ -146,6 +146,12 @@
     <Filter Include="Game\Manager\EventMgr">
       <UniqueIdentifier>{c458175f-5a31-4d83-806f-e434afc6145b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\UI\PanelUI">
+      <UniqueIdentifier>{6fe006f1-4893-4652-b36d-46d6d385e434}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\UI\ImageUI">
+      <UniqueIdentifier>{4d394cdb-d513-475f-9b96-93ae7917b1d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -289,6 +295,12 @@
     <ClInclude Include="CDebug.h">
       <Filter>Game\Manager\DebugMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CPanelUI.h">
+      <Filter>Game\Object\UI\PanelUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CImageUI.h">
+      <Filter>Game\Object\UI\ImageUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -423,6 +435,12 @@
     </ClCompile>
     <ClCompile Include="CDebug.cpp">
       <Filter>Game\Manager\DebugMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CPanelUI.cpp">
+      <Filter>Game\Object\UI\PanelUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CImageUI.cpp">
+      <Filter>Game\Object\UI\ImageUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

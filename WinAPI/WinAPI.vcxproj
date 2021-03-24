@@ -154,6 +154,7 @@
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CDebug.h" />
     <ClInclude Include="CEventManager.h" />
+    <ClInclude Include="CImageUI.h" />
     <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CMissile.h" />
     <ClInclude Include="CMonster.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="CMonsterRespawner.h" />
     <ClInclude Include="CMonster_Small.h" />
     <ClInclude Include="CObject.h" />
+    <ClInclude Include="CPanelUI.h" />
     <ClInclude Include="CPathManager.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CResource.h" />
@@ -203,6 +205,7 @@
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CDebug.cpp" />
     <ClCompile Include="CEventManager.cpp" />
+    <ClCompile Include="CImageUI.cpp" />
     <ClCompile Include="CKeyManager.cpp" />
     <ClCompile Include="CMissile.cpp" />
     <ClCompile Include="CMonster.cpp" />
@@ -210,6 +213,7 @@
     <ClCompile Include="CMonsterRespawner.cpp" />
     <ClCompile Include="CMonster_Small.cpp" />
     <ClCompile Include="CObject.cpp" />
+    <ClCompile Include="CPanelUI.cpp" />
     <ClCompile Include="CPathManager.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CResource.cpp" />

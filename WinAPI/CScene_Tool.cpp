@@ -18,6 +18,7 @@
 #include "CCamera.h"
 
 #include "CUI.h"
+#include "CPanelUI.h"
 
 
 #include "CDebug.h"
@@ -57,26 +58,16 @@ void CScene_Tool::Start()
 	m_pTileMap->CreateTileGrid(10, 10);
 	AddObject(m_pTileMap);
 	*/
-	/*
-	CUI* pUI = new CUI(E_GroupType::UI);
-	pUI->SetPosition(Vector3{});
-	pUI->SetScale(Vector3{ 300.f,300.f,0.f });
+	
+	CUI* pUI = new CPanelUI(E_GroupType::UI);
+	pUI->Init();
 	AddObject(pUI);
-
-	CUI* pChildUI = new CUI(E_GroupType::UI);
-	pChildUI->SetPosition(Vector3{});
-	pChildUI->SetScale(Vector3{ 100.f, 100.f, 0.f });
-	pUI->AddChildUI(pChildUI);
-	*/
 }
 
 void CScene_Tool::Update()
 {
 	CScene::Update();
 	MouseClick();
-	Debug->Print(L"sdd", L"MousePosition : ", MousePosition.x, MousePosition.y);
-	Debug->Print(L"si", L"number : ", 1230);
-	Debug->Print(L"c", L's');
 }
 
 void CScene_Tool::End()

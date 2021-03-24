@@ -46,7 +46,7 @@ public:
 	void SetPosition(Vector3 _vPos) { m_vPosition = _vPos; }
 	void SetPosition(Vector2 _vPos) { m_vPosition = _vPos; }
 	void SetPosition(float _x, float _y, float _z = 0) { m_vPosition.x = _x; m_vPosition.y = _y; m_vPosition.z = _z; }
-	Vector3 GetPosition() { return m_vPosition; }
+	virtual Vector3 GetPosition() { return m_vPosition; }
 
 	void SetScale(Vector3 _ptPos) { m_vScale = _ptPos; }
 	void SetScale(float _x, float _y, float _z = 1) { m_vScale.x = _x; m_vScale.y = _y; m_vScale.z = _z; }

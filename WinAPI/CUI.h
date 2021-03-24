@@ -15,16 +15,18 @@ enum class E_UIPivot {
 
 class CUI : public CObject
 {
-private:
+protected:
 	vector<CUI*> m_vecChildUI;
 	CUI* m_pParentUI;
 
-	E_UIPivot m_ePivotState;
-	Vector3 m_vPivotPosition;
-
 	bool m_bIsOn;
+	bool m_bIsFocused;
 
+	E_UIPivot m_ePivotState;
+	Vector3 m_vFinalPosition;
+	
 public:
+	virtual void Init() {};
 	virtual void Update() override;
 	virtual void LateUpdate() override;
 	virtual void Render(HDC _hDC) override;
@@ -43,6 +45,7 @@ public:
 	virtual void OnPointerEndDrag();*/
 
 	bool IsPointerOn(const Vector2& _vPointerPosition);
+	bool IsFocused() { return m_bIsFocused; }
 
 public:
 	void AddChildUI(CUI* _pChildUI) {
@@ -55,8 +58,7 @@ public:
 
 	void SetPivotState(E_UIPivot _ePivot) { m_ePivotState = _ePivot; }
 	E_UIPivot GetPivotState(E_UIPivot _ePivot) { return m_ePivotState; }
-	void SetPivotPosition(const Vector3& _vPivotPos) { m_vPivotPosition = _vPivotPos; }
-	Vector3 GetPivotPosition() { return m_vPivotPosition; }
+	Vector3 GetFinalPosition() { return m_vFinalPosition; }
 
 	// TODO : Min, Max 구하기 구현
 	virtual Vector3 GetMin() override;

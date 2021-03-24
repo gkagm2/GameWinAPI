@@ -6,12 +6,13 @@
 
 //Test
 #include "CCore.h"
+#include "CDebug.h"
 
 CUI::CUI(E_GroupType _eGroupType = E_GroupType::UI) :
-	CObject(_eGroupType),
+    CObject(_eGroupType),
     m_pParentUI(nullptr),
     m_ePivotState(E_UIPivot::leftTop),
-    m_vPivotPosition(GetPosition()),
+    m_vFinalPosition{},
     m_bIsOn(false)
 {
 }
@@ -32,6 +33,11 @@ void CUI::Update()
 
 void CUI::LateUpdate()
 {
+    if (m_pParentUI)
+        m_vFinalPosition =GetPosition() + m_pParentUI->GetFinalPosition();
+    else
+        m_vFinalPosition = GetPosition();
+
     for (UINT i = 0; i < m_vecChildUI.size(); ++i)
         m_vecChildUI[i]->LateUpdate();
 }
@@ -40,6 +46,8 @@ void CUI::Render(HDC _hDC)
 {
     Vector3 vPosition = GetPosition();
     Vector3 vScale = GetScale();
+
+    Debug->Print(vPosition + 5.0f, L"s", GetObjectName().c_str());
 
     // 투명 Rectangle 그리기
     HPEN hPen = nullptr;
@@ -89,8 +97,8 @@ bool CUI::IsPointerOn(const Vector2& _vMousePosition)
     }
     return false;
 }
-// TODO : Min, Max 구하기 구현
 
+// TODO : Min, Max 구하기 구현
 Vector3 CUI::GetMin()
 {
     switch (m_ePivotState) {

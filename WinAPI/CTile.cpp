@@ -5,7 +5,7 @@
 #include "CCamera.h"
 #include "CTexture.h"
 
-int CTile::g_iTileSize = 64;
+int CTile::g_iTileSize = TILE_SIZE;
 
 CTile::CTile(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
