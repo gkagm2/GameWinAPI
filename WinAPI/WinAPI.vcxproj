@@ -147,6 +147,7 @@
     <ClInclude Include="CBackground.h" />
     <ClInclude Include="CBackgroundController.h" />
     <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CCar.h" />
     <ClInclude Include="CCollider.h" />
     <ClInclude Include="CColliderCircle.h" />
     <ClInclude Include="CColliderRect.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="CRigidbody.h" />
     <ClInclude Include="CRigidbody2D.h" />
     <ClInclude Include="CScene.h" />
+    <ClInclude Include="CScene_GtaInGame.h" />
     <ClInclude Include="CScene_Stage01.h" />
     <ClInclude Include="CScene_Start.h" />
     <ClInclude Include="CScene_Tool.h" />
@@ -180,6 +182,7 @@
     <ClInclude Include="CTimeManager.h" />
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUIManager.h" />
+    <ClInclude Include="CVehicle.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Func.h" />
@@ -198,6 +201,7 @@
     <ClCompile Include="CBackground.cpp" />
     <ClCompile Include="CBackgroundController.cpp" />
     <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="CCar.cpp" />
     <ClCompile Include="CCollider.cpp" />
     <ClCompile Include="CColliderCircle.cpp" />
     <ClCompile Include="CColliderRect.cpp" />
@@ -221,6 +225,7 @@
     <ClCompile Include="CRigidbody.cpp" />
     <ClCompile Include="CRigidbody2D.cpp" />
     <ClCompile Include="CScene.cpp" />
+    <ClCompile Include="CScene_GtaInGame.cpp" />
     <ClCompile Include="CScene_Stage01.cpp" />
     <ClCompile Include="CScene_Start.cpp" />
     <ClCompile Include="CScene_Tool.cpp" />
@@ -231,6 +236,7 @@
     <ClCompile Include="CTimeManager.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIManager.cpp" />
+    <ClCompile Include="CVehicle.cpp" />
     <ClCompile Include="Func.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="CSceneManager.cpp" />

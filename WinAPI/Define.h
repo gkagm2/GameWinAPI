@@ -24,6 +24,8 @@ enum class E_SceneType{
 	START,
 	STAGE01,
 	TOOL,
+	GTA_MAIN,
+	GTA_IN,
 	END,
 };
 
@@ -37,11 +39,13 @@ enum class E_GroupType {
 	PLAYER_PROJECTILE,
 	MONSTER,
 	MONSTER_PROJECTILE,
-	UI,
+	VEHICLE,
+	UI =31,
 	END = 32,
 };
 
 #define EXCEPTION_COLOR_RGB RGB(255,0,255) // Magenta color
+#define EXCEPTION_COLOR_RGB_BLACK RGB(0,0,0) // Magenta color
 
 #define TILE_SIZE 64
 

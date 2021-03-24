@@ -62,7 +62,7 @@ void CAnimation::Render(HDC _hDC)
 		int(m_vecFrame[m_iCurFrameIdx].vLT.y),
 		int(m_vecFrame[m_iCurFrameIdx].vSlice.x),
 		int(m_vecFrame[m_iCurFrameIdx].vSlice.y),
-		EXCEPTION_COLOR_RGB	);
+		EXCEPTION_COLOR_RGB_BLACK);
 
 	//TransparentBlt(
 	//		_hDC,																/*_hDC*/
@@ -94,6 +94,31 @@ void CAnimation::Create(const wstring& _strName, CTexture* _pTexture, Vector2 _v
 		m_vecFrame.push_back(frame);
 	}
 }
+
+// GTA
+void CAnimation::Create(const wstring& _strName, CTexture* _pTexture, Vector2 _vLT, Vector2 _vSlice, Vector2 _vInsidePadding, int _iMaxFrame, float _fDuration)
+{
+	m_strName = _strName;
+	m_pTexture = _pTexture;
+
+	tAnimFrame frame{};
+
+	for (int i = 0; i < _iMaxFrame; ++i) {
+		frame.fDuration = _fDuration;
+		if (i > 0) {
+			frame.vLT.x = _vLT.x + _vSlice.x * i + _vInsidePadding.x;
+			frame.vLT.y = _vLT.y + _vInsidePadding.y; // TODO : 뭔가 이상한데?
+		}
+		else {
+			frame.vLT.x = _vLT.x + _vSlice.x * i;
+			frame.vLT.y = _vLT.y + _vInsidePadding.y;
+		}
+		frame.vSlice = _vSlice;
+		frame.fDuration = _fDuration;
+		m_vecFrame.push_back(frame);
+	}
+}
+
 
 void CAnimation::Save(FILE* _pFile)
 {

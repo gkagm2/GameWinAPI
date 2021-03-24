@@ -1,8 +1,17 @@
 #pragma once
 
+// PATH
+#define STR_FILE_PATH_Content L"\\bin\\content\\"
+
+#define STR_OBJECT_DEFAULT_NAME L"Empty Object"
+
+//////////////////////////////////////////////////////////////////////////////
+
 #define STR_TABLE_TextureOverlapLoadingProblem L"텍스쳐 중복키 로딩 문제"
 #define STR_TABLE_FailTextureLoading L"텍스쳐 로딩 실패"
 #define STR_TABLE_FailResourceLoading L"리소스 로딩 실패"
+
+// Shooting Game // 
 
 #define STR_FILE_NAME_Player L"Player"
 #define STR_FILE_PATH_Player L"Texture\\Player.bmp"
@@ -33,7 +42,10 @@
 
 
 
-// PATH
-#define STR_FILE_PATH_Content L"\\bin\\content\\"
 
-#define STR_OBJECT_DEFAULT_NAME L"Empty Object"
+
+// GTA //
+#define STR_FILE_NAME_Vehicle_car_Cops1 L"Car 12.bmp"
+#define STR_FILE_PATH_Vehicle_car_Cops1 L"Texture\\Animation\\car\\cops\\Copper\\Car 12.bmp"
+#define STR_FILE_NAME_Vehicle_car_Cops1Anim L"DeltaSet12.bmp"
+#define STR_FILE_PATH_Vehicle_car_Cops1Anim L"Texture\\Animation\\car\\cops\\Copper\\DeltaSet12.bmp"

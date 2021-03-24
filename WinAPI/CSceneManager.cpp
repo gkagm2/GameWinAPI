@@ -3,6 +3,7 @@
 #include "CScene_Start.h"
 #include "CScene_Stage01.h"
 #include "CScene_Tool.h"
+#include "CScene_GtaInGame.h"
 
 CSceneManager::CSceneManager() :
 	m_arrScene{},
@@ -21,7 +22,9 @@ void CSceneManager::Init()
 	m_arrScene[(UINT)E_SceneType::START] = new CScene_Start;
 	m_arrScene[(UINT)E_SceneType::STAGE01] = new CScene_Stage01;
 	m_arrScene[(UINT)E_SceneType::TOOL] = new CScene_Tool;
-	ChangeScene(E_SceneType::TOOL);
+	// m_arrScene[(UINT)E_SceneType::GTA_MAIN] = new CScene_GtaMain;
+	m_arrScene[(UINT)E_SceneType::GTA_IN] = new CScene_GtaInGame;
+	ChangeScene(E_SceneType::GTA_IN);
 }
 
 void CSceneManager::Progress()

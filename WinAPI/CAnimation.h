@@ -27,6 +27,7 @@ public:
 
 public:
 	void Create(const wstring& _strName, CTexture* _pTexture, Vector2 _vLT, Vector2 _vSlice, int _iMaxFrame, float _fDuration);
+	void Create(const wstring& _strName, CTexture* _pTexture, Vector2 _vLT, Vector2 _vSlice, Vector2 _vInsidePadding, int _iMaxFrame, float _fDuration);
 	bool IsFinish() { return m_bFinish; }
 	tAnimFrame& GetFrame(int _idx) { return m_vecFrame[_idx]; }
 	const wstring& GetName() { return m_strName; }

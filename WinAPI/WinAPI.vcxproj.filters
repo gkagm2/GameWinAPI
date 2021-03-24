@@ -152,6 +152,15 @@
     <Filter Include="Game\Object\UI\ImageUI">
       <UniqueIdentifier>{4d394cdb-d513-475f-9b96-93ae7917b1d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Gta_PJ">
+      <UniqueIdentifier>{5863e0f6-3934-4a82-a320-f7eacc985a72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Gta_PJ\Gta_Car">
+      <UniqueIdentifier>{05aba634-64b3-42ad-8230-8d0ff09c558f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Gta_PJ\Vehicle">
+      <UniqueIdentifier>{3f713975-5e38-4687-8833-a1f4cf0f06c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -301,6 +310,15 @@
     <ClInclude Include="CImageUI.h">
       <Filter>Game\Object\UI\ImageUI</Filter>
     </ClInclude>
+    <ClInclude Include="CCar.h">
+      <Filter>Game\Object\Gta_PJ\Gta_Car</Filter>
+    </ClInclude>
+    <ClInclude Include="CVehicle.h">
+      <Filter>Game\Object\Gta_PJ\Vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene_GtaInGame.h">
+      <Filter>Game\Scene\Gta_PJ\Scene_InGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -441,6 +459,15 @@
     </ClCompile>
     <ClCompile Include="CImageUI.cpp">
       <Filter>Game\Object\UI\ImageUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CCar.cpp">
+      <Filter>Game\Object\Gta_PJ\Gta_Car</Filter>
+    </ClCompile>
+    <ClCompile Include="CVehicle.cpp">
+      <Filter>Game\Object\Gta_PJ\Vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene_GtaInGame.cpp">
+      <Filter>Game\Scene\Gta_PJ\Scene_InGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
