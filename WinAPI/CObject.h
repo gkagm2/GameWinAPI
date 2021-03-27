@@ -19,6 +19,7 @@ private:
 	wstring m_strName;			// 오브젝트 이름
 	bool m_bIsDead;				// 오브젝트가 죽었으면 flag true
 	bool m_bIsRender;			// 렌더링 여부
+	bool m_bIsActive;			// 활성화 여부
 
 
 private:
@@ -76,6 +77,9 @@ public:
 	void SetObjectName(const wstring& _strName) { m_strName = _strName; }
 
 	bool IsDead() { return m_bIsDead; }
+
+	bool IsActive() { return m_bIsActive; }
+	bool SetActive(bool _bActive) { return m_bIsActive = _bActive; }
 
 	inline float PosX() const { return m_vPosition.x; }
 	inline float PosY() const { return m_vPosition.y; }

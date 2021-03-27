@@ -18,7 +18,8 @@ CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_eGroupType(e_GroupType),
 	m_strName(STR_OBJECT_DEFAULT_NAME),
 	m_bIsDead(false),
-	m_bIsRender(true)
+	m_bIsRender(true),
+	m_bIsActive(true)
 {
 }
 

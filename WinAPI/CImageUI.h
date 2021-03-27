@@ -7,6 +7,8 @@ class CImageUI : public CUI
 private:
 	const static int g_iTileSize;
 
+private:
+	Vector2 m_vLT; // image's left top position
 public:
 	virtual void Init() override;
 	virtual void Update() override;
@@ -14,13 +16,14 @@ public:
 	virtual void Render(HDC _hDC) override;
 
 public:
-	//virtual void OnPointerEnter() override;
-	//virtual void OnPointerExit() override;
 	//virtual void OnPointerDown() override;
 	//virtual void OnPointerUp() override;
 	virtual void OnPointerClick() override;
-	
+
 public:
+	void SetLT(Vector2 _vLeftTopPos) { m_vLT = _vLeftTopPos; }
+	Vector2 GetLT() { return m_vLT;	}
+
 public:
 	CImageUI() = delete;
 	CImageUI(E_GroupType _eGroupType);

@@ -4,18 +4,12 @@ class CUIManager
 {
 	SINGLETON(CUIManager);
 
-	CUI* m_pCurFocusedUI; // 부모 UI중에 포커싱된 UI
+	CUI* m_pCurFocusedUI; // 포커싱되어있는 최상위 UI
+	CUI* m_pPointDownUI;  // Point Down된 UI
 
 public:
 	void Update();
 
 public:
 	void SetCurFocusedUI(CUI* _pCurFocusedUI) { m_pCurFocusedUI = _pCurFocusedUI; }
-
-	CUI* GetFocusedUI(); // 포커싱된 UI를 구한다.
-	CUI* GetTargetedUi(CUI* _pParentUI);
-
-
-public:
-	void UIEvent(CUI* _pParentUI);
 };

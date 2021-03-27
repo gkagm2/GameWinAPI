@@ -20,7 +20,7 @@ protected:
 	CUI* m_pParentUI;
 
 	bool m_bIsOn;
-	bool m_bIsFocused;
+	bool m_bIsDown; // 마우스를 눌렀는가
 
 	E_UIPivot m_ePivotState;
 	Vector3 m_vFinalPosition;
@@ -34,18 +34,11 @@ public:
 public:
 	// TODO : 이걸 다른걸로 뺄까?
 	// EventTrigger
-	virtual void OnPointerEnter();
-	virtual void OnPointerExit();
 	virtual void OnPointerDown();
 	virtual void OnPointerUp();
 	virtual void OnPointerClick();
-	/*virtual void OnPointerMove();
-	virtual void OnPointerBeginDrag();
-	virtual void OnPointerDrag();
-	virtual void OnPointerEndDrag();*/
 
 	bool IsPointerOn(const Vector2& _vPointerPosition);
-	bool IsFocused() { return m_bIsFocused; }
 
 public:
 	void AddChildUI(CUI* _pChildUI) {

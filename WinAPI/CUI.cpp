@@ -4,6 +4,8 @@
 #include "CCamera.h"
 #include "CTexture.h"
 
+#include "CUIManager.h"
+
 //Test
 #include "CCore.h"
 #include "CDebug.h"
@@ -11,9 +13,10 @@
 CUI::CUI(E_GroupType _eGroupType = E_GroupType::UI) :
     CObject(_eGroupType),
     m_pParentUI(nullptr),
+    m_bIsOn(false),
+    m_bIsDown(false),
     m_ePivotState(E_UIPivot::leftTop),
-    m_vFinalPosition{},
-    m_bIsOn(false)
+    m_vFinalPosition{}
 {
 }
 
@@ -44,10 +47,10 @@ void CUI::LateUpdate()
 
 void CUI::Render(HDC _hDC)
 {
-    Vector3 vPosition = GetPosition();
+    Vector3 vPosition = GetFinalPosition();
     Vector3 vScale = GetScale();
 
-    Debug->Print(vPosition + 5.0f, L"s", GetObjectName().c_str());
+    Debug->Print(vPosition + 30.0f, L"sdd", GetObjectName().c_str(), vPosition.x, vPosition.y, m_bIsOn);
 
     // 투명 Rectangle 그리기
     HPEN hPen = nullptr;
@@ -70,20 +73,18 @@ void CUI::Render(HDC _hDC)
     for (UINT i = 0; i < m_vecChildUI.size(); ++i)
         m_vecChildUI[i]->Render(_hDC);
 }
-void CUI::OnPointerEnter()
-{
-}
-void CUI::OnPointerExit()
-{
-}
+
 void CUI::OnPointerDown()
 {
+    Debug->Print(Vector2(20, 200), L"s", L"OnPointerDown");
 }
 void CUI::OnPointerUp()
 {
+    Debug->Print(Vector2(20, 200), L"s", L"OnPointerUp");
 }
 void CUI::OnPointerClick()
 {
+    Debug->Print(Vector2(20, 200), L"s", L"OnPointerClick");
 }
 
 bool CUI::IsPointerOn(const Vector2& _vMousePosition)
@@ -104,12 +105,8 @@ Vector3 CUI::GetMin()
     switch (m_ePivotState) {
     case E_UIPivot::leftTop:
     {
-        Vector3 minVec = GetPosition();
+        Vector3 minVec = GetFinalPosition();
         CTexture* pTexture = GetTexture();
-        if (nullptr != pTexture) {
-            minVec.x -= pTexture->GetWidth();
-            minVec.y -= pTexture->GetHeight();
-        }
         return minVec;
     }
         break;
@@ -121,11 +118,13 @@ Vector3 CUI::GetMin()
         break;
     case E_UIPivot::center:
     {
-        Vector3 minVec = GetPosition();
+        Vector3 minVec = GetFinalPosition();
         CTexture* pTexture = GetTexture();
         if (nullptr != pTexture) {
-            minVec.x -= pTexture->GetWidth() / 2.0f;
-            minVec.y -= pTexture->GetHeight() / 2.0f;
+            /*minVec.x -= pTexture->GetWidth() / 2.0f;
+            minVec.y -= pTexture->GetHeight() / 2.0f;*/
+            minVec.x -= GetScale().x / 2.0f;
+            minVec.y -= GetScale().y / 2.0f;
         }
         return minVec;
     }
@@ -144,11 +143,13 @@ Vector3 CUI::GetMax()
     switch (m_ePivotState) {
     case E_UIPivot::leftTop:
     {
-        Vector3 maxVec = GetPosition();
+        Vector3 maxVec = GetFinalPosition();
         CTexture* pTexture = GetTexture();
         if (nullptr != pTexture) {
-            maxVec.x += pTexture->GetWidth();
-            maxVec.y += pTexture->GetHeight();
+            //maxVec.x += pTexture->GetWidth();
+            //maxVec.y += pTexture->GetHeight();
+            maxVec.x += GetScale().x;
+            maxVec.y += GetScale().y;
         }
         else
             maxVec += GetScale();
@@ -162,11 +163,13 @@ Vector3 CUI::GetMax()
         break;
     case E_UIPivot::center:
     {
-        Vector3 maxVec = GetPosition();
+        Vector3 maxVec = GetFinalPosition();
         CTexture* pTexture = GetTexture();
         if (nullptr != pTexture) {
-            maxVec.x += pTexture->GetWidth() / 2.0f;
-            maxVec.y += pTexture->GetHeight() / 2.0f;
+            /*maxVec.x += pTexture->GetWidth() / 2.0f;
+            maxVec.y += pTexture->GetHeight() / 2.0f;*/
+            maxVec.x += GetScale().x / 2.0f;
+            maxVec.y += GetScale().y / 2.0f;
         }
         else
             maxVec += GetScale() / 2.0f;

@@ -84,7 +84,7 @@ void MenuContainer(WPARAM _wmId)
 		ofn.nMaxFile = MAX_PATH;
 
 		
-		if (0 != GetOpenFileName(&ofn)) {
+		if (0 != GetSaveFileName(&ofn)) {
 			CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(CSceneManager::GetInstance()->GetCurScene());
 			assert(pToolScene);
 			pToolScene->SaveTile(ofn.lpstrFile);

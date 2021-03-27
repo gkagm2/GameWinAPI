@@ -9,7 +9,8 @@
 const int CImageUI::g_iTileSize = TILE_SIZE;
 
 CImageUI::CImageUI(E_GroupType _eGroupType = E_GroupType::UI) :
-	CUI(_eGroupType)
+    CUI(_eGroupType),
+    m_vLT{}
 {
 	m_ePivotState = E_UIPivot::leftTop;
 }
@@ -36,16 +37,16 @@ void CImageUI::Render(HDC _hDC)
 {
 	Vector3 vFinalPos = GetFinalPosition();
     Vector3 vScale = GetScale();
-    Debug->Print(vFinalPos + 5.0f, L"s", GetObjectName().c_str());
+    Debug->Print(vFinalPos + 30.0f, L"sddi", GetObjectName().c_str(), vFinalPos.x, vFinalPos.y, m_bIsOn);
 
     // 투명 Rectangle 그리기
     HPEN hPen = nullptr;
 
-    if (GetTexture()) { // Texture가 없으면
+    if (nullptr == GetTexture()) { // Texture가 없으면
         if (m_bIsOn)
-            hPen = CreatePen(PS_SOLID, 1, RGB(0, 255, 0)); // Green color
+            hPen = CreatePen(PS_SOLID, 1, RGB(0, 200, 0)); // Green color
         else
-            hPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0)); // Red color
+            hPen = CreatePen(PS_SOLID, 1, RGB(200, 0, 0)); // Red color
 
         HPEN hOldPen = (HPEN)SelectObject(_hDC, hPen);
         HBRUSH myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
@@ -61,8 +62,12 @@ void CImageUI::Render(HDC _hDC)
     }
     else { // Texture가 있으면
         CTexture* pTexture = GetTexture();
-        BitBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, g_iTileSize, g_iTileSize, pTexture->GetDC(), (int)GetMax().x, (int)GetMax().y, SRCCOPY);
+        BitBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, g_iTileSize, g_iTileSize, pTexture->GetDC(), 1,1, SRCCOPY);
     }
+
+    const vector<CUI*>& vecChildUI = GetChildsUI();
+    for (UINT i = 0; i < vecChildUI.size(); ++i)
+        vecChildUI[i]->Render(_hDC);
 }
 
 void CImageUI::OnPointerClick()
