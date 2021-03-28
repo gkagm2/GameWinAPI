@@ -20,37 +20,6 @@ CCollisionManager::~CCollisionManager()
 {
 }
 
-void CCollisionManager::AddCollision(CCollider* _pCollider)
-{
-	assert(_pCollider);
-	UINT groupIdx = (UINT)_pCollider->GetGroupType();
-	m_vecCollider[groupIdx].push_back(_pCollider);
-}
-
-void CCollisionManager::DeleteCollider(CCollider* _pCollider)
-{
-	assert(_pCollider);
-	UINT groupIdx = (UINT)_pCollider->GetGroupType();
-	auto iter = m_vecCollider[groupIdx].begin();
-	auto end = m_vecCollider[groupIdx].end();
-	for (; iter != end; ++iter) {
-		if (*iter == _pCollider) {
-			m_vecCollider[groupIdx].erase(iter);
-			delete _pCollider;
-			break;
-		}
-	}
-}
-
-void CCollisionManager::DeleteAllColliders()
-{
-	for (UINT i = 0; i < (UINT)E_GroupType::END; ++i) {
-		for (UINT j = 0; j < m_vecCollider[i].size(); ++j)
-			DeleteCollider(m_vecCollider[i][j]);
-		m_vecCollider[i].clear();
-	}
-}
-
 void CCollisionManager::Update()
 {
 	UINT iGroupSize = (UINT)E_GroupType::END;

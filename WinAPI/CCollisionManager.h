@@ -24,16 +24,10 @@ class CCollisionManager
 	SINGLETON(CCollisionManager)
 private:
 	bitset<(UINT)E_GroupType::END> m_bitsetCollisionGroup[(UINT)E_GroupType::END];// (use group size by group size)
-	vector<CCollider*> m_vecCollider[(UINT)E_GroupType::END]; // collision  오브젝트를 생성했으면 여기 안에 들어옴.
 
 	unordered_map<LONGLONG, bool> m_umapPrevCollisionInfo; // 이전 프레임의 충돌 정보를 저장함.
 
-
 public:
-	void AddCollision(CCollider* _pCollider);
-	void DeleteCollider(CCollider* _pCollider);
-	void DeleteAllColliders();
-
 	void Update();
 	void CollisionByGroup(UINT _iGroup1Idx, UINT _iGroup2Idx); // 그룹간 충돌
 
