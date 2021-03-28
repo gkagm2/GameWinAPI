@@ -5,6 +5,8 @@
 #include "CResourceManager.h"
 #include "CTexture.h"
 
+#include "CKeyManager.h"
+
 #include "CDebug.h"
 
 CPanelUI::CPanelUI(E_GroupType _eGroupType = E_GroupType::UI) :
@@ -12,7 +14,8 @@ CPanelUI::CPanelUI(E_GroupType _eGroupType = E_GroupType::UI) :
 	m_fTopPadding(0.f),
 	m_fBottomPadding(0.f),
 	m_fLeftPadding(0.f),
-	m_fRightPadding(0.f)
+	m_fRightPadding(0.f),
+	m_vDiff{}
 {
 }
 
@@ -63,6 +66,10 @@ void CPanelUI::Init()
 
 void CPanelUI::Update()
 {
+	if (m_bIsDown) {
+		m_vDiff = Vector3(MousePosition.x, MousePosition.y) - m_vOriginalPos;
+		SetPosition(m_vDiff);
+	}
 	CUI::Update();
 }
 
@@ -90,6 +97,15 @@ void CPanelUI::Render(HDC _hDC)
 	const vector<CUI*>& vecChildUI = GetChildsUI();
 	for (UINT i = 0; i < vecChildUI.size(); ++i)
 		vecChildUI[i]->Render(_hDC);
+}
+
+void CPanelUI::OnPointerDown()
+{
+	m_vOriginalPos = MousePosition - GetFinalPosition();
+}
+
+void CPanelUI::OnPointerUp()
+{
 }
 
 void CPanelUI::SetPadding(float _fLeft, float _fTop, float _fRight, float _fBottom)
