@@ -41,8 +41,13 @@ public:
 	void Load(FILE* _pFile);
 
 public:
+	CLONE(CAnimation);
+
+public:
 	CAnimation();
 	virtual ~CAnimation() final;
+
+
 
 public:
 	friend class CAnimator;

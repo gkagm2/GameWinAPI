@@ -9,6 +9,10 @@ public:
 	virtual void OnCollisionEnter(CObject* _pOther) override;
 
 	void SetOriginalScale(const Vector3& _vScale) { m_vOriginalScale = _vScale;	}
+
+public:
+	CLONE(CMonster_Small);
+
 public:
 	CMonster_Small() = delete;
 	CMonster_Small(E_GroupType _eGroupType);

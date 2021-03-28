@@ -12,6 +12,20 @@ CAnimator::CAnimator(CObject* _pOwner) :
 	_pOwner->SetAnimator(this);
 }
 
+CAnimator::CAnimator(const CAnimator& _origin) :
+	m_pOwner(nullptr),
+	m_pCurAnimation(nullptr),
+	m_ePlayType(_origin.m_ePlayType)
+{
+	map<wstring, CAnimation*>::const_iterator iter = _origin.m_mapAnimation.begin();
+	for (; iter != _origin.m_mapAnimation.cend(); ++iter) {
+		CAnimation* pCopyAnimation = iter->second->Clone();
+		pCopyAnimation->m_pAnimator = this;
+		m_mapAnimation.insert(make_pair(iter->first, pCopyAnimation));
+	}
+	m_pCurAnimation = GetAnimation(_origin.m_pCurAnimation->GetName());
+}
+
 CAnimator::~CAnimator()
 {
 	map<wstring, CAnimation*>::iterator iter = m_mapAnimation.begin();
@@ -36,7 +50,7 @@ void CAnimator::CreateAnimation(const wstring _strName, CTexture* _pTex, Vector2
 	pAnimation->m_pAnimator = this;
 }
 
-CAnimation* CAnimator::GetAnimator(const wstring& _strName)
+CAnimation* CAnimator::GetAnimation(const wstring& _strName)
 {
 	map<wstring, CAnimation*>::iterator iter = m_mapAnimation.find(_strName);
 	if (iter == m_mapAnimation.end())

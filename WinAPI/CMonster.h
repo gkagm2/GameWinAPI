@@ -51,7 +51,9 @@ public:
 
 	void Move(int _type);
 
-		
+public:
+	CLONE(CMonster);
+
 public:
 	CMonster() = delete;
 	CMonster(E_GroupType _eGroupType);

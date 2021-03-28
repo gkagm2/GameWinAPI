@@ -52,7 +52,7 @@ void CImageUI::Render(HDC _hDC)
         HBRUSH myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
         HBRUSH oldBrush = (HBRUSH)SelectObject(_hDC, myBrush);
 
-        Rectangle(_hDC, vFinalPos.x, vFinalPos.y, vFinalPos.x + vScale.x, vFinalPos.y + vScale.y);
+        Rectangle(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, int(vFinalPos.x + vScale.x), int(vFinalPos.y + vScale.y));
 
         SelectObject(_hDC, oldBrush);
         SelectObject(_hDC, hOldPen);

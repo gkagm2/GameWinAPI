@@ -1,4 +1,6 @@
 #pragma once
+
+class CObject;
 class CRigidbody
 {
 private:
@@ -43,11 +45,21 @@ public:
 	bool IsOnGracity() const { return m_bUseGravity; }
 	void IsKinematic(bool _bIsKinematic) { m_bIsKinematic = _bIsKinematic; } // 물리 효과 없애기
 	bool IsOnKinematic() const { return m_bIsKinematic; }
+
 public:
 	void AddForce(Vector3 _vForce) { m_vForce += _vForce; } // 힘을 추가하다.
 	void AddVelocity(Vector3 _vVelocity) { m_vVelocity += _vVelocity; } // 속도를 추가하다.
+
+public:
+	CLONE(CRigidbody);
+private:
+	CRigidbody(const CRigidbody& _other);
+
 public:
 	CRigidbody() = delete;
 	CRigidbody(CObject* _pTargetObj);
 	virtual ~CRigidbody();
+
+public:
+	friend class CObject;
 };

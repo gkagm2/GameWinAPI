@@ -26,6 +26,9 @@ public:
 	void SetPadding(float _fLeft, float _fTop, float _fRight, float _fBottom);
 
 public:
+	CLONE(CPanelUI);
+
+public:
 	CPanelUI() = delete;
 	CPanelUI(E_GroupType _eGroupType);
 	virtual ~CPanelUI() override;

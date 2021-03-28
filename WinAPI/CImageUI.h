@@ -25,6 +25,8 @@ public:
 	Vector2 GetLT() { return m_vLT;	}
 
 public:
+	CLONE(CImageUI);
+public:
 	CImageUI() = delete;
 	CImageUI(E_GroupType _eGroupType);
 	virtual ~CImageUI() override;

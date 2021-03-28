@@ -6,6 +6,9 @@ public:
     virtual void Update() override;
 
 public:
+    CLONE(CVehicle);
+
+public:
     CVehicle() = delete;
     CVehicle(E_GroupType _eGroupType);
     virtual ~CVehicle() override;

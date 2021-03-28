@@ -10,6 +10,8 @@ public:
 	void InitTexture();
 
 public:
+	CLONE(CBackground);
+public:
 	CBackground() = delete;
 	CBackground(E_GroupType e_GroupType);
 	virtual ~CBackground() override;

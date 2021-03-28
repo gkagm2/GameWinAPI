@@ -13,7 +13,16 @@ CCollider::CCollider(CObject* _ownerObject) :
 	m_iID(g_iColliderID++)
 {
 	_ownerObject->SetCollider(this);
-	CCollisionManager::GetInstance()->AddCollision(this);
+}
+
+CCollider::CCollider(const CCollider& _other) :
+	m_pOwnerObject(nullptr),
+	m_iCollisionCount(0),
+	m_vOffsetPosition{_other.m_vOffsetPosition},
+	m_bIsActive(_other.m_bIsActive),
+	m_iID(g_iColliderID++)
+{
+	
 }
 
 CCollider::~CCollider()

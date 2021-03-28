@@ -27,7 +27,7 @@ void CUIManager::Update()
 
 	// 현재 포커싱된 최상위 부모 UI를 가져옴
 	E_KeyState eCurKeyState = CKeyManager::GetInstance()->GetKeyState(E_Key::LBUTTON); // Mouse Left Button 상태를 가져옴
-	for (int i = vecUIObj.size() - 1; i >= 0 ; --i) {
+	for (int i = (int)vecUIObj.size() - 1; i >= 0; --i) {
 		if (((CUI*)vecUIObj[i])->IsPointerOn(MousePosition) && eCurKeyState == E_KeyState::PRESS) {
 			m_pCurFocusedUI = ((CUI*)vecUIObj[i]);
 			break;

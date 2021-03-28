@@ -29,7 +29,8 @@ private:
 	void CreateMissile(float _fSpeed, Vector3 _vPosition, Vector3 _vDirVec);
 	void FireMissile();
 	
-
+public:
+	CLONE(CPlayer);
 public:
 	CPlayer() = delete;
 	CPlayer(E_GroupType _eGroupType);

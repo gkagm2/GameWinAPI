@@ -30,13 +30,19 @@ public:
 	void CreateAnimation(const wstring& _strName, CTexture* _pTex, Vector2 _vLT, Vector2 _vSlice, int _iMaxFrame, float _fDuration);
 	void CreateAnimation(const wstring _strName, CTexture* _pTex, Vector2 _vLT, Vector2 _vSlice, Vector2 _vInsidePadding, int _iMaxFrame, float _fDuration);
 
-	CAnimation* GetAnimator(const wstring& _strName);
+	CAnimation* GetAnimation(const wstring& _strName);
 
 	void PlayAnimation(const wstring& _strName, E_AnimationPlayType _eType);
 
 public:
 	void Save(const wstring& _strRelativePath);
 	void Load(const wstring& _strRelativePath);
+
+public:
+	CLONE(CAnimator);
+
+protected:
+	CAnimator(const CAnimator& _origin);
 
 public:
 	CAnimator() = delete;

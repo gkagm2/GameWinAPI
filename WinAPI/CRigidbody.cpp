@@ -6,6 +6,8 @@
 // Test
 #include "CCore.h"
 
+
+
 CRigidbody::CRigidbody(CObject* _pTargetObj) :
 	m_pOwnerObject(_pTargetObj),
 	m_vForce{},
@@ -22,6 +24,24 @@ CRigidbody::CRigidbody(CObject* _pTargetObj) :
 	m_bIsKinematic(false)
 {
 	_pTargetObj->SetRigidbody(this);
+}
+
+CRigidbody::CRigidbody(const CRigidbody& _other) :
+	m_pOwnerObject(nullptr),
+	m_vForce{ _other.m_vForce },
+	m_vAccel{ _other.m_vAccel},
+	m_fMass( _other.m_fMass),
+	m_vVelocity{ _other.m_vVelocity},
+	m_fDrag( _other.m_fDrag),
+	m_fSpeed( _other.m_fSpeed),
+	m_fMaxSpeed( _other.m_fMaxSpeed),
+	m_fFriction( _other.m_fFriction),
+	m_bIsFrictionActive( _other.m_fFriction),
+	m_vGracityAccel{ _other.m_vGracityAccel },
+	m_bUseGravity( _other.m_bUseGravity),
+	m_bIsKinematic( _other.m_bIsKinematic)
+{
+
 }
 
 CRigidbody::~CRigidbody()

@@ -56,6 +56,13 @@ public:
 	// TODO : Min, Max 구하기 구현
 	virtual Vector3 GetMin() override;
 	virtual Vector3 GetMax() override;
+
+public:
+	virtual CUI* Clone() = 0;
+
+protected:
+	CUI(const CUI& _origin);
+
 public:
 	CUI() = delete;
 	CUI(E_GroupType _eGroupType);

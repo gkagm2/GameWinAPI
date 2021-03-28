@@ -27,18 +27,18 @@ void CDebug::Render(HDC _hDC)
 	COLORREF originalColor = GetTextColor(_hDC);
 	SetBkMode(_hDC, TRANSPARENT);
 	SetTextColor(_hDC, RGB(255, 0, 0));
-	TextOut(_hDC, 10, 2, L"DEBUG LOG", wcslen(L"DEBUG LOG"));
+	TextOut(_hDC, 10, 2, L"DEBUG LOG", (int)wcslen(L"DEBUG LOG"));
 
 	// static log
 	int y = 1;
 	for (auto iter = m_listLog.begin(); iter != m_listLog.end(); ++iter) {
-		TextOut(_hDC, 10, 20 * y, iter->c_str(), wcslen(iter->c_str()));
+		TextOut(_hDC, 10, 20 * y, iter->c_str(), (int)wcslen(iter->c_str()));
 		++y;
 	}
 
 	// position log
 	for (auto iter = m_listPosLog.begin(); iter != m_listPosLog.end(); ++iter) {
-		TextOut(_hDC, iter->first.x, iter->first.y, iter->second.c_str(), wcslen(iter->second.c_str()));
+		TextOut(_hDC, (int)iter->first.x, (int)iter->first.y, iter->second.c_str(), (int)wcslen(iter->second.c_str()));
 	}
 
 	while (!m_listLog.empty())

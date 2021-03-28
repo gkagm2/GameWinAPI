@@ -20,6 +20,17 @@ CUI::CUI(E_GroupType _eGroupType = E_GroupType::UI) :
 {
 }
 
+CUI::CUI(const CUI& _origin) :
+    CObject(_origin),
+    m_pParentUI(nullptr),
+    m_bIsOn(false),
+    m_bIsDown(false),
+    m_ePivotState(_origin.m_ePivotState)
+{
+    for (UINT i = 0; i < _origin.m_vecChildUI.size(); ++i)
+        AddChildUI(_origin.m_vecChildUI[i]->Clone());
+}
+
 CUI::~CUI()
 {
     for (UINT i = 0; i < m_vecChildUI.size(); ++i) {
@@ -62,7 +73,7 @@ void CUI::Render(HDC _hDC)
     HBRUSH myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
 	HBRUSH oldBrush = (HBRUSH)SelectObject(_hDC, myBrush);
 
-    Rectangle(_hDC, vPosition.x, vPosition.y, vPosition.x + vScale.x, vPosition.y + vScale.y);
+    Rectangle(_hDC, (int)vPosition.x, (int)vPosition.y, int(vPosition.x + vScale.x), int(vPosition.y + vScale.y));
 
 	SelectObject(_hDC, oldBrush);
     SelectObject(_hDC, hOldPen);

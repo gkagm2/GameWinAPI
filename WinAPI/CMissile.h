@@ -43,6 +43,8 @@ public:
 	virtual void Update() override;
 
 public:
+	CLONE(CMissile);
+public:
 	CMissile() = delete;
 	CMissile(E_GroupType _eGroupType);
 	virtual ~CMissile() override;

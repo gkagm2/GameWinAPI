@@ -64,9 +64,14 @@ void CScene_Tool::Start()
 	pUI->SetPosition(250, 150, 0);
 	AddObject(pUI);
 
-	CPanelUI* pUI2 = new CPanelUI(E_GroupType::UI);
+
+	CPanelUI* copyUI = pUI->Clone();
+	copyUI->SetPosition(500, 500, 0);
+	AddObject(copyUI);
+
+	/*CPanelUI* pUI2 = new CPanelUI(E_GroupType::UI);
 	pUI2->Init();
-	AddObject(pUI2);
+	AddObject(pUI2);*/
 
 }
 

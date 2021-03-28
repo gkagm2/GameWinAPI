@@ -15,6 +15,9 @@ private:\
 #define InputKeyPress(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::PRESS)
 #define InputKeyRelease(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::RELEASE)
 
+#define CLONE(type) type* Clone() { return new type(*this); }
+#define CLONE_DISABLE(type) type* Clone() { assert(nullptr); return nullptr; }
+
 #define MousePosition CKeyManager::GetInstance()->GetMousePosition()
 
 #define Debug CDebug::GetInstance()

@@ -89,6 +89,12 @@ public:
 	inline float ScaleZ() const { return m_vScale.z; }
 
 public:
+	virtual CObject* Clone() = 0;
+
+protected:
+	CObject(const CObject& _origin);
+
+public:
 	CObject() = delete;
 	CObject(E_GroupType e_GroupType);
 	virtual ~CObject();

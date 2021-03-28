@@ -1,5 +1,7 @@
 #pragma once
 #include "CObject.h"
+
+class CObject;
 class CCollider
 {
 private:
@@ -47,8 +49,15 @@ public:
 	}
 
 public:
+	CLONE(CCollider);
+
+private:
+	CCollider(const CCollider& _other);
+
+public:
 	CCollider() = delete;
 	CCollider(CObject* _targetObj);
+	
 	virtual ~CCollider();
 
 public:
@@ -56,4 +65,5 @@ public:
 
 public:
 	friend class CCollisionManager;
+	friend class CObject;
 };

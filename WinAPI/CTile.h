@@ -35,6 +35,9 @@ public:
 	void Load(FILE* _pFile);
 
 public:
+	CLONE(CTile);
+
+public:
 	CTile() = delete;
 	CTile(E_GroupType _eGroupType);
 	virtual ~CTile() override;

@@ -4,6 +4,7 @@
 #include "CCamera.h"
 #include "CCollider.h"
 #include "CSceneManager.h"
+#include "CCollisionManager.h"
 #include "CScene.h"
 #include "CAnimator.h"
 #include "CRigidbody.h"
@@ -21,6 +22,34 @@ CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_bIsRender(true),
 	m_bIsActive(true)
 {
+}
+
+CObject::CObject(const CObject& _origin) :
+	m_vPosition{ _origin.m_vPosition},
+	m_vScale{ _origin.m_vScale },
+	m_pTexture(_origin.m_pTexture),
+	m_eGroupType(_origin.m_eGroupType),
+	m_pCollider(nullptr),
+	m_pAnimator(nullptr),
+	m_pRigidbody(nullptr),
+	m_strName(_origin.m_strName + L"_copy"),
+	m_bIsDead(_origin.m_bIsDead),
+	m_bIsRender(_origin.m_bIsRender),
+	m_bIsActive(_origin.m_bIsActive)
+{
+	if (_origin.m_pCollider) {
+		m_pCollider = _origin.m_pCollider->Clone();
+		m_pCollider->m_pOwnerObject = this;
+	}
+	if (_origin.m_pAnimator) {
+		m_pAnimator = _origin.m_pAnimator->Clone();
+		m_pAnimator->m_pOwner = this;
+	}
+
+	if (_origin.m_pRigidbody) {
+		m_pRigidbody = _origin.m_pRigidbody->Clone();
+		m_pRigidbody->m_pOwnerObject = this;
+	}
 }
 
 CObject::~CObject()
