@@ -25,8 +25,7 @@
 
 
 CScene_Tool::CScene_Tool() :
-	m_hMenu(nullptr),
-	m_pTileMap(nullptr)
+	m_hMenu(nullptr)
 {
 	// 皋春官 积己
 	m_hMenu = LoadMenu(nullptr, MAKEINTRESOURCE(IDC_WINAPI));
@@ -53,26 +52,22 @@ void CScene_Tool::Start()
 	CCamera::GetInstance()->SetLookAt(Vector2((float)ptResolution.x, (float)ptResolution.y));
 	
 	// 鸥老 拜磊 积己
-	/*m_pTileMap = new CTileMap(E_GroupType::TILEMAP);
+	m_pTileMap = new CTileMap(E_GroupType::TILEMAP);
 	m_pTileMap->SetPosition(0, 0, 0);
 	m_pTileMap->CreateTileGrid(10, 10);
-	AddObject(m_pTileMap);*/
-	
+	AddObject(m_pTileMap);
+
+	/*
 	// UI 积己
 	CPanelUI* pUI = new CPanelUI(E_GroupType::UI);
 	pUI->Init();
 	pUI->SetPosition(250, 150, 0);
 	AddObject(pUI);
 
-
 	CPanelUI* copyUI = pUI->Clone();
 	copyUI->SetPosition(500, 500, 0);
 	AddObject(copyUI);
-
-	/*CPanelUI* pUI2 = new CPanelUI(E_GroupType::UI);
-	pUI2->Init();
-	AddObject(pUI2);*/
-
+	*/
 }
 
 void CScene_Tool::Update()
@@ -150,35 +145,6 @@ void CScene_Tool::SaveTile(wstring _strPath)
 		CTile* pTile = dynamic_cast<CTile*>(vecTiles[i]);
 		if (pTile)
 			pTile->Save(pFile);
-	}
-
-	fclose(pFile);
-}
-
-void CScene_Tool::LoadTile(wstring _strPath)
-{
-	//wstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativePath;
-	wstring strFilePath = _strPath;
-
-	FILE* pFile = nullptr;
-	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
-	if (nullptr == pFile) {
-		return;
-	}
-
-	int iRow = 0;
-	int iCol = 0;
-	fread(&iRow, sizeof(int), 1, pFile);
-	fread(&iCol, sizeof(int), 1, pFile);
-
-	DeleteObjects(E_GroupType::TILE);
-	m_pTileMap->CreateTileGrid((UINT)iRow, (UINT)iCol);
-
-	vector<CObject*>& vecTiles = GetObjects(E_GroupType::TILE);
-	for (int i = 0; i < iRow * iCol; ++i) {
-		CTile* pTile = dynamic_cast<CTile*>(vecTiles[i]);
-		if (pTile)
-			pTile->Load(pFile);
 	}
 
 	fclose(pFile);

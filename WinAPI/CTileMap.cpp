@@ -21,6 +21,10 @@ void CTileMap::Update()
 {
 }
 
+void CTileMap::LateUpdate()
+{
+}
+
 void CTileMap::Render(HDC _hDC)
 {
 }

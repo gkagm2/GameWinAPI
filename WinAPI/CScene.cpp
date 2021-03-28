@@ -1,10 +1,18 @@
 #include "stdafx.h"
 #include "CScene.h"
-#include "CObject.h"
+
+#include "CCore.h"
 #include <typeinfo>
 #include "CCollisionManager.h"
 
-CScene::CScene()
+#include "CObject.h"
+#include "CCamera.h"
+#include "CTileMap.h"
+#include "CTile.h"
+
+
+CScene::CScene() :
+	m_pTileMap(nullptr)
 {
 }
 
@@ -34,6 +42,7 @@ void CScene::DeleteAllObjects()
 {
 	for (UINT i = 0; i < (UINT)E_GroupType::END; ++i)
 		DeleteObjects((E_GroupType)i);
+	m_pTileMap = nullptr;
 }
 
 CObject* CScene::FindObject(wstring _objectName)
@@ -50,6 +59,11 @@ CObject* CScene::FindObject(wstring _objectName)
 void CScene::PrevUpdate()
 {
 	for (UINT i = 0; i < (UINT)E_GroupType::END; ++i) {
+		if (E_GroupType::TILE == (E_GroupType)i) {
+			PrevUpdateTile();
+			continue;
+		}
+
 		for (UINT j = 0; j < m_vecObj[i].size(); ++j)
 			if (!m_vecObj[i][j]->IsDead())
 				m_vecObj[i][j]->PrevUpdate();
@@ -59,6 +73,11 @@ void CScene::PrevUpdate()
 void CScene::Update()
 {
 	for (UINT i = 0; i < (UINT)E_GroupType::END; ++i) {
+		if (E_GroupType::TILE == (E_GroupType)i) {
+			UpdateTile();
+			continue;
+		}
+
 		for (UINT j = 0; j < m_vecObj[i].size(); ++j)
 			if(!m_vecObj[i][j]->IsDead())
 				m_vecObj[i][j]->Update();
@@ -67,6 +86,11 @@ void CScene::Update()
 void CScene::LateUpdate()
 {
 	for (UINT i = 0; i < (UINT)E_GroupType::END; ++i) {
+		if (E_GroupType::TILE == (E_GroupType)i) {
+			LateUpdateTile();
+			continue;
+		}
+
 		for (UINT j = 0; j < m_vecObj[i].size(); ++j)
 			if(!m_vecObj[i][j]->IsDead())
 				m_vecObj[i][j]->LateUpdate();
@@ -76,6 +100,10 @@ void CScene::LateUpdate()
 void CScene::Render(HDC _hDC)
 {
 	for (UINT i = 0; i < (UINT)E_GroupType::END; ++i) {
+		if (E_GroupType::TILE == (E_GroupType)i) {
+			RenderTile(_hDC);
+			continue;
+		}
 		vector<CObject*>::iterator iter = m_vecObj[i].begin();
 		while (iter != m_vecObj[i].end()) {
 			if ((*iter)->IsDead())
@@ -86,4 +114,205 @@ void CScene::Render(HDC _hDC)
 			}
 		}
 	}
+}
+
+void CScene::PrevUpdateTile()
+{
+	if (nullptr == m_pTileMap)
+		return;
+
+	vector<CObject*>& vecObjs = GetObjects(E_GroupType::TILE);
+
+	// 해상도
+	POINT ptResolution = CCore::GetInstance()->GetResolution();
+
+	// 렌더링할 카메라의 좌상단 인덱스
+	Vector2 vLeftTopPos = CCamera::GetInstance()->GetScreenToWorldPosition(Vector2(0.f, 0.f));
+
+	int iRowCnt = int(vLeftTopPos.y / TILE_SIZE);
+	int iColCnt = int(vLeftTopPos.x / TILE_SIZE);
+
+	// 좌상단 idx를 구한다.
+	int iLeftTopIdx = iRowCnt * (int)m_pTileMap->GetCol() + iColCnt;
+
+	// 화면에 보여줄 수 있는 rol와 col의 최대 개수
+	int iMaxCol = ptResolution.x / TILE_SIZE + 1;
+	int iMaxRow = ptResolution.y / TILE_SIZE + 1;
+
+	// 타일의 col의 총 갯수에서 화면에 보여줄 컬럼 개수를 뺀 갯수가 화면에 보여줄 수 있는 col의 최대 갯수보다 작으면
+	if (m_pTileMap->GetCol() - iColCnt < iMaxCol) {
+		iMaxCol = m_pTileMap->GetCol() - iColCnt; // 화면에 보여줄 최대 col의 개수를 재설정.
+	}
+
+	if (m_pTileMap->GetRow() - iRowCnt < iMaxRow) {
+		iMaxRow = m_pTileMap->GetRow() - iRowCnt;
+	}
+
+	for (int iRow = 0; iRow < iMaxRow; ++iRow) {
+		for (int iCol = 0; iCol < iMaxCol; ++iCol) {
+			int iResultIdx = iLeftTopIdx + m_pTileMap->GetCol() * iRow + iCol;
+			if (iResultIdx < 0)
+				continue;
+			vecObjs[iResultIdx]->PrevUpdate();
+		}
+	}
+}
+
+void CScene::UpdateTile()
+{
+	if (nullptr == m_pTileMap)
+		return;
+
+	vector<CObject*>& vecObjs = GetObjects(E_GroupType::TILE);
+
+	// 해상도
+	POINT ptResolution = CCore::GetInstance()->GetResolution();
+
+	// 렌더링할 카메라의 좌상단 인덱스
+	Vector2 vLeftTopPos = CCamera::GetInstance()->GetScreenToWorldPosition(Vector2(0.f, 0.f));
+
+	int iRowCnt = int(vLeftTopPos.y / TILE_SIZE);
+	int iColCnt = int(vLeftTopPos.x / TILE_SIZE);
+
+	// 좌상단 idx를 구한다.
+	int iLeftTopIdx = iRowCnt * (int)m_pTileMap->GetCol() + iColCnt;
+
+	// 화면에 보여줄 수 있는 rol와 col의 최대 개수
+	int iMaxCol = ptResolution.x / TILE_SIZE + 1;
+	int iMaxRow = ptResolution.y / TILE_SIZE + 1;
+
+	// 타일의 col의 총 갯수에서 화면에 보여줄 컬럼 개수를 뺀 갯수가 화면에 보여줄 수 있는 col의 최대 갯수보다 작으면
+	if (m_pTileMap->GetCol() - iColCnt < iMaxCol) {
+		iMaxCol = m_pTileMap->GetCol() - iColCnt; // 화면에 보여줄 최대 col의 개수를 재설정.
+	}
+
+	if (m_pTileMap->GetRow() - iRowCnt < iMaxRow) {
+		iMaxRow = m_pTileMap->GetRow() - iRowCnt;
+	}
+
+	for (int iRow = 0; iRow < iMaxRow; ++iRow) {
+		for (int iCol = 0; iCol < iMaxCol; ++iCol) {
+			int iResultIdx = iLeftTopIdx + m_pTileMap->GetCol() * iRow + iCol;
+			if (iResultIdx < 0)
+				continue;
+			vecObjs[iResultIdx]->Update();
+		}
+	}
+}
+
+void CScene::LateUpdateTile()
+{
+	if (nullptr == m_pTileMap)
+		return;
+
+	vector<CObject*>& vecObjs = GetObjects(E_GroupType::TILE);
+
+	// 해상도
+	POINT ptResolution = CCore::GetInstance()->GetResolution();
+
+	// 렌더링할 카메라의 좌상단 인덱스
+	Vector2 vLeftTopPos = CCamera::GetInstance()->GetScreenToWorldPosition(Vector2(0.f, 0.f));
+
+	int iRowCnt = int(vLeftTopPos.y / TILE_SIZE);
+	int iColCnt = int(vLeftTopPos.x / TILE_SIZE);
+
+	// 좌상단 idx를 구한다.
+	int iLeftTopIdx = iRowCnt * (int)m_pTileMap->GetCol() + iColCnt;
+
+	// 화면에 보여줄 수 있는 rol와 col의 최대 개수
+	int iMaxCol = ptResolution.x / TILE_SIZE + 1;
+	int iMaxRow = ptResolution.y / TILE_SIZE + 1;
+
+	// 타일의 col의 총 갯수에서 화면에 보여줄 컬럼 개수를 뺀 갯수가 화면에 보여줄 수 있는 col의 최대 갯수보다 작으면
+	if (m_pTileMap->GetCol() - iColCnt < iMaxCol) {
+		iMaxCol = m_pTileMap->GetCol() - iColCnt; // 화면에 보여줄 최대 col의 개수를 재설정.
+	}
+
+	if (m_pTileMap->GetRow() - iRowCnt < iMaxRow) {
+		iMaxRow = m_pTileMap->GetRow() - iRowCnt;
+	}
+
+	for (int iRow = 0; iRow < iMaxRow; ++iRow) {
+		for (int iCol = 0; iCol < iMaxCol; ++iCol) {
+			int iResultIdx = iLeftTopIdx + m_pTileMap->GetCol() * iRow + iCol;
+			if (iResultIdx < 0)
+				continue;
+			vecObjs[iResultIdx]->LateUpdate();
+		}
+	}
+}
+
+void CScene::RenderTile(HDC _hDC)
+{
+	if (nullptr == m_pTileMap)
+		return;
+
+	vector<CObject*>& vecObjs = GetObjects(E_GroupType::TILE);
+
+	// 해상도
+	POINT ptResolution = CCore::GetInstance()->GetResolution();
+
+	// 렌더링할 카메라의 좌상단 인덱스
+	Vector2 vLeftTopPos = CCamera::GetInstance()->GetScreenToWorldPosition(Vector2(0.f, 0.f));
+
+	int iRowCnt = int(vLeftTopPos.y / TILE_SIZE);
+	int iColCnt = int(vLeftTopPos.x / TILE_SIZE);
+
+	// 좌상단 idx를 구한다.
+	int iLeftTopIdx = iRowCnt * (int)m_pTileMap->GetCol() + iColCnt;
+
+	// 화면에 보여줄 수 있는 rol와 col의 최대 개수
+	int iMaxCol = ptResolution.x / TILE_SIZE + 1;
+	int iMaxRow = ptResolution.y / TILE_SIZE + 1;
+
+	// 타일의 col의 총 갯수에서 화면에 보여줄 컬럼 개수를 뺀 갯수가 화면에 보여줄 수 있는 col의 최대 갯수보다 작으면
+	if (m_pTileMap->GetCol() - iColCnt < iMaxCol) { 
+		iMaxCol = m_pTileMap->GetCol() - iColCnt; // 화면에 보여줄 최대 col의 개수를 재설정.
+	}
+
+	if (m_pTileMap->GetRow() - iRowCnt < iMaxRow) {
+		iMaxRow = m_pTileMap->GetRow() - iRowCnt;
+	}
+
+
+	for (int iRow = 0; iRow < iMaxRow; ++iRow) {
+		for (int iCol = 0; iCol < iMaxCol; ++iCol) {
+			int colSize = m_pTileMap->GetCol();
+			int iResultIdx = iLeftTopIdx + colSize * iRow + iCol;
+
+
+			if (iResultIdx < 0)
+				continue;
+			vecObjs[iResultIdx]->Render(_hDC);
+		}
+	}
+}
+
+void CScene::LoadTile(wstring _strPath)
+{
+	//wstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativePath;
+	wstring strFilePath = _strPath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
+	if (nullptr == pFile) {
+		return;
+	}
+
+	int iRow = 0;
+	int iCol = 0;
+	fread(&iRow, sizeof(int), 1, pFile);
+	fread(&iCol, sizeof(int), 1, pFile);
+
+	DeleteObjects(E_GroupType::TILE);
+	m_pTileMap->CreateTileGrid((UINT)iRow, (UINT)iCol);
+
+	vector<CObject*>& vecTiles = GetObjects(E_GroupType::TILE);
+	for (int i = 0; i < iRow * iCol; ++i) {
+		CTile* pTile = dynamic_cast<CTile*>(vecTiles[i]);
+		if (pTile)
+			pTile->Load(pFile);
+	}
+
+	fclose(pFile);
 }

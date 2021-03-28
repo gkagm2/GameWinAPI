@@ -1,5 +1,6 @@
 #pragma once
 #include "CObject.h"
+class CScene;
 class CTileMap : public CObject
 {
 private:
@@ -8,11 +9,12 @@ private:
 
 	UINT m_iTileMapWidth;
 	UINT m_iTileMapHeight;
+	
 
 public:
-	//virtual void PrevUpdate(); 
+	// virtual void PrevUpdate() override; 
 	virtual void Update() override;
-	//virtual void LateUpdate();
+	virtual void LateUpdate() override;
 	virtual void Render(HDC _hDC) override;
 
 public:
@@ -24,6 +26,8 @@ public:
 	UINT GetTileMapWidth() { return m_iTileMapWidth; }
 	UINT GetTileMapHeight() { return m_iTileMapHeight; }
 
+public:
+	CLONE_DISABLE(CTileMap);
 public:
 	CTileMap() = delete;	
 	CTileMap(E_GroupType _eGroupType);
