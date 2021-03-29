@@ -52,18 +52,20 @@ void CScene_Tool::Start()
 	CCamera::GetInstance()->SetLookAt(Vector2((float)ptResolution.x, (float)ptResolution.y));
 	
 	// 鸥老 拜磊 积己
+	/*
 	m_pTileMap = new CTileMap(E_GroupType::TILEMAP);
 	m_pTileMap->SetPosition(0, 0, 0);
 	m_pTileMap->CreateTileGrid(10, 10);
 	AddObject(m_pTileMap);
+	*/
 
-	/*
+	
 	// UI 积己
 	CPanelUI* pUI = new CPanelUI(E_GroupType::UI);
 	pUI->Init();
 	pUI->SetPosition(250, 150, 0);
 	AddObject(pUI);
-
+	/*
 	CPanelUI* copyUI = pUI->Clone();
 	copyUI->SetPosition(500, 500, 0);
 	AddObject(copyUI);

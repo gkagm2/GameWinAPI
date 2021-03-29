@@ -15,6 +15,10 @@ CPanelUI::CPanelUI(E_GroupType _eGroupType = E_GroupType::UI) :
 	m_fBottomPadding(0.f),
 	m_fLeftPadding(0.f),
 	m_fRightPadding(0.f),
+	m_vSpacing{},
+	m_iColCnt(0),
+	m_iRowCnt(0),
+	m_vOriginalPos{},
 	m_vDiff{}
 {
 }
@@ -25,43 +29,17 @@ CPanelUI::~CPanelUI()
 
 void CPanelUI::Init()
 {
+	CTexture* pTileTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Background);
+	if (nullptr == pTileTexture)
+		pTileTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Background, STR_FILE_PATH_Background);
+
+	SetScale(Vector3{ 300.f,500.f,0.f });
+	//SetTexture(pTileTexture);
 	SetPosition(Vector3{});
-	SetScale(Vector3{ 300.f,300.f,0.f });
 	SetObjectName(L"ParentUI");
-	
 
-	// UI 초기화
-	/*CUI* pChildUI = new CUI(E_GroupType::UI);
-	pChildUI->SetPosition(Vector3{150.0f, 150.0f, 0.f});
-	pChildUI->SetScale(Vector3{ 100.f, 100.f, 0.f });
-	pChildUI->SetObjectName(L"ChildUI");
-	AddChildUI(pChildUI);*/
-
-	// Image Texture 가져옴
-	CTexture* pTileTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Tile);
-	if (nullptr == pTileTexture) {
-		pTileTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Tile, STR_FILE_PATH_Tile);
-	}
-
-	SetTexture(pTileTexture);
-
-	CImageUI* pChildImageUI = new CImageUI(E_GroupType::UI);
-	//pChildImageUI->SetTexture(pTileTexture);
-	pChildImageUI->SetPosition(150.0f, 150.0f, 0.0f);
-	pChildImageUI->SetObjectName(L"Image UI");
-	pChildImageUI->SetLT(Vector2{});
-	AddChildUI((CUI*)pChildImageUI);
-	
-
-	CImageUI* pChild2 = new CImageUI(E_GroupType::UI);
-	//pChild2->SetTexture(pTileTexture);
-	pChild2->SetPosition(30.0f, 50.0f, 0.0f);
-	pChild2->SetObjectName(L"Image UI");
-	pChild2->SetLT(Vector2{});
-	//pChildImageUI->AddChildUI((CUI*)pChild2);
-	AddChildUI((CUI*)pChild2);
-
-	float fPadding[4]{5.f, 5.f, 5.f, 5.f}; // l, t, r, b
+	float fPadding[4]{ 20.f, 120.f, 20.f, 20.f }; // l, t, r, b
+	SetGridUI(5, 5, fPadding[0], fPadding[1], fPadding[2], fPadding[3], 5.f, 5.f);
 }
 
 void CPanelUI::Update()
@@ -97,7 +75,7 @@ void CPanelUI::Render(HDC _hDC)
 	else {
 		Vector3 vFinalPos = GetFinalPosition();
 
-		BitBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, (int)GetScale().x, (int)GetScale().y
+		BitBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, GetScale().x, GetScale().y
 			, pTexture->GetDC(), 0, 0, SRCCOPY);
 	}
 
@@ -121,4 +99,45 @@ void CPanelUI::SetPadding(float _fLeft, float _fTop, float _fRight, float _fBott
 	m_fTopPadding = _fTop;
 	m_fRightPadding = _fRight;
 	m_fBottomPadding = _fBottom;
+}
+
+void CPanelUI::SetGridUI(int _iColCnt = 1, int _iRowCnt = 1, float _fLeftPadding =2.f, float _fTopPadding = 2.f, float _fRightPadding = 2.f, float _fBottomPadding =2.f, float _fSpacingX =2.f, float _fSpacingY = 2.f)
+{
+	SetGrid(_iColCnt, _iRowCnt);
+	SetPadding(_fLeftPadding, _fTopPadding, _fRightPadding, _fBottomPadding);
+	SetSpacing(_fSpacingX, _fSpacingY);
+
+	float realWidth = (GetScale().x - (m_fLeftPadding + m_fRightPadding));
+	float realHeight = (GetScale().y - (m_fTopPadding + m_fBottomPadding));
+	float fCellWidth = realWidth / m_iColCnt;
+	float fCellHeight = realHeight / m_iRowCnt;
+	float resultX = realWidth - (m_iColCnt - 1) * m_vSpacing.x;
+	float resultY = realHeight - (m_iRowCnt - 1) * m_vSpacing.y;
+	fCellWidth = resultX / m_iColCnt;
+	fCellHeight = resultY / m_iRowCnt;
+	if (fCellWidth > fCellHeight)
+		fCellWidth = fCellHeight;
+	else
+		fCellHeight = fCellWidth;
+	float startPosx = GetPosition().x + m_fLeftPadding;
+	float startPosy = GetPosition().y + m_fTopPadding;
+
+	CTexture* pTileTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Tile);
+	if (nullptr == pTileTexture)
+		pTileTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Tile, STR_FILE_PATH_Tile);
+
+	for (int i = 0; i < m_iRowCnt; ++i) {
+		startPosx = GetPosition().x + m_fLeftPadding;
+		for (int j = 0; j < m_iColCnt; ++j) {
+			// 이미지 생성
+			CImageUI* pChildImageUI = new CImageUI(E_GroupType::UI);
+			//pChildImageUI->SetTexture(pTileTexture);
+			pChildImageUI->SetPosition(startPosx, startPosy, 0.0f);
+			pChildImageUI->SetScale(fCellWidth, fCellHeight);
+			pChildImageUI->SetLT(Vector2{});
+			AddChildUI((CUI*)pChildImageUI);
+			startPosx += fCellWidth + m_vSpacing.x;
+		}
+		startPosy += fCellHeight + m_vSpacing.y;
+	}
 }

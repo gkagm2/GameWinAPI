@@ -62,7 +62,8 @@ void CImageUI::Render(HDC _hDC)
     }
     else { // Texture가 있으면
         CTexture* pTexture = GetTexture();
-        BitBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, g_iTileSize, g_iTileSize, pTexture->GetDC(), 1,1, SRCCOPY);
+        BitBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, GetScale().x, GetScale().y, pTexture->GetDC(), 1, 1, SRCCOPY);
+        //BitBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, g_iTileSize, g_iTileSize, pTexture->GetDC(), 1,1, SRCCOPY);
     }
 
     const vector<CUI*>& vecChildUI = GetChildsUI();

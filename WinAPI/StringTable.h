@@ -40,6 +40,8 @@
 #define STR_FILE_NAME_Tile L"TILE.bmp"
 #define STR_FILE_PATH_Tile L"Texture\\Tile\\TILE.bmp"
 
+#define STR_FILE_NAME_UI_BG L"TilePanel2.bmp"
+#define STR_FILE_PATH_UI_BG L"Texture\\Tile\\TilePanel2.bmp"
 
 
 
