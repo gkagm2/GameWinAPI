@@ -24,7 +24,7 @@ void CSceneManager::Init()
 	m_arrScene[(UINT)E_SceneType::TOOL] = new CScene_Tool;
 	// m_arrScene[(UINT)E_SceneType::GTA_MAIN] = new CScene_GtaMain;
 	m_arrScene[(UINT)E_SceneType::GTA_IN] = new CScene_GtaInGame;
-	ChangeScene(E_SceneType::TOOL);
+	ChangeScene(E_SceneType::GTA_IN);
 }
 
 void CSceneManager::Progress()

@@ -33,19 +33,38 @@ void CScene_GtaInGame::Start()
 
 	CVehicle* pVehicle = new CCar(E_GroupType::VEHICLE);
 	pVehicle->SetTexture(pVehicleTexAnim);
-	CAnimator* pAnimator = new CAnimator(pVehicle);
-	float fSizeX = pVehicleTexAnim->GetWidth() / 10.0f;
-	float fSizeY = (pVehicleTexAnim->GetHeight()) / 2.0f;
-	float gap = 4.0f;
 
-	pAnimator->CreateAnimation(L"Normal", pVehicleTexAnim, Vector2(0.f, fSizeY), Vector2((float)pVehicleTex->GetWidth(), (float)pVehicleTex->GetHeight()), Vector2(4, 4), 1, 1);
-	
+	/*CAnimator* pAnimator = new CAnimator(pVehicle);
+float fSizeX = pVehicleTexAnim->GetWidth() / 10.0f;
+float fSizeY = (pVehicleTexAnim->GetHeight()) / 2.0f;
+float gap = 4.0f;
 
-	pAnimator->PlayAnimation(L"Normal", E_AnimationPlayType::LOOP);
-	pVehicle->SetPosition(100, 100, 0);
-	pVehicle->SetScale(100, 100);
+pAnimator->CreateAnimation(L"Normal", pVehicleTexAnim, Vector2(0.f, fSizeY), Vector2((float)pVehicleTex->GetWidth(), (float)pVehicleTex->GetHeight()), Vector2(4, 4), 1, 1);
 
-	
+
+pAnimator->PlayAnimation(L"Normal", E_AnimationPlayType::LOOP);*/
+
+	CTexture* pTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Vehicle_car_Cops1);
+	if (nullptr == pTex) {
+		pTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Vehicle_car_Cops1, STR_FILE_PATH_Vehicle_car_Cops1);
+	}
+	pVehicle->SetTexture(pTex);
+	pVehicle->SetPosition(500, 500, 0);
+	pVehicle->m_vMiddlePos.x = 550;
+	pVehicle->m_vMiddlePos.y = 550;
+	pVehicle->m_vMiddlePos.z = 0;
+
+	Vector2 vScale = ResizeScaleMaintainRatio(100, 100, pVehicle->GetTextureHeight(), pVehicle->GetTextureWidth());
+	pVehicle->SetScale(Vector3(vScale.x, vScale.y, 1.0f));
+	pVehicle->pnt[0].x = pVehicle->GetPosition().x;
+	pVehicle->pnt[0].y = pVehicle->GetPosition().y;
+
+	pVehicle->pnt[1].x = pVehicle->GetPosition().x + pVehicle->GetScale().x;
+	pVehicle->pnt[1].y = pVehicle->GetPosition().y;
+
+	pVehicle->pnt[2].x = pVehicle->GetPosition().x;
+	pVehicle->pnt[2].y = pVehicle->GetPosition().y + pVehicle->GetScale().y;
+
 
 	AddObject(pVehicle);
 }
