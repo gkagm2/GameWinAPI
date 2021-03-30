@@ -8,9 +8,11 @@
 #include "CSceneManager.h"
 #include "CCamera.h"
 #include "CCollisionManager.h"
+#include "CResourceManager.h"
 #include "CEventManager.h"
 #include "CUIManager.h"
 #include "CDebug.h"
+#include "CTexture.h"
 
 #ifdef DYNAMIC_SINGLETON
 CCore* CCore::g_pCore = nullptr; // static이므로 초기화
@@ -27,8 +29,6 @@ CCore::CCore() :
 
 CCore::~CCore() {
 	ReleaseDC(m_hMainWnd, m_hDC); // Windows에서 만든 DC는 ReleaseDC로 지워야 함
-	DeleteDC(m_memDC);		  // 직접만든 DC는 DeleteDC로 지워야 함
-	DeleteObject(m_bitmap);		  // 비트맵 지우기
 }
 
 int CCore::Init(HWND _hMainWnd, POINT _ptResolution)
@@ -47,11 +47,11 @@ int CCore::Init(HWND _hMainWnd, POINT _ptResolution)
 	CSceneManager::GetInstance()->Init();
 
 	// double buffering	(연결해줌)
-	m_bitmap = (HBITMAP)CreateCompatibleBitmap(m_hDC, m_ptResolution.x, m_ptResolution.y);
-	m_memDC = (HDC)CreateCompatibleDC(m_hDC);
+	m_pMemTexture = CResourceManager::GetInstance()->CreateTexture(STR_TABLE_MemoryTexture, m_ptResolution.x, m_ptResolution.y);
 
-	HBITMAP hPrevBitmap = (HBITMAP)SelectObject(m_memDC, m_bitmap); // 출력 비트맵 할 곳을 설정
-	DeleteObject(hPrevBitmap);
+	// TODO : Delete this
+	//HBITMAP hPrevBitmap = (HBITMAP)SelectObject(m_memDC, m_bitmap); // 출력 비트맵 할 곳을 설정
+	//DeleteObject(hPrevBitmap);
 
 	/* Test Drawing Code
 	COLORREF redColor = RGB(255, 0, 0);
@@ -100,12 +100,11 @@ void CCore::Progress()
 
 	CDebug::GetInstance()->Update();
 	
-	// 렌더링
+	// 회색 배경으로 렌더링
 	HBRUSH hBrush = CreateSolidBrush(RGB(128, 128, 128));
-	HBRUSH hPrevBrush = (HBRUSH)SelectObject(m_memDC, hBrush);
-	Rectangle(m_memDC, -1, -1, m_ptResolution.x+1, m_ptResolution.y+1); // Clear
-	
-	SelectObject(m_memDC, hPrevBrush);
+	HBRUSH hPrevBrush = (HBRUSH)SelectObject(m_pMemTexture->GetDC(), hBrush);
+	Rectangle(m_pMemTexture->GetDC(), -1, -1, m_ptResolution.x+1, m_ptResolution.y+1); // Clear
+	SelectObject(m_pMemTexture->GetDC(), hPrevBrush);
 	DeleteObject(hBrush);
 
 	/*
@@ -114,12 +113,12 @@ void CCore::Progress()
 	TextOut(m_memDC, 10, 10, stt, (int)wcslen(stt));
 	*/
 
-	CSceneManager::GetInstance()->Render(m_memDC);
-	CTimeManager::GetInstance()->Render(m_memDC);
-	CDebug::GetInstance()->Render(m_memDC);
+	CSceneManager::GetInstance()->Render(m_pMemTexture->GetDC());
+	CTimeManager::GetInstance()->Render(m_pMemTexture->GetDC());
+	CDebug::GetInstance()->Render(m_pMemTexture->GetDC());
 
 	// Copy Bitmap
-	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y, m_memDC, 0, 0, SRCCOPY);
+	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y, m_pMemTexture->GetDC(), 0, 0, SRCCOPY);
 
 	// 이벤트 처리
 	CEventManager::GetInstance()->Update();

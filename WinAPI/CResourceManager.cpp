@@ -2,6 +2,8 @@
 #include "CResourceManager.h"
 #include "CPathManager.h"
 
+#include "CResource.h"
+
 #include "CTexture.h"
 #include "CSound.h"
 
@@ -53,6 +55,22 @@ CTexture* CResourceManager::FindTexture(const wstring& _strKey)
 		return nullptr;
 
 	return iter->second;
+}
+
+CTexture* CResourceManager::CreateTexture(const wstring& _strKey, UINT _iWidth, UINT _iHeight)
+{
+	CResource* pTexture = FindTexture(_strKey);
+	if (nullptr != pTexture) {
+		wstring errorContent = STR_TABLE_TextureOverlapLoadingProblem;
+		MessageBox(nullptr, errorContent.c_str(), STR_TABLE_FailTextureLoading, MB_OK);
+		return (CTexture*)(pTexture);
+	}
+
+	pTexture = new CTexture;
+	((CTexture*)pTexture)->Create(_iWidth, _iHeight);
+	pTexture->SetKey(_strKey);
+	m_umapTexture.insert(make_pair(_strKey, (CTexture*)pTexture));
+	return (CTexture*)pTexture;
 }
 
 CSound* CResourceManager::LoadSound(const wstring& _strKey, const wstring& _strRelativePath)

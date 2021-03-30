@@ -7,9 +7,15 @@
 
 //////////////////////////////////////////////////////////////////////////////
 
+// Core
+#define STR_TABLE_MemoryTexture L"MemTexture"
+
+
 #define STR_TABLE_TextureOverlapLoadingProblem L"텍스쳐 중복키 로딩 문제"
 #define STR_TABLE_FailTextureLoading L"텍스쳐 로딩 실패"
 #define STR_TABLE_FailResourceLoading L"리소스 로딩 실패"
+#define STR_TABLE_FailCreateTexture L"텍스쳐 생성 실패"
+#define STR_TABLE_Fail L"실패"
 
 // Shooting Game // 
 

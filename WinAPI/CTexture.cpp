@@ -31,7 +31,26 @@ int CTexture::Load(const wchar_t* _pFilePath)
 	DeleteObject(hPrevBitmap);
 
 	// 로딩한 비트맵의 정보 얻기
+	m_tBitmap = {};
 	GetObject(m_hBitmap, sizeof(BITMAP), (void*)&m_tBitmap);
 
 	return S_OK;
+}
+
+void CTexture::Create(UINT _iWidth, UINT _iHeight)
+{
+	assert(!m_hBitmap);
+	assert(!m_hDC);
+
+	// 비트맵, DC생성
+	m_hBitmap = (HBITMAP)CreateCompatibleBitmap(CCore::GetInstance()->GetDC(), (int)_iWidth, (int)_iHeight);
+	m_hDC = (HDC)CreateCompatibleDC(CCore::GetInstance()->GetDC());
+
+	// 비트맵과 DC연결
+	HBITMAP hPrevBitmap = (HBITMAP)SelectObject(m_hDC, m_hBitmap);
+	DeleteObject(hPrevBitmap);
+
+	// 비트맵의 정보 얻기
+	m_tBitmap = {};
+	GetObject(m_hBitmap, sizeof(BITMAP), (void*)&m_tBitmap);
 }

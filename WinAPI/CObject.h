@@ -73,7 +73,7 @@ public:
 		return m_eGroupType; 
 	}
 
-	wstring GetObjectName() { return m_strName; }
+	const wstring& GetObjectName() { return m_strName; }
 	void SetObjectName(const wstring& _strName) { m_strName = _strName; }
 
 	bool IsDead() { return m_bIsDead; }

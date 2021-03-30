@@ -1,5 +1,6 @@
 #pragma once
 #include "CResource.h"
+
 class CTexture : public CResource
 {
 private:
@@ -9,6 +10,7 @@ private:
 
 private:
 	virtual int Load(const wchar_t* _pFilePath) override;
+	void Create(UINT _iWidth, UINT _iHeight);
 
 public:
 	HDC GetDC() { return m_hDC; }
@@ -18,5 +20,6 @@ public:
 public:
 	CTexture();
 	~CTexture();
+	
+	friend class CResourceManager;
 };
-

@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include <iostream>
 
+class CTexture;
 class CCore {
 	SINGLETON(CCore)
 private:
@@ -9,8 +10,8 @@ private:
 	POINT m_ptResolution; // 메인 윈도우 해상도
 	HDC m_hDC;			  // DC(Device Context) 핸들
 
-	HBITMAP m_bitmap;	  // 비트맵 핸들
-	HDC m_memDC;		  // 뒤에 채워줄 DC
+	CTexture* m_pMemTexture; // 더블버퍼링용 메모리 텍스쳐
+
 public:
 	int Init(HWND _hMainWnd, POINT _ptResolution);
 	void Progress();
