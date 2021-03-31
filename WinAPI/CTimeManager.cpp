@@ -58,6 +58,7 @@ void CTimeManager::Render(HDC _hdc)
 		return;
 
 	HDC hdc = _hdc;
+	// TODO : Delete this
 	//wchar_t strFPS[255]{'\0'};
 	//wchar_t strFrequency[255]{'\0'};
 	//wchar_t str[255]{'\0'};

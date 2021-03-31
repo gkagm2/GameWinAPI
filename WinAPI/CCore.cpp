@@ -45,8 +45,9 @@ int CCore::Init(HWND _hMainWnd, POINT _ptResolution)
 	CTimeManager::GetInstance()->Init();
 	CKeyManager::GetInstance()->Init();
 	CSceneManager::GetInstance()->Init();
+	CCamera::GetInstance()->Init();
 
-	// double buffering	(연결해줌)
+	// Double buffering	(연결해줌)
 	m_pMemTexture = CResourceManager::GetInstance()->CreateTexture(STR_TABLE_MemoryTexture, m_ptResolution.x, m_ptResolution.y);
 
 	// TODO : Delete this
@@ -101,21 +102,16 @@ void CCore::Progress()
 	CDebug::GetInstance()->Update();
 	
 	// 회색 배경으로 렌더링
-	HBRUSH hBrush = CreateSolidBrush(RGB(128, 128, 128));
-	HBRUSH hPrevBrush = (HBRUSH)SelectObject(m_pMemTexture->GetDC(), hBrush);
+	//HBRUSH hBrush = CreateSolidBrush(RGB(128, 128, 128));
+	//HBRUSH hPrevBrush = (HBRUSH)SelectObject(m_pMemTexture->GetDC(), hBrush);
 	Rectangle(m_pMemTexture->GetDC(), -1, -1, m_ptResolution.x+1, m_ptResolution.y+1); // Clear
-	SelectObject(m_pMemTexture->GetDC(), hPrevBrush);
-	DeleteObject(hBrush);
-
-	/*
-	wchar_t  stt[255];
-	swprintf_s(stt, 255, L"%d, %d", m_ptResolution.x, m_ptResolution.y);
-	TextOut(m_memDC, 10, 10, stt, (int)wcslen(stt));
-	*/
+	//SelectObject(m_pMemTexture->GetDC(), hPrevBrush);
+	//DeleteObject(hBrush);
 
 	CSceneManager::GetInstance()->Render(m_pMemTexture->GetDC());
-	CTimeManager::GetInstance()->Render(m_pMemTexture->GetDC());
+	CTimeManager::GetInstance()->Render(m_pMemTexture->GetDC()); // TODO : delete this
 	CDebug::GetInstance()->Render(m_pMemTexture->GetDC());
+	CCamera::GetInstance()->Render(m_pMemTexture->GetDC());
 
 	// Copy Bitmap
 	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y, m_pMemTexture->GetDC(), 0, 0, SRCCOPY);

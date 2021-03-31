@@ -96,6 +96,8 @@ void CScene_Start::Start()
 	vResolution /= 2.0f;
 	CCamera::GetInstance()->SetLookAt(vResolution);
 
+	CCamera::GetInstance()->SetEffect(E_CamEffect::FADE_IN, 3.f);
+
 	HDC hDC = CCore::GetInstance()->GetDC();
 	TextOut(hDC, 20, 20, L"Start Scene", (int)wcslen(L"Start Scene"));
 }
