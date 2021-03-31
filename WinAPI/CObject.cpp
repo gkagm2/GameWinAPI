@@ -122,7 +122,7 @@ void CObject::Render(HDC _hDC)
 				hTextureDC,
 				0, 0,
 				iWidth1, iHeight1,
-				(COLORREF)EXCEPTION_COLOR_RGB); // 제거 할 색상
+				(COLORREF)EXCEPTION_COLOR_RGB_MAGENTA); // 제거 할 색상
 
 			/*BitBlt(
 				_hDC,

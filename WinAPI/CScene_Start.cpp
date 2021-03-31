@@ -75,16 +75,13 @@ void CScene_Start::Start()
 
 	AddObject(pPlayer);
 
-	/*
-	// 몬스터 텍스쳐 로딩
-	CTexture * pMonsterTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Monster, STR_FILE_PATH_Monster);
-
-	// Monster Respawner 생성
+	
+	/*// Monster Respawner 생성
 	CMonsterRespawner* pMonsterRespawner = new CMonsterRespawner(E_GroupType::MONSTER);
 	pMonsterRespawner->SetRender(false);
 	pMonsterRespawner->SetObjectName(L"Monster Respawner");
-	AddObject(pMonsterRespawner);
-	*/
+	AddObject(pMonsterRespawner);*/
+	
 	// 충돌 설정
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::PLAYER, E_GroupType::MONSTER, true);
@@ -95,8 +92,11 @@ void CScene_Start::Start()
 	Vector3 vResolution = ptResolution;
 	vResolution /= 2.0f;
 	CCamera::GetInstance()->SetLookAt(vResolution);
-
-	CCamera::GetInstance()->SetEffect(E_CamEffect::FADE_IN, 3.f);
+	CCamera::GetInstance()->AddEffect(E_CamEffect::FADE_IN, .2f);
+	CCamera::GetInstance()->AddEffect(E_CamEffect::FADE_OUT, .5f);
+	CCamera::GetInstance()->AddEffect(E_CamEffect::FADE_IN, .7f);
+	CCamera::GetInstance()->AddEffect(E_CamEffect::FADE_OUT, .9f);
+	CCamera::GetInstance()->AddEffect(E_CamEffect::FADE_IN, 1.f);
 
 	HDC hDC = CCore::GetInstance()->GetDC();
 	TextOut(hDC, 20, 20, L"Start Scene", (int)wcslen(L"Start Scene"));

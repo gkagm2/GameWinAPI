@@ -6,6 +6,12 @@ enum class E_CamEffect {
 	NONE,
 };
 
+struct tCamEffect {
+	E_CamEffect eEffect; // 현재 카메라 이펙트
+	float fEndTime; // 효과 만료 시간
+	float fCurTime; // 효과 진행 시간
+};
+
 class CObject;
 class CTexture;
 class CCamera
@@ -20,9 +26,7 @@ private:
 	
 	// Camera Effect
 	CTexture* m_pVeil;			// 카메라 효과 텍스쳐 (for fade in, out)
-	E_CamEffect m_eCurEffectState;	// 현재 카메라 이펙트
-	float m_fEndEffectTime;		// 효과 만료 시간
-	float m_fCurEffectTime;		// 현재 효과 진행 시간
+	queue<tCamEffect> m_queEffect; // 진행될 카메라 이펙트들
 	BYTE m_Alpha;				// Veil texture alpha
 	float m_fRatio;
 
@@ -38,7 +42,7 @@ public:
 	Vector2 GetScreenToWorldPosition(Vector2 _vScreenPosition) { return _vScreenPosition + m_vDiff; }
 	void Move();
 	void UpdateEffect();
-	void SetEffect(E_CamEffect _eCamEffect, float _fTime);
+	void AddEffect(E_CamEffect _eCamEffect, float _fEndTime);
 
 public:
 	void SetLookAt(const Vector3& _vLook) { m_vLook = _vLook; }

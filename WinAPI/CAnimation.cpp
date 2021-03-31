@@ -62,7 +62,7 @@ void CAnimation::Render(HDC _hDC)
 		int(m_vecFrame[m_iCurFrameIdx].vLT.y),
 		int(m_vecFrame[m_iCurFrameIdx].vSlice.x),
 		int(m_vecFrame[m_iCurFrameIdx].vSlice.y),
-		EXCEPTION_COLOR_RGB_BLACK);
+		EXCEPTION_COLOR_RGB_MAGENTA);
 
 	//TransparentBlt(
 	//		_hDC,																/*_hDC*/

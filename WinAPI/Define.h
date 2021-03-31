@@ -47,7 +47,7 @@ enum class E_GroupType {
 	END = 32,
 };
 
-#define EXCEPTION_COLOR_RGB RGB(255,0,255) // Magenta color
+#define EXCEPTION_COLOR_RGB_MAGENTA RGB(255,0,255) // Magenta color
 #define EXCEPTION_COLOR_RGB_BLACK RGB(0,0,0) // Magenta color
 
 #define TILE_SIZE 64

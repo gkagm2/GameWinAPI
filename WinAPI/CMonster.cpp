@@ -7,6 +7,10 @@
 #include "CScene.h"
 #include "CSceneManager.h"
 #include "CPlayer.h"
+#include "CCamera.h"
+#include "CAnimator.h"
+#include "CTexture.h"
+
 enum class E_MissileType;
 CMonster::CMonster(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
@@ -60,6 +64,74 @@ void CMonster::Update()
 
 	// Move
 	Move(2);
+}
+
+void CMonster::Render(HDC _hDC)
+{
+	if (false == IsRender())
+		return;
+
+	Vector3 vRenderPosition = CCamera::GetInstance()->GetRenderPosition(GetPosition());
+
+	if (nullptr == GetTexture()) {
+		Rectangle(_hDC,
+			(int)(vRenderPosition.x - ScaleX() / 2),
+			(int)(vRenderPosition.y - ScaleY() / 2),
+			(int)(vRenderPosition.x + ScaleX() / 2),
+			(int)(vRenderPosition.y + ScaleY() / 2));
+
+
+		if (GetAsyncKeyState(0x30) & 0x8000) {
+			// Print Position
+			wchar_t pStrPosition[100] = { 0, };
+			swprintf(pStrPosition, 100, L"(%.2f, %.2f)", vRenderPosition.x, vRenderPosition.y);
+
+			SetTextAlign(_hDC, TA_CENTER);
+			TextOut(_hDC, (int)vRenderPosition.x, (int)(vRenderPosition.y), pStrPosition, (int)wcslen(pStrPosition));
+			SetTextAlign(_hDC, TA_LEFT | TA_TOP);
+		}
+	}
+	else {
+
+		if (nullptr != GetAnimator())
+			GetAnimator()->Render(_hDC);
+		else {
+			UINT iWidth = (UINT)ScaleX();
+			UINT iHeight = (UINT)ScaleY();
+			UINT iWidth1 = GetTexture()->GetWidth();
+			UINT iHeight1 = GetTexture()->GetHeight();
+			HDC hTextureDC = GetTexture()->GetDC();
+
+			//TransparentBlt(
+			//	_hDC,
+			//	(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight / 2),
+			//	iWidth, iHeight,
+			//	hTextureDC,
+			//	0, 0,
+			//	iWidth1, iHeight1,
+			//	(COLORREF)EXCEPTION_COLOR_RGB); // 제거 할 색상
+
+			// 예외처리할 색상 RGB값을 처리하기 위해 BitBlt대신 TransparentBlt을 이용 (library 필요)
+
+
+			BLENDFUNCTION tBlendFunc;
+			tBlendFunc.BlendOp = AC_SRC_OVER;
+			tBlendFunc.BlendFlags = 0;					// 반드시 0
+			tBlendFunc.SourceConstantAlpha = 120;	// 0 : 투명, 255 불투명
+			tBlendFunc.AlphaFormat = AC_SRC_ALPHA;					// AC_SRC_ALPHA
+			
+			AlphaBlend(_hDC,
+				(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight/ 2), (int)iWidth, (int)iHeight,
+				GetTexture()->GetDC(),
+				0, 0, (int)iWidth1, (int)iHeight1,
+				tBlendFunc);
+		}
+	}
+
+	// ColliderRendering
+	if (nullptr != GetCollider()) {
+		GetCollider()->Render(_hDC);
+	}
 }
 
 void CMonster::OnCollisionEnter(CObject* _pOther)

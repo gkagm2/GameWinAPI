@@ -14,9 +14,6 @@ CCamera::CCamera() :
 	m_fSpeed(200.0f),
 	m_vDiff{0.f, 0.f, 0.f},
 	m_pVeil(nullptr),
-	m_eCurEffectState(E_CamEffect::NONE),
-	m_fEndEffectTime(5.f),
-	m_fCurEffectTime(0.f),
 	m_Alpha(255),
 	m_fRatio(0.f)
 {
@@ -36,9 +33,6 @@ void CCamera::Update()
 {
 	Move();
 	UpdateEffect();
-	Debug->Print(Vector2(80, 80), L"d", m_fCurEffectTime);
-	Debug->Print(Vector2(80, 110), L"d", m_fRatio);
-
 	Vector3 resolutionPos = CCore::GetInstance()->GetResolution();
 	Vector3 vResolutionCenterPosition = resolutionPos / 2.0f;
 	m_vDiff = m_vLook - vResolutionCenterPosition;
@@ -81,25 +75,33 @@ void CCamera::Move()
 
 void CCamera::UpdateEffect()
 {
-	if (E_CamEffect::NONE == m_eCurEffectState)
+	if(m_queEffect.empty())
 		return;
+
+	tCamEffect* ptCamEffect = &m_queEffect.front();
+	if (E_CamEffect::NONE == ptCamEffect->eEffect) {
+		m_queEffect.pop();
+		return;
+	}
 	
-	m_fCurEffectTime += DeltaTime;
-	if (m_fCurEffectTime > m_fEndEffectTime) {
-		m_fCurEffectTime = m_fEndEffectTime;
-		m_eCurEffectState = E_CamEffect::NONE;
+
+	ptCamEffect->fCurTime += DeltaTime;
+	if (ptCamEffect->fCurTime > ptCamEffect->fEndTime) {
+		ptCamEffect->fCurTime = ptCamEffect->fEndTime;
+		ptCamEffect->eEffect= E_CamEffect::NONE;
 	}
 
-	m_fRatio = m_fCurEffectTime / m_fEndEffectTime;
-	if (E_CamEffect::FADE_IN == m_eCurEffectState) {
+	m_fRatio = ptCamEffect->fCurTime / ptCamEffect->fEndTime;
+	if (E_CamEffect::FADE_IN == ptCamEffect->eEffect) {
 		m_fRatio = 1.f - m_fRatio;
+		m_Alpha = (BYTE)(255.f * m_fRatio);
+	}
+	else if (E_CamEffect::FADE_OUT == ptCamEffect->eEffect) {
 		m_Alpha = (BYTE)(255.f * m_fRatio);
 	}
 }
 
-void CCamera::SetEffect(E_CamEffect _eCamEffect, float _fTime)
+void CCamera::AddEffect(E_CamEffect _eCamEffect, float _fEndTime)
 {
-	m_eCurEffectState = _eCamEffect;
-	m_fEndEffectTime = _fTime;
-	m_fCurEffectTime = 0.f;
+	m_queEffect.push(tCamEffect{_eCamEffect, _fEndTime, 0.f});
 }

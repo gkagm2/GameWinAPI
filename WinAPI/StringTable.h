@@ -33,6 +33,9 @@
 #define STR_FILE_NAME_Monster L"Monster"
 #define STR_FILE_PATH_Monster L"Texture\\Monster.bmp"
 
+#define STR_FILE_NAME_MonsterAlpha L"Monster_A.bmp"
+#define STR_FILE_PATH_MonsterAlpha L"Texture\\Monster_A.bmp"
+
 #define STR_FILE_NAME_Background L"Background"
 #define STR_FILE_PATH_Background L"Texture\\Background.bmp"
 

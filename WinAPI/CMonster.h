@@ -38,6 +38,7 @@ public:
 
 public:	
 	virtual void Update() override;
+	virtual void Render(HDC _hDC) override;
 	virtual void OnCollisionEnter(CObject* _pOther) override;
 
 public:

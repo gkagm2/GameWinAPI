@@ -33,6 +33,9 @@ private:
 
 
 public:
+	CLONE(CMonsterRespawner);
+
+public:
 	CMonsterRespawner() = delete;
 	CMonsterRespawner(E_GroupType _eGroupType);
 	virtual ~CMonsterRespawner() override;
