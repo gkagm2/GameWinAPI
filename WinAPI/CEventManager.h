@@ -2,7 +2,8 @@
 
 enum class E_EventType {
 	CREATE_OBJECT,
-	DELETE_OBJECT
+	DELETE_OBJECT,
+	CHANGE_STATE
 };
 
 struct tEvent {

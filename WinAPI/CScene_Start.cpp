@@ -9,6 +9,7 @@
 #include "CCamera.h"
 #include "CPlayer.h"
 #include "CMonster.h"
+#include "CMonster_AI.h"
 #include "CMonsterRespawner.h"
 #include "CBackgroundController.h"
 #include "CBackground.h"
@@ -44,7 +45,7 @@ void CScene_Start::Start()
 	// 플레이어 오브젝트 생성
 	CPlayer* pPlayer = new CPlayer(E_GroupType::PLAYER);
 	pPlayer->SetObjectName(L"Player");
-	pPlayer->SetPosition(Vector3{ ptResolution.x / 2.0f, ptResolution.y - 600.0f, .0f });
+	pPlayer->SetPosition(Vector3{ ptResolution.x / 2.0f, ptResolution.y - 200.0f, .0f });
 	pPlayer->SetTexture(pPlayerTexture2); // 텍스쳐 설정
 	Vector2 vScale =ResizeScaleMaintainRatio(50, 50, pPlayer->GetTextureHeight(), pPlayer->GetTextureWidth());
 	pPlayer->SetScale(Vector3(vScale.x, vScale.y, 1.0f));
@@ -81,6 +82,17 @@ void CScene_Start::Start()
 	pMonsterRespawner->SetRender(false);
 	pMonsterRespawner->SetObjectName(L"Monster Respawner");
 	AddObject(pMonsterRespawner);*/
+
+	// MonsterAI 생성
+	CMonster_AI* pMonsterAI = new CMonster_AI(E_GroupType::MONSTER);
+	pMonsterAI->SetPosition(Vector3{ ptResolution.x / 2.0f, ptResolution.y + -600.0f, .0f });
+	
+	CTexture* pMonsterTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_MonsterAlpha);
+	if (nullptr == pMonsterTex) {
+		pMonsterTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_MonsterAlpha, STR_FILE_PATH_MonsterAlpha);
+	}
+	pMonsterAI->SetTexture(pMonsterTex);
+	AddObject(pMonsterAI);
 	
 	// 충돌 설정
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();

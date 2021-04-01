@@ -2,6 +2,8 @@
 #include "CObject.h"
 #include "CMissile.h"
 enum class E_MissileType;
+
+class CAI;
 class CMonster : public CObject
 {
 protected:
@@ -12,6 +14,8 @@ protected:
 	float m_fRatioX;
 	float m_fRatioY;
 	CObject* m_pTargetObj; // target to attack
+
+	CAI* m_pAI;
 
 	enum class E_UpgradeLevelType {
 		LEVEL1,
@@ -49,13 +53,16 @@ public:
 	void CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, float _fDirAngle, E_MissileType _eMissileType);
 	void CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, Vector3 , E_MissileType _eMissileType);
 	void FireMissile();
-
 	void Move(int _type);
+
+	CAI* GetAI() { return m_pAI; }
+	void CreateAI();
 
 public:
 	CLONE(CMonster);
 
 public:
+	CMonster(const CMonster& _other);
 	CMonster() = delete;
 	CMonster(E_GroupType _eGroupType);
 	virtual ~CMonster() override;

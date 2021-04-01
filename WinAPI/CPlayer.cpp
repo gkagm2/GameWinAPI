@@ -32,10 +32,10 @@ CPlayer::CPlayer(E_GroupType _eGroupType = E_GroupType::DEFAULT) :
 	m_fFireMaxCoolTime(0.1f)
 {
 	// 플레이어 리지드바디 추가
-	/*CRigidbody2D* pRigidbody = new CRigidbody2D(this);
+	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
 	pRigidbody->SetMass(10.0f);
-	pRigidbody->UseGravity(true);
-	pRigidbody->SetDrag(3.0f);*/
+	pRigidbody->UseGravity(false);
+	pRigidbody->SetDrag(3.0f);
 }
 
 CPlayer::~CPlayer()
@@ -51,22 +51,22 @@ void CPlayer::Update()
 	if (InputKeyHold(E_Key::RBUTTON)) {
 	}
 	if (InputKeyHold(E_Key::LEFT)) {// 왼쪽 키가 눌렸다면
-		//GetRigidbody()->AddForce(Vector3(-fForce, 0, 0));
+		GetRigidbody()->AddForce(Vector3(-fForce, 0, 0));
 
 		GetAnimator()->PlayAnimation(L"WALK_LEFT", E_AnimationPlayType::LOOP);
 	}
 	if (InputKeyHold(E_Key::RIGHT)) {
-		//GetRigidbody()->AddForce(Vector3(fForce, 0, 0));
+		GetRigidbody()->AddForce(Vector3(fForce, 0, 0));
 
 		GetAnimator()->PlayAnimation(L"WALK_RIGHT", E_AnimationPlayType::LOOP);
 	}
 	if (InputKeyHold(E_Key::UP)) {
-		//GetRigidbody()->AddForce(Vector3(0, -fForce, 0));
+		GetRigidbody()->AddForce(Vector3(0, -fForce, 0));
 
 		GetAnimator()->PlayAnimation(L"WALK_UP", E_AnimationPlayType::LOOP);
 	}
 	if (InputKeyHold(E_Key::DOWN)) {
-		//GetRigidbody()->AddForce(Vector3(0, fForce, 0));
+		GetRigidbody()->AddForce(Vector3(0, fForce, 0));
 
 		GetAnimator()->PlayAnimation(L"WALK_DOWN", E_AnimationPlayType::LOOP);
 	}

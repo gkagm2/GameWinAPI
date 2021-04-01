@@ -10,8 +10,10 @@
 #include "CCamera.h"
 #include "CAnimator.h"
 #include "CTexture.h"
+#include "CAI.h"
 
 enum class E_MissileType;
+
 CMonster::CMonster(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
 	m_fSpeed(1.0f),
@@ -28,9 +30,35 @@ CMonster::CMonster(E_GroupType _eGroupType) :
 	m_fMissileFireCoolTime(0.0f),
 	m_fMissileMaxFireCoolTime(3.0f),
 	m_fMissileSpeed(400.0f),
-	m_pTargetObj(nullptr)
+	m_pTargetObj(nullptr),
+	m_pAI(nullptr)
 {
 	m_vOriginalScale = GetScale();
+
+	// AI
+}
+
+CMonster::CMonster(const CMonster& _other) :
+	CObject(_other.m_eGroupType),
+	m_fSpeed(_other.m_fSpeed),
+	m_fDirection(_other.m_fDirection),
+	m_fRange(_other.m_fRange),
+	m_vStartPosition(_other.m_vStartPosition),
+	m_fRatioX(_other.m_fRatioX),
+	m_fRatioY(_other.m_fRatioY),
+	m_eUpgradeLevel(_other.m_eUpgradeLevel),
+	m_fHitEffectMaxCoolTime(_other.m_fHitEffectCoolTime),
+	m_fHitEffectCoolTime(_other.m_fHitEffectCoolTime),
+	m_bIsHit(_other.m_bIsHit),
+	m_vOriginalScale(_other.m_vOriginalScale),
+	m_fMissileFireCoolTime(_other.m_fMissileFireCoolTime),
+	m_fMissileMaxFireCoolTime(_other.m_fMissileMaxFireCoolTime),
+	m_fMissileSpeed(_other.m_fMissileSpeed),
+	m_pTargetObj(_other.m_pTargetObj),
+	m_pAI(nullptr)
+{
+	if (nullptr != _other.m_pAI)
+		m_pAI = _other.m_pAI->Clone();
 }
 
 CMonster::~CMonster()
@@ -263,4 +291,10 @@ void CMonster::Move(int _iType = 0)
 	case 3:
 		break;
 	}
+}
+
+void CMonster::CreateAI()
+{
+	m_pAI = new CAI;
+	m_pAI->m_pMonster = this;
 }

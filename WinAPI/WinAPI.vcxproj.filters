@@ -68,9 +68,6 @@
     <Filter Include="Game\Object\PlaneShooting_PJ\Player">
       <UniqueIdentifier>{7b7b2818-9eea-4d5e-84ae-089a73500722}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object\PlaneShooting_PJ\MonsterSmall">
-      <UniqueIdentifier>{992249d1-780c-4e20-8460-195afcb2a0c9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Object\PlaneShooting_PJ\Background">
       <UniqueIdentifier>{318908e4-01f9-4f1c-9d6b-7b79beafa142}</UniqueIdentifier>
     </Filter>
@@ -94,9 +91,6 @@
     </Filter>
     <Filter Include="Game\Scene\Gta_PJ\Scene_InGame">
       <UniqueIdentifier>{35175435-403f-4df8-a4bf-a80d55c78b92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\Rigidbody">
-      <UniqueIdentifier>{5907db62-b3da-4167-a762-241f6b592590}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Scene\PlaneShooting_PJ">
       <UniqueIdentifier>{ff76d25b-7a84-4618-972d-19b9d9444d69}</UniqueIdentifier>
@@ -160,6 +154,27 @@
     </Filter>
     <Filter Include="Game\Object\Gta_PJ\Vehicle">
       <UniqueIdentifier>{3f713975-5e38-4687-8833-a1f4cf0f06c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Component\Rigidbody">
+      <UniqueIdentifier>{5907db62-b3da-4167-a762-241f6b592590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Component\AI">
+      <UniqueIdentifier>{9f19c02d-bc86-46e6-b47c-05c26496fd2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Component\AI\AIState">
+      <UniqueIdentifier>{cfa114d2-b0ef-4686-92dd-0020a3101f9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\PlaneShooting_PJ\Monster\MonsterSmall">
+      <UniqueIdentifier>{992249d1-780c-4e20-8460-195afcb2a0c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\PlaneShooting_PJ\Monster\MonsterAI">
+      <UniqueIdentifier>{941b6ba5-e451-4e65-b9b7-b5339e8507d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\PlaneShooting_PJ\Monster\MonsterAI\IdleState">
+      <UniqueIdentifier>{046de77f-3866-441c-9048-704a794fff38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\PlaneShooting_PJ\Monster\MonsterAI\TraceState">
+      <UniqueIdentifier>{bdb5159d-565b-4beb-8abb-d19f6bb7f46c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -263,7 +278,7 @@
       <Filter>Game\Object\PlaneShooting_PJ\MonsterRespawner</Filter>
     </ClInclude>
     <ClInclude Include="CMonster_Small.h">
-      <Filter>Game\Object\PlaneShooting_PJ\MonsterSmall</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterSmall</Filter>
     </ClInclude>
     <ClInclude Include="CBackground.h">
       <Filter>Game\Object\PlaneShooting_PJ\Background</Filter>
@@ -281,10 +296,10 @@
       <Filter>Game\Define</Filter>
     </ClInclude>
     <ClInclude Include="CRigidbody2D.h">
-      <Filter>Game\Object\Rigidbody</Filter>
+      <Filter>Game\Component\Rigidbody</Filter>
     </ClInclude>
     <ClInclude Include="CRigidbody.h">
-      <Filter>Game\Object\Rigidbody</Filter>
+      <Filter>Game\Component\Rigidbody</Filter>
     </ClInclude>
     <ClInclude Include="CScene_Tool.h">
       <Filter>Game\Scene\PlaneShooting_PJ\Tool</Filter>
@@ -318,6 +333,21 @@
     </ClInclude>
     <ClInclude Include="CScene_GtaInGame.h">
       <Filter>Game\Scene\Gta_PJ\Scene_InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="CAI.h">
+      <Filter>Game\Component\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="CAIState.h">
+      <Filter>Game\Component\AI\AIState</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonster_AI.h">
+      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI</Filter>
+    </ClInclude>
+    <ClInclude Include="CIdleState.h">
+      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI\IdleState</Filter>
+    </ClInclude>
+    <ClInclude Include="CTraceState.h">
+      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI\TraceState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -413,7 +443,7 @@
       <Filter>Game\Object\PlaneShooting_PJ\MonsterRespawner</Filter>
     </ClCompile>
     <ClCompile Include="CMonster_Small.cpp">
-      <Filter>Game\Object\PlaneShooting_PJ\MonsterSmall</Filter>
+      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterSmall</Filter>
     </ClCompile>
     <ClCompile Include="CBackground.cpp">
       <Filter>Game\Object\PlaneShooting_PJ\Background</Filter>
@@ -431,10 +461,10 @@
       <Filter>Game\Define</Filter>
     </ClCompile>
     <ClCompile Include="CRigidbody2D.cpp">
-      <Filter>Game\Object\Rigidbody</Filter>
+      <Filter>Game\Component\Rigidbody</Filter>
     </ClCompile>
     <ClCompile Include="CRigidbody.cpp">
-      <Filter>Game\Object\Rigidbody</Filter>
+      <Filter>Game\Component\Rigidbody</Filter>
     </ClCompile>
     <ClCompile Include="CScene_Tool.cpp">
       <Filter>Game\Scene\PlaneShooting_PJ\Tool</Filter>
@@ -468,6 +498,21 @@
     </ClCompile>
     <ClCompile Include="CScene_GtaInGame.cpp">
       <Filter>Game\Scene\Gta_PJ\Scene_InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="CAI.cpp">
+      <Filter>Game\Component\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="CAIState.cpp">
+      <Filter>Game\Component\AI\AIState</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonster_AI.cpp">
+      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI</Filter>
+    </ClCompile>
+    <ClCompile Include="CIdleState.cpp">
+      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI\IdleState</Filter>
+    </ClCompile>
+    <ClCompile Include="CTraceState.cpp">
+      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI\TraceState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

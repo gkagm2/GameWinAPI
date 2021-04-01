@@ -4,6 +4,7 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CObject.h"
+#include "CAI.h"
 
 CEventManager::CEventManager() {
 
@@ -51,6 +52,17 @@ void CEventManager::Execute(const tEvent& _event)
 			pDeleteObject->_SetIsDead(true);
 			m_queDeadObj.push(pDeleteObject);
 		}
+	}
+		break;
+		// lParam : 巩磊凯 林家
+		// wParam : AI 林家
+	case E_EventType::CHANGE_STATE: // AI State Change Event
+	{
+		E_EventType type = _event.eType;
+		wstring* pStrKey= (wstring*)_event.lParam;
+		CAI* pAI = (CAI*)_event.wParam;
+		pAI->ChangeState(*pStrKey);
+		delete pStrKey;
 	}
 		break;
 	}

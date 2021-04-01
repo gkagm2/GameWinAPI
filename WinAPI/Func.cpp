@@ -36,7 +36,7 @@ void LoadWString(wstring& _str, FILE* _pFile) {
 	_str = szBuffer;
 }
 
-// Tile tool scene
+// Tile tool sceneC
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CScene_Tool.h"
