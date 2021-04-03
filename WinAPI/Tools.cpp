@@ -125,18 +125,15 @@ Vector2 ResizeScaleMaintainRatio(float _fitWidth, float _fitHeight, float _width
 	float maxValue = _width > _height ? _width : _height;
 	float x = _width / maxValue;
 	float y = _height / maxValue;
-
-	
 	float i = _fitWidth > _fitHeight ? _fitWidth : _fitHeight;
 	while (i > 0) {
 		if (x * i <= _fitWidth && y * i <= _fitHeight) {
-			x = x * (i + 0.01f);
-			y = y * (i + 0.01f);
+			x = x * i;
+			y = y * i;
 			break;
 		}
 		i -= 0.1f;
 	}
-
 
 	return Vector2(x, y);
 }
