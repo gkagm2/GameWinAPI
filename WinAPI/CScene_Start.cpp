@@ -20,6 +20,7 @@
 #include "CColliderRect.h"
 
 #include "CAnimator.h"
+#include "CAnimation.h"
 #include "CRigidbody2D.h"
 CScene_Start::CScene_Start()
 {
@@ -47,8 +48,6 @@ void CScene_Start::Start()
 	pPlayer->SetObjectName(L"Player");
 	pPlayer->SetPosition(Vector3{ ptResolution.x / 2.0f, ptResolution.y - 200.0f, .0f });
 	pPlayer->SetTexture(pPlayerTexture2); // 텍스쳐 설정
-	Vector2 vScale =ResizeScaleMaintainRatio(50, 50, pPlayer->GetTextureHeight(), pPlayer->GetTextureWidth());
-	pPlayer->SetScale(Vector3(vScale.x, vScale.y, 1.0f));
 
 	// 플레이어 충돌 컴포넌트 생성 및 추가
 	CColliderRect* pPlayerRectCollider = new CColliderRect(pPlayer);
@@ -73,6 +72,11 @@ void CScene_Start::Start()
 
 	pPlayerAnimator->Load(STR_FILE_PATH_PlayerAnim_Save);
 	pPlayerAnimator->PlayAnimation(L"WALK_UP", E_AnimationPlayType::LOOP);
+
+	float fAnimTextureWidth = pPlayer->GetAnimator()->GetAnimation(L"IDLE_DOWN")->GetFrame(0).vSlice.x;
+	float fAnimTextureHeight = pPlayer->GetAnimator()->GetAnimation(L"IDLE_DOWN")->GetFrame(0).vSlice.y;
+	Vector2 vScale = ResizeScaleMaintainRatio(50, 50, fAnimTextureWidth, fAnimTextureHeight);
+	pPlayer->SetScale(Vector3(vScale.x, vScale.y, 1.0f));
 
 	AddObject(pPlayer);
 

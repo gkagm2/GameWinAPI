@@ -117,17 +117,30 @@ void TransposedMatrix(Matrix4x4& m) {
 
 
 
+// TODO :  공식으로 추려야한다.! (성능 엄청안좋음)
 // 비율을 유지하면서 원하는 사이즈로 맞춘다.
+// 맞출 사이즈 : _fitWidth, _fitHeight, 원본 크기 : _width, _height
 Vector2 ResizeScaleMaintainRatio(float _fitWidth, float _fitHeight, float _width, float _height)
 {
 	float maxValue = _width > _height ? _width : _height;
 	float x = _width / maxValue;
 	float y = _height / maxValue;
-	float minGap = _fitWidth - x > _fitHeight - y ? _fitHeight : _fitWidth;
-	x *= minGap;
-	y *= minGap;
+
+	
+	float i = _fitWidth > _fitHeight ? _fitWidth : _fitHeight;
+	while (i > 0) {
+		if (x * i <= _fitWidth && y * i <= _fitHeight) {
+			x = x * (i + 0.01f);
+			y = y * (i + 0.01f);
+			break;
+		}
+		i -= 0.1f;
+	}
+
+
 	return Vector2(x, y);
 }
+
 
 // 벡터 회전 2D Rotate
 Vector3 Rotate(const Vector3& _vVec, float _fDegree)

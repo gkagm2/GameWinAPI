@@ -42,7 +42,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINAPI));
 
     MSG msg{};
-    CCore::GetInstance()->Init(g_hWnd, POINT{ 1280, 768 });
+
+    
+    int x = (UINT)GetSystemMetrics(SM_CXSCREEN);
+    int y = (UINT)GetSystemMetrics(SM_CYSCREEN);
+    Vector2 vResolution = ResizeScaleMaintainRatio(x, y, 1280, 768);
+
+    CCore::GetInstance()->Init(g_hWnd, POINT{ LONG(vResolution.x), LONG(vResolution.y) });
+    //CCore::GetInstance()->Init(g_hWnd, POINT{ 1280, 768 });
 
     // Main message loop:
     while (true)
