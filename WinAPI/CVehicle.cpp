@@ -14,7 +14,7 @@
 
 CVehicle::CVehicle(E_GroupType _eGroupType) :
 	CObject(_eGroupType = E_GroupType::VEHICLE),
-	m_vPrevHead{0, 1, 0}
+	m_vPrevHeadDir{0, 1, 0}
 {
 }
 
@@ -34,15 +34,27 @@ void CVehicle::PrevUpdate()
 
 void CVehicle::Update()
 {
-	
 	// This is Get direction 
 	RotateRP(0);
+
+	Vector3 vHeadDir = m_vPrevHeadDir;
+	vHeadDir.Normalized();
 	//RotateInfo().Update();
 	if (InputKeyHold(E_Key::LEFT)) {
 		RotateRP(-120);
+		vHeadDir = Rotate(vHeadDir, -120 * DeltaTime);
 	}
 	if (InputKeyHold(E_Key::RIGHT)) {
 		RotateRP(120);
+		vHeadDir = Rotate(vHeadDir, 120 * DeltaTime);
+	}
+	m_vPrevHeadDir = vHeadDir;
+
+	if (InputKeyHold(E_Key::UP)) {
+		SetPosition(GetPosition().x + vHeadDir.x * 300 * DeltaTime, GetPosition().y + vHeadDir.y * 300 * DeltaTime);
+	}
+	if (InputKeyHold(E_Key::DOWN)) {
+		SetPosition(GetPosition().x - vHeadDir.x * 300 * DeltaTime, GetPosition().y - vHeadDir.y * 300 * DeltaTime);
 	}
 }
 
@@ -81,22 +93,20 @@ void CVehicle::Render(HDC _hDC)
 		if (nullptr != GetAnimator())
 			GetAnimator()->Render(_hDC);
 		else {
-			UINT iWidth = (UINT)ScaleX();
-			UINT iHeight = (UINT)ScaleY();
-			UINT iWidth1 = GetTexture()->GetWidth();
-			UINT iHeight1 = GetTexture()->GetHeight();
-			HDC hTextureDC = GetTexture()->GetDC();
-			// 예외처리할 색상 RGB값을 처리하기 위해 BitBlt대신 TransparentBlt을 이용 (library 필요)
-			TransparentBlt(
-				_hDC,
-				(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight / 2),
-				iWidth, iHeight,
-				hTextureDC,
-				0, 0,
-				iWidth1, iHeight1,
-				(COLORREF)EXCEPTION_COLOR_RGB_BLACK); // 제거 할 색상
-#pragma region Test code
-
+			//UINT iWidth = (UINT)ScaleX();
+			//UINT iHeight = (UINT)ScaleY();
+			//UINT iWidth1 = GetTexture()->GetWidth();
+			//UINT iHeight1 = GetTexture()->GetHeight();
+			//HDC hTextureDC = GetTexture()->GetDC();
+			//// 예외처리할 색상 RGB값을 처리하기 위해 BitBlt대신 TransparentBlt을 이용 (library 필요)
+			//TransparentBlt(
+			//	_hDC,
+			//	(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight / 2),
+			//	iWidth, iHeight,
+			//	hTextureDC,
+			//	0, 0,
+			//	iWidth1, iHeight1,
+			//	(COLORREF)EXCEPTION_COLOR_RGB_BLACK); // 제거 할 색상
 			POINT rPNT[3];
 
 			Vector3 v1 = GetRectPoint(0);
@@ -111,17 +121,6 @@ void CVehicle::Render(HDC _hDC)
 			
 			HBITMAP bitmap{};
 			PlgBlt(_hDC, rPNT, GetTexture()->GetDC(), 0, 0, GetTexture()->GetWidth(), GetTexture()->GetHeight(), bitmap, 8,5);
-
-			TransparentBlt(
-				_hDC,
-				(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight / 2),
-				iWidth, iHeight,
-				hTextureDC,
-				0, 0,
-				iWidth1, iHeight1,
-				(COLORREF)EXCEPTION_COLOR_RGB_BLACK); // 제거 할 색상
-				
-#pragma endregion
 		}
 	}
 	

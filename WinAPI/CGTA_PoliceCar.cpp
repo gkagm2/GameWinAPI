@@ -51,12 +51,6 @@ void CGTA_PoliceCar::PrevUpdate()
 
 void CGTA_PoliceCar::Update()
 {
-	if (InputKeyHold(E_Key::UP)) {
-		SetPosition( GetPosition().x, GetPosition().y - DeltaTime * 30.f);
-	}
-	if (InputKeyHold(E_Key::DOWN)) {
-		SetPosition(GetPosition().x, GetPosition().y + DeltaTime * 30.f);
-	}
 	__super::Update();
 
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(GetPosition());
