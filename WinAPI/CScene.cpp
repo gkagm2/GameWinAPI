@@ -154,7 +154,7 @@ void CScene::PrevUpdateTile()
 	for (int iRow = 0; iRow < iMaxRow; ++iRow) {
 		for (int iCol = 0; iCol < iMaxCol; ++iCol) {
 			int iResultIdx = iLeftTopIdx + m_pTileMap->GetCol() * iRow + iCol;
-			if (iResultIdx < 0)
+			if (iResultIdx < 0 || iResultIdx >= m_pTileMap->GetCol() * m_pTileMap->GetRow())
 				continue;
 			vecObjs[iResultIdx]->PrevUpdate();
 		}
@@ -196,7 +196,7 @@ void CScene::UpdateTile()
 	for (int iRow = 0; iRow < iMaxRow; ++iRow) {
 		for (int iCol = 0; iCol < iMaxCol; ++iCol) {
 			int iResultIdx = iLeftTopIdx + m_pTileMap->GetCol() * iRow + iCol;
-			if (iResultIdx < 0)
+			if (iResultIdx < 0 || iResultIdx >= m_pTileMap->GetCol() * m_pTileMap->GetRow())
 				continue;
 			vecObjs[iResultIdx]->Update();
 		}
@@ -238,7 +238,7 @@ void CScene::LateUpdateTile()
 	for (int iRow = 0; iRow < iMaxRow; ++iRow) {
 		for (int iCol = 0; iCol < iMaxCol; ++iCol) {
 			int iResultIdx = iLeftTopIdx + m_pTileMap->GetCol() * iRow + iCol;
-			if (iResultIdx < 0)
+			if (iResultIdx < 0 || iResultIdx >= m_pTileMap->GetCol() * m_pTileMap->GetRow())
 				continue;
 			vecObjs[iResultIdx]->LateUpdate();
 		}
@@ -282,9 +282,7 @@ void CScene::RenderTile(HDC _hDC)
 		for (int iCol = 0; iCol < iMaxCol; ++iCol) {
 			int colSize = m_pTileMap->GetCol();
 			int iResultIdx = iLeftTopIdx + colSize * iRow + iCol;
-
-
-			if (iResultIdx < 0)
+			if (iResultIdx < 0 || iResultIdx >= m_pTileMap->GetCol() * m_pTileMap->GetRow())
 				continue;
 			vecObjs[iResultIdx]->Render(_hDC);
 		}
@@ -318,4 +316,17 @@ void CScene::LoadTile(wstring _strPath)
 	}
 
 	fclose(pFile);
+}
+
+void CScene::LoadAll(wstring _strPath)
+{
+	wstring strFilePath = _strPath;
+	// load player data
+
+
+	// load vehicle data
+
+	// load item data
+
+	// load Save data
 }

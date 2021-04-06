@@ -185,6 +185,9 @@
     <Filter Include="Game\Manager\CameraMgr">
       <UniqueIdentifier>{858f121b-1149-4a86-b9c6-5b7d31e5ba08}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Gta_PJ\Player">
+      <UniqueIdentifier>{53d11fc6-25eb-4557-87c8-a46d3e9b4f07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -365,6 +368,10 @@
       <Filter>Game\Manager\CameraMgr</Filter>
     </ClInclude>
     <ClInclude Include="CCamera2D.h" />
+    <ClInclude Include="CGTA_Player.h" />
+    <ClInclude Include="CGTA_PoliceCar.h">
+      <Filter>Game\Object\Gta_PJ\Gta_Car</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -537,6 +544,10 @@
       <Filter>Game\Manager\CameraMgr</Filter>
     </ClCompile>
     <ClCompile Include="CCamera2D.cpp" />
+    <ClCompile Include="CGTA_Player.cpp" />
+    <ClCompile Include="CGTA_PoliceCar.cpp">
+      <Filter>Game\Object\Gta_PJ\Gta_Car</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">

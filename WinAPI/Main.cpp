@@ -52,6 +52,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //CCore::GetInstance()->Init(g_hWnd, POINT{ 1280, 768 });
 
     // Main message loop:
+
     while (true)
     {
         // 메세지를 슬쩍 보겠다는것임.
@@ -133,9 +134,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         case IDM_ABOUT:
             DialogBox(nullptr, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
             break;
+        case ID_FILE_SAVE:
+        case ID_FILE_LOAD:
+            MenuContainer(wmId);
+            break;
         case ID_TILE_CREATE:
         case ID_TILE_SAVE:
         case ID_TILE_LOAD:
+            MenuContainer(wmId);
+            break;
+        case ID_CHARACTER_TOOL:
             MenuContainer(wmId);
             break;
         case IDM_EXIT:

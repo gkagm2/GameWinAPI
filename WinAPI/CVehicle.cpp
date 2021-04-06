@@ -14,8 +14,7 @@
 
 CVehicle::CVehicle(E_GroupType _eGroupType) :
 	CObject(_eGroupType = E_GroupType::VEHICLE),
-	m_vDir{0.f ,1.f, 0.f},
-	pnt{}
+	m_vPrevHead{0, 1, 0}
 {
 }
 
@@ -23,8 +22,33 @@ CVehicle::~CVehicle()
 {
 }
 
+void CVehicle::Init()
+{
+	InitRectPoint();
+}
+
+void CVehicle::PrevUpdate()
+{
+	__super::PrevUpdate();
+}
+
 void CVehicle::Update()
 {
+	
+	// This is Get direction 
+	RotateRP(0);
+	//RotateInfo().Update();
+	if (InputKeyHold(E_Key::LEFT)) {
+		RotateRP(-120);
+	}
+	if (InputKeyHold(E_Key::RIGHT)) {
+		RotateRP(120);
+	}
+}
+
+void CVehicle::LateUpdate()
+{
+	__super::LateUpdate();
 }
 
 void CVehicle::Render(HDC _hDC)
@@ -62,58 +86,40 @@ void CVehicle::Render(HDC _hDC)
 			UINT iWidth1 = GetTexture()->GetWidth();
 			UINT iHeight1 = GetTexture()->GetHeight();
 			HDC hTextureDC = GetTexture()->GetDC();
-
 			// 예외처리할 색상 RGB값을 처리하기 위해 BitBlt대신 TransparentBlt을 이용 (library 필요)
-			
+			TransparentBlt(
+				_hDC,
+				(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight / 2),
+				iWidth, iHeight,
+				hTextureDC,
+				0, 0,
+				iWidth1, iHeight1,
+				(COLORREF)EXCEPTION_COLOR_RGB_BLACK); // 제거 할 색상
 #pragma region Test code
-			
-			Vector3 vMiddle = m_vMiddlePos;
-
-			Vector3 dis[3];
-			dis[0] = pnt[0] - vMiddle;
-			dis[1] = pnt[1] - vMiddle;
-			dis[2] = pnt[2] - vMiddle;
-
-			float fDis[3];
-			fDis[0] = dis[0].GetDistance();
-			fDis[1] = dis[1].GetDistance();
-			fDis[2] = dis[2].GetDistance();
-
-			dis[0].Normalized();
-			dis[1].Normalized();
-			dis[2].Normalized();
-
-			if (InputKeyHold(E_Key::LEFT)) {
-				dis[0] = Rotate(dis[0], 120 * DeltaTime);
-				dis[1] = Rotate(dis[1], 120 * DeltaTime);
-				dis[2] = Rotate(dis[2], 120 * DeltaTime);
-			}
-			if (InputKeyHold(E_Key::RIGHT)) {
-				dis[0] = Rotate(dis[0], -120 * DeltaTime);
-				dis[1] = Rotate(dis[1], -120 * DeltaTime);
-				dis[2] = Rotate(dis[2], -120 * DeltaTime);
-			}
-			
-			/*if (InputKeyHold(E_Key::RIGHT)) {
-				Rotate(dis[0], -60.f);
-				Rotate(dis[1], -60.f);
-				Rotate(dis[2], -60.f);
-			}*/
-
-			pnt[0] = m_vMiddlePos + dis[0] * fDis[0];
-			pnt[1] = m_vMiddlePos + dis[1] * fDis[1];
-			pnt[2] = m_vMiddlePos + dis[2] * fDis[2];
 
 			POINT rPNT[3];
-			rPNT[0].x = pnt[0].x;
-			rPNT[0].y = pnt[0].y;
-			rPNT[1].x = pnt[1].x;
-			rPNT[1].y = pnt[1].y;
-			rPNT[2].x = pnt[2].x;
-			rPNT[2].y = pnt[2].y;
+
+			Vector3 v1 = GetRectPoint(0);
+			Vector3 v2 = GetRectPoint(1);
+			Vector3 v3 = GetRectPoint(2);
+			rPNT[0].x = (int)(vRenderPosition.x + GetRectPoint(0).x);
+			rPNT[0].y = (int)(vRenderPosition.y + GetRectPoint(0).y);
+			rPNT[1].x = (int)(vRenderPosition.x + GetRectPoint(1).x);
+			rPNT[1].y = (int)(vRenderPosition.y + GetRectPoint(1).y);
+			rPNT[2].x = (int)(vRenderPosition.x + GetRectPoint(2).x);
+			rPNT[2].y = (int)(vRenderPosition.y + GetRectPoint(2).y);
 			
 			HBITMAP bitmap{};
-			PlgBlt(_hDC, rPNT, GetTexture()->GetDC(), 0, 0, GetTexture()->GetWidth(), GetTexture()->GetHeight(), bitmap, 0, 0);
+			PlgBlt(_hDC, rPNT, GetTexture()->GetDC(), 0, 0, GetTexture()->GetWidth(), GetTexture()->GetHeight(), bitmap, 8,5);
+
+			TransparentBlt(
+				_hDC,
+				(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight / 2),
+				iWidth, iHeight,
+				hTextureDC,
+				0, 0,
+				iWidth1, iHeight1,
+				(COLORREF)EXCEPTION_COLOR_RGB_BLACK); // 제거 할 색상
 				
 #pragma endregion
 		}

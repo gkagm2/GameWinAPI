@@ -7,6 +7,7 @@
 #include "CSceneManager.h"
 #include "CPathManager.h"
 #include "CUIManager.h"
+#include "CResourceManager.h"
 
 #include "CScene.h"
 #include "CScene_Tool.h"
@@ -21,6 +22,9 @@
 #include "CPanelUI.h"
 #include "CCamera_Tool.h"
 
+#include "CGTA_Player.h"
+#include "CGTA_PoliceCar.h"
+#include "CColliderRect.h"
 
 #include "CDebug.h"
 
@@ -51,6 +55,22 @@ void CScene_Tool::Start()
 	ptResolution.x /= 2;
 	ptResolution.y /= 2;
 
+
+	// Character 모음
+	// Player
+	CGTA_Player* pPlayer = new CGTA_Player(E_GroupType::PLAYER);
+	pPlayer->SetObjectName(L"Player");
+	pPlayer->Init();
+	AddObject(pPlayer);
+
+	// Vehicle
+	CGTA_PoliceCar* pPoliceCar = new CGTA_PoliceCar(E_GroupType::VEHICLE);
+	pPoliceCar->SetObjectName(L"Police Car");
+	pPoliceCar->Init();
+	AddObject(pPoliceCar);
+
+
+	// 툴 전용 카메라 생성
 	CCamera_Tool* pCamera = new CCamera_Tool(E_GroupType::MAIN_CAMERA);
 	pCamera->SetMainCamera();
 	pCamera->SetLookAt(Vector2((float)ptResolution.x, (float)ptResolution.y));
@@ -62,13 +82,13 @@ void CScene_Tool::Start()
 	m_pTileMap->CreateTileGrid(10, 10);
 	AddObject(m_pTileMap);
 	
-	
 	// UI 생성
+	/*
 	CPanelUI* pUI = new CPanelUI(E_GroupType::UI);
 	pUI->Init();
 	pUI->SetPosition(250, 150, 0);
 	AddObject(pUI);
-	/*
+	
 	CPanelUI* copyUI = pUI->Clone();
 	copyUI->SetPosition(500, 500, 0);
 	AddObject(copyUI);
@@ -182,5 +202,29 @@ INT_PTR CreateTileProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return INT_PTR(FALSE);
+	return (INT_PTR)FALSE;
+}
+
+INT_PTR CALLBACK CharacterTool(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		return (INT_PTR)TRUE;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+		{
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+		if (LOWORD(wParam) == IDC_Load_BUTTON2) {
+			MessageBox(CCore::GetInstance()->GetWndHandle(), L"GOOD", L"TEST", MB_OK);
+		}
+
+		break;
+	case WM_CLOSE:
+		DestroyWindow(hDlg);
+		break;
+	}
+	return (INT_PTR)FALSE;
 }

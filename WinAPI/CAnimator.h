@@ -20,6 +20,9 @@ private:
 	CAnimation* m_pCurAnimation;
 
 	E_AnimationPlayType m_ePlayType; // 재생 여부
+	
+	float m_fAnimTexWidth; // Get으로만 접근하기
+	float m_fAnimTexHeight;
 
 public:
 	void LateUpdate();
@@ -37,6 +40,10 @@ public:
 public:
 	void Save(const wstring& _strRelativePath);
 	void Load(const wstring& _strRelativePath);
+
+public:
+	float GetAnimTexWidth(int _iFrameIdx = 0);
+	float GetAnimTexHeight(int _iFrameIdx = 0);
 
 public:
 	CLONE(CAnimator);

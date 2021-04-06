@@ -14,17 +14,36 @@
 #define IDI_SMALL                       108
 #define IDC_WINAPI                      109
 #define IDR_MAINFRAME                   128
+#define IDD_CHACTER_TOOL                132
 #define IDC_EDIT_CREATE_TILE_COL        1002
 #define IDC_EDIT_CREATE_TILE_ROW        1003
 #define IDC_STATIC_CREATE_TILE_COL      1004
 #define IDC_STATIC_CREATE_TILE_ROW      1005
 #define IDC_EDIT_COL                    1006
 #define IDC_EDIT_ROW                    1008
+#define IDC_CREATE_BUTTON               1009
+#define IDC_LIST1                       1010
+#define IDC_Load_BUTTON2                1011
+#define IDC_Player_Button               1012
+#define IDC_Vehicle_Button              1013
+#define IDC_Item_Button                 1014
 #define ID_TITL                         32771
 #define ID_TOOLS_TILE                   32772
 #define ID_TILE_SAVE                    32773
 #define ID_TILE_CREATE                  32774
 #define ID_TILE_LOAD                    32775
+#define ID_CHARACTER_PLAYER             32781
+#define ID_CHARACTER_ITEM               32782
+#define ID_PLAYER_SAVE                  32783
+#define ID_PLAYER_LOAD                  32784
+#define ID_ITEM_SAVE                    32785
+#define ID_ITEM_LOAD                    32786
+#define ID_CHARACTER_VEHICLE            32787
+#define ID_CHARACTER_CITIZEN            32788
+#define ID_CHARACTER                    32789
+#define ID_CHARACTER_TOOL               32790
+#define ID_FILE_SAVE                    32791
+#define ID_FILE_LOAD                    32792
 #define IDC_STATIC                      -1
 
 // Next default values for new objects
@@ -32,9 +51,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        132
-#define _APS_NEXT_COMMAND_VALUE         32781
-#define _APS_NEXT_CONTROL_VALUE         1007
+#define _APS_NEXT_RESOURCE_VALUE        133
+#define _APS_NEXT_COMMAND_VALUE         32793
+#define _APS_NEXT_CONTROL_VALUE         1013
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif

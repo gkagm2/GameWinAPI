@@ -5,11 +5,16 @@ class CTexture;
 class CCollider;
 class CAnimator;
 class CRigidbody;
+
 class CObject
 {
 private:
 	Vector3 m_vPosition;
 	Vector3 m_vScale;
+
+	// Rotate Info
+	Vector3 m_vRectPoint[3];
+	Vector3 m_vRPDir[3]; //RP : RectPoint
 
 	CTexture* m_pTexture;		// 텍스쳐
 	CCollider* m_pCollider;		// 충돌체 컴포넌트
@@ -44,6 +49,14 @@ public:
 public:
 	void SetRender(bool _bIsRender) { m_bIsRender = _bIsRender; }
 	bool IsRender() { return m_bIsRender; }
+
+
+	// Rotate
+	void InitRectPoint();
+	const Vector3& GetRectPoint(int _idx) { return m_vRectPoint[_idx]; }
+	void SetRectPoint(int _idx, Vector3 _vPoint) { m_vRectPoint[_idx] = _vPoint; }
+	// Rotate idx range : 0 ~ 2
+	void RotateRP(float _fDegree);
 
 	void SetPosition(Vector3 _vPos) { m_vPosition = _vPos; }
 	void SetPosition(Vector2 _vPos) { m_vPosition = _vPos; }
@@ -82,12 +95,16 @@ public:
 	bool IsActive() { return m_bIsActive; }
 	bool SetActive(bool _bActive) { return m_bIsActive = _bActive; }
 
-	inline float PosX() const { return m_vPosition.x; }
-	inline float PosY() const { return m_vPosition.y; }
-	inline float PosZ() const { return m_vPosition.z; }
-	inline float ScaleX() const { return m_vScale.x; }
-	inline float ScaleY() const { return m_vScale.y; }
-	inline float ScaleZ() const { return m_vScale.z; }
+	float PosX() const { return m_vPosition.x; }
+	float PosY() const { return m_vPosition.y; }
+	float PosZ() const { return m_vPosition.z; }
+	float ScaleX() const { return m_vScale.x; }
+	float ScaleY() const { return m_vScale.y; }
+	float ScaleZ() const { return m_vScale.z; }
+
+public:
+	void Save();
+	void Load();
 
 public:
 	virtual CObject* Clone() = 0;
@@ -103,4 +120,3 @@ public:
 public:
 	friend class CEventManager;
 };
-

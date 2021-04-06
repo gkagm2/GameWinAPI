@@ -17,17 +17,12 @@
 #define STR_TABLE_FailCreateTexture L"텍스쳐 생성 실패"
 #define STR_TABLE_Fail L"실패"
 
-// Shooting Game // 
 
-#define STR_FILE_NAME_Player L"Player"
-#define STR_FILE_PATH_Player L"Texture\\Player.bmp"
-
-#define STR_FILE_NAME_PlayerAnim L"Link"
-#define STR_FILE_PATH_PlayerAnim L"Texture\\Animation\\link_0.bmp"
 
 // Data
-#define STR_FILE_PATH_PlayerAnim_Save L"Data\\AnimFile\\Player.anim"
-#define STR_FILE_PATH_Tile_Save L"Data\\TileFile\\Tile.tile"
+#define STR_FILE_PATH_PlayerAnim_Save L"MetaData\\AnimFile\\Player.anim"
+#define STR_FILE_PATH_Tile_Save L"MetaData\\TileFile\\Tile.tile"
+#define STR_FILE_PATH_Vehicle_Save L"MetaData\\Objects\\Vehicle.vehicle"
 
 
 #define STR_FILE_NAME_Monster L"Monster"
@@ -52,11 +47,20 @@
 #define STR_FILE_NAME_UI_BG L"TilePanel2.bmp"
 #define STR_FILE_PATH_UI_BG L"Texture\\Tile\\TilePanel2.bmp"
 
+// Shooting Game // 
 
+#define STR_FILE_NAME_Player L"Player"
+#define STR_FILE_PATH_Player L"Texture\\Player.bmp"
 
+#define STR_FILE_NAME_PlayerAnim L"Link"
+#define STR_FILE_PATH_PlayerAnim L"Texture\\Animation\\link_0.bmp"
 
-// GTA //
-#define STR_FILE_NAME_Vehicle_car_Cops1 L"Car 12.bmp"
-#define STR_FILE_PATH_Vehicle_car_Cops1 L"Texture\\Animation\\car\\cops\\Copper\\Car 12.bmp"
-#define STR_FILE_NAME_Vehicle_car_Cops1Anim L"DeltaSet12.bmp"
-#define STR_FILE_PATH_Vehicle_car_Cops1Anim L"Texture\\Animation\\car\\cops\\Copper\\DeltaSet12.bmp"
+#define STR_FILE_PATH_MetaData L"MetaData\\"
+#define STR_FILE_PATH_Objects L"Objects\\"
+
+// GTA Game //
+#define STR_FILE_NAME_gta_player L"gtaPlayer"
+#define STR_FILE_PATH_gta_player L"Texture\\GTA\\gtaPlayer.bmp"
+
+#define STR_FILE_NAME_Vehicle_car_Cops1Anim L"car1.bmp"
+#define STR_FILE_PATH_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1_a.bmp"

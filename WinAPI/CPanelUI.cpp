@@ -75,7 +75,7 @@ void CPanelUI::Render(HDC _hDC)
 	else {
 		Vector3 vFinalPos = GetFinalPosition();
 
-		BitBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, GetScale().x, GetScale().y
+		BitBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, (int)GetScale().x, (int)GetScale().y
 			, pTexture->GetDC(), 0, 0, SRCCOPY);
 	}
 

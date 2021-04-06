@@ -160,6 +160,8 @@
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CDebug.h" />
     <ClInclude Include="CEventManager.h" />
+    <ClInclude Include="CGTA_Player.h" />
+    <ClInclude Include="CGTA_PoliceCar.h" />
     <ClInclude Include="CIdleState.h" />
     <ClInclude Include="CImageUI.h" />
     <ClInclude Include="CKeyManager.h" />
@@ -222,6 +224,8 @@
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CDebug.cpp" />
     <ClCompile Include="CEventManager.cpp" />
+    <ClCompile Include="CGTA_Player.cpp" />
+    <ClCompile Include="CGTA_PoliceCar.cpp" />
     <ClCompile Include="CIdleState.cpp" />
     <ClCompile Include="CImageUI.cpp" />
     <ClCompile Include="CKeyManager.cpp" />

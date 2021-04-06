@@ -15,7 +15,6 @@ public:
 	void MouseClick();
 
 	void SaveTile(wstring _strPath);
-	
 
 public:
 	CScene_Tool();

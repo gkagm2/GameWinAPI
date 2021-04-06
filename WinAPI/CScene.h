@@ -25,6 +25,7 @@ public: // Tile map
 
 	CTileMap* GetTileMap() { return m_pTileMap; }
 	void LoadTile(wstring _strPath);
+	void LoadAll(wstring _strPath);
 
 public:
 	virtual void Start() = 0;

@@ -27,7 +27,7 @@ public:
 	//virtual void OnPointerClick() override;
 
 protected:
-	void SetGrid(float _iColCnt, float _iRowCnt) { m_iColCnt = _iColCnt; m_iRowCnt = _iRowCnt; }
+	void SetGrid(int _iColCnt, int _iRowCnt) { m_iColCnt = _iColCnt; m_iRowCnt = _iRowCnt; }
 	void SetPadding(float _fLeft, float _fTop, float _fRight, float _fBottom);
 	void SetSpacing(float _fX, float _fY) { m_vSpacing.x = _fX; m_vSpacing.y = _fY; }
 

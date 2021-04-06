@@ -2,16 +2,16 @@
 #include "CObject.h"
 class CVehicle : public CObject
 {
-    Vector3 m_vDir;
-public:
-    Vector3 m_vMiddlePos;
-public:
-    Vector3 pnt[3];
+protected:
+    Vector3 m_vPrevHead;
 
 public:
+
+    virtual void Init() override;
+    virtual void PrevUpdate() override;
     virtual void Update() override;
+    virtual void LateUpdate() override;
     virtual void Render(HDC _hDC) override;
-
 
 public:
     CLONE(CVehicle);

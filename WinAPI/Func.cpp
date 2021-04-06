@@ -41,12 +41,30 @@ void LoadWString(wstring& _str, FILE* _pFile) {
 #include "CScene.h"
 #include "CScene_Tool.h"
 INT_PTR CALLBACK CreateTileProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
+INT_PTR CALLBACK CharacterTool(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+HWND hWndTool = nullptr;
 void MenuContainer(WPARAM _wmId)
 {
 	HWND hWnd = CCore::GetInstance()->GetWndHandle();
 
 	switch (_wmId) {
+	case ID_FILE_SAVE:
+		// Tile Info
+		// Player Info
+		// Objects Info
+		// Vehicle
+		// Cive
+
+		break;
+	case ID_FILE_LOAD:
+	{
+		CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(CSceneManager::GetInstance()->GetCurScene());
+		assert(pToolScene);
+		pToolScene->LoadTile(STR_FILE_PATH_Tile_Save);
+		pToolScene->LoadAll(STR_FILE_PATH_MetaData);
+	}
+		break;
+
 	case ID_TILE_CREATE:
 		DialogBox(nullptr, MAKEINTRESOURCE(IDD_CREATE_TILE_DIALOG), hWnd, CreateTileProc);
 		break;
@@ -94,6 +112,17 @@ void MenuContainer(WPARAM _wmId)
 		}
 	}
 		break;
+	case ID_CHARACTER_TOOL:
+		// Modeless dialog
+		if (!IsWindow(hWndTool)) {
+			hWndTool = CreateDialog(nullptr, MAKEINTRESOURCE(IDD_CHACTER_TOOL), hWnd, CharacterTool);
+			ShowWindow(hWndTool, SW_SHOW);
+		}
+		else
+			SetFocus(hWndTool);
+		InvalidateRect(hWndTool, nullptr, true);
+		break;
+		
 	default:
 		break;
 	}

@@ -7,10 +7,12 @@
 #include "CCollisionManager.h"
 #include "CScene.h"
 #include "CAnimator.h"
+#include "CAnimation.h"
 #include "CRigidbody.h"
 #include "CCamera.h"
 #include "CCameraManager.h"
 #include "CSceneManager.h"
+#include "CTimeManager.h"
 
 CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_vPosition{ 0, 0, 0 },
@@ -24,6 +26,14 @@ CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_bIsDead(false),
 	m_bIsRender(true),
 	m_bIsActive(true)
+{
+}
+
+void CObject::Save()
+{
+}
+
+void CObject::Load()
 {
 }
 
@@ -90,7 +100,6 @@ void CObject::Render(HDC _hDC)
 	if (false == m_bIsRender)
 		return;
 
-	
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(m_vPosition);
 
 	if (nullptr == m_pTexture) {
@@ -130,7 +139,7 @@ void CObject::Render(HDC _hDC)
 				hTextureDC,
 				0, 0,
 				iWidth1, iHeight1,
-				(COLORREF)EXCEPTION_COLOR_RGB_MAGENTA); // 제거 할 색상
+				(COLORREF)EXCEPTION_COLOR_RGB_BLACK); // 제거 할 색상
 
 			/*BitBlt(
 				_hDC,
@@ -167,6 +176,53 @@ void CObject::Render(HDC _hDC)
 		y = (int)(sinf(f * 3.14f / 180) * 200);
 		SetPixel(_hDC, (int)f, y + CCore::GetInstance()->GetResolution().y / 2, RGB(0, 0, 0));
 	}*/
+}
+
+void CObject::InitRectPoint()
+{
+	float fWidth = 50.f;
+	float fHeight = 50.f;
+	if (nullptr != m_pAnimator) {
+		fWidth = m_pAnimator->GetAnimTexWidth();
+		fHeight = m_pAnimator->GetAnimTexHeight();
+	}
+	else {
+		if (nullptr != m_pTexture) {
+			fWidth = (float)m_pTexture->GetWidth();
+			fHeight = (float)m_pTexture->GetHeight();
+		}
+	}
+
+	Vector3 pos = GetPosition();
+	Vector3 vLeftTop = { 0.f - fWidth / 2.f, vLeftTop.y = 0.f - fHeight / 2.f };
+	Vector3 vRightTop = { 0.f + fWidth / 2.f, 0.f - fHeight / 2.f };
+	Vector3 vLeftBottom = { 0.f - fWidth / 2.f, 0.f + fHeight / 2.f };
+
+	SetRectPoint(0, vLeftTop);
+	SetRectPoint(1, vRightTop);
+	SetRectPoint(2, vLeftBottom);
+}
+
+void CObject::RotateRP(float _fDegree)
+{
+	Vector3 dir[3];
+	dir[0] = m_vRectPoint[0];
+	dir[1] = m_vRectPoint[1];
+	dir[2] = m_vRectPoint[2];
+	dir[0].Normalized();
+	dir[1].Normalized();
+	dir[2].Normalized();
+
+	dir[0] = Rotate(dir[0], _fDegree * DeltaTime);
+	dir[1] = Rotate(dir[1], _fDegree *  DeltaTime);
+	dir[2] = Rotate(dir[2], _fDegree * DeltaTime);
+
+	Vector3 rp0 = GetRectPoint(0);
+	Vector3 rp1 = GetRectPoint(1);
+	Vector3 rp2 = GetRectPoint(2);
+	SetRectPoint(0, dir[0] * rp0.GetDistance());
+	SetRectPoint(1, dir[1] * rp1.GetDistance());
+	SetRectPoint(2, dir[2] * rp2.GetDistance());
 }
 
 Vector3 CObject::GetMax()

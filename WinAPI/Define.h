@@ -44,6 +44,7 @@ enum class E_GroupType {
 	MONSTER,
 	MONSTER_PROJECTILE,
 	VEHICLE,
+	CITIZEN,
 	UI =30,
 	MAIN_CAMERA = 31,
 	END = 32,

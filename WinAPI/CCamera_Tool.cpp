@@ -11,8 +11,6 @@ CCamera_Tool::CCamera_Tool(E_GroupType _eGroupType) :
 {
 }
 
-
-
 CCamera_Tool::~CCamera_Tool()
 {
 }

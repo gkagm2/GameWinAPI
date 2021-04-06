@@ -7,7 +7,9 @@
 CAnimator::CAnimator(CObject* _pOwner) :
 	m_pOwner(_pOwner),
 	m_pCurAnimation(nullptr),
-	m_ePlayType(E_AnimationPlayType::ONCE)
+	m_ePlayType(E_AnimationPlayType::ONCE),
+	m_fAnimTexWidth(0.f),
+	m_fAnimTexHeight(0.f)
 {
 	_pOwner->SetAnimator(this);
 }
@@ -15,7 +17,9 @@ CAnimator::CAnimator(CObject* _pOwner) :
 CAnimator::CAnimator(const CAnimator& _origin) :
 	m_pOwner(nullptr),
 	m_pCurAnimation(nullptr),
-	m_ePlayType(_origin.m_ePlayType)
+	m_ePlayType(_origin.m_ePlayType),
+	m_fAnimTexWidth(_origin.m_fAnimTexWidth),
+	m_fAnimTexHeight(_origin.m_fAnimTexHeight)
 {
 	map<wstring, CAnimation*>::const_iterator iter = _origin.m_mapAnimation.begin();
 	for (; iter != _origin.m_mapAnimation.cend(); ++iter) {
@@ -24,6 +28,17 @@ CAnimator::CAnimator(const CAnimator& _origin) :
 		m_mapAnimation.insert(make_pair(iter->first, pCopyAnimation));
 	}
 	m_pCurAnimation = GetAnimation(_origin.m_pCurAnimation->GetName());
+}
+
+float CAnimator::GetAnimTexWidth(int _iFrameIdx)
+{
+	return m_pCurAnimation->GetFrame(_iFrameIdx).vSlice.x;
+}
+
+
+float CAnimator::GetAnimTexHeight(int _iFrameIdx)
+{
+	return m_pCurAnimation->GetFrame(_iFrameIdx).vSlice.y;
 }
 
 CAnimator::~CAnimator()
