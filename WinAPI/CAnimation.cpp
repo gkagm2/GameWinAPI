@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "CAnimation.h"
 
+#include "CScene.h"
+#include "CSceneManager.h"
+
 #include "CResourceManager.h"
 #include "CResource.h"
 #include "CTexture.h"
@@ -48,7 +51,7 @@ void CAnimation::LateUpdate()
 void CAnimation::Render(HDC _hDC)
 {
 	Vector3 vPosition = m_pAnimator->GetOwnerObject()->GetPosition();
-	Vector3 vRenderPosition = CCamera::GetInstance()->GetRenderPosition(vPosition);
+	Vector3 vRenderPosition = MainCamera->GetRenderPosition(vPosition);
 
 	UINT iWidth = (UINT)m_pAnimator->GetOwnerObject()->GetScale().x;
 	UINT iHeight = (UINT)m_pAnimator->GetOwnerObject()->GetScale().y;

@@ -17,9 +17,6 @@
     <Filter Include="Game\Manager">
       <UniqueIdentifier>{c2989ab6-5082-4c45-8f66-e1b3448df418}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Header">
-      <UniqueIdentifier>{e7a64c22-6820-4156-8be8-4c4ca57c5560}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Define">
       <UniqueIdentifier>{45277063-905c-4d94-ba66-2c28c6de2ac0}</UniqueIdentifier>
     </Filter>
@@ -175,6 +172,18 @@
     </Filter>
     <Filter Include="Game\Object\PlaneShooting_PJ\Monster\MonsterAI\TraceState">
       <UniqueIdentifier>{bdb5159d-565b-4beb-8abb-d19f6bb7f46c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Header">
+      <UniqueIdentifier>{e7a64c22-6820-4156-8be8-4c4ca57c5560}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\Camera\ToolCamera">
+      <UniqueIdentifier>{135a74a2-78fa-4396-a683-fd692306bec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\Camera\Camera 2D">
+      <UniqueIdentifier>{9019566c-2983-4c59-bbf7-3039d0d269d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Manager\CameraMgr">
+      <UniqueIdentifier>{858f121b-1149-4a86-b9c6-5b7d31e5ba08}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +358,13 @@
     <ClInclude Include="CTraceState.h">
       <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI\TraceState</Filter>
     </ClInclude>
+    <ClInclude Include="CCamera_Tool.h">
+      <Filter>Game\Manager\Camera\ToolCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraManager.h">
+      <Filter>Game\Manager\CameraMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -514,6 +530,13 @@
     <ClCompile Include="CTraceState.cpp">
       <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI\TraceState</Filter>
     </ClCompile>
+    <ClCompile Include="CCamera_Tool.cpp">
+      <Filter>Game\Manager\Camera\ToolCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraManager.cpp">
+      <Filter>Game\Manager\CameraMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CCamera2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">

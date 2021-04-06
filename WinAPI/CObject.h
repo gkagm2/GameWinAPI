@@ -31,6 +31,7 @@ protected:
 	void SetGroupType(E_GroupType _eGroupType) { m_eGroupType = _eGroupType; }
 
 public:
+	virtual void Init();
 	virtual void PrevUpdate();
 	virtual void Update() = 0;
 	virtual void LateUpdate();

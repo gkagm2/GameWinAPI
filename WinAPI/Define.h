@@ -19,6 +19,7 @@ private:\
 #define CLONE_DISABLE(type) type* Clone() { assert(nullptr); return nullptr; }
 
 #define MousePosition CKeyManager::GetInstance()->GetMousePosition()
+#define MainCamera CSceneManager::GetInstance()->GetCurScene()->GetMainCamera()
 
 #define Debug CDebug::GetInstance()
 
@@ -43,7 +44,8 @@ enum class E_GroupType {
 	MONSTER,
 	MONSTER_PROJECTILE,
 	VEHICLE,
-	UI =31,
+	UI =30,
+	MAIN_CAMERA = 31,
 	END = 32,
 };
 

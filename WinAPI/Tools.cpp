@@ -12,12 +12,12 @@ void SetIdentityMatrix4x4(Matrix4x4& m) {
 }
 
 // Çà·Ä µ¡¼À
-void MatrixPlus(Matrix4x4 q) {
-	/*for (int i = 0; i < 4; ++i) {
+void MatrixPlus(Matrix4x4& q, const Matrix4x4& a, const Matrix4x4& b) {
+	for (int i = 0; i < 4; ++i) {
 		for (int j = 0; j < 4; ++j) {
 			q(i, j) = a(i, j) + b(i, j);
 		}
-	}*/
+	}
 }
 
 

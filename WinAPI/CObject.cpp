@@ -8,6 +8,9 @@
 #include "CScene.h"
 #include "CAnimator.h"
 #include "CRigidbody.h"
+#include "CCamera.h"
+#include "CCameraManager.h"
+#include "CSceneManager.h"
 
 CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_vPosition{ 0, 0, 0 },
@@ -62,6 +65,10 @@ CObject::~CObject()
 		delete m_pRigidbody;
 }
 
+void CObject::Init()
+{
+}
+
 void CObject::PrevUpdate()
 {
 	if (nullptr != m_pRigidbody)
@@ -83,7 +90,8 @@ void CObject::Render(HDC _hDC)
 	if (false == m_bIsRender)
 		return;
 
-	Vector3 vRenderPosition = CCamera::GetInstance()->GetRenderPosition(m_vPosition);
+	
+	Vector3 vRenderPosition = MainCamera->GetRenderPosition(m_vPosition);
 
 	if (nullptr == m_pTexture) {
 		Rectangle(_hDC,

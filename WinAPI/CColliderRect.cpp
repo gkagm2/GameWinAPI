@@ -3,6 +3,8 @@
 #include "CCollider.h"
 #include "CCamera.h"
 #include "CCore.h"
+#include "CScene.h"
+#include "CSceneManager.h"
 
 CColliderRect::CColliderRect(CObject* _pOwnerObject) :
     CCollider(_pOwnerObject),
@@ -19,11 +21,11 @@ CColliderRect::~CColliderRect()
 void CColliderRect::Render(HDC _hDC)
 {
     Vector3 vPosition = GetPosition();
-    Vector3 vRenderPosition = CCamera::GetInstance()->GetRenderPosition(vPosition);
+    Vector3 vRenderPosition = MainCamera->GetRenderPosition(vPosition);
 
     // viewport coordinate
-    Vector3 vMin = CCamera::GetInstance()->GetRenderPosition(GetMinPos());
-    Vector3 vMax = CCamera::GetInstance()->GetRenderPosition(GetMaxPos());
+    Vector3 vMin = MainCamera->GetRenderPosition(GetMinPos());
+    Vector3 vMax = MainCamera->GetRenderPosition(GetMaxPos());
 
     HPEN hPen = nullptr;
     if (IsHit())

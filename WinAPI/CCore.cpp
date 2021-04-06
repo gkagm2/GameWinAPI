@@ -45,7 +45,7 @@ int CCore::Init(HWND _hMainWnd, POINT _ptResolution)
 	CTimeManager::GetInstance()->Init();
 	CKeyManager::GetInstance()->Init();
 	CSceneManager::GetInstance()->Init();
-	CCamera::GetInstance()->Init();
+	//CCamera::GetInstance()->Init();
 
 	// Double buffering	(¿¬°áÇØÁÜ)
 	m_pMemTexture = CResourceManager::GetInstance()->CreateTexture(STR_TABLE_MemoryTexture, m_ptResolution.x, m_ptResolution.y);
@@ -94,7 +94,7 @@ void CCore::Progress()
 	CKeyManager::GetInstance()->Update();
 
 	CSceneManager::GetInstance()->Progress();
-	CCamera::GetInstance()->Update();
+	//CCamera::GetInstance()->Update();
 	
 	CCollisionManager::GetInstance()->Update();
 	CUIManager::GetInstance()->Update();
@@ -111,7 +111,7 @@ void CCore::Progress()
 	CSceneManager::GetInstance()->Render(m_pMemTexture->GetDC());
 	CTimeManager::GetInstance()->Render(m_pMemTexture->GetDC()); // TODO : delete this
 	CDebug::GetInstance()->Render(m_pMemTexture->GetDC());
-	CCamera::GetInstance()->Render(m_pMemTexture->GetDC());
+	//CCamera::GetInstance()->Render(m_pMemTexture->GetDC());
 
 	// Copy Bitmap
 	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y, m_pMemTexture->GetDC(), 0, 0, SRCCOPY);

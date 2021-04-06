@@ -149,6 +149,9 @@
     <ClInclude Include="CBackground.h" />
     <ClInclude Include="CBackgroundController.h" />
     <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CCamera2D.h" />
+    <ClInclude Include="CCameraManager.h" />
+    <ClInclude Include="CCamera_Tool.h" />
     <ClInclude Include="CCar.h" />
     <ClInclude Include="CCollider.h" />
     <ClInclude Include="CColliderCircle.h" />
@@ -208,6 +211,9 @@
     <ClCompile Include="CBackground.cpp" />
     <ClCompile Include="CBackgroundController.cpp" />
     <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="CCamera2D.cpp" />
+    <ClCompile Include="CCameraManager.cpp" />
+    <ClCompile Include="CCamera_Tool.cpp" />
     <ClCompile Include="CCar.cpp" />
     <ClCompile Include="CCollider.cpp" />
     <ClCompile Include="CColliderCircle.cpp" />

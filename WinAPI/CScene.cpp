@@ -9,10 +9,13 @@
 #include "CCamera.h"
 #include "CTileMap.h"
 #include "CTile.h"
+#include "CSceneManager.h"
+#include "CScene.h"
 
 
 CScene::CScene() :
-	m_pTileMap(nullptr)
+	m_pTileMap(nullptr),
+	m_pMainCamera(nullptr)
 {
 }
 
@@ -127,7 +130,7 @@ void CScene::PrevUpdateTile()
 	POINT ptResolution = CCore::GetInstance()->GetResolution();
 
 	// ·»´õ¸µÇÒ Ä«¸Þ¶óÀÇ ÁÂ»ó´Ü ÀÎµ¦½º
-	Vector2 vLeftTopPos = CCamera::GetInstance()->GetScreenToWorldPosition(Vector2(0.f, 0.f));
+	Vector2 vLeftTopPos = MainCamera->GetScreenToWorldPosition(Vector2(0.f, 0.f));
 
 	int iRowCnt = int(vLeftTopPos.y / TILE_SIZE);
 	int iColCnt = int(vLeftTopPos.x / TILE_SIZE);
@@ -169,7 +172,7 @@ void CScene::UpdateTile()
 	POINT ptResolution = CCore::GetInstance()->GetResolution();
 
 	// ·»´õ¸µÇÒ Ä«¸Þ¶óÀÇ ÁÂ»ó´Ü ÀÎµ¦½º
-	Vector2 vLeftTopPos = CCamera::GetInstance()->GetScreenToWorldPosition(Vector2(0.f, 0.f));
+	Vector2 vLeftTopPos = MainCamera->GetScreenToWorldPosition(Vector2(0.f, 0.f));
 
 	int iRowCnt = int(vLeftTopPos.y / TILE_SIZE);
 	int iColCnt = int(vLeftTopPos.x / TILE_SIZE);
@@ -211,7 +214,7 @@ void CScene::LateUpdateTile()
 	POINT ptResolution = CCore::GetInstance()->GetResolution();
 
 	// ·»´õ¸µÇÒ Ä«¸Þ¶óÀÇ ÁÂ»ó´Ü ÀÎµ¦½º
-	Vector2 vLeftTopPos = CCamera::GetInstance()->GetScreenToWorldPosition(Vector2(0.f, 0.f));
+	Vector2 vLeftTopPos = MainCamera->GetScreenToWorldPosition(Vector2(0.f, 0.f));
 
 	int iRowCnt = int(vLeftTopPos.y / TILE_SIZE);
 	int iColCnt = int(vLeftTopPos.x / TILE_SIZE);
@@ -253,7 +256,7 @@ void CScene::RenderTile(HDC _hDC)
 	POINT ptResolution = CCore::GetInstance()->GetResolution();
 
 	// ·»´õ¸µÇÒ Ä«¸Þ¶óÀÇ ÁÂ»ó´Ü ÀÎµ¦½º
-	Vector2 vLeftTopPos = CCamera::GetInstance()->GetScreenToWorldPosition(Vector2(0.f, 0.f));
+	Vector2 vLeftTopPos = MainCamera->GetScreenToWorldPosition(Vector2(0.f, 0.f));
 
 	int iRowCnt = int(vLeftTopPos.y / TILE_SIZE);
 	int iColCnt = int(vLeftTopPos.x / TILE_SIZE);

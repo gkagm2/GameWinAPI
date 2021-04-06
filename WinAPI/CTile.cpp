@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CResourceManager.h"
-
+#include "CScene.h"
+#include "CSceneManager.h"
 #include "CTile.h"
 #include "CCamera.h"
 #include "CTexture.h"
@@ -37,7 +38,7 @@ void CTile::Update()
 
 void CTile::Render(HDC _hDC)
 {
-	Vector3 vRenderPos = CCamera::GetInstance()->GetRenderPosition(GetPosition());
+	Vector3 vRenderPos = MainCamera->GetRenderPosition(GetPosition());
 
 	if (-1 == m_iImageIdx)
 		RenderDefaultTile(_hDC, vRenderPos);

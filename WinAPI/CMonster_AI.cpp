@@ -1,4 +1,8 @@
 #include "stdafx.h"
+
+#include "CScene.h"
+#include "CSceneManager.h"
+
 #include "CMonster_AI.h"
 #include "CAI.h"
 #include "CAIState.h"
@@ -40,7 +44,7 @@ void CMonster_AI::Render(HDC _hDC)
 	HBRUSH myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
 	HBRUSH oldBrush = (HBRUSH)SelectObject(_hDC, myBrush);
 
-	Vector3 vRenderPos = CCamera::GetInstance()->GetRenderPosition(GetPosition());
+	Vector3 vRenderPos = MainCamera->GetRenderPosition(GetPosition());
 	Ellipse(_hDC, int(vRenderPos.x - 200.f), int(vRenderPos.y - 200.f), int(vRenderPos.x + 200.f), int(vRenderPos.y + 200.f));
 
 	wstring strStateName = GetAI()->GetCurState()->GetName();

@@ -19,6 +19,7 @@
 
 #include "CUI.h"
 #include "CPanelUI.h"
+#include "CCamera_Tool.h"
 
 
 #include "CDebug.h"
@@ -49,16 +50,18 @@ void CScene_Tool::Start()
 	POINT ptResolution = CCore::GetInstance()->GetResolution();
 	ptResolution.x /= 2;
 	ptResolution.y /= 2;
-	CCamera::GetInstance()->SetLookAt(Vector2((float)ptResolution.x, (float)ptResolution.y));
+
+	CCamera_Tool* pCamera = new CCamera_Tool(E_GroupType::MAIN_CAMERA);
+	pCamera->SetMainCamera();
+	pCamera->SetLookAt(Vector2((float)ptResolution.x, (float)ptResolution.y));
+	AddObject((CObject*)pCamera);
 	
 	// 타일 격자 생성
-	/*
 	m_pTileMap = new CTileMap(E_GroupType::TILEMAP);
 	m_pTileMap->SetPosition(0, 0, 0);
 	m_pTileMap->CreateTileGrid(10, 10);
 	AddObject(m_pTileMap);
-	*/
-
+	
 	
 	// UI 생성
 	CPanelUI* pUI = new CPanelUI(E_GroupType::UI);
@@ -97,7 +100,7 @@ void CScene_Tool::MouseClick()
 		vector<CObject*>& pTiles = GetObjects(E_GroupType::TILE);
 
 		// 영역을 체크한다.
-		Vector2 vClickPos = CCamera::GetInstance()->GetScreenToWorldPosition(vMousePos);
+		Vector2 vClickPos = MainCamera->GetScreenToWorldPosition(vMousePos);
 
 		int iClickedCol = int(vClickPos.x / CTile::GetTileSize());
 		int iClickedRow = int(vClickPos.y / CTile::GetTileSize());

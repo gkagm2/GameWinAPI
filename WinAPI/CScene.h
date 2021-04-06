@@ -1,6 +1,7 @@
 #pragma once
 class CObject; // 전방 선언을 해야 찾아가는 번거로움을 안함.
 class CTileMap;
+class CCamera;
 class CScene
 {
 private:
@@ -8,6 +9,7 @@ private:
 
 protected:
 	CTileMap* m_pTileMap; // 사용하는 Scene에 Tile을 사용할 경우 가리킴.
+	CCamera* m_pMainCamera; // 사용하는 Scene에 Main 카메라를 가리킴.
 
 public:
 	virtual void PrevUpdate();
@@ -36,7 +38,9 @@ public:
 
 	CObject* FindObject(wstring _objectName);
 
-
+	// Camera
+	CCamera* GetMainCamera() { return m_pMainCamera; }
+	void SetMainCamera(CCamera* pCamera) { m_pMainCamera = pCamera;	}
 
 public:
 	CScene();

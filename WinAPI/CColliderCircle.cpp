@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "CScene.h"
+#include "CSceneManager.h"
 #include "CColliderCircle.h"
 #include "CCamera.h"
 #include "CCore.h"
@@ -19,7 +21,7 @@ CColliderCircle::~CColliderCircle()
 void CColliderCircle::Render(HDC _hDC)
 {
     Vector3 vPosition = GetPosition();
-    Vector3 vRenderPosition = CCamera::GetInstance()->GetRenderPosition(vPosition);
+    Vector3 vRenderPosition = MainCamera->GetRenderPosition(vPosition);
     float radius = m_fRadius;
 
     // Draw Circle

@@ -22,6 +22,7 @@
 #include "CAnimator.h"
 #include "CAnimation.h"
 #include "CRigidbody2D.h"
+#include "CCamera2D.h"
 CScene_Start::CScene_Start()
 {
 }
@@ -105,14 +106,19 @@ void CScene_Start::Start()
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::PLAYER_PROJECTILE, E_GroupType::MONSTER, true);
 
 	// 카메라 Look 설정
+	CCamera2D* pCamera = new CCamera2D(E_GroupType::MAIN_CAMERA);
+	pCamera->Init();
+	pCamera->SetMainCamera();
+
 	Vector3 vResolution = ptResolution;
 	vResolution /= 2.0f;
-	CCamera::GetInstance()->SetLookAt(vResolution);
-	CCamera::GetInstance()->AddEffect(E_CamEffect::FADE_IN, .2f);
-	CCamera::GetInstance()->AddEffect(E_CamEffect::FADE_OUT, .5f);
-	CCamera::GetInstance()->AddEffect(E_CamEffect::FADE_IN, .7f);
-	CCamera::GetInstance()->AddEffect(E_CamEffect::FADE_OUT, .9f);
-	CCamera::GetInstance()->AddEffect(E_CamEffect::FADE_IN, 1.f);
+	pCamera->SetLookAt(vResolution);
+	pCamera->AddEffect(E_CamEffect::FADE_IN, .2f);
+	pCamera->AddEffect(E_CamEffect::FADE_OUT, .5f);
+	pCamera->AddEffect(E_CamEffect::FADE_IN, .7f);
+	pCamera->AddEffect(E_CamEffect::FADE_OUT, .9f);
+	pCamera->AddEffect(E_CamEffect::FADE_IN, 1.f);
+	AddObject((CObject*)pCamera);
 
 	HDC hDC = CCore::GetInstance()->GetDC();
 	TextOut(hDC, 20, 20, L"Start Scene", (int)wcslen(L"Start Scene"));

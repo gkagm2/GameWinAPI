@@ -121,7 +121,7 @@ void CPlayer::Update()
 	// Mouse Click test code
 	if (InputKeyPress(E_Key::LBUTTON)) {
 		Vector2 clickPos = MousePosition;
-		clickPos = CCamera::GetInstance()->GetScreenToWorldPosition(clickPos);
+		clickPos = MainCamera->GetScreenToWorldPosition(clickPos);
 		Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetScale().y / 2.0f);
 		Vector2 directPos = clickPos - vNozzlePosition;
 		directPos.Normalized();

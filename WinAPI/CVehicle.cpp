@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include "CScene.h"
+#include "CSceneManager.h"
 #include "CResourceManager.h"
 #include "CKeyManager.h"
 #include "CTimeManager.h"
@@ -30,7 +32,7 @@ void CVehicle::Render(HDC _hDC)
 	if (false == IsRender())
 		return;
 
-	Vector3 vRenderPosition = CCamera::GetInstance()->GetRenderPosition(GetPosition());
+	Vector3 vRenderPosition = MainCamera->GetRenderPosition(GetPosition());
 
 	if (nullptr == GetTexture()) {
 		Rectangle(_hDC,
