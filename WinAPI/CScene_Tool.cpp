@@ -82,17 +82,26 @@ void CScene_Tool::Start()
 	m_pTileMap->CreateTileGrid(10, 10);
 	AddObject(m_pTileMap);
 	
-	// UI 持失
-	/*
-	CPanelUI* pUI = new CPanelUI(E_GroupType::UI);
-	pUI->Init();
-	pUI->SetPosition(250, 150, 0);
-	AddObject(pUI);
-	
-	CPanelUI* copyUI = pUI->Clone();
-	copyUI->SetPosition(500, 500, 0);
-	AddObject(copyUI);
-	*/
+	// Tile Tool UI 持失
+	CPanelUI* pTileToolUI = new CPanelUI(E_GroupType::UI);
+	pTileToolUI->Init();
+	pTileToolUI->SetScale(Vector3{ 300.f,500.f,0.f });
+	pTileToolUI->SetPosition(Vector3{});
+	pTileToolUI->SetObjectName(L"TileToolUI");
+
+	Vector2 vResolution = CCore::GetInstance()->GetResolution();
+	pTileToolUI->SetPosition(vResolution.x - pTileToolUI->ScaleX(), 0.f, 0.f);
+
+	float fPadding[4]{ 20.f, 120.f, 20.f, 20.f }; // l, t, r, b
+	pTileToolUI->SetGridUI(5, 5, fPadding[0], fPadding[1], fPadding[2], fPadding[3], 5.f, 5.f);
+	AddObject(pTileToolUI);
+
+	// Item Tool UI 持失
+	CPanelUI* itemToolUI = pTileToolUI->Clone();
+	itemToolUI->SetPosition(vResolution.x - pTileToolUI->ScaleX() - pTileToolUI->ScaleX(), 0.f, 0.f);
+	itemToolUI->SetObjectName(L"ItemToolUI");
+	AddObject(itemToolUI);
+
 }
 
 void CScene_Tool::Update()

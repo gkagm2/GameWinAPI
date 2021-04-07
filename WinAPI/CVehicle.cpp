@@ -35,18 +35,18 @@ void CVehicle::PrevUpdate()
 void CVehicle::Update()
 {
 	// This is Get direction 
-	RotateRP(0);
+	//RotateRP(0);
 
 	Vector3 vHeadDir = m_vPrevHeadDir;
 	vHeadDir.Normalized();
 	//RotateInfo().Update();
 	if (InputKeyHold(E_Key::LEFT)) {
-		RotateRP(-120);
-		vHeadDir = Rotate(vHeadDir, -120 * DeltaTime);
+		RotateRP(-180);
+		vHeadDir = Rotate(vHeadDir, -180 * DeltaTime);
 	}
 	if (InputKeyHold(E_Key::RIGHT)) {
-		RotateRP(120);
-		vHeadDir = Rotate(vHeadDir, 120 * DeltaTime);
+		RotateRP(180);
+		vHeadDir = Rotate(vHeadDir, 180 * DeltaTime);
 	}
 	m_vPrevHeadDir = vHeadDir;
 

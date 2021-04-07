@@ -29,17 +29,10 @@ CPanelUI::~CPanelUI()
 
 void CPanelUI::Init()
 {
-	CTexture* pTileTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Background);
+	CTexture* pTileTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_UI_BG);
 	if (nullptr == pTileTexture)
-		pTileTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Background, STR_FILE_PATH_Background);
-
-	SetScale(Vector3{ 300.f,500.f,0.f });
-	//SetTexture(pTileTexture);
-	SetPosition(Vector3{});
-	SetObjectName(L"ParentUI");
-
-	float fPadding[4]{ 20.f, 120.f, 20.f, 20.f }; // l, t, r, b
-	SetGridUI(5, 5, fPadding[0], fPadding[1], fPadding[2], fPadding[3], 5.f, 5.f);
+		pTileTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_UI_BG, STR_FILE_PATH_UI_BG);
+	SetTexture(pTileTexture);
 }
 
 void CPanelUI::Update()
@@ -127,7 +120,7 @@ void CPanelUI::SetGridUI(int _iColCnt = 1, int _iRowCnt = 1, float _fLeftPadding
 		pTileTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Tile, STR_FILE_PATH_Tile);
 
 	for (int i = 0; i < m_iRowCnt; ++i) {
-		startPosx = GetPosition().x + m_fLeftPadding;
+		startPosx = GetFinalPosition().x + m_fLeftPadding;
 		for (int j = 0; j < m_iColCnt; ++j) {
 			// 이미지 생성
 			CImageUI* pChildImageUI = new CImageUI(E_GroupType::UI);
