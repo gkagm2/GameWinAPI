@@ -188,6 +188,9 @@
     <Filter Include="Game\Object\Gta_PJ\Player">
       <UniqueIdentifier>{53d11fc6-25eb-4557-87c8-a46d3e9b4f07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\UI\TileToolPanelUI">
+      <UniqueIdentifier>{1f529299-4c11-4f29-a0e1-29ef4d56d39b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -372,6 +375,9 @@
     <ClInclude Include="CGTA_PoliceCar.h">
       <Filter>Game\Object\Gta_PJ\Gta_Car</Filter>
     </ClInclude>
+    <ClInclude Include="CTileToolPanelUI.h">
+      <Filter>Game\Object\UI\TileToolPanelUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -547,6 +553,9 @@
     <ClCompile Include="CGTA_Player.cpp" />
     <ClCompile Include="CGTA_PoliceCar.cpp">
       <Filter>Game\Object\Gta_PJ\Gta_Car</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileToolPanelUI.cpp">
+      <Filter>Game\Object\UI\TileToolPanelUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

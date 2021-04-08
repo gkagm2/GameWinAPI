@@ -8,6 +8,7 @@
 #include "CPathManager.h"
 #include "CUIManager.h"
 #include "CResourceManager.h"
+#include "CCollisionManager.h"
 
 #include "CScene.h"
 #include "CScene_Tool.h"
@@ -20,11 +21,14 @@
 
 #include "CUI.h"
 #include "CPanelUI.h"
+#include "CImageUI.h"
+#include "CTileToolPanelUI.h"
 #include "CCamera_Tool.h"
 
 #include "CGTA_Player.h"
 #include "CGTA_PoliceCar.h"
 #include "CColliderRect.h"
+#include "CTexture.h"
 
 #include "CDebug.h"
 
@@ -82,25 +86,70 @@ void CScene_Tool::Start()
 	m_pTileMap->CreateTileGrid(10, 10);
 	AddObject(m_pTileMap);
 	
-	// Tile Tool UI 생성
-	CPanelUI* pTileToolUI = new CPanelUI(E_GroupType::UI);
-	pTileToolUI->Init();
-	pTileToolUI->SetScale(Vector3{ 300.f,500.f,0.f });
-	pTileToolUI->SetPosition(Vector3{});
-	pTileToolUI->SetObjectName(L"TileToolUI");
+	// Tile Tool (바닥) UI 생성
+	CTileToolPanelUI* pGroundTileToolUI = new CTileToolPanelUI(E_GroupType::UI);
+	pGroundTileToolUI->Init();
+	pGroundTileToolUI->SetScale(Vector3{ 300.f,500.f,0.f });
+	pGroundTileToolUI->SetPosition(Vector3{});
+	pGroundTileToolUI->SetObjectName(L"TileToolUI");
+
 
 	Vector2 vResolution = CCore::GetInstance()->GetResolution();
-	pTileToolUI->SetPosition(vResolution.x - pTileToolUI->ScaleX(), 0.f, 0.f);
-
+	pGroundTileToolUI->SetPosition(vResolution.x - pGroundTileToolUI->ScaleX(), 0.f, 0.f);
+	
 	float fPadding[4]{ 20.f, 120.f, 20.f, 20.f }; // l, t, r, b
-	pTileToolUI->SetGridUI(5, 5, fPadding[0], fPadding[1], fPadding[2], fPadding[3], 5.f, 5.f);
-	AddObject(pTileToolUI);
+	pGroundTileToolUI->SetGridUI(5, 5, fPadding[0], fPadding[1], fPadding[2], fPadding[3], 5.f, 5.f);
+	AddObject(pGroundTileToolUI);
+	{
+		CTexture* pTileGroundTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_UI_TileRoad);
+		if (nullptr == pTileGroundTex)
+			pTileGroundTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_UI_TileRoad, STR_FILE_PATH_UI_TileRoad);
 
-	// Item Tool UI 생성
-	CPanelUI* itemToolUI = pTileToolUI->Clone();
-	itemToolUI->SetPosition(vResolution.x - pTileToolUI->ScaleX() - pTileToolUI->ScaleX(), 0.f, 0.f);
-	itemToolUI->SetObjectName(L"ItemToolUI");
-	AddObject(itemToolUI);
+		int iCol = pTileGroundTex->GetWidth() / TILE_SIZE;
+		int iRow = pTileGroundTex->GetHeight() / TILE_SIZE;
+
+		vector<CUI*>& vecChildUI = pGroundTileToolUI->GetChildsUI();
+		for (UINT i = 0; i < vecChildUI.size(); ++i) {
+
+			CImageUI* pImgUI = dynamic_cast<CImageUI*>(vecChildUI[i]);
+			// 텍스쳐 설정
+			pImgUI->SetTexture(pTileGroundTex);
+			pImgUI->SetLT(Vector2(TILE_SIZE * (int)(i % iCol), TILE_SIZE * (int)(i / iRow)));
+			pImgUI->SetTileIdx(i);
+			pImgUI->SetTileType(E_TileType::Road);
+			pImgUI->SetTexturePath(STR_FILE_PATH_UI_TileRoad);
+		}
+	}
+
+	// Wall Tile Tool UI 생성
+	CTexture* pTileWallTex = CResourceManager::GetInstance()->FindTexture(STR_FIlE_NAME_UI_TileWall);
+	CTileToolPanelUI* pWallTileToolUI = pGroundTileToolUI->Clone();
+	pWallTileToolUI->SetPosition(vResolution.x - pGroundTileToolUI->ScaleX() - pGroundTileToolUI->ScaleX(), 0.f, 0.f);
+	pWallTileToolUI->SetObjectName(L"WallTileToolUI");
+	AddObject(pWallTileToolUI);
+	{
+		CTexture* pTileWallTex = CResourceManager::GetInstance()->FindTexture(STR_FIlE_NAME_UI_TileWall);
+		if (nullptr == pTileWallTex)
+			pTileWallTex = CResourceManager::GetInstance()->LoadTexture(STR_FIlE_NAME_UI_TileWall, STR_FILE_PATH_UI_TileWall);
+
+		int iCol = pTileWallTex->GetWidth() / TILE_SIZE;
+		int iRow = pTileWallTex->GetHeight() / TILE_SIZE;
+
+		vector<CUI*>& vecChildUI = pWallTileToolUI->GetChildsUI();
+		for (UINT i = 0; i < vecChildUI.size(); ++i) {
+			
+			CImageUI* pImgUI = dynamic_cast<CImageUI*>(vecChildUI[i]);
+			// 텍스쳐 설정
+			pImgUI->SetTexture(pTileWallTex);
+			pImgUI->SetLT(Vector2(TILE_SIZE * (int)(i % iCol), TILE_SIZE * (int)(i / iRow)));
+			pImgUI->SetTileIdx(i);
+			pImgUI->SetTileType(E_TileType::Wall);
+			pImgUI->SetTexturePath(STR_FILE_PATH_UI_TileWall);
+		}
+	}
+
+	CCollisionManager::GetInstance()->ClearAllCollisionGroup();
+	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::TILE, true);
 
 }
 
@@ -123,10 +172,31 @@ void CScene_Tool::End()
 
 void CScene_Tool::MouseClick()
 {
-	if (InputKeyPress(E_Key::LBUTTON)) {
+	if (InputKeyHold(E_Key::LBUTTON)) {
 		Vector2 vMousePos = MousePosition;
 
+		// 포커스된 UI의 정보를 가져옴
 		vector<CObject*>& pTiles = GetObjects(E_GroupType::TILE);
+		CUI* pFocusedUI = CUIManager::GetInstance()->GetCurFocusedUI();
+
+		// 클릭된 UI를 찾는다.
+		int iSelectedTileIdx = -1;
+		E_TileType eTileType = E_TileType::None;
+		CTexture* pTileTexture = nullptr;
+		wstring strTexturePath;
+		if (nullptr != pFocusedUI) { 
+			CTileToolPanelUI* pPanelUI = dynamic_cast<CTileToolPanelUI*>(pFocusedUI);
+			if (nullptr != pPanelUI) {
+				iSelectedTileIdx = pPanelUI->GetSelectedTileIdx();
+				eTileType = pPanelUI->GetSelectedTileType();
+				pTileTexture = pPanelUI->GetTileTexture();
+				strTexturePath = pPanelUI->GetTexturePath();
+			}
+		}
+
+		// 클릭된 UI가 없으면 종료
+		if (-1 == iSelectedTileIdx || E_TileType::None == eTileType || nullptr == pTileTexture)
+			return;
 
 		// 영역을 체크한다.
 		Vector2 vClickPos = MainCamera->GetScreenToWorldPosition(vMousePos);
@@ -138,7 +208,7 @@ void CScene_Tool::MouseClick()
 			UINT wid = m_pTileMap->GetTileMapWidth();
 			UINT hegith = m_pTileMap->GetTileMapHeight();
 
-			// 영역 밖이면
+			// 타일 영역 안에 클릭했는지 체크
 			if (vClickPos.x < m_pTileMap->GetPosition().x ||
 				vClickPos.x > m_pTileMap->GetPosition().x + m_pTileMap->GetTileMapWidth() ||
 				vClickPos.y < m_pTileMap->GetPosition().y ||
@@ -146,12 +216,11 @@ void CScene_Tool::MouseClick()
 				return;
 			}
 
+			// 클릭한 타일의 정보를 가온다.
 			int iClickedIdx = iClickedRow * m_pTileMap->GetCol() + iClickedCol;
 			CTile* pTile = dynamic_cast<CTile*>(pTiles[iClickedIdx]);
-			if (pTile) {
-				int iImgIdx = pTile->GetTileIdx();
-				pTile->SetTile(iImgIdx + 1);
-			}
+			if (pTile)
+				pTile->SetTile(iSelectedTileIdx, eTileType, pTileTexture, strTexturePath);
 		}
 	}
 }

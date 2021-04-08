@@ -67,6 +67,43 @@ void CVehicle::Render(HDC _hDC)
 {
 	if (false == IsRender())
 		return;
+	Vector3 vOrigin{ 0,0,0 };
+
+	float dis =200;
+	float offsetX = GetPosition().x;
+	float offsetY = GetPosition().y;
+
+	Vector3 vBPos = Rotate(m_vPrevHeadDir, -90);
+	Vector3 vDPos{};
+	vDPos.x = vBPos.x + m_vPrevHeadDir.x - vOrigin.x;
+	vDPos.y = vBPos.y + m_vPrevHeadDir.y - vOrigin.y;
+	Vector2 minVec;
+	Vector2 maxVec;
+
+	vector<float> vecPos;
+
+	minVec.x = min(vOrigin.x *dis, min(vBPos.x*dis, min(vDPos.x*dis, m_vPrevHeadDir.x*dis)));
+	minVec.y = min(vOrigin.y *dis, min(vBPos.y*dis, min(vDPos.y*dis, m_vPrevHeadDir.y*dis)));
+	maxVec.x = max(vOrigin.x *dis, max(vBPos.x*dis, max(vDPos.x*dis, m_vPrevHeadDir.x*dis)));
+	maxVec.y = max(vOrigin.y *dis, max(vBPos.y*dis, max(vDPos.y*dis, m_vPrevHeadDir.y*dis)));
+
+	Vector2 middlePos;
+	middlePos = (minVec + maxVec) / 2.f;
+	offsetX -= middlePos.x;
+	offsetY -= middlePos.y;
+
+	MoveToEx(_hDC, offsetX + vOrigin.x, offsetY + vOrigin.y, nullptr);
+	LineTo(_hDC, offsetX + m_vPrevHeadDir.x * dis, offsetY + m_vPrevHeadDir.y * dis);
+
+	MoveToEx(_hDC, offsetX + vOrigin.x, offsetY + vOrigin.y, nullptr);
+	LineTo(_hDC, offsetX + vBPos.x * dis, offsetY + vBPos.y * dis);
+
+	MoveToEx(_hDC, offsetX + m_vPrevHeadDir.x * dis, offsetY + m_vPrevHeadDir.y * dis, nullptr);
+	LineTo(_hDC, offsetX + vDPos.x * dis, offsetY + vDPos.y * dis);
+
+	MoveToEx(_hDC, offsetX + vBPos.x * dis, offsetY + vBPos.y * dis, nullptr);
+	LineTo(_hDC, offsetX + vDPos.x * dis, offsetY + vDPos.y * dis);
+
 
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(GetPosition());
 

@@ -5,6 +5,8 @@
 #include "CTile.h"
 #include "CCamera.h"
 #include "CTexture.h"
+#include "CResourceManager.h"
+#include "CColliderRect.h"
 
 int CTile::g_iTileSize = TILE_SIZE;
 
@@ -12,9 +14,10 @@ CTile::CTile(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
 	m_iImageIdx(-1), // -1 Mean : none
 	m_iMaxCol(0),
-	m_iMaxRow(0)
+	m_iMaxRow(0),
+	m_eTileType(E_TileType::None)
 {
-	CTexture* pTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Tile);
+	/*CTexture* pTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Tile);
 	if (nullptr == pTexture) {
 		pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Tile, STR_FILE_PATH_Tile);
 	}
@@ -25,7 +28,10 @@ CTile::CTile(E_GroupType _eGroupType) :
 	m_iMaxRow = pTexture->GetHeight() / g_iTileSize;
 
 	assert((0 != m_iMaxCol) && L"max Col is 0 (tile)");
-	assert((0 != m_iMaxRow) && L"max Row is 0 (tile)");
+	assert((0 != m_iMaxRow) && L"max Row is 0 (tile)");*/
+
+	m_iMaxCol = 1;
+	m_iMaxRow = 1;
 }
 
 CTile::~CTile()
@@ -40,7 +46,7 @@ void CTile::Render(HDC _hDC)
 {
 	Vector3 vRenderPos = MainCamera->GetRenderPosition(GetPosition());
 
-	if (-1 == m_iImageIdx)
+	if (nullptr == GetTexture() || -1 == m_iImageIdx)
 		RenderDefaultTile(_hDC, vRenderPos);
 	else {
 		if (IsOutOfIdx()) {
@@ -62,6 +68,17 @@ void CTile::RenderDefaultTile(HDC _hDC, const Vector3& _vRenderPos)
 	DeleteObject(hBrush);
 }
 
+void CTile::SetTile(int _iImageIdx, E_TileType _eTileType, CTexture* _pTileTexture, const wstring& _strTexturePath)
+{
+	m_iImageIdx = _iImageIdx;
+	m_eTileType = _eTileType;
+	SetTexture(_pTileTexture);
+	m_strTexturePath = _strTexturePath;
+	m_iMaxCol = GetTexture()->GetWidth() / g_iTileSize;
+	m_iMaxRow = GetTexture()->GetHeight() / g_iTileSize;
+	CheckAndAttachedCollider();
+}
+
 Vector3 CTile::GetMin()
 {
 	return GetPosition();
@@ -80,12 +97,48 @@ Vector3 CTile::GetMax()
 	return vMaxPosition;
 }
 
+void CTile::CheckAndAttachedCollider()
+{
+	if (E_TileType::Wall == m_eTileType) {
+		if (nullptr != GetCollider())
+			return;
+		CColliderRect* pcolRect = new CColliderRect(this);
+		pcolRect->SetScale(Vector3(g_iTileSize, g_iTileSize, 0.f));
+		pcolRect->SetOffsetPosition(Vector3(g_iTileSize / 2.f, g_iTileSize / 2.f,0.f));
+	}
+	else {
+		if (nullptr != GetCollider()) {
+			CCollider* pCollider = GetCollider();
+			delete pCollider;
+			SetCollider(nullptr);
+		}
+	}
+}
+
 void CTile::Save(FILE* _pFile)
 {
 	fwrite(&m_iImageIdx, sizeof(int), 1, _pFile);
+	fwrite(&m_eTileType, sizeof(int), 1, _pFile);
+	SaveWString(m_strTexturePath, _pFile);
 }
 
 void CTile::Load(FILE* _pFile)
 {
 	fread(&m_iImageIdx, sizeof(int), 1, _pFile);
+	fread(&m_eTileType, sizeof(int), 1, _pFile);
+	LoadWString(m_strTexturePath, _pFile);
+
+	if (m_strTexturePath.length() > 0) {
+		CTexture* pTexture = CResourceManager::GetInstance()->FindTexture(m_strTexturePath);
+		if (nullptr == pTexture) {
+			pTexture = CResourceManager::GetInstance()->LoadTexture(m_strTexturePath, m_strTexturePath);
+
+			assert(pTexture);
+		}
+		SetTexture(pTexture);
+		m_iMaxCol = GetTexture()->GetWidth() / g_iTileSize;
+		m_iMaxRow = GetTexture()->GetHeight() / g_iTileSize;
+
+		CheckAndAttachedCollider();
+	}
 }

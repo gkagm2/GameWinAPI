@@ -11,7 +11,10 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 
+// Test
+#include "CCore.h"
 #include "CDebug.h"
+#include "CTile.h"
 CGTA_PoliceCar::CGTA_PoliceCar(E_GroupType e_GroupType) :
 	CVehicle(e_GroupType)
 {
@@ -74,6 +77,27 @@ void CGTA_PoliceCar::OnCollisionEnter(CObject* _pOther)
 
 void CGTA_PoliceCar::OnCollisionStay(CObject* _pOther)
 {
+	CColliderRect* pColRect = dynamic_cast<CColliderRect*>(_pOther->GetCollider());
+	CTile* pTile = dynamic_cast<CTile*>(_pOther);
+	if (pColRect && pTile) {
+		Debug->Print(pTile->GetPosition() + pColRect->GetOffsetPosition(), L"dd",pColRect->GetScale().x, pColRect->GetScale().y);
+	}
+
+	HPEN hPen = CreatePen(PS_SOLID, 1, RGB(0, 255, 0)); // Green color
+
+	HPEN hOldPen = (HPEN)SelectObject(CCore::GetInstance()->GetDC(), hPen);
+
+	HBRUSH myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+	HBRUSH oldBrush = (HBRUSH)SelectObject(CCore::GetInstance()->GetDC(), myBrush);
+
+	MoveToEx(CCore::GetInstance()->GetDC(), _pOther->GetPosition().x + pColRect->GetOffsetPosition().x, _pOther->GetPosition().y + pColRect->GetOffsetPosition().y, nullptr);
+	LineTo(CCore::GetInstance()->GetDC(), GetPosition().x, GetPosition().y);
+
+	SelectObject(CCore::GetInstance()->GetDC(), oldBrush);
+	SelectObject(CCore::GetInstance()->GetDC(), hOldPen);
+	DeleteObject(myBrush);
+	DeleteObject(hPen);
+	
 }
 
 void CGTA_PoliceCar::OnCollisionExit(CObject* _pOther)

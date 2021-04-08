@@ -5,6 +5,9 @@
 #include "CCore.h"
 #include "CScene.h"
 #include "CSceneManager.h"
+#include "CAnimator.h"
+
+#include "CDebug.h"
 
 CColliderRect::CColliderRect(CObject* _pOwnerObject) :
     CCollider(_pOwnerObject),
@@ -12,6 +15,19 @@ CColliderRect::CColliderRect(CObject* _pOwnerObject) :
     m_vOffsetMaxPosition{},
     m_vScale{ _pOwnerObject->GetScale() }
 {
+    if (nullptr != _pOwnerObject) {
+        if (nullptr != _pOwnerObject->GetTexture()) {
+            if (nullptr != _pOwnerObject->GetAnimator()) {
+                m_vScale.x = _pOwnerObject->GetAnimator()->GetAnimTexWidth();
+                m_vScale.y = _pOwnerObject->GetAnimator()->GetAnimTexHeight();
+            }
+            else {
+                m_vScale.x = _pOwnerObject->GetTextureWidth();
+                m_vScale.y = _pOwnerObject->GetTextureHeight();
+            }
+
+        }
+    }
 }
 
 CColliderRect::~CColliderRect()
@@ -22,6 +38,8 @@ void CColliderRect::Render(HDC _hDC)
 {
     Vector3 vPosition = GetPosition();
     Vector3 vRenderPosition = MainCamera->GetRenderPosition(vPosition);
+
+    Debug->Print(vRenderPosition, L"dd", vRenderPosition.x, vRenderPosition.y);
 
     // viewport coordinate
     Vector3 vMin = MainCamera->GetRenderPosition(GetMinPos());

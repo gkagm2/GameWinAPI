@@ -59,11 +59,17 @@
 #define STR_FILE_PATH_Objects L"Objects\\"
 
 // GTA Game //
-#define STR_FILE_NAME_gta_player L"gtaPlayer"
+#define STR_FILE_NAME_gta_player L"Texture\\GTA\\gtaPlayer.bmp"
 #define STR_FILE_PATH_gta_player L"Texture\\GTA\\gtaPlayer.bmp"
 
-#define STR_FILE_NAME_Vehicle_car_Cops1Anim L"car1.bmp"
+#define STR_FILE_NAME_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1_a.bmp"
 #define STR_FILE_PATH_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1_a.bmp"
 
-#define STR_FILE_NAME_UI_BG L"ui_bg.bmp"
+#define STR_FILE_NAME_UI_BG L"Texture\\GTA\\ui_bg.bmp"
 #define STR_FILE_PATH_UI_BG L"Texture\\GTA\\ui_bg.bmp"
+
+#define STR_FILE_NAME_UI_TileRoad L"Texture\\GTA\\RoadTile.bmp"
+#define STR_FILE_PATH_UI_TileRoad L"Texture\\GTA\\RoadTile.bmp"
+
+#define STR_FIlE_NAME_UI_TileWall L"Texture\\GTA\\WallTile.bmp"
+#define STR_FILE_PATH_UI_TileWall L"Texture\\GTA\\WallTile.bmp"

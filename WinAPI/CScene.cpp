@@ -311,8 +311,10 @@ void CScene::LoadTile(wstring _strPath)
 	vector<CObject*>& vecTiles = GetObjects(E_GroupType::TILE);
 	for (int i = 0; i < iRow * iCol; ++i) {
 		CTile* pTile = dynamic_cast<CTile*>(vecTiles[i]);
-		if (pTile)
+		if (pTile) {
 			pTile->Load(pFile);
+		}
+			
 	}
 
 	fclose(pFile);

@@ -92,7 +92,7 @@ void CUIManager::Update()
 			if (nullptr != m_pPointDownUI) {
 				m_pPointDownUI->OnPointerUp();
 
-				if (pTargetUI->m_bIsDown && InputKeyPress(E_Key::LBUTTON)) { //pTargetUI == m_pPointDownUI
+				if (pTargetUI->m_bIsDown && InputKeyRelease(E_Key::LBUTTON)) { //pTargetUI == m_pPointDownUI
 					pTargetUI->OnPointerClick();
 					pTargetUI->m_bIsDown = false;
 				}

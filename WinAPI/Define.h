@@ -50,6 +50,15 @@ enum class E_GroupType {
 	END = 32,
 };
 
+// Tile Type
+enum class E_TileType {
+	Road,
+	Sidewalk,
+	Wall,
+	Water,
+	None
+};
+
 #define EXCEPTION_COLOR_RGB_MAGENTA RGB(255,0,255) // Magenta color
 #define EXCEPTION_COLOR_RGB_BLACK RGB(0,0,0) // Magenta color
 

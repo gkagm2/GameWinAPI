@@ -115,9 +115,10 @@ void CPanelUI::SetGridUI(int _iColCnt = 1, int _iRowCnt = 1, float _fLeftPadding
 	float startPosx = GetPosition().x + m_fLeftPadding;
 	float startPosy = GetPosition().y + m_fTopPadding;
 
-	CTexture* pTileTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Tile);
+	// TODO : »èÁ¦
+	/*CTexture* pTileTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Tile);
 	if (nullptr == pTileTexture)
-		pTileTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Tile, STR_FILE_PATH_Tile);
+		pTileTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Tile, STR_FILE_PATH_Tile);*/
 
 	for (int i = 0; i < m_iRowCnt; ++i) {
 		startPosx = GetFinalPosition().x + m_fLeftPadding;

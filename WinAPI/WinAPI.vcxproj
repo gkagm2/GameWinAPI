@@ -188,6 +188,7 @@
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CTileMap.h" />
+    <ClInclude Include="CTileToolPanelUI.h" />
     <ClInclude Include="CTimeManager.h" />
     <ClInclude Include="CTraceState.h" />
     <ClInclude Include="CUI.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CTileMap.cpp" />
+    <ClCompile Include="CTileToolPanelUI.cpp" />
     <ClCompile Include="CTimeManager.cpp" />
     <ClCompile Include="CTraceState.cpp" />
     <ClCompile Include="CUI.cpp" />

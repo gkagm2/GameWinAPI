@@ -3,6 +3,7 @@
 #include "CCamera.h"
 #include "CObject.h"
 #include "CTexture.h"
+#include "CTileToolPanelUI.h"
 // Test
 #include "CDebug.h"
 
@@ -10,7 +11,9 @@ const int CImageUI::g_iTileSize = TILE_SIZE;
 
 CImageUI::CImageUI(E_GroupType _eGroupType = E_GroupType::UI) :
     CUI(_eGroupType),
-    m_vLT{}
+    m_vLT{},
+    m_iTileIdx(-1),
+    m_eTileType(E_TileType::None)
 {
 	m_ePivotState = E_UIPivot::leftTop;
 }
@@ -62,7 +65,8 @@ void CImageUI::Render(HDC _hDC)
     }
     else { // Texture가 있으면
         CTexture* pTexture = GetTexture();
-        BitBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, (int)GetScale().x, (int)GetScale().y, pTexture->GetDC(), 1, 1, SRCCOPY);
+        StretchBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, (int)GetScale().x, (int)GetScale().y, pTexture->GetDC(), (int)m_vLT.x, (int)m_vLT.y, (int)TILE_SIZE, (int)TILE_SIZE, SRCCOPY);
+        //TransparentBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, (int)GetScale().x, (int)GetScale().y, pTexture->GetDC(), (int)m_vLT.x, (int)m_vLT.y, (int)TILE_SIZE, (int)TILE_SIZE, 0);
         //BitBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, g_iTileSize, g_iTileSize, pTexture->GetDC(), 1,1, SRCCOPY);
     }
 
@@ -73,4 +77,6 @@ void CImageUI::Render(HDC _hDC)
 
 void CImageUI::OnPointerClick()
 {
+    CTileToolPanelUI* pUI = dynamic_cast<CTileToolPanelUI*>(m_pParentUI);
+    pUI->SetSelectedTile(m_iTileIdx, m_eTileType, GetTexture(), m_strTexturePath);
 }

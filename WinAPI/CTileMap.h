@@ -26,6 +26,11 @@ public:
 	UINT GetTileMapWidth() { return m_iTileMapWidth; }
 	UINT GetTileMapHeight() { return m_iTileMapHeight; }
 
+	// 콜라이더 영역 최적화 하기.
+	void OptimizationTileCollider();
+	void GetEndIdxOfRectArea(int **_grid, int _startX, int _startY, int& _endX, int& _endY);
+
+
 public:
 	CLONE_DISABLE(CTileMap);
 public:
