@@ -71,6 +71,9 @@ struct Vector2 {
 			return Vector2(0.0f, 0.0f);
 		return Vector2(x / rhs, y / rhs);
 	}
+	Vector2 operator*(const float& rhs) const {
+		return Vector2(x * rhs, y * rhs);
+	}
 
 	bool operator==(const Vector2& _rhs) const {
 		return (x == _rhs.x && y == _rhs.y);
@@ -146,6 +149,12 @@ struct Vector3 : public Vector2 {
 	Vector3 operator-(const float& rhs) const {
 		return Vector3(x - rhs, y - rhs, z - rhs);
 	}
+	Vector3 operator-(const Vector2& rhs) const {
+		return Vector3(x - rhs.x, y - rhs.y, z);
+	}
+	Vector3 operator+(const Vector2& rhs) const {
+		return Vector3(x + rhs.x, y + rhs.y, z);
+	}
 	Vector3& operator/=(const float& rhs) {
 		if (rhs == 0.0f) Set(0.0f, 0.0f, 0.0f);
 		else Set(x / rhs, y / rhs, z / rhs);
@@ -178,6 +187,12 @@ struct Vector3 : public Vector2 {
 		x -= rhs;
 		y -= rhs;
 		z -= rhs;
+		return *this;
+	}
+	Vector3& operator*=(const float& rhs) {
+		x *= rhs;
+		y *= rhs;
+		z *= rhs;
 		return *this;
 	}
 

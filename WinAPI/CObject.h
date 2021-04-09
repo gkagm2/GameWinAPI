@@ -15,6 +15,7 @@ private:
 	// Rotate Info
 	Vector3 m_vRectPoint[3];
 	Vector3 m_vRPDir[3]; //RP : RectPoint
+	Vector3 m_vUpVec; // Up vector
 
 	CTexture* m_pTexture;		// 텍스쳐
 	CCollider* m_pCollider;		// 충돌체 컴포넌트
@@ -69,6 +70,8 @@ public:
 
 	virtual Vector3 GetMin();
 	virtual Vector3 GetMax();
+
+	Vector3 GetUpVector() { return m_vUpVec; }
 
 	void SetTexture(CTexture* _pTexture);
 	CTexture* GetTexture() { return  m_pTexture; }

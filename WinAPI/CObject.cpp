@@ -25,7 +25,8 @@ CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_strName(STR_OBJECT_DEFAULT_NAME),
 	m_bIsDead(false),
 	m_bIsRender(true),
-	m_bIsActive(true)
+	m_bIsActive(true),
+	m_vUpVec{0.f, -1.f , 0.f}
 {
 }
 
@@ -205,6 +206,8 @@ void CObject::InitRectPoint()
 
 void CObject::RotateRP(float _fDegree)
 {
+	m_vUpVec = Rotate(m_vUpVec, _fDegree);
+
 	Vector3 dir[3];
 	dir[0] = m_vRectPoint[0];
 	dir[1] = m_vRectPoint[1];
@@ -213,9 +216,9 @@ void CObject::RotateRP(float _fDegree)
 	dir[1].Normalized();
 	dir[2].Normalized();
 
-	dir[0] = Rotate(dir[0], _fDegree * DeltaTime);
-	dir[1] = Rotate(dir[1], _fDegree *  DeltaTime);
-	dir[2] = Rotate(dir[2], _fDegree * DeltaTime);
+	dir[0] = Rotate(dir[0], _fDegree);
+	dir[1] = Rotate(dir[1], _fDegree);
+	dir[2] = Rotate(dir[2], _fDegree);
 
 	Vector3 rp0 = GetRectPoint(0);
 	Vector3 rp1 = GetRectPoint(1);

@@ -2,9 +2,6 @@
 #include "CObject.h"
 class CVehicle : public CObject
 {
-protected:
-    Vector3 m_vPrevHeadDir;
-
 public:
 
     virtual void Init() override;

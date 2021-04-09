@@ -29,9 +29,9 @@ CPanelUI::~CPanelUI()
 
 void CPanelUI::Init()
 {
-	CTexture* pTileTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_UI_BG);
+	CTexture* pTileTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_UI_GTA_BG);
 	if (nullptr == pTileTexture)
-		pTileTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_UI_BG, STR_FILE_PATH_UI_BG);
+		pTileTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_UI_GTA_BG, STR_FILE_PATH_UI_GTA_BG);
 	SetTexture(pTileTexture);
 }
 

@@ -94,15 +94,36 @@ void CCollisionManager::CollisionByGroup(UINT _iGroup1Idx, UINT _iGroup2Idx)
 	}
 }
 
-// 사각형과 사각형 충돌체크
+// 사각형과 사각형 충돌체크 AABB
+/*
 bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _pColRect2)
 {
-	// TODO : 일단 AABB로 만든다. 회전 하면 그때 OBB로 바꾸기
 	if( (_pColRect1->GetScale().x + _pColRect2->GetScale().x)/2.0f < abs(_pColRect1->GetPosition().x - _pColRect2->GetPosition().x) ||
 		(_pColRect1->GetScale().y + _pColRect2->GetScale().y)/2.0f < abs(_pColRect1->GetPosition().y - _pColRect2->GetPosition().y)) {
 		return false;
 	}
 	return true;
+}
+*/
+
+// 사각형과 사각형 충돌체크 OBB 2D
+bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _pColRect2) {
+	Vector3 vPos1 = _pColRect1->GetOwnerObject()->GetPosition() + _pColRect1->GetOffsetPosition();
+	Vector3 vPos2 = _pColRect2->GetOwnerObject()->GetPosition() + _pColRect2->GetOffsetPosition();
+	vPos1.y = 0;
+	vPos2.y = 0; 
+	float fDistance = fabsf(CMyMath::GetDot(vPos1, vPos2)); // x축으로 평행한 것의 길이
+
+	// x축에 투영된 길이
+
+
+	//_pColRect1->GetOwnerObject()->Get
+
+
+	//float 
+
+	//if(fDistance > )
+	return false;
 }
 
 // 사각형과 원 충돌체크
