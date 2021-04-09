@@ -65,8 +65,8 @@
 #define STR_FILE_NAME_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1_a.bmp"
 #define STR_FILE_PATH_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1_a.bmp"
 
-#define STR_FILE_NAME_UI_BG L"Texture\\GTA\\ui_bg.bmp"
-#define STR_FILE_PATH_UI_BG L"Texture\\GTA\\ui_bg.bmp"
+#define STR_FILE_NAME_UI_GTA_BG L"Texture\\GTA\\ui_bg.bmp"
+#define STR_FILE_PATH_UI_GTA_BG L"Texture\\GTA\\ui_bg.bmp"
 
 #define STR_FILE_NAME_UI_TileRoad L"Texture\\GTA\\RoadTile.bmp"
 #define STR_FILE_PATH_UI_TileRoad L"Texture\\GTA\\RoadTile.bmp"

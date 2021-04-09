@@ -7,7 +7,6 @@ private:
 	static int g_iTileSize;
 
 private:
-	wstring m_strTexturePath;
 	int m_iImageIdx;
 
 	int m_iMaxCol;
@@ -27,7 +26,7 @@ protected:
 public:
 	void RenderDefaultTile(HDC _hDC, const Vector3& _vRenderPos);
 
-	void SetTile(int _iImageIdx, E_TileType _eTileType, CTexture* _pTileTexture, const wstring& _strTexturePath);
+	void SetTile(int _iImageIdx, E_TileType _eTileType, CTexture* _pTileTexture);
 	int GetTileIdx() { return m_iImageIdx; }
 	E_TileType GetTileType() { return m_eTileType; }
 

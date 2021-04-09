@@ -151,6 +151,7 @@ void CScene_Tool::Start()
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::TILE, true);
 
+
 }
 
 void CScene_Tool::Update()
@@ -172,7 +173,7 @@ void CScene_Tool::End()
 
 void CScene_Tool::MouseClick()
 {
-	if (InputKeyHold(E_Key::LBUTTON)) {
+	if (InputKeyHold(E_Key::LBUTTON) || InputKeyHold(E_Key::LBUTTON)) {
 		Vector2 vMousePos = MousePosition;
 
 		// 포커스된 UI의 정보를 가져옴
@@ -183,14 +184,12 @@ void CScene_Tool::MouseClick()
 		int iSelectedTileIdx = -1;
 		E_TileType eTileType = E_TileType::None;
 		CTexture* pTileTexture = nullptr;
-		wstring strTexturePath;
 		if (nullptr != pFocusedUI) { 
 			CTileToolPanelUI* pPanelUI = dynamic_cast<CTileToolPanelUI*>(pFocusedUI);
 			if (nullptr != pPanelUI) {
 				iSelectedTileIdx = pPanelUI->GetSelectedTileIdx();
 				eTileType = pPanelUI->GetSelectedTileType();
 				pTileTexture = pPanelUI->GetTileTexture();
-				strTexturePath = pPanelUI->GetTexturePath();
 			}
 		}
 
@@ -220,7 +219,7 @@ void CScene_Tool::MouseClick()
 			int iClickedIdx = iClickedRow * m_pTileMap->GetCol() + iClickedCol;
 			CTile* pTile = dynamic_cast<CTile*>(pTiles[iClickedIdx]);
 			if (pTile)
-				pTile->SetTile(iSelectedTileIdx, eTileType, pTileTexture, strTexturePath);
+				pTile->SetTile(iSelectedTileIdx, eTileType, pTileTexture);
 		}
 	}
 }

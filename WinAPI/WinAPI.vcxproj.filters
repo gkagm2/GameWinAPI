@@ -191,6 +191,12 @@
     <Filter Include="Game\Object\UI\TileToolPanelUI">
       <UniqueIdentifier>{1f529299-4c11-4f29-a0e1-29ef4d56d39b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Gta_PJ\Tile">
+      <UniqueIdentifier>{eb0f811c-ffbc-4c4d-942d-bbd983fe4d6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Gta_PJ\Tile\WaterTile">
+      <UniqueIdentifier>{bd2eb34e-a004-463d-b9b5-de1a88a25703}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -322,9 +328,6 @@
     <ClInclude Include="CTileMap.h">
       <Filter>Game\Object\TileMap</Filter>
     </ClInclude>
-    <ClInclude Include="CTile.h">
-      <Filter>Game\Object\Tile</Filter>
-    </ClInclude>
     <ClInclude Include="CUI.h">
       <Filter>Game\Object\UI</Filter>
     </ClInclude>
@@ -370,13 +373,20 @@
     <ClInclude Include="CCameraManager.h">
       <Filter>Game\Manager\CameraMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CCamera2D.h" />
-    <ClInclude Include="CGTA_Player.h" />
     <ClInclude Include="CGTA_PoliceCar.h">
       <Filter>Game\Object\Gta_PJ\Gta_Car</Filter>
     </ClInclude>
     <ClInclude Include="CTileToolPanelUI.h">
       <Filter>Game\Object\UI\TileToolPanelUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera2D.h">
+      <Filter>Game\Manager\Camera\Camera 2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_Player.h">
+      <Filter>Game\Object\Gta_PJ\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CTile.h">
+      <Filter>Game\Object\Gta_PJ\Tile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -501,9 +511,6 @@
     <ClCompile Include="CTileMap.cpp">
       <Filter>Game\Object\TileMap</Filter>
     </ClCompile>
-    <ClCompile Include="CTile.cpp">
-      <Filter>Game\Object\Tile</Filter>
-    </ClCompile>
     <ClCompile Include="CUI.cpp">
       <Filter>Game\Object\UI</Filter>
     </ClCompile>
@@ -549,13 +556,20 @@
     <ClCompile Include="CCameraManager.cpp">
       <Filter>Game\Manager\CameraMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CCamera2D.cpp" />
-    <ClCompile Include="CGTA_Player.cpp" />
     <ClCompile Include="CGTA_PoliceCar.cpp">
       <Filter>Game\Object\Gta_PJ\Gta_Car</Filter>
     </ClCompile>
     <ClCompile Include="CTileToolPanelUI.cpp">
       <Filter>Game\Object\UI\TileToolPanelUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CCamera2D.cpp">
+      <Filter>Game\Manager\Camera\Camera 2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_Player.cpp">
+      <Filter>Game\Object\Gta_PJ\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CTile.cpp">
+      <Filter>Game\Object\Gta_PJ\Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

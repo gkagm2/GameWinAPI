@@ -6,7 +6,6 @@ private:
 	float m_fSelectedTileIdx;
 	E_TileType m_eSelectedTileType;
 	CTexture* m_pTileTexture;
-	wstring m_strTexturePath;
 
 public:
 	virtual void Init() override;
@@ -24,12 +23,10 @@ public:
 		m_fSelectedTileIdx = _tileIdx;
 		m_eSelectedTileType = _eTileType;
 		m_pTileTexture = _pTileTexture;
-		m_strTexturePath = _strTexturePath;
 	}
 	int GetSelectedTileIdx() { return m_fSelectedTileIdx; }
 	E_TileType GetSelectedTileType() { return m_eSelectedTileType; }
 	CTexture* GetTileTexture() { return m_pTileTexture; }
-	const wstring& GetTexturePath() { return m_strTexturePath; }
 
 public:
 	CLONE(CTileToolPanelUI);

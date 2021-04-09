@@ -37,6 +37,7 @@ enum class E_SceneType{
 enum class E_GroupType {
 	TILEMAP,
 	TILE,
+	ITEM,
 	DEFAULT,
 	BACKGROUND,
 	PLAYER,

@@ -68,14 +68,13 @@ void CTile::RenderDefaultTile(HDC _hDC, const Vector3& _vRenderPos)
 	DeleteObject(hBrush);
 }
 
-void CTile::SetTile(int _iImageIdx, E_TileType _eTileType, CTexture* _pTileTexture, const wstring& _strTexturePath)
+void CTile::SetTile(int _iImageIdx, E_TileType _eTileType, CTexture* _pTileTexture)
 {
 	m_iImageIdx = _iImageIdx;
 	m_eTileType = _eTileType;
 	SetTexture(_pTileTexture);
-	m_strTexturePath = _strTexturePath;
 	m_iMaxCol = GetTexture()->GetWidth() / g_iTileSize;
-	m_iMaxRow = GetTexture()->GetHeight() / g_iTileSize;
+	m_iMaxRow = GetTexture()->GetHeight() / g_iTileSize;	
 	CheckAndAttachedCollider();
 }
 
@@ -119,26 +118,42 @@ void CTile::Save(FILE* _pFile)
 {
 	fwrite(&m_iImageIdx, sizeof(int), 1, _pFile);
 	fwrite(&m_eTileType, sizeof(int), 1, _pFile);
-	SaveWString(m_strTexturePath, _pFile);
 }
 
 void CTile::Load(FILE* _pFile)
 {
 	fread(&m_iImageIdx, sizeof(int), 1, _pFile);
 	fread(&m_eTileType, sizeof(int), 1, _pFile);
-	LoadWString(m_strTexturePath, _pFile);
-
-	if (m_strTexturePath.length() > 0) {
-		CTexture* pTexture = CResourceManager::GetInstance()->FindTexture(m_strTexturePath);
+	CTexture* pTexture = nullptr;
+	switch (m_eTileType) {
+	case E_TileType::Water:
+		break;
+	case E_TileType::Road: {
+		pTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_UI_TileRoad);
 		if (nullptr == pTexture) {
-			pTexture = CResourceManager::GetInstance()->LoadTexture(m_strTexturePath, m_strTexturePath);
+			pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_UI_TileRoad, STR_FILE_PATH_UI_TileRoad);
+			assert(pTexture);
+		}
+	}
+		break;
+	case E_TileType::Sidewalk:
+		break;
+	case E_TileType::Wall: {
+		pTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_UI_TileWall);
+		if (nullptr == pTexture) {
+			pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_UI_TileWall, STR_FILE_PATH_UI_TileWall);
 
 			assert(pTexture);
 		}
+		
+		break;
+	}
+	}
+	if (nullptr != pTexture) {
 		SetTexture(pTexture);
 		m_iMaxCol = GetTexture()->GetWidth() / g_iTileSize;
 		m_iMaxRow = GetTexture()->GetHeight() / g_iTileSize;
-
-		CheckAndAttachedCollider();
 	}
+
+	CheckAndAttachedCollider();
 }
