@@ -37,7 +37,7 @@ void CBackgroundController::Update()
 
 		// 화면 아래로 내려갔으면 다시 위로 올리기
 		Vector3 vResolution = CCore::GetInstance()->GetResolution();
-		Vector2 middlePos = vResolution / 2.0f;
+		Vector2 middlePos = vResolution * 0.5f;
 		if (position.y > middlePos.y + vResolution.y) {
 			position.y = middlePos.y - vResolution.y;
 		}
@@ -50,7 +50,7 @@ void CBackgroundController::Update()
 
 		// 화면 아래로 내려갔으면 다시 위로 올리기
 		Vector3 vResolution = CCore::GetInstance()->GetResolution();
-		Vector2 middlePos = vResolution / 2.0f;
+		Vector2 middlePos = vResolution * 0.5f;
 		if (position.y > middlePos.y + vResolution.y) {
 			float randomX = float(rand() % (int)vResolution.x + 30);
 			position.x = randomX; 
@@ -65,7 +65,7 @@ void CBackgroundController::Update()
 
 		// 화면 아래로 내려갔으면 다시 위로 올리기
 		Vector3 vResolution = CCore::GetInstance()->GetResolution();
-		Vector2 middlePos = vResolution / 2.0f;
+		Vector2 middlePos = vResolution * 0.5f;
 		if (position.y > middlePos.y + vResolution.y) {
 			float randomX = float(rand() % (int)vResolution.x + 30);
 			position.x = randomX;
@@ -81,7 +81,7 @@ void CBackgroundController::Update()
 
 		// 화면 아래로 내려갔으면 다시 위로 올리기
 		Vector3 vResolution = CCore::GetInstance()->GetResolution();
-		Vector2 middlePos = vResolution / 2.0f;
+		Vector2 middlePos = vResolution * 0.5f;
 		if (position.y > middlePos.y + vResolution.y) {
 			float randomX = float(rand() % (int)vResolution.x + 30);
 			position.x = randomX;
@@ -103,7 +103,9 @@ void CBackgroundController::Init()
 	SetScale(vResolution);
 
 	// Textrue load
-	CTexture* pBGTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Background, STR_FILE_PATH_Background);
+	CTexture* pBGTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Background);
+	if(nullptr == pBGTexture)
+		pBGTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Background, STR_FILE_PATH_Background);
 	m_pBackgroundTextrue = pBGTexture;
 
 	// Create Background Object
@@ -116,10 +118,9 @@ void CBackgroundController::Init()
 	}
 
 	// Position Setting
-	Vector2 middlePos = vResolution / 2.0f;
+	Vector2 middlePos = vResolution * 0.5f;
 	m_vecBackground[0]->SetPosition(middlePos.x, middlePos.y - vResolution.y);
 	m_vecBackground[1]->SetPosition(middlePos);
-
 
 	CTexture* pBGTexture1 = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Background1, STR_FILE_PATH_Background1);
 	m_pBackgroundTextrueF1 = pBGTexture1;

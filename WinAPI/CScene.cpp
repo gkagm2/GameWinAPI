@@ -4,6 +4,7 @@
 #include "CCore.h"
 #include <typeinfo>
 #include "CCollisionManager.h"
+#include "CPathManager.h"
 
 #include "CObject.h"
 #include "CCamera.h"
@@ -289,14 +290,20 @@ void CScene::RenderTile(HDC _hDC)
 	}
 }
 
-void CScene::LoadTile(wstring _strPath)
+void CScene::LoadTile(wstring _strRelativePath)
 {
-	//wstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativePath;
+	wstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativePath;
+	LoadTileDialogBox(strFilePath);
+}
+
+void CScene::LoadTileDialogBox(wstring _strPath)
+{
 	wstring strFilePath = _strPath;
 
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
 	if (nullptr == pFile) {
+		assert(pFile && L"경로 이상함. 타일 로드 실패");
 		return;
 	}
 
@@ -306,6 +313,7 @@ void CScene::LoadTile(wstring _strPath)
 	fread(&iCol, sizeof(int), 1, pFile);
 
 	DeleteObjects(E_GroupType::TILE);
+	assert(m_pTileMap && L"Tile Map이 없음.");
 	m_pTileMap->CreateTileGrid((UINT)iRow, (UINT)iCol);
 
 	vector<CObject*>& vecTiles = GetObjects(E_GroupType::TILE);
@@ -314,7 +322,7 @@ void CScene::LoadTile(wstring _strPath)
 		if (pTile) {
 			pTile->Load(pFile);
 		}
-			
+
 	}
 
 	fclose(pFile);

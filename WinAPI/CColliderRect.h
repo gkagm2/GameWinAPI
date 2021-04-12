@@ -14,8 +14,8 @@ public:
 	Vector3 GetScale() { return m_vScale; }
 	void SetScale(const Vector3& _vScale) { m_vScale = _vScale;	}
 	// viewport coordinate
-	Vector3 GetMinPos() { return GetPosition() - m_vScale / 2.0f; }
-	Vector3 GetMaxPos() { return GetPosition() + m_vScale / 2.0f; }
+	Vector3 GetMinPos() { return GetPosition() - m_vScale * 0.5f; }
+	Vector3 GetMaxPos() { return GetPosition() + m_vScale * 0.5f; }
 	
 public:
 	virtual void Render(HDC _hDC) override;

@@ -30,11 +30,19 @@
 #include "CColliderRect.h"
 #include "CTexture.h"
 
+#include "CDragScreen.h"
+
 #include "CDebug.h"
 
 
 CScene_Tool::CScene_Tool() :
-	m_hMenu(nullptr)
+	m_hMenu(nullptr),
+	bIsDrag(false),
+	iSelectedTileIdx(-1),
+	eTileType(E_TileType::None),
+	startDragIdxX(-1),
+	startDragIdxY(-1),
+	pTileTexture(nullptr)
 {
 	// 메뉴바 생성
 	m_hMenu = LoadMenu(nullptr, MAKEINTRESOURCE(IDC_WINAPI));
@@ -62,10 +70,11 @@ void CScene_Tool::Start()
 
 	// Character 모음
 	// Player
-	CGTA_Player* pPlayer = new CGTA_Player(E_GroupType::PLAYER);
-	pPlayer->SetObjectName(L"Player");
-	pPlayer->Init();
-	AddObject(pPlayer);
+	//CGTA_Player* pPlayer = new CGTA_Player(E_GroupType::PLAYER);
+	//pPlayer->SetObjectName(L"Player");
+	//pPlayer->Init();
+	//pPlayer->SetPosition(800, 800, 0);
+	//AddObject(pPlayer);
 
 	// Vehicle
 	CGTA_PoliceCar* pPoliceCar = new CGTA_PoliceCar(E_GroupType::VEHICLE);
@@ -148,16 +157,23 @@ void CScene_Tool::Start()
 		}
 	}
 
+	// 드래그 표시
+	CDragScreen* pDragUI = new CDragScreen(E_GroupType::PREV);
+	AddObject(pDragUI);
+	
+
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::TILE, true);
-
-
+	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::PLAYER, true);
 }
 
 void CScene_Tool::Update()
 {
 	CScene::Update();
 	MouseClick();
+
+	if (InputKeyPress(E_Key::F4))
+		CSceneManager::GetInstance()->ChangeScene(E_SceneType::GTA_IN);
 }
 
 void CScene_Tool::End()
@@ -173,55 +189,110 @@ void CScene_Tool::End()
 
 void CScene_Tool::MouseClick()
 {
-	if (InputKeyHold(E_Key::LBUTTON) || InputKeyHold(E_Key::LBUTTON)) {
-		Vector2 vMousePos = MousePosition;
 
+	if (InputKeyPress(E_Key::LBUTTON)) {
+		// TODO : UI를 클릭 했을 경우가 타이밍이 안맞는다. UIManager보다 이게 먼저 실행되버림ㄴ
 		// 포커스된 UI의 정보를 가져옴
 		vector<CObject*>& pTiles = GetObjects(E_GroupType::TILE);
 		CUI* pFocusedUI = CUIManager::GetInstance()->GetCurFocusedUI();
+		if (nullptr != pFocusedUI) {
+			iSelectedTileIdx = -1;
+			eTileType = E_TileType::None;
+			pTileTexture = nullptr;
 
-		// 클릭된 UI를 찾는다.
-		int iSelectedTileIdx = -1;
-		E_TileType eTileType = E_TileType::None;
-		CTexture* pTileTexture = nullptr;
-		if (nullptr != pFocusedUI) { 
 			CTileToolPanelUI* pPanelUI = dynamic_cast<CTileToolPanelUI*>(pFocusedUI);
 			if (nullptr != pPanelUI) {
 				iSelectedTileIdx = pPanelUI->GetSelectedTileIdx();
 				eTileType = pPanelUI->GetSelectedTileType();
 				pTileTexture = pPanelUI->GetTileTexture();
 			}
-		}
 
-		// 클릭된 UI가 없으면 종료
-		if (-1 == iSelectedTileIdx || E_TileType::None == eTileType || nullptr == pTileTexture)
-			return;
-
-		// 영역을 체크한다.
-		Vector2 vClickPos = MainCamera->GetScreenToWorldPosition(vMousePos);
-
-		int iClickedCol = int(vClickPos.x / CTile::GetTileSize());
-		int iClickedRow = int(vClickPos.y / CTile::GetTileSize());
-
-		if (m_pTileMap) {
-			UINT wid = m_pTileMap->GetTileMapWidth();
-			UINT hegith = m_pTileMap->GetTileMapHeight();
-
-			// 타일 영역 안에 클릭했는지 체크
-			if (vClickPos.x < m_pTileMap->GetPosition().x ||
-				vClickPos.x > m_pTileMap->GetPosition().x + m_pTileMap->GetTileMapWidth() ||
-				vClickPos.y < m_pTileMap->GetPosition().y ||
-				vClickPos.y > m_pTileMap->GetPosition().y + m_pTileMap->GetTileMapHeight()) {
+			// 클릭된 UI가 없으면 종료
+			if (-1 == iSelectedTileIdx || E_TileType::None == eTileType || nullptr == pTileTexture) {
+				bIsDrag = false;
+				iSelectedTileIdx = -1;
+				startDragIdxX = -1;
+				startDragIdxY = -1;
 				return;
 			}
+		}
+		
+		// UI말고 다른곳을 클릭했다면
+		if (m_pTileMap) {
+			vector<CObject*>& pTiles = GetObjects(E_GroupType::TILE);
+			Vector2 vClickPos = MainCamera->GetScreenToWorldPosition(MousePosition);
+
+			int iClickedCol = int(vClickPos.x / CTile::GetTileSize());
+			int iClickedRow = int(vClickPos.y / CTile::GetTileSize());
+
+			// 타일 영역 안에 클릭했는지 체크
+			if (false == IsTileClicked(vClickPos))
+				return;
 
 			// 클릭한 타일의 정보를 가온다.
 			int iClickedIdx = iClickedRow * m_pTileMap->GetCol() + iClickedCol;
 			CTile* pTile = dynamic_cast<CTile*>(pTiles[iClickedIdx]);
-			if (pTile)
-				pTile->SetTile(iSelectedTileIdx, eTileType, pTileTexture);
+			if (pTile) { // 타일을 설정한다.
+				startDragIdxX = iClickedCol;
+				startDragIdxY = iClickedRow;
+				bIsDrag = true;
+			}
 		}
 	}
+	if (InputKeyRelease(E_Key::LBUTTON)) {
+		if (bIsDrag == false)
+			return;
+		if (nullptr == pTileTexture || -1 == iSelectedTileIdx)
+			return;
+
+		if (m_pTileMap) {
+			Vector2 vMousePos = MousePosition;
+
+			// 영역을 체크한다.
+			Vector2 vClickPos = MainCamera->GetScreenToWorldPosition(vMousePos);
+
+			int iClickedCol = int(vClickPos.x / CTile::GetTileSize());
+			int iClickedRow = int(vClickPos.y / CTile::GetTileSize());
+
+			if (iClickedCol < startDragIdxX) {
+				int temp = iClickedCol;
+				iClickedCol = startDragIdxX;
+				startDragIdxX = temp;
+			}
+			if (iClickedRow < startDragIdxY) {
+				int temp = iClickedRow;
+				iClickedRow = startDragIdxY;
+				startDragIdxY = temp;
+			}
+
+			// 타일 영역 안에 클릭했는지 체크
+			if (false == IsTileClicked(vClickPos))
+				return;
+
+			vector<CObject*>& pTiles = GetObjects(E_GroupType::TILE);
+			// 드래그 한 영역의 타일을 설정한다.
+			for (int iRow = startDragIdxY; iRow <= iClickedRow; ++iRow) {
+				for (int iCol = startDragIdxX; iCol <= iClickedCol; ++iCol) {
+					int iClickedIdx = iRow * m_pTileMap->GetCol() + iCol;
+					CTile* pTile = dynamic_cast<CTile*>(pTiles[iClickedIdx]);
+					if (pTile)
+						pTile->SetTile(iSelectedTileIdx, eTileType, pTileTexture);
+				}
+			}
+		}
+		bIsDrag = false;
+	}
+}
+
+bool CScene_Tool::IsTileClicked(const Vector2& _vClickPos)
+{
+	if (_vClickPos.x < m_pTileMap->GetPosition().x ||
+		_vClickPos.x > m_pTileMap->GetPosition().x + m_pTileMap->GetTileMapWidth() ||
+		_vClickPos.y < m_pTileMap->GetPosition().y ||
+		_vClickPos.y > m_pTileMap->GetPosition().y + m_pTileMap->GetTileMapHeight()) {
+		return false;
+	}
+	return true;
 }
 
 void CScene_Tool::SaveTile(wstring _strPath)

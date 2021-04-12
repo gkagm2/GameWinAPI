@@ -83,7 +83,7 @@ void MenuContainer(WPARAM _wmId)
 		if (0 != GetOpenFileName(&ofn)) {
 			CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(CSceneManager::GetInstance()->GetCurScene());
 			assert(pToolScene);
-			pToolScene->LoadTile(ofn.lpstrFile);
+			pToolScene->LoadTileDialogBox(ofn.lpstrFile);
 
 			wchar_t str[255] = L"File Load";
 			MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Load", MB_OK);

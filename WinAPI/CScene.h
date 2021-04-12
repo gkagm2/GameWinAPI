@@ -24,7 +24,8 @@ public: // Tile map
 	virtual void RenderTile(HDC _hDC);
 
 	CTileMap* GetTileMap() { return m_pTileMap; }
-	void LoadTile(wstring _strPath);
+	void LoadTile(wstring _strRelativePath);
+	void LoadTileDialogBox(wstring _strPath);
 	void LoadAll(wstring _strPath);
 
 public:

@@ -103,7 +103,7 @@ void CTile::CheckAndAttachedCollider()
 			return;
 		CColliderRect* pcolRect = new CColliderRect(this);
 		pcolRect->SetScale(Vector3(g_iTileSize, g_iTileSize, 0.f));
-		pcolRect->SetOffsetPosition(Vector3(g_iTileSize / 2.f, g_iTileSize / 2.f,0.f));
+		pcolRect->SetOffsetPosition(Vector3(g_iTileSize * 0.5f, g_iTileSize * 0.5f,0.f));
 	}
 	else {
 		if (nullptr != GetCollider()) {

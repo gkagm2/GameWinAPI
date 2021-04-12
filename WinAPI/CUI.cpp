@@ -132,10 +132,10 @@ Vector3 CUI::GetMin()
         Vector3 minVec = GetFinalPosition();
         CTexture* pTexture = GetTexture();
         if (nullptr != pTexture) {
-            /*minVec.x -= pTexture->GetWidth() / 2.0f;
-            minVec.y -= pTexture->GetHeight() / 2.0f;*/
-            minVec.x -= GetScale().x / 2.0f;
-            minVec.y -= GetScale().y / 2.0f;
+            /*minVec.x -= pTexture->GetWidth() * 0.5f;
+            minVec.y -= pTexture->GetHeight() * 0.5f;*/
+            minVec.x -= GetScale().x * 0.5f;
+            minVec.y -= GetScale().y * 0.5f;
         }
         return minVec;
     }
@@ -177,13 +177,13 @@ Vector3 CUI::GetMax()
         Vector3 maxVec = GetFinalPosition();
         CTexture* pTexture = GetTexture();
         if (nullptr != pTexture) {
-            /*maxVec.x += pTexture->GetWidth() / 2.0f;
-            maxVec.y += pTexture->GetHeight() / 2.0f;*/
-            maxVec.x += GetScale().x / 2.0f;
-            maxVec.y += GetScale().y / 2.0f;
+            /*maxVec.x += pTexture->GetWidth() * 0.5f;
+            maxVec.y += pTexture->GetHeight() * 0.5f;*/
+            maxVec.x += GetScale().x * 0.5f;
+            maxVec.y += GetScale().y * 0.5f;
         }
         else
-            maxVec += GetScale() / 2.0f;
+            maxVec += GetScale() * 0.5f;
         return maxVec;
     }
         break;

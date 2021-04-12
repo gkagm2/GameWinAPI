@@ -14,188 +14,200 @@
     <Filter Include="Main">
       <UniqueIdentifier>{1b8723a0-6908-420e-ac29-39b8d99dc6aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Manager">
-      <UniqueIdentifier>{c2989ab6-5082-4c45-8f66-e1b3448df418}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Define">
-      <UniqueIdentifier>{45277063-905c-4d94-ba66-2c28c6de2ac0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Core">
-      <UniqueIdentifier>{c05999c8-4cfb-40f0-b0d7-966983531794}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object">
-      <UniqueIdentifier>{f7e07798-b830-42f3-97a6-820c36b7673f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene">
-      <UniqueIdentifier>{25eb7f57-1b5c-420f-a3c5-81cbf9c8d71a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Resource">
-      <UniqueIdentifier>{62ab8b19-bed6-4eb0-9b36-c24559c3084b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Resource\Sound">
-      <UniqueIdentifier>{3fd0fda7-614e-4f12-b988-64366bbeccb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Resource\Texture">
-      <UniqueIdentifier>{c05c8a7a-8e63-46dc-b46f-314d8b209f59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\Camera">
-      <UniqueIdentifier>{9a4d49b9-df01-4dcb-a34a-4668ec19d53c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\CollisionMgr">
-      <UniqueIdentifier>{9dfad5b6-d8bd-4cb3-8b4c-6694a69a82b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Component">
-      <UniqueIdentifier>{fec7e179-47c9-4af9-a7ec-606366f88d6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Component\Collider">
-      <UniqueIdentifier>{7f322ffb-5b0d-4209-8d08-447f876f679a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Component\Collider\ColliderCircle">
-      <UniqueIdentifier>{7cf8e71b-ee9a-4e97-adcc-55dec18ce897}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Component\Collider\ColliderRect">
-      <UniqueIdentifier>{981494e8-5382-4a45-a287-3acf4c161137}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Component\Animator">
-      <UniqueIdentifier>{d467c61a-dcd3-4381-90a8-6c42236b9702}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\PlaneShooting_PJ">
-      <UniqueIdentifier>{18a16bff-4753-4925-bc62-b60f7b7ba110}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\PlaneShooting_PJ\Player">
-      <UniqueIdentifier>{7b7b2818-9eea-4d5e-84ae-089a73500722}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\PlaneShooting_PJ\Background">
-      <UniqueIdentifier>{318908e4-01f9-4f1c-9d6b-7b79beafa142}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\PlaneShooting_PJ\BackgroundController">
-      <UniqueIdentifier>{5c70de07-0285-4f3d-8de6-9594694380b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\PlaneShooting_PJ\Missile">
-      <UniqueIdentifier>{6a91d4ca-b9f3-4193-9166-c5c7572e59df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\PlaneShooting_PJ\Monster">
-      <UniqueIdentifier>{de960475-96bb-42fd-8517-d2c81ad5a4eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\PlaneShooting_PJ\MonsterRespawner">
-      <UniqueIdentifier>{720b29ce-8cca-4e40-8732-e3f626d52c56}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\Gta_PJ">
-      <UniqueIdentifier>{bd590f74-6fc9-468a-bddd-f1f30131b0b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\Gta_PJ\Scene_Main">
-      <UniqueIdentifier>{b611988f-5465-4cd0-ad75-344a9f91d867}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\Gta_PJ\Scene_InGame">
-      <UniqueIdentifier>{35175435-403f-4df8-a4bf-a80d55c78b92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\PlaneShooting_PJ">
-      <UniqueIdentifier>{ff76d25b-7a84-4618-972d-19b9d9444d69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\PlaneShooting_PJ\StartScene">
-      <UniqueIdentifier>{3097f2a2-5e39-4017-a472-ecedbe049283}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\PlaneShooting_PJ\Stage01">
-      <UniqueIdentifier>{6c8127a0-e178-4805-8927-1f3c3f55cad5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\PlaneShooting_PJ\Tool">
-      <UniqueIdentifier>{0bd1a2b5-e7de-40c3-8d9a-1d08fea45614}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\TileMap">
-      <UniqueIdentifier>{1c6b6a54-4cab-4705-944c-53470ac4e7c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\Tile">
-      <UniqueIdentifier>{b216cafa-70c3-4eee-9909-ca56982be4f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\UI">
-      <UniqueIdentifier>{305d8c27-98ad-4016-a7e9-2485d3e0ad59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\UIMgr">
-      <UniqueIdentifier>{702c0907-852d-412e-94c2-4d4bcf1b86d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\EventTrigger">
-      <UniqueIdentifier>{ea83af06-4d01-49c3-afd6-f763680152f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\DebugMgr">
-      <UniqueIdentifier>{c246ea6f-176f-49a3-9348-62f1cc5ba058}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\PathMgr">
-      <UniqueIdentifier>{62a679d1-18cb-47a5-96e7-08380d7be658}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\ResourceMgr">
-      <UniqueIdentifier>{8c5863a7-9165-4464-855d-24b59401b8f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\TimeMgr">
-      <UniqueIdentifier>{283b5d03-e5f8-45b2-a6b3-5d854c556323}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\SceneMgr">
-      <UniqueIdentifier>{af17edd6-b2f6-47b5-b7b1-2b1052696da3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\KeyMgr">
-      <UniqueIdentifier>{cd384857-01d8-4966-99cc-3034a919db26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Manager\EventMgr">
-      <UniqueIdentifier>{c458175f-5a31-4d83-806f-e434afc6145b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\UI\PanelUI">
-      <UniqueIdentifier>{6fe006f1-4893-4652-b36d-46d6d385e434}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\UI\ImageUI">
-      <UniqueIdentifier>{4d394cdb-d513-475f-9b96-93ae7917b1d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\Gta_PJ">
-      <UniqueIdentifier>{5863e0f6-3934-4a82-a320-f7eacc985a72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\Gta_PJ\Gta_Car">
-      <UniqueIdentifier>{05aba634-64b3-42ad-8230-8d0ff09c558f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\Gta_PJ\Vehicle">
-      <UniqueIdentifier>{3f713975-5e38-4687-8833-a1f4cf0f06c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Component\Rigidbody">
-      <UniqueIdentifier>{5907db62-b3da-4167-a762-241f6b592590}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Component\AI">
-      <UniqueIdentifier>{9f19c02d-bc86-46e6-b47c-05c26496fd2a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Component\AI\AIState">
-      <UniqueIdentifier>{cfa114d2-b0ef-4686-92dd-0020a3101f9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\PlaneShooting_PJ\Monster\MonsterSmall">
-      <UniqueIdentifier>{992249d1-780c-4e20-8460-195afcb2a0c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\PlaneShooting_PJ\Monster\MonsterAI">
-      <UniqueIdentifier>{941b6ba5-e451-4e65-b9b7-b5339e8507d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\PlaneShooting_PJ\Monster\MonsterAI\IdleState">
-      <UniqueIdentifier>{046de77f-3866-441c-9048-704a794fff38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\PlaneShooting_PJ\Monster\MonsterAI\TraceState">
-      <UniqueIdentifier>{bdb5159d-565b-4beb-8abb-d19f6bb7f46c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Header">
       <UniqueIdentifier>{e7a64c22-6820-4156-8be8-4c4ca57c5560}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Manager\Camera\ToolCamera">
+    <Filter Include="Game\0. Manager">
+      <UniqueIdentifier>{c2989ab6-5082-4c45-8f66-e1b3448df418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\0. Manager\Camera">
+      <UniqueIdentifier>{9a4d49b9-df01-4dcb-a34a-4668ec19d53c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\0. Manager\Camera\ToolCamera">
       <UniqueIdentifier>{135a74a2-78fa-4396-a683-fd692306bec6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Manager\Camera\Camera 2D">
+    <Filter Include="Game\0. Manager\Camera\Camera 2D">
       <UniqueIdentifier>{9019566c-2983-4c59-bbf7-3039d0d269d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Manager\CameraMgr">
+    <Filter Include="Game\0. Manager\CollisionMgr">
+      <UniqueIdentifier>{9dfad5b6-d8bd-4cb3-8b4c-6694a69a82b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\0. Manager\UIMgr">
+      <UniqueIdentifier>{702c0907-852d-412e-94c2-4d4bcf1b86d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\0. Manager\DebugMgr">
+      <UniqueIdentifier>{c246ea6f-176f-49a3-9348-62f1cc5ba058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\0. Manager\PathMgr">
+      <UniqueIdentifier>{62a679d1-18cb-47a5-96e7-08380d7be658}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\0. Manager\ResourceMgr">
+      <UniqueIdentifier>{8c5863a7-9165-4464-855d-24b59401b8f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\0. Manager\TimeMgr">
+      <UniqueIdentifier>{283b5d03-e5f8-45b2-a6b3-5d854c556323}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\0. Manager\SceneMgr">
+      <UniqueIdentifier>{af17edd6-b2f6-47b5-b7b1-2b1052696da3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\0. Manager\KeyMgr">
+      <UniqueIdentifier>{cd384857-01d8-4966-99cc-3034a919db26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\0. Manager\EventMgr">
+      <UniqueIdentifier>{c458175f-5a31-4d83-806f-e434afc6145b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\0. Manager\CameraMgr">
       <UniqueIdentifier>{858f121b-1149-4a86-b9c6-5b7d31e5ba08}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object\Gta_PJ\Player">
-      <UniqueIdentifier>{53d11fc6-25eb-4557-87c8-a46d3e9b4f07}</UniqueIdentifier>
+    <Filter Include="Game\1. Resource">
+      <UniqueIdentifier>{62ab8b19-bed6-4eb0-9b36-c24559c3084b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object\UI\TileToolPanelUI">
+    <Filter Include="Game\1. Resource\Sound">
+      <UniqueIdentifier>{3fd0fda7-614e-4f12-b988-64366bbeccb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\1. Resource\Texture">
+      <UniqueIdentifier>{c05c8a7a-8e63-46dc-b46f-314d8b209f59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\2. Scene">
+      <UniqueIdentifier>{25eb7f57-1b5c-420f-a3c5-81cbf9c8d71a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\2. Scene\Gta_PJ">
+      <UniqueIdentifier>{bd590f74-6fc9-468a-bddd-f1f30131b0b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\2. Scene\Gta_PJ\Scene_Main">
+      <UniqueIdentifier>{b611988f-5465-4cd0-ad75-344a9f91d867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\2. Scene\Gta_PJ\Scene_InGame">
+      <UniqueIdentifier>{35175435-403f-4df8-a4bf-a80d55c78b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\2. Scene\PlaneShooting_PJ">
+      <UniqueIdentifier>{ff76d25b-7a84-4618-972d-19b9d9444d69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\2. Scene\PlaneShooting_PJ\StartScene">
+      <UniqueIdentifier>{3097f2a2-5e39-4017-a472-ecedbe049283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\2. Scene\PlaneShooting_PJ\Stage01">
+      <UniqueIdentifier>{6c8127a0-e178-4805-8927-1f3c3f55cad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\2. Scene\PlaneShooting_PJ\Tool">
+      <UniqueIdentifier>{0bd1a2b5-e7de-40c3-8d9a-1d08fea45614}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\3. Define">
+      <UniqueIdentifier>{45277063-905c-4d94-ba66-2c28c6de2ac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\4. Core">
+      <UniqueIdentifier>{c05999c8-4cfb-40f0-b0d7-966983531794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object">
+      <UniqueIdentifier>{f7e07798-b830-42f3-97a6-820c36b7673f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\PlaneShooting_PJ">
+      <UniqueIdentifier>{18a16bff-4753-4925-bc62-b60f7b7ba110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\PlaneShooting_PJ\Player">
+      <UniqueIdentifier>{7b7b2818-9eea-4d5e-84ae-089a73500722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\PlaneShooting_PJ\Background">
+      <UniqueIdentifier>{318908e4-01f9-4f1c-9d6b-7b79beafa142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\PlaneShooting_PJ\BackgroundController">
+      <UniqueIdentifier>{5c70de07-0285-4f3d-8de6-9594694380b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\PlaneShooting_PJ\Missile">
+      <UniqueIdentifier>{6a91d4ca-b9f3-4193-9166-c5c7572e59df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\PlaneShooting_PJ\Monster">
+      <UniqueIdentifier>{de960475-96bb-42fd-8517-d2c81ad5a4eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\PlaneShooting_PJ\Monster\MonsterSmall">
+      <UniqueIdentifier>{992249d1-780c-4e20-8460-195afcb2a0c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\PlaneShooting_PJ\Monster\MonsterAI">
+      <UniqueIdentifier>{941b6ba5-e451-4e65-b9b7-b5339e8507d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\PlaneShooting_PJ\Monster\MonsterAI\IdleState">
+      <UniqueIdentifier>{046de77f-3866-441c-9048-704a794fff38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\PlaneShooting_PJ\Monster\MonsterAI\TraceState">
+      <UniqueIdentifier>{bdb5159d-565b-4beb-8abb-d19f6bb7f46c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\PlaneShooting_PJ\MonsterRespawner">
+      <UniqueIdentifier>{720b29ce-8cca-4e40-8732-e3f626d52c56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\TileMap">
+      <UniqueIdentifier>{1c6b6a54-4cab-4705-944c-53470ac4e7c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Tile">
+      <UniqueIdentifier>{b216cafa-70c3-4eee-9909-ca56982be4f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\UI">
+      <UniqueIdentifier>{305d8c27-98ad-4016-a7e9-2485d3e0ad59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\UI\PanelUI">
+      <UniqueIdentifier>{6fe006f1-4893-4652-b36d-46d6d385e434}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\UI\ImageUI">
+      <UniqueIdentifier>{4d394cdb-d513-475f-9b96-93ae7917b1d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\UI\TileToolPanelUI">
       <UniqueIdentifier>{1f529299-4c11-4f29-a0e1-29ef4d56d39b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object\Gta_PJ\Tile">
+    <Filter Include="Game\5. Object\UI\DragUI">
+      <UniqueIdentifier>{0be8818f-94ea-4ee3-8aee-2521308e5e8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\EventTrigger">
+      <UniqueIdentifier>{ea83af06-4d01-49c3-afd6-f763680152f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ">
+      <UniqueIdentifier>{5863e0f6-3934-4a82-a320-f7eacc985a72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Gta_Car">
+      <UniqueIdentifier>{05aba634-64b3-42ad-8230-8d0ff09c558f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Vehicle">
+      <UniqueIdentifier>{3f713975-5e38-4687-8833-a1f4cf0f06c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Tile">
       <UniqueIdentifier>{eb0f811c-ffbc-4c4d-942d-bbd983fe4d6c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object\Gta_PJ\Tile\WaterTile">
+    <Filter Include="Game\5. Object\Gta_PJ\Tile\WaterTile">
       <UniqueIdentifier>{bd2eb34e-a004-463d-b9b5-de1a88a25703}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\6. Component">
+      <UniqueIdentifier>{fec7e179-47c9-4af9-a7ec-606366f88d6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\6. Component\Collider">
+      <UniqueIdentifier>{7f322ffb-5b0d-4209-8d08-447f876f679a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\6. Component\Collider\ColliderCircle">
+      <UniqueIdentifier>{7cf8e71b-ee9a-4e97-adcc-55dec18ce897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\6. Component\Collider\ColliderRect">
+      <UniqueIdentifier>{981494e8-5382-4a45-a287-3acf4c161137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\6. Component\Animator">
+      <UniqueIdentifier>{d467c61a-dcd3-4381-90a8-6c42236b9702}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\6. Component\Rigidbody">
+      <UniqueIdentifier>{5907db62-b3da-4167-a762-241f6b592590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\6. Component\AI">
+      <UniqueIdentifier>{9f19c02d-bc86-46e6-b47c-05c26496fd2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\6. Component\AI\AIState">
+      <UniqueIdentifier>{cfa114d2-b0ef-4686-92dd-0020a3101f9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character">
+      <UniqueIdentifier>{520f0392-b452-440e-9056-0ba7859e4110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Player">
+      <UniqueIdentifier>{53d11fc6-25eb-4557-87c8-a46d3e9b4f07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen">
+      <UniqueIdentifier>{51844bb3-b649-4948-aa1d-f965a4de6c5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Cop">
+      <UniqueIdentifier>{7cdf5b8e-a727-4ee3-85f0-ce477b3826d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -203,13 +215,13 @@
       <Filter>PCH</Filter>
     </ClInclude>
     <ClInclude Include="Define.h">
-      <Filter>Game\Define</Filter>
+      <Filter>Game\3. Define</Filter>
     </ClInclude>
     <ClInclude Include="CTimeManager.h">
-      <Filter>Game\Manager\TimeMgr</Filter>
+      <Filter>Game\0. Manager\TimeMgr</Filter>
     </ClInclude>
     <ClInclude Include="CKeyManager.h">
-      <Filter>Game\Manager\KeyMgr</Filter>
+      <Filter>Game\0. Manager\KeyMgr</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>Main</Filter>
@@ -224,169 +236,181 @@
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="CCore.h">
-      <Filter>Game\Core</Filter>
+      <Filter>Game\4. Core</Filter>
     </ClInclude>
     <ClInclude Include="CObject.h">
-      <Filter>Game\Object</Filter>
+      <Filter>Game\5. Object</Filter>
     </ClInclude>
     <ClInclude Include="Struct.h">
-      <Filter>Game\Define</Filter>
+      <Filter>Game\3. Define</Filter>
     </ClInclude>
     <ClInclude Include="CScene.h">
-      <Filter>Game\Scene</Filter>
+      <Filter>Game\2. Scene</Filter>
     </ClInclude>
     <ClInclude Include="CSceneManager.h">
-      <Filter>Game\Manager\SceneMgr</Filter>
+      <Filter>Game\0. Manager\SceneMgr</Filter>
     </ClInclude>
     <ClInclude Include="CPlayer.h">
-      <Filter>Game\Object\PlaneShooting_PJ\Player</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Player</Filter>
     </ClInclude>
     <ClInclude Include="CScene_Stage01.h">
-      <Filter>Game\Scene\PlaneShooting_PJ\Stage01</Filter>
+      <Filter>Game\2. Scene\PlaneShooting_PJ\Stage01</Filter>
     </ClInclude>
     <ClInclude Include="CScene_Start.h">
-      <Filter>Game\Scene\PlaneShooting_PJ\StartScene</Filter>
+      <Filter>Game\2. Scene\PlaneShooting_PJ\StartScene</Filter>
     </ClInclude>
     <ClInclude Include="CPathManager.h">
-      <Filter>Game\Manager\PathMgr</Filter>
+      <Filter>Game\0. Manager\PathMgr</Filter>
     </ClInclude>
     <ClInclude Include="CMonsterPath.h">
-      <Filter>Game\Object\PlaneShooting_PJ\Monster</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Monster</Filter>
     </ClInclude>
     <ClInclude Include="CMonster.h">
-      <Filter>Game\Object\PlaneShooting_PJ\Monster</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Monster</Filter>
     </ClInclude>
     <ClInclude Include="CTexture.h">
-      <Filter>Game\Resource\Texture</Filter>
+      <Filter>Game\1. Resource\Texture</Filter>
     </ClInclude>
     <ClInclude Include="CResourceManager.h">
-      <Filter>Game\Manager\ResourceMgr</Filter>
+      <Filter>Game\0. Manager\ResourceMgr</Filter>
     </ClInclude>
     <ClInclude Include="CResource.h">
-      <Filter>Game\Resource</Filter>
+      <Filter>Game\1. Resource</Filter>
     </ClInclude>
     <ClInclude Include="CSound.h">
-      <Filter>Game\Resource\Sound</Filter>
+      <Filter>Game\1. Resource\Sound</Filter>
     </ClInclude>
     <ClInclude Include="StringTable.h">
-      <Filter>Game\Define</Filter>
+      <Filter>Game\3. Define</Filter>
     </ClInclude>
     <ClInclude Include="CMissile.h">
-      <Filter>Game\Object\PlaneShooting_PJ\Missile</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Missile</Filter>
     </ClInclude>
     <ClInclude Include="CCamera.h">
-      <Filter>Game\Manager\Camera</Filter>
+      <Filter>Game\0. Manager\Camera</Filter>
     </ClInclude>
     <ClInclude Include="CCollider.h">
-      <Filter>Game\Component\Collider</Filter>
+      <Filter>Game\6. Component\Collider</Filter>
     </ClInclude>
     <ClInclude Include="CCollisionManager.h">
-      <Filter>Game\Manager\CollisionMgr</Filter>
+      <Filter>Game\0. Manager\CollisionMgr</Filter>
     </ClInclude>
     <ClInclude Include="CColliderCircle.h">
-      <Filter>Game\Component\Collider\ColliderCircle</Filter>
+      <Filter>Game\6. Component\Collider\ColliderCircle</Filter>
     </ClInclude>
     <ClInclude Include="CColliderRect.h">
-      <Filter>Game\Component\Collider\ColliderRect</Filter>
+      <Filter>Game\6. Component\Collider\ColliderRect</Filter>
     </ClInclude>
     <ClInclude Include="CEventManager.h">
-      <Filter>Game\Manager\EventMgr</Filter>
+      <Filter>Game\0. Manager\EventMgr</Filter>
     </ClInclude>
     <ClInclude Include="Func.h">
-      <Filter>Game\Define</Filter>
+      <Filter>Game\3. Define</Filter>
     </ClInclude>
     <ClInclude Include="CMonsterRespawner.h">
-      <Filter>Game\Object\PlaneShooting_PJ\MonsterRespawner</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\MonsterRespawner</Filter>
     </ClInclude>
     <ClInclude Include="CMonster_Small.h">
-      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterSmall</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Monster\MonsterSmall</Filter>
     </ClInclude>
     <ClInclude Include="CBackground.h">
-      <Filter>Game\Object\PlaneShooting_PJ\Background</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Background</Filter>
     </ClInclude>
     <ClInclude Include="CBackgroundController.h">
-      <Filter>Game\Object\PlaneShooting_PJ\BackgroundController</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\BackgroundController</Filter>
     </ClInclude>
     <ClInclude Include="CAnimator.h">
-      <Filter>Game\Component\Animator</Filter>
+      <Filter>Game\6. Component\Animator</Filter>
     </ClInclude>
     <ClInclude Include="CAnimation.h">
-      <Filter>Game\Component\Animator</Filter>
+      <Filter>Game\6. Component\Animator</Filter>
     </ClInclude>
     <ClInclude Include="Tools.h">
-      <Filter>Game\Define</Filter>
+      <Filter>Game\3. Define</Filter>
     </ClInclude>
     <ClInclude Include="CRigidbody2D.h">
-      <Filter>Game\Component\Rigidbody</Filter>
+      <Filter>Game\6. Component\Rigidbody</Filter>
     </ClInclude>
     <ClInclude Include="CRigidbody.h">
-      <Filter>Game\Component\Rigidbody</Filter>
+      <Filter>Game\6. Component\Rigidbody</Filter>
     </ClInclude>
     <ClInclude Include="CScene_Tool.h">
-      <Filter>Game\Scene\PlaneShooting_PJ\Tool</Filter>
+      <Filter>Game\2. Scene\PlaneShooting_PJ\Tool</Filter>
     </ClInclude>
     <ClInclude Include="CTileMap.h">
-      <Filter>Game\Object\TileMap</Filter>
+      <Filter>Game\5. Object\TileMap</Filter>
     </ClInclude>
     <ClInclude Include="CUI.h">
-      <Filter>Game\Object\UI</Filter>
+      <Filter>Game\5. Object\UI</Filter>
     </ClInclude>
     <ClInclude Include="CUIManager.h">
-      <Filter>Game\Manager\UIMgr</Filter>
+      <Filter>Game\0. Manager\UIMgr</Filter>
     </ClInclude>
     <ClInclude Include="CDebug.h">
-      <Filter>Game\Manager\DebugMgr</Filter>
+      <Filter>Game\0. Manager\DebugMgr</Filter>
     </ClInclude>
     <ClInclude Include="CPanelUI.h">
-      <Filter>Game\Object\UI\PanelUI</Filter>
+      <Filter>Game\5. Object\UI\PanelUI</Filter>
     </ClInclude>
     <ClInclude Include="CImageUI.h">
-      <Filter>Game\Object\UI\ImageUI</Filter>
+      <Filter>Game\5. Object\UI\ImageUI</Filter>
     </ClInclude>
     <ClInclude Include="CCar.h">
-      <Filter>Game\Object\Gta_PJ\Gta_Car</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Gta_Car</Filter>
     </ClInclude>
-    <ClInclude Include="CVehicle.h">
-      <Filter>Game\Object\Gta_PJ\Vehicle</Filter>
+    <ClInclude Include="CGTA_Vehicle.h">
+      <Filter>Game\5. Object\Gta_PJ\Vehicle</Filter>
     </ClInclude>
     <ClInclude Include="CScene_GtaInGame.h">
-      <Filter>Game\Scene\Gta_PJ\Scene_InGame</Filter>
+      <Filter>Game\2. Scene\Gta_PJ\Scene_InGame</Filter>
     </ClInclude>
     <ClInclude Include="CAI.h">
-      <Filter>Game\Component\AI</Filter>
+      <Filter>Game\6. Component\AI</Filter>
     </ClInclude>
     <ClInclude Include="CAIState.h">
-      <Filter>Game\Component\AI\AIState</Filter>
+      <Filter>Game\6. Component\AI\AIState</Filter>
     </ClInclude>
     <ClInclude Include="CMonster_AI.h">
-      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Monster\MonsterAI</Filter>
     </ClInclude>
     <ClInclude Include="CIdleState.h">
-      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI\IdleState</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Monster\MonsterAI\IdleState</Filter>
     </ClInclude>
     <ClInclude Include="CTraceState.h">
-      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI\TraceState</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Monster\MonsterAI\TraceState</Filter>
     </ClInclude>
     <ClInclude Include="CCamera_Tool.h">
-      <Filter>Game\Manager\Camera\ToolCamera</Filter>
+      <Filter>Game\0. Manager\Camera\ToolCamera</Filter>
     </ClInclude>
     <ClInclude Include="CCameraManager.h">
-      <Filter>Game\Manager\CameraMgr</Filter>
+      <Filter>Game\0. Manager\CameraMgr</Filter>
     </ClInclude>
     <ClInclude Include="CGTA_PoliceCar.h">
-      <Filter>Game\Object\Gta_PJ\Gta_Car</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Gta_Car</Filter>
     </ClInclude>
     <ClInclude Include="CTileToolPanelUI.h">
-      <Filter>Game\Object\UI\TileToolPanelUI</Filter>
+      <Filter>Game\5. Object\UI\TileToolPanelUI</Filter>
     </ClInclude>
     <ClInclude Include="CCamera2D.h">
-      <Filter>Game\Manager\Camera\Camera 2D</Filter>
+      <Filter>Game\0. Manager\Camera\Camera 2D</Filter>
     </ClInclude>
     <ClInclude Include="CGTA_Player.h">
-      <Filter>Game\Object\Gta_PJ\Player</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="CTile.h">
-      <Filter>Game\Object\Gta_PJ\Tile</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="CDragScreen.h">
+      <Filter>Game\5. Object\UI\DragUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_Character.h">
+      <Filter>Game\5. Object\Gta_PJ\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_Citizen.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citizen</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_Cop.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\Cop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -404,172 +428,184 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTimeManager.cpp">
-      <Filter>Game\Manager\TimeMgr</Filter>
+      <Filter>Game\0. Manager\TimeMgr</Filter>
     </ClCompile>
     <ClCompile Include="CKeyManager.cpp">
-      <Filter>Game\Manager\KeyMgr</Filter>
+      <Filter>Game\0. Manager\KeyMgr</Filter>
     </ClCompile>
     <ClCompile Include="CCore.cpp">
-      <Filter>Game\Core</Filter>
+      <Filter>Game\4. Core</Filter>
     </ClCompile>
     <ClCompile Include="CObject.cpp">
-      <Filter>Game\Object</Filter>
+      <Filter>Game\5. Object</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="CScene.cpp">
-      <Filter>Game\Scene</Filter>
+      <Filter>Game\2. Scene</Filter>
     </ClCompile>
     <ClCompile Include="CSceneManager.cpp">
-      <Filter>Game\Manager\SceneMgr</Filter>
+      <Filter>Game\0. Manager\SceneMgr</Filter>
     </ClCompile>
     <ClCompile Include="CPlayer.cpp">
-      <Filter>Game\Object\PlaneShooting_PJ\Player</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Player</Filter>
     </ClCompile>
     <ClCompile Include="CScene_Stage01.cpp">
-      <Filter>Game\Scene\PlaneShooting_PJ\Stage01</Filter>
+      <Filter>Game\2. Scene\PlaneShooting_PJ\Stage01</Filter>
     </ClCompile>
     <ClCompile Include="CScene_Start.cpp">
-      <Filter>Game\Scene\PlaneShooting_PJ\StartScene</Filter>
+      <Filter>Game\2. Scene\PlaneShooting_PJ\StartScene</Filter>
     </ClCompile>
     <ClCompile Include="CPathManager.cpp">
-      <Filter>Game\Manager\PathMgr</Filter>
+      <Filter>Game\0. Manager\PathMgr</Filter>
     </ClCompile>
     <ClCompile Include="CMonster.cpp">
-      <Filter>Game\Object\PlaneShooting_PJ\Monster</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Monster</Filter>
     </ClCompile>
     <ClCompile Include="CMonsterPath.cpp">
-      <Filter>Game\Object\PlaneShooting_PJ\Monster</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Monster</Filter>
     </ClCompile>
     <ClCompile Include="CTexture.cpp">
-      <Filter>Game\Resource\Texture</Filter>
+      <Filter>Game\1. Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="CResourceManager.cpp">
-      <Filter>Game\Manager\ResourceMgr</Filter>
+      <Filter>Game\0. Manager\ResourceMgr</Filter>
     </ClCompile>
     <ClCompile Include="CResource.cpp">
-      <Filter>Game\Resource</Filter>
+      <Filter>Game\1. Resource</Filter>
     </ClCompile>
     <ClCompile Include="CSound.cpp">
-      <Filter>Game\Resource\Sound</Filter>
+      <Filter>Game\1. Resource\Sound</Filter>
     </ClCompile>
     <ClCompile Include="CMissile.cpp">
-      <Filter>Game\Object\PlaneShooting_PJ\Missile</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Missile</Filter>
     </ClCompile>
     <ClCompile Include="CCamera.cpp">
-      <Filter>Game\Manager\Camera</Filter>
+      <Filter>Game\0. Manager\Camera</Filter>
     </ClCompile>
     <ClCompile Include="CCollider.cpp">
-      <Filter>Game\Component\Collider</Filter>
+      <Filter>Game\6. Component\Collider</Filter>
     </ClCompile>
     <ClCompile Include="CCollisionManager.cpp">
-      <Filter>Game\Manager\CollisionMgr</Filter>
+      <Filter>Game\0. Manager\CollisionMgr</Filter>
     </ClCompile>
     <ClCompile Include="CColliderCircle.cpp">
-      <Filter>Game\Component\Collider\ColliderCircle</Filter>
+      <Filter>Game\6. Component\Collider\ColliderCircle</Filter>
     </ClCompile>
     <ClCompile Include="CColliderRect.cpp">
-      <Filter>Game\Component\Collider\ColliderRect</Filter>
+      <Filter>Game\6. Component\Collider\ColliderRect</Filter>
     </ClCompile>
     <ClCompile Include="CEventManager.cpp">
-      <Filter>Game\Manager\EventMgr</Filter>
+      <Filter>Game\0. Manager\EventMgr</Filter>
     </ClCompile>
     <ClCompile Include="Func.cpp">
-      <Filter>Game\Define</Filter>
+      <Filter>Game\3. Define</Filter>
     </ClCompile>
     <ClCompile Include="CMonsterRespawner.cpp">
-      <Filter>Game\Object\PlaneShooting_PJ\MonsterRespawner</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\MonsterRespawner</Filter>
     </ClCompile>
     <ClCompile Include="CMonster_Small.cpp">
-      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterSmall</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Monster\MonsterSmall</Filter>
     </ClCompile>
     <ClCompile Include="CBackground.cpp">
-      <Filter>Game\Object\PlaneShooting_PJ\Background</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Background</Filter>
     </ClCompile>
     <ClCompile Include="CBackgroundController.cpp">
-      <Filter>Game\Object\PlaneShooting_PJ\BackgroundController</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\BackgroundController</Filter>
     </ClCompile>
     <ClCompile Include="CAnimator.cpp">
-      <Filter>Game\Component\Animator</Filter>
+      <Filter>Game\6. Component\Animator</Filter>
     </ClCompile>
     <ClCompile Include="CAnimation.cpp">
-      <Filter>Game\Component\Animator</Filter>
+      <Filter>Game\6. Component\Animator</Filter>
     </ClCompile>
     <ClCompile Include="Tools.cpp">
-      <Filter>Game\Define</Filter>
+      <Filter>Game\3. Define</Filter>
     </ClCompile>
     <ClCompile Include="CRigidbody2D.cpp">
-      <Filter>Game\Component\Rigidbody</Filter>
+      <Filter>Game\6. Component\Rigidbody</Filter>
     </ClCompile>
     <ClCompile Include="CRigidbody.cpp">
-      <Filter>Game\Component\Rigidbody</Filter>
+      <Filter>Game\6. Component\Rigidbody</Filter>
     </ClCompile>
     <ClCompile Include="CScene_Tool.cpp">
-      <Filter>Game\Scene\PlaneShooting_PJ\Tool</Filter>
+      <Filter>Game\2. Scene\PlaneShooting_PJ\Tool</Filter>
     </ClCompile>
     <ClCompile Include="CTileMap.cpp">
-      <Filter>Game\Object\TileMap</Filter>
+      <Filter>Game\5. Object\TileMap</Filter>
     </ClCompile>
     <ClCompile Include="CUI.cpp">
-      <Filter>Game\Object\UI</Filter>
+      <Filter>Game\5. Object\UI</Filter>
     </ClCompile>
     <ClCompile Include="CUIManager.cpp">
-      <Filter>Game\Manager\UIMgr</Filter>
+      <Filter>Game\0. Manager\UIMgr</Filter>
     </ClCompile>
     <ClCompile Include="CDebug.cpp">
-      <Filter>Game\Manager\DebugMgr</Filter>
+      <Filter>Game\0. Manager\DebugMgr</Filter>
     </ClCompile>
     <ClCompile Include="CPanelUI.cpp">
-      <Filter>Game\Object\UI\PanelUI</Filter>
+      <Filter>Game\5. Object\UI\PanelUI</Filter>
     </ClCompile>
     <ClCompile Include="CImageUI.cpp">
-      <Filter>Game\Object\UI\ImageUI</Filter>
+      <Filter>Game\5. Object\UI\ImageUI</Filter>
     </ClCompile>
     <ClCompile Include="CCar.cpp">
-      <Filter>Game\Object\Gta_PJ\Gta_Car</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Gta_Car</Filter>
     </ClCompile>
-    <ClCompile Include="CVehicle.cpp">
-      <Filter>Game\Object\Gta_PJ\Vehicle</Filter>
+    <ClCompile Include="CGTA_Vehicle.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Vehicle</Filter>
     </ClCompile>
     <ClCompile Include="CScene_GtaInGame.cpp">
-      <Filter>Game\Scene\Gta_PJ\Scene_InGame</Filter>
+      <Filter>Game\2. Scene\Gta_PJ\Scene_InGame</Filter>
     </ClCompile>
     <ClCompile Include="CAI.cpp">
-      <Filter>Game\Component\AI</Filter>
+      <Filter>Game\6. Component\AI</Filter>
     </ClCompile>
     <ClCompile Include="CAIState.cpp">
-      <Filter>Game\Component\AI\AIState</Filter>
+      <Filter>Game\6. Component\AI\AIState</Filter>
     </ClCompile>
     <ClCompile Include="CMonster_AI.cpp">
-      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Monster\MonsterAI</Filter>
     </ClCompile>
     <ClCompile Include="CIdleState.cpp">
-      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI\IdleState</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Monster\MonsterAI\IdleState</Filter>
     </ClCompile>
     <ClCompile Include="CTraceState.cpp">
-      <Filter>Game\Object\PlaneShooting_PJ\Monster\MonsterAI\TraceState</Filter>
+      <Filter>Game\5. Object\PlaneShooting_PJ\Monster\MonsterAI\TraceState</Filter>
     </ClCompile>
     <ClCompile Include="CCamera_Tool.cpp">
-      <Filter>Game\Manager\Camera\ToolCamera</Filter>
+      <Filter>Game\0. Manager\Camera\ToolCamera</Filter>
     </ClCompile>
     <ClCompile Include="CCameraManager.cpp">
-      <Filter>Game\Manager\CameraMgr</Filter>
+      <Filter>Game\0. Manager\CameraMgr</Filter>
     </ClCompile>
     <ClCompile Include="CGTA_PoliceCar.cpp">
-      <Filter>Game\Object\Gta_PJ\Gta_Car</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Gta_Car</Filter>
     </ClCompile>
     <ClCompile Include="CTileToolPanelUI.cpp">
-      <Filter>Game\Object\UI\TileToolPanelUI</Filter>
+      <Filter>Game\5. Object\UI\TileToolPanelUI</Filter>
     </ClCompile>
     <ClCompile Include="CCamera2D.cpp">
-      <Filter>Game\Manager\Camera\Camera 2D</Filter>
+      <Filter>Game\0. Manager\Camera\Camera 2D</Filter>
     </ClCompile>
     <ClCompile Include="CGTA_Player.cpp">
-      <Filter>Game\Object\Gta_PJ\Player</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Character\Player</Filter>
     </ClCompile>
     <ClCompile Include="CTile.cpp">
-      <Filter>Game\Object\Gta_PJ\Tile</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CDragScreen.cpp">
+      <Filter>Game\5. Object\UI\DragUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_Character.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_Citizen.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citizen</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_Cop.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character\Cop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

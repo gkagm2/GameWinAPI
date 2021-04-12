@@ -103,10 +103,10 @@ void CMonster::Render(HDC _hDC)
 
 	if (nullptr == GetTexture()) {
 		Rectangle(_hDC,
-			(int)(vRenderPosition.x - ScaleX() / 2),
-			(int)(vRenderPosition.y - ScaleY() / 2),
-			(int)(vRenderPosition.x + ScaleX() / 2),
-			(int)(vRenderPosition.y + ScaleY() / 2));
+			(int)(vRenderPosition.x - ScaleX() * 0.5f),
+			(int)(vRenderPosition.y - ScaleY() * 0.5f),
+			(int)(vRenderPosition.x + ScaleX() * 0.5f),
+			(int)(vRenderPosition.y + ScaleY() * 0.5f));
 
 
 		if (GetAsyncKeyState(0x30) & 0x8000) {
@@ -132,7 +132,7 @@ void CMonster::Render(HDC _hDC)
 
 			//TransparentBlt(
 			//	_hDC,
-			//	(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight / 2),
+			//	(int)(vRenderPosition.x - iWidth * 0.5f), (int)(vRenderPosition.y - iHeight * 0.5f),
 			//	iWidth, iHeight,
 			//	hTextureDC,
 			//	0, 0,
@@ -149,7 +149,7 @@ void CMonster::Render(HDC _hDC)
 			tBlendFunc.AlphaFormat = AC_SRC_ALPHA;					// AC_SRC_ALPHA
 			
 			AlphaBlend(_hDC,
-				(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight/ 2), (int)iWidth, (int)iHeight,
+				(int)(vRenderPosition.x - iWidth * 0.5f), (int)(vRenderPosition.y - iHeight * 0.5f), (int)iWidth, (int)iHeight,
 				GetTexture()->GetDC(),
 				0, 0, (int)iWidth1, (int)iHeight1,
 				tBlendFunc);
@@ -210,7 +210,7 @@ void CMonster::CreateMissile(float _fSpeed, Vector3 _vNozzlePosition, Vector3 _v
 void CMonster::FireMissile()
 {
 	Vector3 vPosition = GetPosition();
-	Vector3 vNozzlePosition(vPosition.x, vPosition.y + ScaleY() / 2.0f);
+	Vector3 vNozzlePosition(vPosition.x, vPosition.y + ScaleY() * 0.5f);
 
 	assert(nullptr != m_pTargetObj);
 	Vector3 vMonsterPos = GetPosition();
@@ -228,16 +228,16 @@ void CMonster::FireMissile()
 	break;
 	case E_UpgradeLevelType::LEVEL2:
 	{
-		Vector3 vLeftNozzlePosition(vNozzlePosition.x - ScaleX() / 2.0f, vNozzlePosition.y);
-		Vector3 vRightNozzlePosition(vNozzlePosition.x + ScaleX() / 2.0f, vNozzlePosition.y);
+		Vector3 vLeftNozzlePosition(vNozzlePosition.x - ScaleX() * 0.5f, vNozzlePosition.y);
+		Vector3 vRightNozzlePosition(vNozzlePosition.x + ScaleX() * 0.5f, vNozzlePosition.y);
 		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, vDir);
 		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, vDir);
 	}
 	break;
 	case E_UpgradeLevelType::LEVEL3:
 	{
-		Vector3 vLeftNozzlePosition(vNozzlePosition.x - ScaleX() / 2.0f, vNozzlePosition.y);
-		Vector3 vRightNozzlePosition(vNozzlePosition.x + ScaleX() / 2.0f, vNozzlePosition.y);
+		Vector3 vLeftNozzlePosition(vNozzlePosition.x - ScaleX() * 0.5f, vNozzlePosition.y);
+		Vector3 vRightNozzlePosition(vNozzlePosition.x + ScaleX() * 0.5f, vNozzlePosition.y);
 		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, Rotate(vDir, 15.0f));
 		CreateMissile(m_fMissileSpeed, vNozzlePosition, vDir);
 		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, Rotate(vDir, -15.0f));
@@ -272,7 +272,7 @@ void CMonster::Move(int _iType = 0)
 	{
 		Vector3 startPosition = m_vStartPosition;
 		m_fRatioX += DeltaTime * m_fSpeed;
-		float offsetX = cosf(m_fRatioX) * m_fRange / 2.0f;
+		float offsetX = cosf(m_fRatioX) * m_fRange * 0.5f;
 		SetPosition(m_vStartPosition.x + offsetX, m_vStartPosition.y);
 	}
 		break;
@@ -283,8 +283,8 @@ void CMonster::Move(int _iType = 0)
 		Vector3 vMovedPosition = targetPosition;
 		m_fRatioX += DeltaTime * m_fSpeed;
 		m_fRatioY += DeltaTime * 3.0f;
-		float offsetX = cosf(m_fRatioX) * m_fRange / 2.0f;
-		float offsetY = sinf(m_fRatioY) * 150.0f / 2.0f;
+		float offsetX = cosf(m_fRatioX) * m_fRange * 0.5f;
+		float offsetY = sinf(m_fRatioY) * 150.0f * 0.5f;
 		SetPosition(m_vStartPosition.x + offsetX, m_vStartPosition.y + offsetY);
 	}
 		break;

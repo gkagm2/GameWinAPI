@@ -1,6 +1,6 @@
 #pragma once
-#include "CVehicle.h"
-class CGTA_PoliceCar : public CVehicle
+#include "CGTA_Vehicle.h"
+class CGTA_PoliceCar : public CGTA_Vehicle
 {
 public:
 	virtual void Init() override;

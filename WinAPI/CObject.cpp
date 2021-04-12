@@ -78,6 +78,7 @@ CObject::~CObject()
 
 void CObject::Init()
 {
+	InitRectPoint();
 }
 
 void CObject::PrevUpdate()
@@ -105,21 +106,10 @@ void CObject::Render(HDC _hDC)
 
 	if (nullptr == m_pTexture) {
 		Rectangle(_hDC,
-			(int)(vRenderPosition.x - ScaleX() / 2),
-			(int)(vRenderPosition.y - ScaleY() / 2),
-			(int)(vRenderPosition.x + ScaleX() / 2),
-			(int)(vRenderPosition.y + ScaleY() / 2));
-
-		
-		if (GetAsyncKeyState(0x30) & 0x8000) {
-			// Print Position
-			wchar_t pStrPosition[100] = { 0, };
-			swprintf(pStrPosition, 100, L"(%.2f, %.2f)", vRenderPosition.x, vRenderPosition.y);
-
-			SetTextAlign(_hDC, TA_CENTER);
-			TextOut(_hDC, (int)vRenderPosition.x, (int)(vRenderPosition.y), pStrPosition, (int)wcslen(pStrPosition));
-			SetTextAlign(_hDC, TA_LEFT | TA_TOP);
-		}
+			(int)(vRenderPosition.x - ScaleX() * 0.5f),
+			(int)(vRenderPosition.y - ScaleY() * 0.5f),
+			(int)(vRenderPosition.x + ScaleX() * 0.5f),
+			(int)(vRenderPosition.y + ScaleY() * 0.5f));
 	}
 	else {
 
@@ -135,7 +125,7 @@ void CObject::Render(HDC _hDC)
 			// 예외처리할 색상 RGB값을 처리하기 위해 BitBlt대신 TransparentBlt을 이용 (library 필요)
 			TransparentBlt(
 				_hDC,
-				(int)(vRenderPosition.x - iWidth / 2), (int)(vRenderPosition.y - iHeight / 2),
+				(int)(vRenderPosition.x - iWidth * 0.5f), (int)(vRenderPosition.y - iHeight * 0.5f),
 				iWidth, iHeight,
 				hTextureDC,
 				0, 0,
@@ -144,8 +134,8 @@ void CObject::Render(HDC _hDC)
 
 			/*BitBlt(
 				_hDC,
-				(int)(m_vPos.x - iWidth / 2),
-				(int)(m_vPos.y - iHeight / 2),
+				(int)(m_vPos.x - iWidth * 0.5f),
+				(int)(m_vPos.y - iHeight * 0.5f),
 				iWidth, iHeight,
 				hTextureDC,
 				0, 0,
@@ -158,25 +148,6 @@ void CObject::Render(HDC _hDC)
 	if (nullptr != m_pCollider) {
 		m_pCollider->Render(_hDC);
 	}
-	
-	/*
-	float f;
-	int y;
-	CKeyManager* keyMrg = CKeyManager::GetInstance();
-	if (keyMrg->GetKeyState(E_Key::A) == E_KeyState::HOLD) {
-		pathX -= 1 * DeltaTime * 100.0f;
-		pathMaxX -= 1 * DeltaTime * 100.0f;
-	}
-	if (keyMrg->GetKeyState(E_Key::D) == E_KeyState::HOLD) {
-		pathMaxX += 1 * DeltaTime * 100.0f;
-		pathX += 1 * DeltaTime * 100.0f;
-
-	}
-
-	for (f= pathX; f <= pathMaxX; ++f) {
-		y = (int)(sinf(f * 3.14f / 180) * 200);
-		SetPixel(_hDC, (int)f, y + CCore::GetInstance()->GetResolution().y / 2, RGB(0, 0, 0));
-	}*/
 }
 
 void CObject::InitRectPoint()
@@ -195,13 +166,22 @@ void CObject::InitRectPoint()
 	}
 
 	Vector3 pos = GetPosition();
-	Vector3 vLeftTop = { 0.f - fWidth / 2.f, vLeftTop.y = 0.f - fHeight / 2.f };
-	Vector3 vRightTop = { 0.f + fWidth / 2.f, 0.f - fHeight / 2.f };
-	Vector3 vLeftBottom = { 0.f - fWidth / 2.f, 0.f + fHeight / 2.f };
+	Vector3 vLeftTop = { 0.f - fWidth * 0.5f, vLeftTop.y = 0.f - fHeight * 0.5f };
+	Vector3 vRightTop = { 0.f + fWidth * 0.5f, 0.f - fHeight * 0.5f };
+	Vector3 vLeftBottom = { 0.f - fWidth * 0.5f, 0.f + fHeight * 0.5f };
 
 	SetRectPoint(0, vLeftTop);
 	SetRectPoint(1, vRightTop);
 	SetRectPoint(2, vLeftBottom);
+}
+
+const Vector3& CObject::GetRectPoint(int _idx)
+{
+	m_vRectPoint[_idx].Normalized();
+	m_vRectPoint[_idx].x *= GetScale().x;
+	m_vRectPoint[_idx].y *= GetScale().y;
+	m_vRectPoint[_idx].z *= GetScale().z;
+	return m_vRectPoint[_idx];
 }
 
 void CObject::RotateRP(float _fDegree)
@@ -232,11 +212,11 @@ Vector3 CObject::GetMax()
 {
 	Vector3 maxVec = m_vPosition;
 	if (nullptr != m_pTexture) {
-		maxVec.x += m_pTexture->GetWidth() / 2.0f;
-		maxVec.y += m_pTexture->GetHeight() / 2.0f;
+		maxVec.x += m_pTexture->GetWidth() * 0.5f;
+		maxVec.y += m_pTexture->GetHeight() * 0.5f;
 	}
 	else
-		maxVec += m_vScale / 2.0f;
+		maxVec += m_vScale * 0.5f;
 	return maxVec;
 }
 
@@ -261,10 +241,10 @@ Vector3 CObject::GetMin()
 {
 	Vector3 minVec = m_vPosition;
 	if (nullptr != m_pTexture) {
-		minVec.x -= m_pTexture->GetWidth() / 2.0f;
-		minVec.y -= m_pTexture->GetHeight() / 2.0f;
+		minVec.x -= m_pTexture->GetWidth() * 0.5f;
+		minVec.y -= m_pTexture->GetHeight() * 0.5f;
 	}
 	else
-		minVec -= m_vScale / 2.0f;
+		minVec -= m_vScale * 0.5f;
 	return minVec;
 }

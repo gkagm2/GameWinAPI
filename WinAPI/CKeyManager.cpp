@@ -17,6 +17,7 @@ int g_arrVK[(int)E_Key::END] = {
 	VK_RBUTTON,
 	VK_MBUTTON,
 	VK_LSHIFT,
+	VK_F4,
 	VK_F5,
 };
 

@@ -3,7 +3,7 @@
 
 CTileToolPanelUI::CTileToolPanelUI(E_GroupType _eGroupType) :
 	CPanelUI(_eGroupType),
-	m_fSelectedTileIdx(-1), // -1 : NONE
+	m_iSelectedTileIdx(-1), // -1 : NONE
 	m_eSelectedTileType(E_TileType::None),
 	m_pTileTexture(nullptr)
 {

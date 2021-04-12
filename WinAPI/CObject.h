@@ -54,7 +54,7 @@ public:
 
 	// Rotate
 	void InitRectPoint();
-	const Vector3& GetRectPoint(int _idx) { return m_vRectPoint[_idx]; }
+	const Vector3& GetRectPoint(int _idx);
 	void SetRectPoint(int _idx, Vector3 _vPoint) { m_vRectPoint[_idx] = _vPoint; }
 	// Rotate idx range : 0 ~ 2
 	void RotateRP(float _fDegree);
@@ -72,6 +72,7 @@ public:
 	virtual Vector3 GetMax();
 
 	Vector3 GetUpVector() { return m_vUpVec; }
+	Vector3 GetRightVector() { return Rotate(m_vUpVec, 90); }
 
 	void SetTexture(CTexture* _pTexture);
 	CTexture* GetTexture() { return  m_pTexture; }

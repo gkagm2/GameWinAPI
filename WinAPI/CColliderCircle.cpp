@@ -9,7 +9,7 @@ CColliderCircle::CColliderCircle(CObject* _pOwnerObject) :
     CCollider(_pOwnerObject),
     m_fRadius(3.0f)
 {
-    Vector3 vGap = (_pOwnerObject->GetMax() - _pOwnerObject->GetMin()) / 2.0f;
+    Vector3 vGap = (_pOwnerObject->GetMax() - _pOwnerObject->GetMin()) * 0.5f;
     float radius = vGap.x > vGap.y ? vGap.x : vGap.y;
     SetRadius(radius);
 }

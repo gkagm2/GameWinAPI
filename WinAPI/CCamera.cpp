@@ -27,7 +27,7 @@ void CCamera::Update()
 {
 	// 카메라 상속 시 반드시 실행
 	Vector3 resolutionPos = CCore::GetInstance()->GetResolution();
-	Vector3 vResolutionCenterPosition = resolutionPos / 2.0f;
+	Vector3 vResolutionCenterPosition = resolutionPos * 0.5f;
 	m_vDiff = m_vLook - vResolutionCenterPosition;
 }
 
@@ -38,6 +38,7 @@ void CCamera::Render(HDC _hDC)
 void CCamera::SetMainCamera()
 {
 	CCamera* pcam = MainCamera;
-	assert(!MainCamera && L"메인 카메라가 존재함");
+	if(nullptr != pcam)
+		DeleteObject(pcam);
 	CSceneManager::GetInstance()->GetCurScene()->SetMainCamera(this);
 }

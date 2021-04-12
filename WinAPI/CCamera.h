@@ -27,6 +27,8 @@ public:
 	void SetLookAt(const Vector3& _vLook) { m_vLook = _vLook; }
 	void SetLookAt(const Vector2& _vLook) { m_vLook = _vLook; }
 
+	void SetTargetObject(CObject* _pTargetObject) { m_pTargetObject = _pTargetObject; }
+
 public:
 	CLONE(CCamera);
 public:

@@ -159,7 +159,11 @@
     <ClInclude Include="CCollisionManager.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CDebug.h" />
+    <ClInclude Include="CDragScreen.h" />
     <ClInclude Include="CEventManager.h" />
+    <ClInclude Include="CGTA_Character.h" />
+    <ClInclude Include="CGTA_Citizen.h" />
+    <ClInclude Include="CGTA_Cop.h" />
     <ClInclude Include="CGTA_Player.h" />
     <ClInclude Include="CGTA_PoliceCar.h" />
     <ClInclude Include="CIdleState.h" />
@@ -193,7 +197,7 @@
     <ClInclude Include="CTraceState.h" />
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUIManager.h" />
-    <ClInclude Include="CVehicle.h" />
+    <ClInclude Include="CGTA_Vehicle.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Func.h" />
@@ -224,7 +228,11 @@
     <ClCompile Include="CCollisionManager.cpp" />
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CDebug.cpp" />
+    <ClCompile Include="CDragScreen.cpp" />
     <ClCompile Include="CEventManager.cpp" />
+    <ClCompile Include="CGTA_Character.cpp" />
+    <ClCompile Include="CGTA_Citizen.cpp" />
+    <ClCompile Include="CGTA_Cop.cpp" />
     <ClCompile Include="CGTA_Player.cpp" />
     <ClCompile Include="CGTA_PoliceCar.cpp" />
     <ClCompile Include="CIdleState.cpp" />
@@ -258,7 +266,7 @@
     <ClCompile Include="CTraceState.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIManager.cpp" />
-    <ClCompile Include="CVehicle.cpp" />
+    <ClCompile Include="CGTA_Vehicle.cpp" />
     <ClCompile Include="Func.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="CSceneManager.cpp" />

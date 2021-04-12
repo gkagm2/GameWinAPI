@@ -1,6 +1,6 @@
 #pragma once
-#include "CObject.h"
-class CGTA_Player : public CObject
+#include "CGTA_Character.h"
+class CGTA_Player : public CGTA_Character
 {
 public:
 	virtual void Init() override;
@@ -12,6 +12,15 @@ public:
 	virtual void OnCollisionEnter(CObject* _pOther);
 	virtual void OnCollisionStay(CObject* _pOther);
 	virtual void OnCollisionExit(CObject* _pOther);
+
+public:
+	virtual void Move() override;
+	virtual void Shoot() override;
+	virtual void Drive() override;
+	virtual void Punch() override;
+	virtual void Dead() override;
+	virtual void GetInTheVehicle() override;
+	virtual void GetOutTheVehicle() override;
 
 public:
 	CLONE(CGTA_Player);

@@ -108,22 +108,45 @@ bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _
 
 // 사각형과 사각형 충돌체크 OBB 2D
 bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _pColRect2) {
-	Vector3 vPos1 = _pColRect1->GetOwnerObject()->GetPosition() + _pColRect1->GetOffsetPosition();
-	Vector3 vPos2 = _pColRect2->GetOwnerObject()->GetPosition() + _pColRect2->GetOffsetPosition();
-	vPos1.y = 0;
-	vPos2.y = 0; 
-	float fDistance = fabsf(CMyMath::GetDot(vPos1, vPos2)); // x축으로 평행한 것의 길이
+	// 투영시킬 각 사각형의 up, right 벡터
+	Vector3 vProjection[]{ _pColRect1->GetOwnerObject()->GetUpVector(), _pColRect1->GetOwnerObject()->GetRightVector(), _pColRect2->GetOwnerObject()->GetUpVector(), _pColRect2->GetOwnerObject()->GetRightVector() };
 
-	// x축에 투영된 길이
+	// 각 오브젝트들의 width과 height의 반지름
+	float v1HalfWidth = _pColRect1->GetScale().x * 0.5f;
+	float v1HalfHeight = _pColRect1->GetScale().y * 0.5f;
+	float v2HalfWidth = _pColRect2->GetScale().x * 0.5f;
+	float v2HalfHeight = _pColRect2->GetScale().y * 0.5f;
 
+	bool bIsCollision = true;
+	for (int i = 0; i < 4; ++i) {
+		Vector3 vProj = vProjection[i]; // 투영 벡터
 
-	//_pColRect1->GetOwnerObject()->Get
+		// 오브젝트1
+		Vector3 v1RightExtend = _pColRect1->GetOwnerObject()->GetRightVector() * v1HalfWidth;
+		Vector3 v1UpExtend = _pColRect1->GetOwnerObject()->GetUpVector() * v1HalfHeight;
 
+		// 오브젝트2
+		// 오브젝트1
+		Vector3 v2RightExtend = _pColRect2->GetOwnerObject()->GetRightVector() * v2HalfWidth;
+		Vector3 v2UpExtend = _pColRect2->GetOwnerObject()->GetUpVector() * v2HalfHeight;
 
-	//float 
+		// 두개의 사각형들의 중점 사이의 거리
+		float distance = fabsf(CMyMath::GetDot(vProj, (_pColRect2->GetPosition() - _pColRect1->GetPosition())));
 
-	//if(fDistance > )
-	return false;
+		float fDis1 = fabsf(CMyMath::GetDot(vProj, v1RightExtend));
+		float fDis2 = fabsf(CMyMath::GetDot(vProj, v1UpExtend));
+		float fDis3 = fabsf(CMyMath::GetDot(vProj, v2RightExtend));
+		float fDis4 = fabsf(CMyMath::GetDot(vProj, v2UpExtend));
+		if (distance > fDis1 + fDis2 + fDis3 + fDis4) {
+			bIsCollision = false;
+			break;
+		}
+	}
+
+	if (false == bIsCollision)
+		return false;
+
+	return true;
 }
 
 // 사각형과 원 충돌체크
@@ -149,7 +172,7 @@ bool CCollisionManager::_IsCollision(CColliderCircle* _pColCircle, CColliderRect
 			vExpansionRectMin.y < vCirclePosition.y && vExpansionRectMax.y > vCirclePosition.y)
 			return true;
 	}
-	else { // 범위 밖이면
+	else { // 범위 밖이면 (사각형 꼭지점이 원 안에 들어왔는지 체크)
 		Vector3 vRectPoint = _pColRect->GetMinPos();						// 사각형의 좌-상단점 체크
 		if (_IsCollision(_pColCircle, vRectPoint))
 			return true;

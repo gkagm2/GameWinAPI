@@ -47,7 +47,7 @@ void CScene_Start::Start()
 	// 플레이어 오브젝트 생성
 	CPlayer* pPlayer = new CPlayer(E_GroupType::PLAYER);
 	pPlayer->SetObjectName(L"Player");
-	pPlayer->SetPosition(Vector3{ ptResolution.x / 2.0f, ptResolution.y - 200.0f, .0f });
+	pPlayer->SetPosition(Vector3{ ptResolution.x * 0.5f, ptResolution.y - 200.0f, .0f });
 	pPlayer->SetTexture(pPlayerTexture2); // 텍스쳐 설정
 
 	// 플레이어 충돌 컴포넌트 생성 및 추가
@@ -90,7 +90,7 @@ void CScene_Start::Start()
 
 	// MonsterAI 생성
 	CMonster_AI* pMonsterAI = new CMonster_AI(E_GroupType::MONSTER);
-	pMonsterAI->SetPosition(Vector3{ ptResolution.x / 2.0f, ptResolution.y + -600.0f, .0f });
+	pMonsterAI->SetPosition(Vector3{ ptResolution.x * 0.5f, ptResolution.y + -600.0f, .0f });
 	
 	CTexture* pMonsterTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_MonsterAlpha);
 	if (nullptr == pMonsterTex) {

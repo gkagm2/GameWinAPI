@@ -25,7 +25,6 @@ CColliderRect::CColliderRect(CObject* _pOwnerObject) :
                 m_vScale.x = _pOwnerObject->GetTextureWidth();
                 m_vScale.y = _pOwnerObject->GetTextureHeight();
             }
-
         }
     }
 }
@@ -58,39 +57,27 @@ void CColliderRect::Render(HDC _hDC)
 
     //////////////////////////////////
 
-    
+    Vector3 leftVec = GetMinPos();
+    Vector3 midle = GetPosition();
+    leftVec.y = 0;
+    Vector3 sc = GetScale();
 
-    float disLT = CMyMath::GetDistance(GetPosition(), GetMinPos());
-    float disRT = CMyMath::GetDistance(GetPosition(), Vector3(GetMaxPos().x, GetMinPos().y, 0.f));
-    float disLB = CMyMath::GetDistance(GetPosition(), Vector3(GetMinPos().x, GetMaxPos().y, 0.f));
-    float disRB = CMyMath::GetDistance(GetPosition(), GetMaxPos());
+    float fHalfWidth = GetScale().x * 0.5f;
+    float fHalfHeight = GetScale().y * 0.5f;
 
-    Vector3 vLTPos{ 0,0,0 };
-    Vector3 vLBPos = GetOwnerObject()->GetUpVector();
-    vLBPos.y *= 1;
-    Vector3 vRBPos{};
-    Vector3 vRTPos = Rotate(vLBPos, -90);
-    vRBPos.x = vRTPos.x + vLBPos.x - vLTPos.x;
-    vRBPos.y = vRTPos.y + vLBPos.y - vLTPos.y;
-    Vector2 minVec;
-    Vector2 maxVec;
+    // left top
+    Vector3 upVec = GetOwnerObject()->GetUpVector();
+    Vector3 rightVec = GetOwnerObject()->GetRightVector();
 
-    vLTPos *= disLT;
-    vLBPos *= disLB;
-    vRBPos *= disRB;
-    vRTPos *= disRT;
-    minVec.x = min(vLTPos.x, min(vLBPos.x, min(vRBPos.x, vRTPos.x)));
-    minVec.y = min(vLTPos.y, min(vLBPos.y, min(vRBPos.y, vRTPos.y)));
-    maxVec.x = max(vLTPos.x, max(vLBPos.x, max(vRBPos.x, vRTPos.x)));
-    maxVec.y = max(vLTPos.y, max(vLBPos.y, max(vRBPos.y, vRTPos.y)));
+    Vector3 vRTPos = upVec * fHalfHeight + rightVec * fHalfWidth;
+    Vector3 vRBPos = -upVec * fHalfHeight + rightVec * fHalfWidth;
+    Vector3 vLTPos = upVec * fHalfHeight - rightVec * fHalfWidth;
+    Vector3 vLBPos = -upVec * fHalfHeight - rightVec * fHalfWidth;
 
-    Vector2 middlePos;
-    middlePos = (minVec + maxVec) * 0.5f;
-    vLTPos = MainCamera->GetRenderPosition(GetPosition() + middlePos - vLTPos);
-    vRTPos = MainCamera->GetRenderPosition(GetPosition() + middlePos - vRTPos);
-    vLBPos = MainCamera->GetRenderPosition(GetPosition() + middlePos - vLBPos);
-    vRBPos = MainCamera->GetRenderPosition(GetPosition() + middlePos - vRBPos);
-    
+    vLTPos = MainCamera->GetRenderPosition(GetPosition() + vLTPos);
+    vRTPos = MainCamera->GetRenderPosition(GetPosition() + vRTPos);
+    vLBPos = MainCamera->GetRenderPosition(GetPosition() + vLBPos);
+    vRBPos = MainCamera->GetRenderPosition(GetPosition() + vRBPos);
 
     MoveToEx(_hDC, vLTPos.x, vLTPos.y, nullptr);
     LineTo(_hDC, vLBPos.x, vLBPos.y);
@@ -103,8 +90,6 @@ void CColliderRect::Render(HDC _hDC)
 
     MoveToEx(_hDC, vRTPos.x, vRTPos.y, nullptr);
     LineTo(_hDC, vLTPos.x, vLTPos.y);
-
-    ///////////////////////////////
 
     //Rectangle(_hDC, (int)vMin.x, (int)vMin.y, (int)vMax.x, (int)vMax.y);
         

@@ -3,7 +3,7 @@
 class CTileToolPanelUI : public CPanelUI
 {
 private:
-	float m_fSelectedTileIdx;
+	int m_iSelectedTileIdx;
 	E_TileType m_eSelectedTileType;
 	CTexture* m_pTileTexture;
 
@@ -20,11 +20,11 @@ public:
 
 public:
 	void SetSelectedTile(int _tileIdx, E_TileType _eTileType, CTexture* _pTileTexture, wstring _strTexturePath) {
-		m_fSelectedTileIdx = _tileIdx;
+		m_iSelectedTileIdx = _tileIdx;
 		m_eSelectedTileType = _eTileType;
 		m_pTileTexture = _pTileTexture;
 	}
-	int GetSelectedTileIdx() { return m_fSelectedTileIdx; }
+	int GetSelectedTileIdx() { return m_iSelectedTileIdx; }
 	E_TileType GetSelectedTileType() { return m_eSelectedTileType; }
 	CTexture* GetTileTexture() { return m_pTileTexture; }
 

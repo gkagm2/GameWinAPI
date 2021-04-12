@@ -24,7 +24,9 @@ CCamera2D::~CCamera2D()
 void CCamera2D::Init()
 {
 	POINT ptResolution = CCore::GetInstance()->GetResolution();
-	m_pVeil = CResourceManager::GetInstance()->CreateTexture(STR_TABLE_CameraVeilTexture, (UINT)ptResolution.x, (UINT)ptResolution.y);
+	m_pVeil = CResourceManager::GetInstance()->FindTexture(STR_TABLE_CameraVeilTexture);
+	if(nullptr == m_pVeil)
+		m_pVeil = CResourceManager::GetInstance()->CreateTexture(STR_TABLE_CameraVeilTexture, (UINT)ptResolution.x, (UINT)ptResolution.y);
 }
 
 void CCamera2D::Update()
@@ -39,7 +41,6 @@ void CCamera2D::Render(HDC _hDC)
 	if (0 == m_Alpha) {
 		return;
 	}
-
 	UINT iWidth = m_pVeil->GetWidth();
 	UINT iHeight = m_pVeil->GetHeight();
 
@@ -88,14 +89,8 @@ void CCamera2D::UpdateEffect()
 
 void CCamera2D::Move()
 {
-	if (InputKeyHold(E_Key::W))
-		m_vLook.y -= m_fSpeed * DeltaTime;
-	if (InputKeyHold(E_Key::A))
-		m_vLook.x -= m_fSpeed * DeltaTime;
-	if (InputKeyHold(E_Key::S))
-		m_vLook.y += m_fSpeed * DeltaTime;
-	if (InputKeyHold(E_Key::D))
-		m_vLook.x += m_fSpeed * DeltaTime;
+	Vector3 vTargetPos = m_pTargetObject->GetPosition();
+	m_vLook = vTargetPos;
 }
 
 void CCamera2D::AddEffect(E_CamEffect _eCamEffect, float _fEndTime)

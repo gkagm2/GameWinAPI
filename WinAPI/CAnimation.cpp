@@ -13,7 +13,7 @@
 #include "CAnimator.h"
 #include "CTimeManager.h"
 
-#include "CVehicle.h"
+#include "CGTA_Vehicle.h"
 
 // Test
 #include "CKeyManager.h"
@@ -55,45 +55,39 @@ void CAnimation::LateUpdate()
 
 void CAnimation::Render(HDC _hDC)
 {
+	if (nullptr == m_pTexture)
+		return;
 	Vector3 vPosition = m_pAnimator->GetOwnerObject()->GetPosition();
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(vPosition);
 
+	POINT rPNT[3];
+
+	Vector3 v1 = m_pAnimator->GetOwnerObject()->GetRectPoint(0);
+	Vector3 v2 = m_pAnimator->GetOwnerObject()->GetRectPoint(1);
+	Vector3 v3 = m_pAnimator->GetOwnerObject()->GetRectPoint(2);
+	rPNT[0].x = (int)(vRenderPosition.x + m_pAnimator->GetOwnerObject()->GetRectPoint(0).x);
+	rPNT[0].y = (int)(vRenderPosition.y + m_pAnimator->GetOwnerObject()->GetRectPoint(0).y);
+	rPNT[1].x = (int)(vRenderPosition.x + m_pAnimator->GetOwnerObject()->GetRectPoint(1).x);
+	rPNT[1].y = (int)(vRenderPosition.y + m_pAnimator->GetOwnerObject()->GetRectPoint(1).y);
+	rPNT[2].x = (int)(vRenderPosition.x + m_pAnimator->GetOwnerObject()->GetRectPoint(2).x);
+	rPNT[2].y = (int)(vRenderPosition.y + m_pAnimator->GetOwnerObject()->GetRectPoint(2).y);
+
+	HBITMAP bitmap{};
+	PlgBlt(_hDC, rPNT, m_pAnimator->GetOwnerObject()->GetTexture()->GetDC(), int(m_vecFrame[m_iCurFrameIdx].vLT.x), int(m_vecFrame[m_iCurFrameIdx].vLT.y), int(m_vecFrame[m_iCurFrameIdx].vSlice.x), int(m_vecFrame[m_iCurFrameIdx].vSlice.y), bitmap, 0, 0);
+
 	UINT iWidth = (UINT)m_pAnimator->GetOwnerObject()->GetScale().x;
 	UINT iHeight = (UINT)m_pAnimator->GetOwnerObject()->GetScale().y;
+	//TransparentBlt(
+	//	_hDC,
+	//	(int)(vRenderPosition.x - iWidth * 0.5f), (int)(vRenderPosition.y - iHeight * 0.5f),
+	//	iWidth, iHeight,
+	//	m_pTexture->GetDC(),
+	//	int(m_vecFrame[m_iCurFrameIdx].vLT.x),
+	//	int(m_vecFrame[m_iCurFrameIdx].vLT.y),
+	//	int(m_vecFrame[m_iCurFrameIdx].vSlice.x),
+	//	int(m_vecFrame[m_iCurFrameIdx].vSlice.y),
+	//	EXCEPTION_COLOR_RGB_BLACK);
 
-	CVehicle* pVehicle = dynamic_cast<CVehicle*>(m_pAnimator->GetOwnerObject());
-	if (pVehicle) {
-		/*m_pAnimator->GetOwnerObject()->RotateInfo().Update();
-		if (InputKeyHold(E_Key::LEFT)) {
-			m_pAnimator->GetOwnerObject()->RotateObj(120 * DeltaTime);
-		}
-		if (InputKeyHold(E_Key::RIGHT)) {
-			m_pAnimator->GetOwnerObject()->RotateObj(-120 * DeltaTime);
-		}
-
-		POINT rPNT[3];
-		rPNT[0].x = m_pAnimator->GetOwnerObject()->RotateInfo().m_vRectPoint[0].x;
-		rPNT[0].y = m_pAnimator->GetOwnerObject()->RotateInfo().m_vRectPoint[0].y;
-		rPNT[1].x = m_pAnimator->GetOwnerObject()->RotateInfo().m_vRectPoint[1].x;
-		rPNT[1].y = m_pAnimator->GetOwnerObject()->RotateInfo().m_vRectPoint[1].y;
-		rPNT[2].x = m_pAnimator->GetOwnerObject()->RotateInfo().m_vRectPoint[2].x;
-		rPNT[2].y = m_pAnimator->GetOwnerObject()->RotateInfo().m_vRectPoint[2].y;
-
-		HBITMAP bitmap{};
-		PlgBlt(_hDC, rPNT, m_pAnimator->GetOwnerObject()->GetTexture()->GetDC(), int(m_vecFrame[m_iCurFrameIdx].vLT.x), int(m_vecFrame[m_iCurFrameIdx].vLT.y), int(m_vecFrame[m_iCurFrameIdx].vSlice.x), int(m_vecFrame[m_iCurFrameIdx].vSlice.y), bitmap, 0, 0);*/
-	}
-	else {
-		TransparentBlt(
-			_hDC,
-			(int)(vRenderPosition.x - iWidth / 2.0f), (int)(vRenderPosition.y - iHeight / 2.0f),
-			iWidth, iHeight,
-			m_pTexture->GetDC(),
-			int(m_vecFrame[m_iCurFrameIdx].vLT.x),
-			int(m_vecFrame[m_iCurFrameIdx].vLT.y),
-			int(m_vecFrame[m_iCurFrameIdx].vSlice.x),
-			int(m_vecFrame[m_iCurFrameIdx].vSlice.y),
-			EXCEPTION_COLOR_RGB_BLACK);
-	}
 	
 	//TransparentBlt(
 	//		_hDC,																/*_hDC*/

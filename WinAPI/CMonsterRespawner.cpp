@@ -166,7 +166,7 @@ void CMonsterRespawner::CreateMonster()
 	CMonster* pMonster = new CMonster(E_GroupType::MONSTER);
 	pMonster->SetObjectName(L"Monster2");
 	pMonster->SetTexture(pMonsterTexture);
-	pMonster->SetPosition(Vector2(ptResolution.x / 2.0f, 100.0f));
+	pMonster->SetPosition(Vector2(ptResolution.x * 0.5f, 100.0f));
 
 	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
 	CObject* pPlayerObj = pCurScene->FindObject(L"Player");

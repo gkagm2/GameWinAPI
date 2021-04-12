@@ -1,13 +1,19 @@
 #include "stdafx.h"
 #include "CResourceManager.h"
 #include "CGTA_Player.h"
-#include "CColliderCircle.h"
+#include "CColliderRect.h"
 #include "CTexture.h"
 #include "CAnimator.h"
 #include "CAnimation.h"
+#include "CKeyManager.h"
+#include "CScene.h"
+#include "CSceneManager.h"
+#include "CTimeManager.h"
+#include "CCamera.h"
+#include "CGTA_Character.h"
 
 CGTA_Player::CGTA_Player(E_GroupType _eGroupType) :
-	CObject(_eGroupType)
+	CGTA_Character(_eGroupType)
 {
 }
 
@@ -22,8 +28,6 @@ void CGTA_Player::Init()
 	if (nullptr == pTexture)
 		pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_gta_player, STR_FILE_PATH_gta_player);
 	SetTexture(pTexture);
-
-	
 
 	// Animator set
 	SetAnimator(new CAnimator(this));
@@ -48,15 +52,16 @@ void CGTA_Player::Init()
 	float fAnimTextureWidth = GetAnimator()->GetAnimation(L"idle")->GetFrame(0).vSlice.x;
 	float fAnimTextureHeight = GetAnimator()->GetAnimation(L"idle")->GetFrame(0).vSlice.y;
 	Vector2 vScale{ fAnimTextureWidth, fAnimTextureHeight };
-	SetScale(Vector3(vScale.x * 2 , vScale.y * 2 , 0.0f));
+	SetScale(Vector3(vScale.x, vScale.y, 0.0f));
 
 	// Collider set
-	CColliderCircle* pColCircle = new CColliderCircle(this);
-	SetCollider(pColCircle);
-	pColCircle->SetRadius(10);
-
+	CColliderRect* pCollider = new CColliderRect(this);
+	SetCollider(pCollider);
+	pCollider->SetScale(Vector3(15.f, 15.f, 15.f));
 
 	SetPosition(0, 0, 0);
+
+	CGTA_Character::Init();
 }
 
 void CGTA_Player::PrevUpdate()
@@ -66,6 +71,23 @@ void CGTA_Player::PrevUpdate()
 
 void CGTA_Player::Update()
 {
+	Vector3 vHeadDir = GetUpVector();
+	//RotateInfo().Update();
+	if (InputKeyHold(E_Key::LEFT)) {
+		RotateRP(-180 * DeltaTime);
+	}
+	if (InputKeyHold(E_Key::RIGHT)) {
+		RotateRP(180 * DeltaTime);
+	}
+
+	if (InputKeyHold(E_Key::UP)) {
+		float x  = GetPosition().x - GetUpVector().x * 300 * DeltaTime;
+		float y = GetPosition().y - GetUpVector().y * 300 * DeltaTime;
+		SetPosition(GetPosition().x - GetUpVector().x * 300 * DeltaTime, GetPosition().y - GetUpVector().y * 300 * DeltaTime);
+	}
+	if (InputKeyHold(E_Key::DOWN)) {
+		SetPosition(GetPosition().x + GetUpVector().x * 300 * DeltaTime, GetPosition().y + GetUpVector().y * 300 * DeltaTime);
+	}
 }
 
 void CGTA_Player::LateUpdate()
@@ -75,7 +97,9 @@ void CGTA_Player::LateUpdate()
 
 void CGTA_Player::Render(HDC _hDC)
 {
-	__super::Render(_hDC);
+	if (false == IsRender())
+		return;
+	CGTA_Character::Render(_hDC);
 }
 
 void CGTA_Player::OnCollisionEnter(CObject* _pOther)
@@ -87,5 +111,33 @@ void CGTA_Player::OnCollisionStay(CObject* _pOther)
 }
 
 void CGTA_Player::OnCollisionExit(CObject* _pOther)
+{
+}
+
+void CGTA_Player::Move()
+{
+}
+
+void CGTA_Player::Shoot()
+{
+}
+
+void CGTA_Player::Drive()
+{
+}
+
+void CGTA_Player::Punch()
+{
+}
+
+void CGTA_Player::Dead()
+{
+}
+
+void CGTA_Player::GetInTheVehicle()
+{
+}
+
+void CGTA_Player::GetOutTheVehicle()
 {
 }

@@ -1,6 +1,6 @@
 #pragma once
-#include "CVehicle.h"
-class CCar : public CVehicle
+#include "CGTA_Vehicle.h"
+class CCar : public CGTA_Vehicle
 {
 public:
 	virtual void Update() override;

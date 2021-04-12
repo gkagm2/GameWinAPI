@@ -122,7 +122,7 @@ void CPlayer::Update()
 	if (InputKeyPress(E_Key::LBUTTON)) {
 		Vector2 clickPos = MousePosition;
 		clickPos = MainCamera->GetScreenToWorldPosition(clickPos);
-		Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetScale().y / 2.0f);
+		Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetScale().y * 0.5f);
 		Vector2 directPos = clickPos - vNozzlePosition;
 		directPos.Normalized();
 		directPos.y *= -1;
@@ -196,7 +196,7 @@ void CPlayer::FireMissile() {
 	switch (m_eUpgradeLevel) {
 	case E_UpgradeLevelType::LEVEL1:
 	{
-		Vector3 vNozzlePosition(vPosition.x, vPosition.y - (GetScale().y / 2.0f));
+		Vector3 vNozzlePosition(vPosition.x, vPosition.y - (GetScale().y * 0.5f));
 		CreateMissile(m_fMissileSpeed, vNozzlePosition, vDirUp);
 	}
 		break;
@@ -204,8 +204,8 @@ void CPlayer::FireMissile() {
 	{
 		Vector3 vNozzlePosition(vPosition.x, vPosition.y);
 
-		Vector3 vLeftNozzlePosition(vNozzlePosition.x - GetScale().x / 2.0f + 5.0f, vNozzlePosition.y);
-		Vector3 vRightNozzlePosition(vNozzlePosition.x + GetScale().x / 2.0f -5.0f, vNozzlePosition.y);
+		Vector3 vLeftNozzlePosition(vNozzlePosition.x - GetScale().x * 0.5f + 5.0f, vNozzlePosition.y);
+		Vector3 vRightNozzlePosition(vNozzlePosition.x + GetScale().x * 0.5f -5.0f, vNozzlePosition.y);
 		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, vDirUp);
 		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, vDirUp);
 	}
@@ -213,17 +213,17 @@ void CPlayer::FireMissile() {
 	case E_UpgradeLevelType::LEVEL3:
 	{
 		Vector3 vNozzlePosition(vPosition.x, vPosition.y);
-		Vector3 vLeftNozzlePosition(vNozzlePosition.x - GetScale().x / 2.0f +5.0f, vNozzlePosition.y);
-		Vector3 vRightNozzlePosition(vNozzlePosition.x + GetScale().x / 2.0f -5.0f, vNozzlePosition.y);
+		Vector3 vLeftNozzlePosition(vNozzlePosition.x - GetScale().x * 0.5f +5.0f, vNozzlePosition.y);
+		Vector3 vRightNozzlePosition(vNozzlePosition.x + GetScale().x * 0.5f -5.0f, vNozzlePosition.y);
 		CreateMissile(m_fMissileSpeed, vLeftNozzlePosition, Rotate(vDirUp, 15.0f));
 		CreateMissile(m_fMissileSpeed, vRightNozzlePosition, Rotate(vDirUp, - 15.0f));
-		vNozzlePosition.Set(vPosition.x, vPosition.y - GetScale().y / 2.0f);
+		vNozzlePosition.Set(vPosition.x, vPosition.y - GetScale().y * 0.5f);
 		CreateMissile(m_fMissileSpeed, vNozzlePosition, vDirUp);
 	}
 		break;
 	case E_UpgradeLevelType::LEVEL4:
 	{
-		Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetScale().y / 2.0f);
+		Vector3 vNozzlePosition(vPosition.x, vPosition.y - GetScale().y * 0.5f);
 		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDirUp, - 15.0f));
 		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDirUp, + 15.0f));
 		CreateMissile(m_fMissileSpeed, vNozzlePosition, Rotate(vDirUp, - 30.0f));
