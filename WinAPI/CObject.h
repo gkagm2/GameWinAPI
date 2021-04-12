@@ -11,8 +11,7 @@ class CObject
 private:
 	Vector3 m_vPosition;
 	Vector3 m_vScale;
-	// TOOD : Rotation을 넣어야 될 듯
-	// Rotate Info
+
 	Vector3 m_vRectPoint[3];
 	Vector3 m_vRPDir[3]; //RP : RectPoint
 	Vector3 m_vUpVec; // Up vector
@@ -123,4 +122,4 @@ public:
 
 public:
 	friend class CEventManager;
-};
+}; 

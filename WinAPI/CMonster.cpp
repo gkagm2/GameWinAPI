@@ -96,9 +96,6 @@ void CMonster::Update()
 
 void CMonster::Render(HDC _hDC)
 {
-	if (false == IsRender())
-		return;
-
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(GetPosition());
 
 	if (nullptr == GetTexture()) {

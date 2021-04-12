@@ -29,6 +29,7 @@
 #include "CGTA_PoliceCar.h"
 #include "CColliderRect.h"
 #include "CTexture.h"
+#include "CObjTool.h"
 
 #include "CDragScreen.h"
 
@@ -36,13 +37,7 @@
 
 
 CScene_Tool::CScene_Tool() :
-	m_hMenu(nullptr),
-	bIsDrag(false),
-	iSelectedTileIdx(-1),
-	eTileType(E_TileType::None),
-	startDragIdxX(-1),
-	startDragIdxY(-1),
-	pTileTexture(nullptr)
+	m_hMenu(nullptr)
 {
 	// 메뉴바 생성
 	m_hMenu = LoadMenu(nullptr, MAKEINTRESOURCE(IDC_WINAPI));
@@ -95,71 +90,23 @@ void CScene_Tool::Start()
 	m_pTileMap->CreateTileGrid(10, 10);
 	AddObject(m_pTileMap);
 	
-	// Tile Tool (바닥) UI 생성
-	CTileToolPanelUI* pGroundTileToolUI = new CTileToolPanelUI(E_GroupType::UI);
-	pGroundTileToolUI->Init();
-	pGroundTileToolUI->SetScale(Vector3{ 300.f,500.f,0.f });
-	pGroundTileToolUI->SetPosition(Vector3{});
-	pGroundTileToolUI->SetObjectName(L"TileToolUI");
+
+	CObjTool* pObjTool = new CObjTool(E_GroupType::PREV);
+	pObjTool->Init();
+	AddObject(pObjTool);
+
+	// Select Controller에서는 오브젝트들을 드래그해서 선택할 수 있다.
+	// Tile setting 모드와
+	// item setting 모드와
+	// Vehicle setting 모드가 있다.
+
+	// Tile setting 모드는 타일을 조작할 수 있다.
+	// item setting 모드는 item의 위치를 조작할 수 있다.
+	// Vehicle setting 모드는 차량의 위치를 조작할 수 있다.
+	// Player setting 모드는 Player의 위치를 조작할 수 있다.
+	// Citizen setting 모드는 Citizen의 랜덤 생성 위치를 조작할 수 있다.
 
 
-	Vector2 vResolution = CCore::GetInstance()->GetResolution();
-	pGroundTileToolUI->SetPosition(vResolution.x - pGroundTileToolUI->ScaleX(), 0.f, 0.f);
-	
-	float fPadding[4]{ 20.f, 120.f, 20.f, 20.f }; // l, t, r, b
-	pGroundTileToolUI->SetGridUI(5, 5, fPadding[0], fPadding[1], fPadding[2], fPadding[3], 5.f, 5.f);
-	AddObject(pGroundTileToolUI);
-	{
-		CTexture* pTileGroundTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_UI_TileRoad);
-		if (nullptr == pTileGroundTex)
-			pTileGroundTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_UI_TileRoad, STR_FILE_PATH_UI_TileRoad);
-
-		int iCol = pTileGroundTex->GetWidth() / TILE_SIZE;
-		int iRow = pTileGroundTex->GetHeight() / TILE_SIZE;
-
-		vector<CUI*>& vecChildUI = pGroundTileToolUI->GetChildsUI();
-		for (UINT i = 0; i < vecChildUI.size(); ++i) {
-
-			CImageUI* pImgUI = dynamic_cast<CImageUI*>(vecChildUI[i]);
-			// 텍스쳐 설정
-			pImgUI->SetTexture(pTileGroundTex);
-			pImgUI->SetLT(Vector2(TILE_SIZE * (int)(i % iCol), TILE_SIZE * (int)(i / iRow)));
-			pImgUI->SetTileIdx(i);
-			pImgUI->SetTileType(E_TileType::Road);
-			pImgUI->SetTexturePath(STR_FILE_PATH_UI_TileRoad);
-		}
-	}
-
-	// Wall Tile Tool UI 생성
-	CTexture* pTileWallTex = CResourceManager::GetInstance()->FindTexture(STR_FIlE_NAME_UI_TileWall);
-	CTileToolPanelUI* pWallTileToolUI = pGroundTileToolUI->Clone();
-	pWallTileToolUI->SetPosition(vResolution.x - pGroundTileToolUI->ScaleX() - pGroundTileToolUI->ScaleX(), 0.f, 0.f);
-	pWallTileToolUI->SetObjectName(L"WallTileToolUI");
-	AddObject(pWallTileToolUI);
-	{
-		CTexture* pTileWallTex = CResourceManager::GetInstance()->FindTexture(STR_FIlE_NAME_UI_TileWall);
-		if (nullptr == pTileWallTex)
-			pTileWallTex = CResourceManager::GetInstance()->LoadTexture(STR_FIlE_NAME_UI_TileWall, STR_FILE_PATH_UI_TileWall);
-
-		int iCol = pTileWallTex->GetWidth() / TILE_SIZE;
-		int iRow = pTileWallTex->GetHeight() / TILE_SIZE;
-
-		vector<CUI*>& vecChildUI = pWallTileToolUI->GetChildsUI();
-		for (UINT i = 0; i < vecChildUI.size(); ++i) {
-			
-			CImageUI* pImgUI = dynamic_cast<CImageUI*>(vecChildUI[i]);
-			// 텍스쳐 설정
-			pImgUI->SetTexture(pTileWallTex);
-			pImgUI->SetLT(Vector2(TILE_SIZE * (int)(i % iCol), TILE_SIZE * (int)(i / iRow)));
-			pImgUI->SetTileIdx(i);
-			pImgUI->SetTileType(E_TileType::Wall);
-			pImgUI->SetTexturePath(STR_FILE_PATH_UI_TileWall);
-		}
-	}
-
-	// 드래그 표시
-	CDragScreen* pDragUI = new CDragScreen(E_GroupType::PREV);
-	AddObject(pDragUI);
 	
 
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();
@@ -170,8 +117,6 @@ void CScene_Tool::Start()
 void CScene_Tool::Update()
 {
 	CScene::Update();
-	MouseClick();
-
 	if (InputKeyPress(E_Key::F4))
 		CSceneManager::GetInstance()->ChangeScene(E_SceneType::GTA_IN);
 }
@@ -185,114 +130,6 @@ void CScene_Tool::End()
 	CCore::GetInstance()->ResizeWindowScreen(CCore::GetInstance()->GetResolution(), false);
 
 	DeleteAllObjects();
-}
-
-void CScene_Tool::MouseClick()
-{
-
-	if (InputKeyPress(E_Key::LBUTTON)) {
-		// TODO : UI를 클릭 했을 경우가 타이밍이 안맞는다. UIManager보다 이게 먼저 실행되버림ㄴ
-		// 포커스된 UI의 정보를 가져옴
-		vector<CObject*>& pTiles = GetObjects(E_GroupType::TILE);
-		CUI* pFocusedUI = CUIManager::GetInstance()->GetCurFocusedUI();
-		if (nullptr != pFocusedUI) {
-			iSelectedTileIdx = -1;
-			eTileType = E_TileType::None;
-			pTileTexture = nullptr;
-
-			CTileToolPanelUI* pPanelUI = dynamic_cast<CTileToolPanelUI*>(pFocusedUI);
-			if (nullptr != pPanelUI) {
-				iSelectedTileIdx = pPanelUI->GetSelectedTileIdx();
-				eTileType = pPanelUI->GetSelectedTileType();
-				pTileTexture = pPanelUI->GetTileTexture();
-			}
-
-			// 클릭된 UI가 없으면 종료
-			if (-1 == iSelectedTileIdx || E_TileType::None == eTileType || nullptr == pTileTexture) {
-				bIsDrag = false;
-				iSelectedTileIdx = -1;
-				startDragIdxX = -1;
-				startDragIdxY = -1;
-				return;
-			}
-		}
-		
-		// UI말고 다른곳을 클릭했다면
-		if (m_pTileMap) {
-			vector<CObject*>& pTiles = GetObjects(E_GroupType::TILE);
-			Vector2 vClickPos = MainCamera->GetScreenToWorldPosition(MousePosition);
-
-			int iClickedCol = int(vClickPos.x / CTile::GetTileSize());
-			int iClickedRow = int(vClickPos.y / CTile::GetTileSize());
-
-			// 타일 영역 안에 클릭했는지 체크
-			if (false == IsTileClicked(vClickPos))
-				return;
-
-			// 클릭한 타일의 정보를 가온다.
-			int iClickedIdx = iClickedRow * m_pTileMap->GetCol() + iClickedCol;
-			CTile* pTile = dynamic_cast<CTile*>(pTiles[iClickedIdx]);
-			if (pTile) { // 타일을 설정한다.
-				startDragIdxX = iClickedCol;
-				startDragIdxY = iClickedRow;
-				bIsDrag = true;
-			}
-		}
-	}
-	if (InputKeyRelease(E_Key::LBUTTON)) {
-		if (bIsDrag == false)
-			return;
-		if (nullptr == pTileTexture || -1 == iSelectedTileIdx)
-			return;
-
-		if (m_pTileMap) {
-			Vector2 vMousePos = MousePosition;
-
-			// 영역을 체크한다.
-			Vector2 vClickPos = MainCamera->GetScreenToWorldPosition(vMousePos);
-
-			int iClickedCol = int(vClickPos.x / CTile::GetTileSize());
-			int iClickedRow = int(vClickPos.y / CTile::GetTileSize());
-
-			if (iClickedCol < startDragIdxX) {
-				int temp = iClickedCol;
-				iClickedCol = startDragIdxX;
-				startDragIdxX = temp;
-			}
-			if (iClickedRow < startDragIdxY) {
-				int temp = iClickedRow;
-				iClickedRow = startDragIdxY;
-				startDragIdxY = temp;
-			}
-
-			// 타일 영역 안에 클릭했는지 체크
-			if (false == IsTileClicked(vClickPos))
-				return;
-
-			vector<CObject*>& pTiles = GetObjects(E_GroupType::TILE);
-			// 드래그 한 영역의 타일을 설정한다.
-			for (int iRow = startDragIdxY; iRow <= iClickedRow; ++iRow) {
-				for (int iCol = startDragIdxX; iCol <= iClickedCol; ++iCol) {
-					int iClickedIdx = iRow * m_pTileMap->GetCol() + iCol;
-					CTile* pTile = dynamic_cast<CTile*>(pTiles[iClickedIdx]);
-					if (pTile)
-						pTile->SetTile(iSelectedTileIdx, eTileType, pTileTexture);
-				}
-			}
-		}
-		bIsDrag = false;
-	}
-}
-
-bool CScene_Tool::IsTileClicked(const Vector2& _vClickPos)
-{
-	if (_vClickPos.x < m_pTileMap->GetPosition().x ||
-		_vClickPos.x > m_pTileMap->GetPosition().x + m_pTileMap->GetTileMapWidth() ||
-		_vClickPos.y < m_pTileMap->GetPosition().y ||
-		_vClickPos.y > m_pTileMap->GetPosition().y + m_pTileMap->GetTileMapHeight()) {
-		return false;
-	}
-	return true;
 }
 
 void CScene_Tool::SaveTile(wstring _strPath)

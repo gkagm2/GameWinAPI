@@ -209,6 +209,15 @@
     <Filter Include="Game\5. Object\Gta_PJ\Character\Cop">
       <UniqueIdentifier>{7cdf5b8e-a727-4ee3-85f0-ce477b3826d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Tools">
+      <UniqueIdentifier>{0c85be84-89f1-4c7f-b025-7ab142ae2a85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\UI\ItemToolPanelUI">
+      <UniqueIdentifier>{02eacf87-2f49-442c-b6eb-a186c474b47e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Tools\ToolController">
+      <UniqueIdentifier>{df295a6a-fafe-4827-ab69-c2b00b2ca7de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -412,6 +421,12 @@
     <ClInclude Include="CGTA_Cop.h">
       <Filter>Game\5. Object\Gta_PJ\Character\Cop</Filter>
     </ClInclude>
+    <ClInclude Include="CItemToolPanelUI.h">
+      <Filter>Game\5. Object\UI\ItemToolPanelUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjTool.h">
+      <Filter>Game\5. Object\Gta_PJ\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -606,6 +621,12 @@
     </ClCompile>
     <ClCompile Include="CGTA_Cop.cpp">
       <Filter>Game\5. Object\Gta_PJ\Character\Cop</Filter>
+    </ClCompile>
+    <ClCompile Include="CItemToolPanelUI.cpp">
+      <Filter>Game\5. Object\UI\ItemToolPanelUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjTool.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

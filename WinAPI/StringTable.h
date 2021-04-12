@@ -63,6 +63,12 @@
 #define STR_FILE_NAME_gta_player L"Texture\\GTA\\gtaPlayer.bmp"
 #define STR_FILE_PATH_gta_player L"Texture\\GTA\\gtaPlayer.bmp"
 
+#define STR_FILE_NAME_gta_citizen L"Texture\\GTA\\gtaCitizen.bmp"
+#define STR_FILE_PATH_gta_citizen L"Texture\\GTA\\gtaCitizen.bmp"
+
+#define STR_FILE_NAME_gta_item L"Texture\\GTA\\gtaItems.bmp"
+#define STR_FILE_PATH_gta_item L"Texture\\GTA\\gtaItems.bmp"
+
 #define STR_FILE_NAME_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1_a.bmp"
 #define STR_FILE_PATH_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1_a.bmp"
 

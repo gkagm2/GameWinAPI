@@ -97,8 +97,6 @@ void CGTA_Player::LateUpdate()
 
 void CGTA_Player::Render(HDC _hDC)
 {
-	if (false == IsRender())
-		return;
 	CGTA_Character::Render(_hDC);
 }
 
