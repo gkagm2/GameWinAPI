@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "CColliderRect.h"
+#include "CCollisionManager.h"
 #include "CCollider.h"
 #include "CCamera.h"
 #include "CCore.h"
 #include "CScene.h"
 #include "CSceneManager.h"
 #include "CAnimator.h"
+#include "CRigidbody.h"
 
 #include "CDebug.h"
 
@@ -105,4 +107,17 @@ void CColliderRect::Update()
 
 void CColliderRect::LateUpdate()
 {
+}
+
+void CColliderRect::OnCollisionStay(CCollider* _pOther)
+{
+    if (false == _pOther->IsTrigger() && false == m_bIsTrigger) {
+        CColliderRect* pColRect = dynamic_cast<CColliderRect*>(_pOther);
+        CRigidbody* pRigidbody = pColRect->GetOwnerObject()->GetRigidbody();
+        if (nullptr != pColRect && nullptr != pRigidbody) {
+            CCollisionManager::GetInstance()->SetNotIntersection(pColRect, this);
+        }
+    }
+
+    CCollider::OnCollisionStay(_pOther);
 }

@@ -22,6 +22,8 @@ public:
 	virtual void Update() override;
 	virtual void LateUpdate() override;
 
+	virtual void OnCollisionStay(CCollider* _pOther);
+
 public:
 	CColliderRect() = delete;
 	CColliderRect(CObject* _pOwnerObject);

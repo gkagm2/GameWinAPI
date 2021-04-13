@@ -11,6 +11,7 @@
 #include "CTexture.h"
 #include "CCollider.h"
 #include "CAnimator.h"
+#include "CRigidbody2D.h"
 
 CGTA_Vehicle::CGTA_Vehicle(E_GroupType _eGroupType) :
 	CObject(_eGroupType = E_GroupType::VEHICLE)
@@ -23,6 +24,7 @@ CGTA_Vehicle::~CGTA_Vehicle()
 
 void CGTA_Vehicle::Init()
 {
+	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
 	CObject::Init();
 }
 

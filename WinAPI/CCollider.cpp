@@ -10,7 +10,8 @@ CCollider::CCollider(CObject* _ownerObject) :
 	m_iCollisionCount(0),
 	m_vOffsetPosition{},
 	m_bIsActive(true),
-	m_iID(g_iColliderID++)
+	m_iID(g_iColliderID++),
+	m_bIsTrigger(false)
 {
 	_ownerObject->SetCollider(this);
 }
@@ -20,13 +21,19 @@ CCollider::CCollider(const CCollider& _other) :
 	m_iCollisionCount(0),
 	m_vOffsetPosition{_other.m_vOffsetPosition},
 	m_bIsActive(_other.m_bIsActive),
-	m_iID(g_iColliderID++)
+	m_iID(g_iColliderID++),
+	m_bIsTrigger(false)
 {
 	
 }
 
 CCollider::~CCollider()
 {
+}
+
+void CCollider::OnCollisionStay(CCollider* _pOther)
+{
+	m_pOwnerObject->OnCollisionStay(_pOther->GetOwnerObject());
 }
 
 Vector3 CCollider::GetPosition()

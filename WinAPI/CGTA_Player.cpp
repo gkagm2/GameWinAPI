@@ -11,6 +11,7 @@
 #include "CTimeManager.h"
 #include "CCamera.h"
 #include "CGTA_Character.h"
+#include "CRigidbody2D.h"
 
 CGTA_Player::CGTA_Player(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType)
@@ -58,6 +59,8 @@ void CGTA_Player::Init()
 	CColliderRect* pCollider = new CColliderRect(this);
 	SetCollider(pCollider);
 	pCollider->SetScale(Vector3(15.f, 15.f, 15.f));
+
+	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
 
 	SetPosition(0, 0, 0);
 

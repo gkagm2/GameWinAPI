@@ -32,7 +32,7 @@ public:
 	void CollisionByGroup(UINT _iGroup1Idx, UINT _iGroup2Idx); // 그룹간 충돌
 
 private:
-	bool _IsCollision(CColliderRect* _pColRect1, CColliderRect* _pColRect2);
+	bool _IsCollision(CColliderRect* _pColRect1, CColliderRect* _pColRect2, RECT* _ptIntersectionRect = nullptr); 
 	bool _IsCollision(CColliderRect* _pColRect, CColliderCircle* _pColCircle);
 	bool _IsCollision(CColliderCircle* _pColCircle, CColliderRect* _pColRect);
 	bool _IsCollision(CColliderCircle* _pColCircle1, CColliderCircle* _pColCircle2);
@@ -40,6 +40,9 @@ private:
 	bool _IsCollision(CColliderRect* _pColRect, const Vector3& _vPoint);
 	bool _IsCollision(const Vector3& _vPoint1, const Vector3& _vPoint2);
 	bool IsCollision(CCollider* _col1, CCollider* _col2);
+
+public:
+	void SetNotIntersection(CColliderRect* _pColRect1, CColliderRect* _pColRect2);
 
 public:
 	// 선택한 두 그룹끼리 충돌을 할지 말지 flag를 세팅한다.
