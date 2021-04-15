@@ -11,10 +11,11 @@ enum class E_Key {
 	S,
 	A,
 	D,
+	Q,
 	LBUTTON,
 	RBUTTON,
 	MBUTTON,
-
+	
 	LSHIFT,
 	F4,
 	F5,

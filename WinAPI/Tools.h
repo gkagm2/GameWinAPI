@@ -134,7 +134,7 @@ struct Vector3 : public Vector2 {
 		y = (float)_rhs.y;
 		return *this;
 	}
-	Vector3 operator*(const float _value) {
+	Vector3 operator*(const float _value) const {
 		return Vector3(x * _value, y * _value, z * _value);
 	}
 	Vector3 operator+(const Vector3& rhs) const {
@@ -370,6 +370,13 @@ public:
 	static float GetDot(const Vector2& v1, const Vector2& v2) {
 		float scala = v1.x * v2.x + v1.y * v2.y;
 		return scala;
+	}
+
+	static Vector3 Lerp(const Vector3& _vFrom, const Vector3& _vTo, float _fAlpha) {
+		return _vFrom * (1.f - _fAlpha) + _vTo * _fAlpha;
+	}
+	static float Lerp(const float _fFrom, const float _fTo, float _fAlpha) {
+		return _fFrom * (1.f - _fAlpha) + _fTo * _fAlpha;
 	}
 };
 

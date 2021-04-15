@@ -21,6 +21,7 @@
 #include "CColliderRect.h"
 #include "CGTA_PoliceCar.h"
 #include "CGTA_Player.h"
+#include "CGTA_CitizenCreator.h"
 
 CScene_GtaInGame::CScene_GtaInGame()
 {
@@ -43,6 +44,7 @@ void CScene_GtaInGame::Start()
 	pCamera->Init();
 	pCamera->SetMainCamera();
 	pCamera->SetTargetObject(pPlayer);
+	pCamera->SetLookAt(pPlayer->GetPosition());
 	pCamera->AddEffect(E_CamEffect::FADE_IN, 3.f);
 	AddObject((CObject*)pCamera);
 	
@@ -53,10 +55,13 @@ void CScene_GtaInGame::Start()
 	// CVehicleManager;
 
 	// Citizen 매니저 추가
-	// CCitizenManager;
-
+	CGTA_CitizenCreator* pCitizenCreator = new CGTA_CitizenCreator(E_GroupType::DEFAULT);
+	pCitizenCreator->Init();
+	pCitizenCreator->SetCamera(pCamera);
+	AddObject((CObject*)pCitizenCreator);
 
 	// 수배 시스템
+	//
 	
 
 	

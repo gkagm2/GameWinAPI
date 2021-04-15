@@ -13,6 +13,7 @@ int g_arrVK[(int)E_Key::END] = {
 	'S',
 	'A',
 	'D',
+	'Q',
 	VK_LBUTTON,
 	VK_RBUTTON,
 	VK_MBUTTON,

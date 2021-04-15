@@ -218,6 +218,12 @@
     <Filter Include="Game\5. Object\Gta_PJ\Tools\ToolController">
       <UniqueIdentifier>{df295a6a-fafe-4827-ab69-c2b00b2ca7de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Creator">
+      <UniqueIdentifier>{3e40a85a-ca16-4921-8e12-0a201fffb19f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\6. Component\AI\Navi">
+      <UniqueIdentifier>{028ada3b-bade-472d-a1b7-5045cd777412}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -427,6 +433,9 @@
     <ClInclude Include="CObjTool.h">
       <Filter>Game\5. Object\Gta_PJ\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="CGTA_CitizenCreator.h">
+      <Filter>Game\5. Object\Gta_PJ\Creator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -627,6 +636,9 @@
     </ClCompile>
     <ClCompile Include="CObjTool.cpp">
       <Filter>Game\5. Object\Gta_PJ\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_CitizenCreator.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Creator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

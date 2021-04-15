@@ -153,6 +153,7 @@
     <ClInclude Include="CCameraManager.h" />
     <ClInclude Include="CCamera_Tool.h" />
     <ClInclude Include="CCar.h" />
+    <ClInclude Include="CGTA_CitizenCreator.h" />
     <ClInclude Include="CCollider.h" />
     <ClInclude Include="CColliderCircle.h" />
     <ClInclude Include="CColliderRect.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="CCameraManager.cpp" />
     <ClCompile Include="CCamera_Tool.cpp" />
     <ClCompile Include="CCar.cpp" />
+    <ClCompile Include="CGTA_CitizenCreator.cpp" />
     <ClCompile Include="CCollider.cpp" />
     <ClCompile Include="CColliderCircle.cpp" />
     <ClCompile Include="CColliderRect.cpp" />

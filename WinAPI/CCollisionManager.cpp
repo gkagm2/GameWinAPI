@@ -96,7 +96,7 @@ void CCollisionManager::CollisionByGroup(UINT _iGroup1Idx, UINT _iGroup2Idx)
 }
 
 // 사각형과 사각형 충돌체크 AABB
-
+/*
 bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _pColRect2, RECT* _ptIntersectionRect)
 {
 	if( (_pColRect1->GetScale().x + _pColRect2->GetScale().x) * 0.5f < abs(_pColRect1->GetPosition().x - _pColRect2->GetPosition().x) ||
@@ -122,8 +122,8 @@ bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _
 
 	return true;
 }
+*/
 
-/*
 // 사각형과 사각형 충돌체크 OBB 2D
 bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _pColRect2, RECT* _ptIntersectionRect) {
 	// 투영시킬 각 사각형의 up, right 벡터
@@ -135,7 +135,6 @@ bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _
 	float v2HalfWidth = _pColRect2->GetScale().x * 0.5f;
 	float v2HalfHeight = _pColRect2->GetScale().y * 0.5f;
 
-	bool bIsCollision = true;
 	for (int i = 0; i < 4; ++i) {
 		Vector3 vProj = vProjection[i]; // 투영 벡터
 
@@ -144,29 +143,44 @@ bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _
 		Vector3 v1UpExtend = _pColRect1->GetOwnerObject()->GetUpVector() * v1HalfHeight;
 
 		// 오브젝트2
-		// 오브젝트1
 		Vector3 v2RightExtend = _pColRect2->GetOwnerObject()->GetRightVector() * v2HalfWidth;
 		Vector3 v2UpExtend = _pColRect2->GetOwnerObject()->GetUpVector() * v2HalfHeight;
 
 		// 두개의 사각형들의 중점 사이의 거리
-		float distance = fabsf(CMyMath::GetDot(vProj, (_pColRect2->GetPosition() - _pColRect1->GetPosition())));
+		float fDistance = fabsf(CMyMath::GetDot(vProj, (_pColRect2->GetPosition() - _pColRect1->GetPosition())));
 
 		float fDis1 = fabsf(CMyMath::GetDot(vProj, v1RightExtend));
 		float fDis2 = fabsf(CMyMath::GetDot(vProj, v1UpExtend));
 		float fDis3 = fabsf(CMyMath::GetDot(vProj, v2RightExtend));
 		float fDis4 = fabsf(CMyMath::GetDot(vProj, v2UpExtend));
-		if (distance > fDis1 + fDis2 + fDis3 + fDis4) {
-			bIsCollision = false;
-			break;
+
+		if (fDistance > fDis1 + fDis2 + fDis3 + fDis4) {
+			if (nullptr != _ptIntersectionRect) {
+				_ptIntersectionRect->left = 0;
+				_ptIntersectionRect->right = 0;
+				_ptIntersectionRect->top = 0;
+				_ptIntersectionRect->bottom = 0;
+			}
+			return false;
+		}
+
+		// 교차 영역을 담을 포인터 변수가 존재하면
+		if (nullptr != _ptIntersectionRect) {
+			Vector3 vObj1Pos = _pColRect1->GetOwnerObject()->GetPosition();
+			Vector3 vObj2Pos = _pColRect2->GetOwnerObject()->GetPosition();
+			// 수평 충돌
+			_ptIntersectionRect->left = max(min(vObj1Pos.x + v1RightExtend.x, vObj1Pos.x + v1UpExtend.x), min(vObj2Pos.x + v2RightExtend.x, vObj2Pos.x + v2UpExtend.x));
+			_ptIntersectionRect->right = min(max(vObj1Pos.x + v1RightExtend.x, vObj1Pos.x + v1UpExtend.x), max(vObj2Pos.x + v2RightExtend.x, vObj2Pos.x + v2UpExtend.x));
+
+			// 수직 충돌
+			_ptIntersectionRect->top = max(min(vObj1Pos.y + v1RightExtend.y, vObj1Pos.y + v1UpExtend.y), min(vObj2Pos.x + v2RightExtend.y, vObj2Pos.x + v2UpExtend.y));
+			_ptIntersectionRect->bottom = min(max(vObj1Pos.y + v1RightExtend.y, vObj1Pos.y + v1UpExtend.y), max(vObj2Pos.x + v2RightExtend.y, vObj2Pos.x + v2UpExtend.y));
 		}
 	}
 
-	if (false == bIsCollision)
-		return false;
-
 	return true;
 }
-*/
+
 // 사각형과 원 충돌체크
 bool CCollisionManager::_IsCollision(CColliderRect* _pColRect, CColliderCircle* _pColCircle)
 {

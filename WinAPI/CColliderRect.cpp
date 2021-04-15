@@ -58,7 +58,7 @@ void CColliderRect::Render(HDC _hDC)
     HBRUSH oldBrush = (HBRUSH)SelectObject(_hDC, myBrush);
 
     //////////////////////////////////
-
+    /// OBB Rendering
     Vector3 leftVec = GetMinPos();
     Vector3 midle = GetPosition();
     leftVec.y = 0;
@@ -93,6 +93,7 @@ void CColliderRect::Render(HDC _hDC)
     MoveToEx(_hDC, vRTPos.x, vRTPos.y, nullptr);
     LineTo(_hDC, vLTPos.x, vLTPos.y);
 
+    // AABB Rendering
     //Rectangle(_hDC, (int)vMin.x, (int)vMin.y, (int)vMax.x, (int)vMax.y);
         
     SelectObject(_hDC, oldBrush);

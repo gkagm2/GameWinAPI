@@ -323,9 +323,6 @@ void CObjTool::InitItemTool()
 
 	CreateObject(pItemPanelUI);
 	CObject* pItemObjs;*/
-
-
-
 }
 void CObjTool::UpdateItemTool()
 {
