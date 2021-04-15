@@ -224,6 +224,15 @@
     <Filter Include="Game\6. Component\AI\Navi">
       <UniqueIdentifier>{028ada3b-bade-472d-a1b7-5045cd777412}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Weapon">
+      <UniqueIdentifier>{9c12837f-e152-4bfe-bafc-dd18d316f388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Bullet">
+      <UniqueIdentifier>{f55ffb7c-4837-4051-aa9f-c6025e0afb09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\PunchDetector">
+      <UniqueIdentifier>{6fed7e35-ba17-4fea-87fb-d0360b769d79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -436,6 +445,12 @@
     <ClInclude Include="CGTA_CitizenCreator.h">
       <Filter>Game\5. Object\Gta_PJ\Creator</Filter>
     </ClInclude>
+    <ClInclude Include="CGTA_Weapon.h">
+      <Filter>Game\5. Object\Gta_PJ\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_Bullet.h">
+      <Filter>Game\5. Object\Gta_PJ\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -639,6 +654,12 @@
     </ClCompile>
     <ClCompile Include="CGTA_CitizenCreator.cpp">
       <Filter>Game\5. Object\Gta_PJ\Creator</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_Weapon.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_Bullet.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -56,15 +56,6 @@ void CAnimator::CreateAnimation(const wstring& _strName, CTexture* _pTex, Vector
 	pAnimation->m_pAnimator = this;
 }
 
-// GTA
-void CAnimator::CreateAnimation(const wstring _strName, CTexture* _pTex, Vector2 _vLT, Vector2 _vSlice, Vector2 _vInsidePadding, int _iMaxFrame, float _fDuration)
-{
-	CAnimation* pAnimation = new CAnimation;
-	pAnimation->Create(_strName, _pTex, _vLT, _vSlice, _vInsidePadding, _iMaxFrame, _fDuration);
-	m_mapAnimation.insert(make_pair(_strName, pAnimation));
-	pAnimation->m_pAnimator = this;
-}
-
 CAnimation* CAnimator::GetAnimation(const wstring& _strName)
 {
 	map<wstring, CAnimation*>::iterator iter = m_mapAnimation.find(_strName);
@@ -81,6 +72,8 @@ void CAnimator::PlayAnimation(const wstring& _strName, E_AnimationPlayType _eTyp
 
 	m_pCurAnimation = iter->second; // 애니메이션 지정
 	m_ePlayType = _eType;
+
+	m_pCurAnimation->Reset();
 }
 
 void CAnimator::LateUpdate()

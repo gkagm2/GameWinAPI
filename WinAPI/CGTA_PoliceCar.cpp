@@ -58,8 +58,6 @@ void CGTA_PoliceCar::Update()
 	__super::Update();
 
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(GetPosition());
-
-	Debug->Print(vRenderPosition, L"dd", GetPosition().x, GetPosition().y);
 }
 
 void CGTA_PoliceCar::LateUpdate()
@@ -81,20 +79,16 @@ void CGTA_PoliceCar::OnCollisionStay(CObject* _pOther)
 	CColliderRect* pColRect = dynamic_cast<CColliderRect*>(_pOther->GetCollider());
 	if (nullptr != pColRect) {
 		CTile* pTile = dynamic_cast<CTile*>(_pOther);
-		if (pColRect && pTile) {
-			Debug->Print(pTile->GetPosition() + pColRect->GetOffsetPosition(), L"dd", pColRect->GetScale().x, pColRect->GetScale().y);
-		}
-
+		
 		HPEN hPen = CreatePen(PS_SOLID, 1, RGB(0, 255, 0)); // Green color
-
 		HPEN hOldPen = (HPEN)SelectObject(CCore::GetInstance()->GetDC(), hPen);
 
 		HBRUSH myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
 		HBRUSH oldBrush = (HBRUSH)SelectObject(CCore::GetInstance()->GetDC(), myBrush);
 		Vector3 vOther = MainCamera->GetRenderPosition(_pOther->GetPosition() + pColRect->GetOffsetPosition());
 		Vector3 vThis = MainCamera->GetRenderPosition(GetPosition());
-		MoveToEx(CCore::GetInstance()->GetDC(), vOther.x, vOther.y, nullptr);
-		LineTo(CCore::GetInstance()->GetDC(), vThis.x, vThis.y);
+		MoveToEx(CCore::GetInstance()->GetDC(), (int)vOther.x, (int)vOther.y, nullptr);
+		LineTo(CCore::GetInstance()->GetDC(), (int)vThis.x, (int)vThis.y);
 
 		SelectObject(CCore::GetInstance()->GetDC(), oldBrush);
 		SelectObject(CCore::GetInstance()->GetDC(), hOldPen);

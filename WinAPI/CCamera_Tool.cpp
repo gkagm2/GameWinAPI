@@ -31,10 +31,8 @@ void CCamera_Tool::Update()
 	if (InputKeyRelease(E_Key::MBUTTON))
 		m_vLook = m_vOriginPos + (m_vStartPos - vMousePos);
 		
-	if (InputKeyHold(E_Key::MBUTTON)) {
+	if (InputKeyHold(E_Key::MBUTTON))
 		m_vLook = m_vOriginPos + (m_vStartPos - vMousePos);
-		Debug->Print(vMousePos, L"dd", m_vLook.x, m_vLook.y);
-	}
 	
 	__super::Update(); 
 }

@@ -91,7 +91,7 @@ void CCamera2D::Move()
 {
 	Vector3 vPos = m_vLook;
 	Vector3 vTargetPos = m_pTargetObject->GetPosition();
-	vTargetPos = CMyMath::Lerp(vPos, vTargetPos, DeltaTime);
+	vTargetPos = CMyMath::Lerp(vPos, vTargetPos, 5.f * DeltaTime);
 	m_vLook = vTargetPos;
 }
 

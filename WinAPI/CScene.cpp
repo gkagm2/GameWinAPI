@@ -164,18 +164,18 @@ void CScene::PrevUpdateTile()
 	int iMaxRow = ptResolution.y / TILE_SIZE + 1;
 
 	// 타일의 col의 총 갯수에서 화면에 보여줄 컬럼 개수를 뺀 갯수가 화면에 보여줄 수 있는 col의 최대 갯수보다 작으면
-	if (m_pTileMap->GetCol() - iColCnt < iMaxCol) {
-		iMaxCol = m_pTileMap->GetCol() - iColCnt; // 화면에 보여줄 최대 col의 개수를 재설정.
+	if ((int)m_pTileMap->GetCol() - iColCnt < iMaxCol) {
+		iMaxCol = (int)m_pTileMap->GetCol() - iColCnt; // 화면에 보여줄 최대 col의 개수를 재설정.
 	}
 
-	if (m_pTileMap->GetRow() - iRowCnt < iMaxRow) {
-		iMaxRow = m_pTileMap->GetRow() - iRowCnt;
+	if ((int)m_pTileMap->GetRow() - iRowCnt < iMaxRow) {
+		iMaxRow = (int)m_pTileMap->GetRow() - iRowCnt;
 	}
 
 	for (int iRow = 0; iRow < iMaxRow; ++iRow) {
 		for (int iCol = 0; iCol < iMaxCol; ++iCol) {
 			int iResultIdx = iLeftTopIdx + m_pTileMap->GetCol() * iRow + iCol;
-			if (iResultIdx < 0 || iResultIdx >= m_pTileMap->GetCol() * m_pTileMap->GetRow())
+			if (iResultIdx < 0 || iResultIdx >= (int)m_pTileMap->GetCol() * (int)m_pTileMap->GetRow())
 				continue;
 			if (!vecObjs[iResultIdx]->IsActive())
 				continue;
@@ -210,18 +210,18 @@ void CScene::UpdateTile()
 	int iMaxRow = ptResolution.y / TILE_SIZE + 1;
 
 	// 타일의 col의 총 갯수에서 화면에 보여줄 컬럼 개수를 뺀 갯수가 화면에 보여줄 수 있는 col의 최대 갯수보다 작으면
-	if (m_pTileMap->GetCol() - iColCnt < iMaxCol) {
-		iMaxCol = m_pTileMap->GetCol() - iColCnt; // 화면에 보여줄 최대 col의 개수를 재설정.
+	if ((int)m_pTileMap->GetCol() - iColCnt < iMaxCol) {
+		iMaxCol = (int)m_pTileMap->GetCol() - iColCnt; // 화면에 보여줄 최대 col의 개수를 재설정.
 	}
 
-	if (m_pTileMap->GetRow() - iRowCnt < iMaxRow) {
-		iMaxRow = m_pTileMap->GetRow() - iRowCnt;
+	if ((int)m_pTileMap->GetRow() - iRowCnt < iMaxRow) {
+		iMaxRow = (int)m_pTileMap->GetRow() - iRowCnt;
 	}
 
 	for (int iRow = 0; iRow < iMaxRow; ++iRow) {
 		for (int iCol = 0; iCol < iMaxCol; ++iCol) {
-			int iResultIdx = iLeftTopIdx + m_pTileMap->GetCol() * iRow + iCol;
-			if (iResultIdx < 0 || iResultIdx >= m_pTileMap->GetCol() * m_pTileMap->GetRow())
+			int iResultIdx = iLeftTopIdx + (int)m_pTileMap->GetCol() * iRow + iCol;
+			if (iResultIdx < 0 || iResultIdx >= (int)m_pTileMap->GetCol() * (int)m_pTileMap->GetRow())
 				continue;
 			if (!vecObjs[iResultIdx]->IsActive())
 				continue;
@@ -256,18 +256,18 @@ void CScene::LateUpdateTile()
 	int iMaxRow = ptResolution.y / TILE_SIZE + 1;
 
 	// 타일의 col의 총 갯수에서 화면에 보여줄 컬럼 개수를 뺀 갯수가 화면에 보여줄 수 있는 col의 최대 갯수보다 작으면
-	if (m_pTileMap->GetCol() - iColCnt < iMaxCol) {
-		iMaxCol = m_pTileMap->GetCol() - iColCnt; // 화면에 보여줄 최대 col의 개수를 재설정.
+	if ((int)m_pTileMap->GetCol() - iColCnt < iMaxCol) {
+		iMaxCol = (int)m_pTileMap->GetCol() - iColCnt; // 화면에 보여줄 최대 col의 개수를 재설정.
 	}
 
-	if (m_pTileMap->GetRow() - iRowCnt < iMaxRow) {
-		iMaxRow = m_pTileMap->GetRow() - iRowCnt;
+	if ((int)m_pTileMap->GetRow() - iRowCnt < iMaxRow) {
+		iMaxRow = (int)m_pTileMap->GetRow() - iRowCnt;
 	}
 
 	for (int iRow = 0; iRow < iMaxRow; ++iRow) {
 		for (int iCol = 0; iCol < iMaxCol; ++iCol) {
-			int iResultIdx = iLeftTopIdx + m_pTileMap->GetCol() * iRow + iCol;
-			if (iResultIdx < 0 || iResultIdx >= m_pTileMap->GetCol() * m_pTileMap->GetRow())
+			int iResultIdx = iLeftTopIdx + (int)m_pTileMap->GetCol() * iRow + iCol;
+			if (iResultIdx < 0 || iResultIdx >= (int)m_pTileMap->GetCol() * (int)m_pTileMap->GetRow())
 				continue;
 			if (!vecObjs[iResultIdx]->IsActive())
 				continue;
@@ -302,20 +302,20 @@ void CScene::RenderTile(HDC _hDC)
 	int iMaxRow = ptResolution.y / TILE_SIZE + 1;
 
 	// 타일의 col의 총 갯수에서 화면에 보여줄 컬럼 개수를 뺀 갯수가 화면에 보여줄 수 있는 col의 최대 갯수보다 작으면
-	if (m_pTileMap->GetCol() - iColCnt < iMaxCol) { 
-		iMaxCol = m_pTileMap->GetCol() - iColCnt; // 화면에 보여줄 최대 col의 개수를 재설정.
+	if ((int)m_pTileMap->GetCol() - iColCnt < iMaxCol) { 
+		iMaxCol = (int)m_pTileMap->GetCol() - iColCnt; // 화면에 보여줄 최대 col의 개수를 재설정.
 	}
 
-	if (m_pTileMap->GetRow() - iRowCnt < iMaxRow) {
-		iMaxRow = m_pTileMap->GetRow() - iRowCnt;
+	if ((int)m_pTileMap->GetRow() - iRowCnt < iMaxRow) {
+		iMaxRow = (int)m_pTileMap->GetRow() - iRowCnt;
 	}
 
 
 	for (int iRow = 0; iRow < iMaxRow; ++iRow) {
 		for (int iCol = 0; iCol < iMaxCol; ++iCol) {
-			int colSize = m_pTileMap->GetCol();
+			int colSize = (int)m_pTileMap->GetCol();
 			int iResultIdx = iLeftTopIdx + colSize * iRow + iCol;
-			if (iResultIdx < 0 || iResultIdx >= m_pTileMap->GetCol() * m_pTileMap->GetRow())
+			if (iResultIdx < 0 || iResultIdx >= (int)m_pTileMap->GetCol() * (int)m_pTileMap->GetRow())
 				continue;
 			if (!vecObjs[iResultIdx]->IsActive())
 				continue;

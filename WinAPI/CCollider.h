@@ -35,6 +35,8 @@ public:
 	}
 
 public:
+	void SetOwnerObject(CObject* _ownerObj) { m_pOwnerObject = _ownerObj; }
+
 	Vector3 GetPosition(); // 충돌체의 최종 위치(Object Position + Collider Position)
 	Vector3 GetOffsetPosition() { return m_vOffsetPosition; }
 	void SetOffsetPosition(const Vector3& _position) { m_vOffsetPosition += _position; }

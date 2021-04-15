@@ -61,8 +61,6 @@ void CUI::Render(HDC _hDC)
     Vector3 vPosition = GetFinalPosition();
     Vector3 vScale = GetScale();
 
-    Debug->Print(vPosition + 30.0f, L"sdd", GetObjectName().c_str(), vPosition.x, vPosition.y, m_bIsOn);
-
     // 투명 Rectangle 그리기
     HPEN hPen = nullptr;
     if (m_bIsOn)
@@ -87,15 +85,12 @@ void CUI::Render(HDC _hDC)
 
 void CUI::OnPointerDown()
 {
-    Debug->Print(Vector2(20, 200), L"s", L"OnPointerDown");
 }
 void CUI::OnPointerUp()
 {
-    Debug->Print(Vector2(20, 200), L"s", L"OnPointerUp");
 }
 void CUI::OnPointerClick()
 {
-    Debug->Print(Vector2(20, 200), L"s", L"OnPointerClick");
 }
 
 bool CUI::IsPointerOn(const Vector2& _vMousePosition)

@@ -11,15 +11,26 @@
 #include "CTimeManager.h"
 #include "CCamera.h"
 #include "CGTA_Character.h"
+#include "CGTA_Bullet.h"
 #include "CRigidbody2D.h"
 
 CGTA_Player::CGTA_Player(E_GroupType _eGroupType) :
-	CGTA_Character(_eGroupType)
+	CGTA_Character(_eGroupType),
+	m_cWeapon{},
+	m_bIsDrive(false),
+	m_fAttackCoolTime(0.f),
+	m_fAttackMaxCoolTime(0.f),
+	m_pBulletPref(nullptr)
 {
+	m_pBulletPref = new CGTA_Bullet(E_GroupType::PROJECTILE);
+	m_pBulletPref->Init();
+	m_pBulletPref->SetActive(false);
 }
 
 CGTA_Player::~CGTA_Player()
 {
+	if (nullptr != m_pBulletPref)
+		delete m_pBulletPref;
 }
 
 void CGTA_Player::Init()
@@ -48,10 +59,10 @@ void CGTA_Player::Init()
 	GetAnimator()->CreateAnimation(L"punch", pTexture, Vector2(0,40 * 11), Vector2(40, 40), 6, 0.07f);
 	GetAnimator()->CreateAnimation(L"run", pTexture, Vector2(0,40 * 12), Vector2(40, 40), 8, 0.07f);
 
-	GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::LOOP);
+	GetAnimator()->PlayAnimation(L"idle", E_AnimationPlayType::ONCE);
 
-	float fAnimTextureWidth = GetAnimator()->GetAnimation(L"idle")->GetFrame(0).vSlice.x;
-	float fAnimTextureHeight = GetAnimator()->GetAnimation(L"idle")->GetFrame(0).vSlice.y;
+	float fAnimTextureWidth = GetAnimator()->GetAnimTexWidth();
+	float fAnimTextureHeight = GetAnimator()->GetAnimTexHeight();
 	Vector2 vScale{ fAnimTextureWidth, fAnimTextureHeight };
 	SetScale(Vector3(vScale.x, vScale.y, 0.0f));
 
@@ -74,23 +85,27 @@ void CGTA_Player::PrevUpdate()
 
 void CGTA_Player::Update()
 {
-	Vector3 vHeadDir = GetUpVector();
-	//RotateInfo().Update();
-	if (InputKeyHold(E_Key::LEFT)) {
-		RotateRP(-180 * DeltaTime);
-	}
-	if (InputKeyHold(E_Key::RIGHT)) {
-		RotateRP(180 * DeltaTime);
+
+	if (m_bIsDrive)
+		Drive();
+	else
+		Move();
+
+	if (InputKeyRelease(E_Key::Ctrl)) {
+		m_fAttackCoolTime += DeltaTime;
+		if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
+			Attack();
+			m_fAttackCoolTime = 0.f;
+		}
 	}
 
-	if (InputKeyHold(E_Key::UP)) {
-		float x  = GetPosition().x - GetUpVector().x * 300 * DeltaTime;
-		float y = GetPosition().y - GetUpVector().y * 300 * DeltaTime;
-		SetPosition(GetPosition().x - GetUpVector().x * 300 * DeltaTime, GetPosition().y - GetUpVector().y * 300 * DeltaTime);
+	if (InputKeyPress(E_Key::Z)) {
+		ChangePrevWeapon();
 	}
-	if (InputKeyHold(E_Key::DOWN)) {
-		SetPosition(GetPosition().x + GetUpVector().x * 300 * DeltaTime, GetPosition().y + GetUpVector().y * 300 * DeltaTime);
+	if (InputKeyPress(E_Key::X)) {
+		ChangeNextWeapon();
 	}
+
 }
 
 void CGTA_Player::LateUpdate()
@@ -117,17 +132,70 @@ void CGTA_Player::OnCollisionExit(CObject* _pOther)
 
 void CGTA_Player::Move()
 {
+	Vector3 vHeadDir = GetUpVector();
+	//RotateInfo().Update();
+	if (InputKeyHold(E_Key::LEFT)) {
+		RotateRP(-220 * DeltaTime);
+	}
+	if (InputKeyHold(E_Key::RIGHT)) {
+		RotateRP(220 * DeltaTime);
+	}
+
+	if (InputKeyPress(E_Key::UP)) {
+		GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
+	}
+	if (InputKeyPress(E_Key::DOWN)) {
+		GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
+	}
+	if (InputKeyRelease(E_Key::UP)) {
+		GetAnimator()->PlayAnimation(L"idle", E_AnimationPlayType::ONCE);
+	}
+	if (InputKeyRelease(E_Key::DOWN)) {
+		GetAnimator()->PlayAnimation(L"idle", E_AnimationPlayType::ONCE);
+	}
+
+	if (InputKeyHold(E_Key::UP)) {
+		float x = GetPosition().x - GetUpVector().x * 300 * DeltaTime;
+		float y = GetPosition().y - GetUpVector().y * 300 * DeltaTime;
+		SetPosition(GetPosition().x - GetUpVector().x * 300 * DeltaTime, GetPosition().y - GetUpVector().y * 300 * DeltaTime);
+	}
+	if (InputKeyHold(E_Key::DOWN)) {
+		SetPosition(GetPosition().x + GetUpVector().x * 300 * DeltaTime, GetPosition().y + GetUpVector().y * 300 * DeltaTime);
+	}
 }
 
-void CGTA_Player::Shoot()
+void CGTA_Player::Attack()
 {
+	TWeaponInfo& tWeaponInfo = m_cWeapon.GetCurWeaponInfo();
+
+	E_WeaponType eWeaponType = m_cWeapon.GetCurWeaponType();
+
+	// 주먹이면
+	if (E_WeaponType::FIST == eWeaponType) {
+		GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
+		// Punch 컬라이더가 하나 생성되었다가 사라진다.
+	
+	} 
+	else {	
+		// 총알 오브젝트 생성.
+		CGTA_Bullet* pBullet = m_pBulletPref->Clone();
+		pBullet->SetPosition(GetPosition() + GetNozzlePosition()); // 노즐 위치로 옮긴다.
+		pBullet->SetActive(true);
+		pBullet->SetUpVector(GetUpVector(), GetRPDir(), GetRectPoint()); // 방향 설정
+		CreateObject(pBullet);
+
+		if (false == tWeaponInfo.bIsInfinite) { // 무한이 아닐 경우
+			--tWeaponInfo.iBulletCnt;
+			if (tWeaponInfo.iBulletCnt <= 0) {
+				m_cWeapon.SetWeaponState(false, m_cWeapon.GetCurWeaponType());
+				ChangeNextWeapon();
+				return;
+			}
+		}
+	}
 }
 
 void CGTA_Player::Drive()
-{
-}
-
-void CGTA_Player::Punch()
 {
 }
 
@@ -141,4 +209,20 @@ void CGTA_Player::GetInTheVehicle()
 
 void CGTA_Player::GetOutTheVehicle()
 {
+}
+
+void CGTA_Player::ChangePrevWeapon()
+{
+	m_cWeapon.ChangePrevWeapon();
+	const TWeaponInfo& tWeaponInfo =  m_cWeapon.GetCurWeaponInfo();
+	m_fAttackMaxCoolTime = tWeaponInfo.fShootCoolTime;
+	m_fAttackCoolTime = tWeaponInfo.fShootCoolTime;
+}
+
+void CGTA_Player::ChangeNextWeapon()
+{
+	m_cWeapon.ChangeNextWeapon();
+	const TWeaponInfo& tWeaponInfo = m_cWeapon.GetCurWeaponInfo();
+	m_fAttackMaxCoolTime = tWeaponInfo.fShootCoolTime;
+	m_fAttackCoolTime = tWeaponInfo.fShootCoolTime;
 }

@@ -46,15 +46,11 @@ void CGTA_Cop::Move()
 {
 }
 
-void CGTA_Cop::Shoot()
+void CGTA_Cop::Attack()
 {
 }
 
 void CGTA_Cop::Drive()
-{
-}
-
-void CGTA_Cop::Punch()
 {
 }
 

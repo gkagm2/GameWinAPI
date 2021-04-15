@@ -31,7 +31,6 @@ public:
 public:
 	CObject* GetOwnerObject() { return m_pOwner; }
 	void CreateAnimation(const wstring& _strName, CTexture* _pTex, Vector2 _vLT, Vector2 _vSlice, int _iMaxFrame, float _fDuration);
-	void CreateAnimation(const wstring _strName, CTexture* _pTex, Vector2 _vLT, Vector2 _vSlice, Vector2 _vInsidePadding, int _iMaxFrame, float _fDuration);
 
 	CAnimation* GetAnimation(const wstring& _strName);
 

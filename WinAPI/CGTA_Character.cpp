@@ -11,9 +11,18 @@
 #include "CSceneManager.h"
 #include "CTimeManager.h"
 #include "CCamera.h"
+#include "CObject.h"
 
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
-	CObject(_eGroupType)
+	CObject(_eGroupType),
+	m_pVehicle(nullptr),
+	m_vNozzlePos(GetUpVector() * 5.f)
+{
+}
+CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
+	CObject(_origin),
+	m_pVehicle(nullptr),
+	m_vNozzlePos(GetUpVector() * 5.f)
 {
 }
 
@@ -28,6 +37,7 @@ void CGTA_Character::Init()
 
 void CGTA_Character::PrevUpdate()
 {
+	__super::PrevUpdate();
 }
 
 void CGTA_Character::Update()
@@ -36,6 +46,7 @@ void CGTA_Character::Update()
 
 void CGTA_Character::LateUpdate()
 {
+	__super::LateUpdate();
 }
 
 void CGTA_Character::Render(HDC _hDC)
@@ -45,10 +56,7 @@ void CGTA_Character::Render(HDC _hDC)
 
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(GetPosition());
 
-	if (nullptr == GetTexture()) {
-
-	}
-	else {
+	if (GetTexture()) {
 		if (nullptr != GetAnimator())
 			GetAnimator()->Render(_hDC);
 		else {

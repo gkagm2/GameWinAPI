@@ -40,13 +40,13 @@ enum class E_GroupType {
 	ITEM,
 	DEFAULT,
 	BACKGROUND,
+	CITIZEN,
 	PLAYER,
+	VEHICLE,
 	PLAYER_PROJECTILE,
 	MONSTER,
 	MONSTER_PROJECTILE,
 	PROJECTILE,
-	VEHICLE,
-	CITIZEN,
 	PREV,
 	UI =30,
 	MAIN_CAMERA = 31,
@@ -60,6 +60,16 @@ enum class E_TileType {
 	Wall,
 	Water,
 	None
+};
+
+// Weapon state (Attack state)
+enum class E_WeaponType {
+	FIST, // none
+	PISTOL,
+	SUBMACHINE_GUN,
+	SHOTGUN,
+	ROCKET_LAUNCHER,
+	END,
 };
 
 #define EXCEPTION_COLOR_RGB_MAGENTA RGB(255,0,255) // Magenta color

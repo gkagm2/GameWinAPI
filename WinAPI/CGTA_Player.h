@@ -1,7 +1,20 @@
 #pragma once
 #include "CGTA_Character.h"
+#include "CGTA_Weapon.h"
+
+class CGTA_Weapon;
+class CGTA_Bullet;
+
 class CGTA_Player : public CGTA_Character
 {
+private:
+	bool m_bIsDrive;
+	CGTA_Weapon m_cWeapon;
+	CGTA_Bullet* m_pBulletPref;
+
+	float m_fAttackCoolTime;
+	float m_fAttackMaxCoolTime;
+	
 public:
 	virtual void Init() override;
 	virtual void PrevUpdate() override;
@@ -15,12 +28,16 @@ public:
 
 public:
 	virtual void Move() override;
-	virtual void Shoot() override;
+	virtual void Attack() override;
 	virtual void Drive() override;
-	virtual void Punch() override;
 	virtual void Dead() override;
 	virtual void GetInTheVehicle() override;
 	virtual void GetOutTheVehicle() override;
+
+	
+
+	void ChangePrevWeapon();
+	void ChangeNextWeapon();
 
 public:
 	CLONE(CGTA_Player);

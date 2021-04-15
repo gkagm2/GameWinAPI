@@ -47,10 +47,6 @@ void CMonster_AI::Render(HDC _hDC)
 	Vector3 vRenderPos = MainCamera->GetRenderPosition(GetPosition());
 	Ellipse(_hDC, int(vRenderPos.x - 200.f), int(vRenderPos.y - 200.f), int(vRenderPos.x + 200.f), int(vRenderPos.y + 200.f));
 
-	wstring strStateName = GetAI()->GetCurState()->GetName();
-	Debug->Print(vRenderPos, L"s", strStateName.c_str());
-
-
 	SelectObject(_hDC, oldBrush);
 	DeleteObject(myBrush);
 	__super::Render(_hDC);

@@ -15,15 +15,15 @@ public:
 
 public:
 	virtual void Move() override;
-	virtual void Shoot() override;
+	virtual void Attack() override;
 	virtual void Drive() override;
-	virtual void Punch() override;
 	virtual void Dead() override;
 	virtual void GetInTheVehicle() override;
 	virtual void GetOutTheVehicle() override;
 
 public:
 	CLONE(CGTA_Citizen);
+	CGTA_Citizen(const CGTA_Citizen& _other);
 
 public:
 	CGTA_Citizen() = delete;

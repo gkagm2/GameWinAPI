@@ -1,10 +1,41 @@
 #pragma once
 #include "CObject.h"
 class CGTA_Vehicle;
+
+enum class ECharacterState {
+	idle,
+	idle_weapon,
+	walk,
+	walk_weapon,
+	hit,
+	run,
+	run_weapon,
+	attack,
+	attack_Weapon,
+	getInTheCar,
+	getOffTheCar,
+	dead,
+};
+
+enum class ECopState {
+	trace,
+	run,
+};
+
+enum class ECitizenState {
+	wander,
+	runAway,
+	trace
+};
+
+class CColliderRect;
 class CGTA_Character : public CObject
 {
 private:
 	CGTA_Vehicle* m_pVehicle;
+	Vector3 m_vNozzlePos;
+
+
 
 public:
 	virtual void Init() override;
@@ -18,18 +49,18 @@ public:
 	virtual void OnCollisionExit(CObject* _pOther);
 
 public:
-	virtual void Move() {};
-	virtual void Shoot() {};
-	virtual void Drive() {};
-	virtual void Punch() {};
-	virtual void Dead() {};
-	virtual void GetInTheVehicle() {};
-	virtual void GetOutTheVehicle() {};
-
+	virtual void Move() {}
+	virtual void Attack() {}
+	virtual void Drive() {}
+	virtual void Dead() {}
+	virtual void GetInTheVehicle() {}
+	virtual void GetOutTheVehicle() {}
+	virtual const Vector3& GetNozzlePosition() final { return GetUpVector() * 5.f; }
 
 public:
 	CLONE(CGTA_Character);
 
+	CGTA_Character(const CGTA_Character& _origin);
 public:
 	CGTA_Character() = delete;
 	CGTA_Character(E_GroupType _eGroupType);

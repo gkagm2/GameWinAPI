@@ -53,14 +53,6 @@ void CPanelUI::Render(HDC _hDC)
 {
 	Vector3 vFinalPos = GetFinalPosition();
 	Vector3 vScale = GetScale();
-	Debug->Print(vFinalPos + 30.0f, L"sddi", GetObjectName().c_str(), vFinalPos.x, vFinalPos.y, m_bIsOn);
-	if (GetObjectName() == L"ParentUI") {
-		Debug->Print(Vector2(60, 60), L"s", GetObjectName().c_str());
-	}
-	else {
-		Debug->Print(Vector2(60, 90), L"s", GetObjectName().c_str());
-	}
-	
 
 	CTexture* pTexture = GetTexture();
 	if (nullptr == pTexture)

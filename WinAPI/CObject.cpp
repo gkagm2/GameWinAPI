@@ -17,6 +17,9 @@
 CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_vPosition{ 0, 0, 0 },
 	m_vScale{ 100.0f, 100.0f, 100.0f },
+	m_vRectPoint{},
+	m_vRPDir{},
+	m_vUpVec{ 0.f, -1.f , 0.f },
 	m_pTexture(nullptr),
 	m_pCollider(nullptr),
 	m_pAnimator(nullptr),
@@ -25,8 +28,7 @@ CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_strName(STR_OBJECT_DEFAULT_NAME),
 	m_bIsDead(false),
 	m_bIsRender(true),
-	m_bIsActive(true),
-	m_vUpVec{0.f, -1.f , 0.f}
+	m_bIsActive(true)
 {
 }
 
@@ -41,6 +43,7 @@ void CObject::Load()
 CObject::CObject(const CObject& _origin) :
 	m_vPosition{ _origin.m_vPosition},
 	m_vScale{ _origin.m_vScale },
+	m_vUpVec{ _origin.m_vUpVec },
 	m_pTexture(_origin.m_pTexture),
 	m_eGroupType(_origin.m_eGroupType),
 	m_pCollider(nullptr),
@@ -51,6 +54,11 @@ CObject::CObject(const CObject& _origin) :
 	m_bIsRender(_origin.m_bIsRender),
 	m_bIsActive(_origin.m_bIsActive)
 {
+	for (int i = 0; i < 3; ++i) {
+		m_vRectPoint[i] = _origin.m_vRectPoint[i];
+		m_vRPDir[i] = _origin.m_vRPDir[i];
+	}
+
 	if (_origin.m_pCollider) {
 		m_pCollider = _origin.m_pCollider->Clone();
 		m_pCollider->m_pOwnerObject = this;
@@ -218,6 +226,15 @@ Vector3 CObject::GetMax()
 	else
 		maxVec += m_vScale * 0.5f;
 	return maxVec;
+}
+
+void CObject::SetUpVector(const Vector3& _upVector, const Vector3 _vRPDir[3], const Vector3 _vRectPoint[3])
+{
+	m_vUpVec = _upVector;
+	for (int i = 0; i < 3; ++i) {
+		m_vRPDir[i] = _vRPDir[i];
+		m_vRectPoint[i] = _vRectPoint[i];
+	}
 }
 
 void CObject::SetTexture(CTexture* _pTexture)

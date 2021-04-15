@@ -40,8 +40,6 @@ void CColliderRect::Render(HDC _hDC)
     Vector3 vPosition = GetPosition();
     Vector3 vRenderPosition = MainCamera->GetRenderPosition(vPosition);
 
-    Debug->Print(vRenderPosition, L"dd", vRenderPosition.x, vRenderPosition.y);
-
     // viewport coordinate
     Vector3 vMin = MainCamera->GetRenderPosition(GetMinPos());
     Vector3 vMax = MainCamera->GetRenderPosition(GetMaxPos());
@@ -81,17 +79,17 @@ void CColliderRect::Render(HDC _hDC)
     vLBPos = MainCamera->GetRenderPosition(GetPosition() + vLBPos);
     vRBPos = MainCamera->GetRenderPosition(GetPosition() + vRBPos);
 
-    MoveToEx(_hDC, vLTPos.x, vLTPos.y, nullptr);
-    LineTo(_hDC, vLBPos.x, vLBPos.y);
+    MoveToEx(_hDC, (int)vLTPos.x, (int)vLTPos.y, nullptr);
+    LineTo(_hDC, (int)vLBPos.x, (int)vLBPos.y);
 
-    MoveToEx(_hDC, vLBPos.x, vLBPos.y, nullptr);
-    LineTo(_hDC, vRBPos.x, vRBPos.y);
+    MoveToEx(_hDC, (int)vLBPos.x, (int)vLBPos.y, nullptr);
+    LineTo(_hDC, (int)vRBPos.x, (int)vRBPos.y);
 
-    MoveToEx(_hDC, vRBPos.x, vRBPos.y, nullptr);
-    LineTo(_hDC, vRTPos.x, vRTPos.y);
+    MoveToEx(_hDC, (int)vRBPos.x, (int)vRBPos.y, nullptr);
+    LineTo(_hDC, (int)vRTPos.x, (int)vRTPos.y);
 
-    MoveToEx(_hDC, vRTPos.x, vRTPos.y, nullptr);
-    LineTo(_hDC, vLTPos.x, vLTPos.y);
+    MoveToEx(_hDC, (int)vRTPos.x, (int)vRTPos.y, nullptr);
+    LineTo(_hDC, (int)vLTPos.x, (int)vLTPos.y);
 
     // AABB Rendering
     //Rectangle(_hDC, (int)vMin.x, (int)vMin.y, (int)vMax.x, (int)vMax.y);

@@ -71,7 +71,11 @@ public:
 	virtual Vector3 GetMax();
 
 	Vector3 GetUpVector() { return m_vUpVec; }
+	void SetUpVector(const Vector3& _upVector, const Vector3 _vRPDir[3], const Vector3 _vRectPoint[3]);
 	Vector3 GetRightVector() { return Rotate(m_vUpVec, 90); }
+
+	Vector3* GetRectPoint() { return m_vRectPoint; }
+	Vector3* GetRPDir() { return m_vRPDir; }
 
 	void SetTexture(CTexture* _pTexture);
 	CTexture* GetTexture() { return  m_pTexture; }

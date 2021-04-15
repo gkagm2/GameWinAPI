@@ -37,7 +37,7 @@ void CDragScreen::Render(HDC _hDC)
 		HBRUSH oldBrush = (HBRUSH)SelectObject(_hDC, myBrush);
 
 		Vector2 vStartRenderPos = MainCamera->GetRenderPosition(m_vStartPos);
-		Rectangle(_hDC, vStartRenderPos.x, vStartRenderPos.y, MousePosition.x, MousePosition.y);
+		Rectangle(_hDC, (int)vStartRenderPos.x, (int)vStartRenderPos.y, (int)MousePosition.x, (int)MousePosition.y);
 		
 		SelectObject(_hDC, oldBrush);
 		SelectObject(_hDC, hOldPen);

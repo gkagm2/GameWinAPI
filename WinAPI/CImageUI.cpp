@@ -40,7 +40,6 @@ void CImageUI::Render(HDC _hDC)
 {
 	Vector3 vFinalPos = GetFinalPosition();
     Vector3 vScale = GetScale();
-    Debug->Print(vFinalPos + 30.0f, L"sddi", GetObjectName().c_str(), vFinalPos.x, vFinalPos.y, m_bIsOn);
 
     // 투명 Rectangle 그리기
     HPEN hPen = nullptr;

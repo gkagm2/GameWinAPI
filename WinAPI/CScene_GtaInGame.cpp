@@ -23,6 +23,8 @@
 #include "CGTA_Player.h"
 #include "CGTA_CitizenCreator.h"
 
+#include "CGTA_Bullet.h"
+
 CScene_GtaInGame::CScene_GtaInGame()
 {
 }
@@ -64,6 +66,10 @@ void CScene_GtaInGame::Start()
 	//
 	
 
+	CGTA_Bullet* pbu = new CGTA_Bullet(E_GroupType::PROJECTILE);
+	pbu->SetPosition(0, 0, 0);
+	pbu->Init();
+	AddObject(pbu);
 	
 
 

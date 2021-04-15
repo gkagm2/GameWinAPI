@@ -80,3 +80,12 @@
 
 #define STR_FIlE_NAME_UI_TileWall L"Texture\\GTA\\WallTile.bmp"
 #define STR_FILE_PATH_UI_TileWall L"Texture\\GTA\\WallTile.bmp"
+
+#define STR_FILE_PATH_gta_Bullet L"Texture\\GTA\\Bullet.bmp"
+
+// weapon
+#define STR_NAME_Fist L"Punch"
+#define STR_NAME_RocketLauncher L"Rocket Launchar"
+#define STR_NAME_Pistol L"Pistol"
+#define STR_NAME_Shotgun L"Shotgun"
+#define STR_NAME_SubmachineGun L"Submachine Gun"
