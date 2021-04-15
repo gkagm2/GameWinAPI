@@ -91,7 +91,7 @@ void CGTA_Player::Update()
 	else
 		Move();
 
-	if (InputKeyRelease(E_Key::Ctrl)) {
+	if (InputKeyPress(E_Key::Ctrl)) {
 		m_fAttackCoolTime += DeltaTime;
 		if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
 			Attack();
@@ -105,7 +105,6 @@ void CGTA_Player::Update()
 	if (InputKeyPress(E_Key::X)) {
 		ChangeNextWeapon();
 	}
-
 }
 
 void CGTA_Player::LateUpdate()

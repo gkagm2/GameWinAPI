@@ -15,6 +15,9 @@ public:
 
 public:
 	CLONE(CGTA_PoliceCar);
+
+public:
+	CGTA_PoliceCar(const CGTA_PoliceCar& _origin);
 public:
 	CGTA_PoliceCar() = delete;
 	CGTA_PoliceCar(E_GroupType e_GroupType);

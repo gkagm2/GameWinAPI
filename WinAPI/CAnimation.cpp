@@ -75,8 +75,8 @@ void CAnimation::Render(HDC _hDC)
 	HBITMAP bitmap{};
 	PlgBlt(_hDC, rPNT, m_pAnimator->GetOwnerObject()->GetTexture()->GetDC(), int(m_vecFrame[m_iCurFrameIdx].vLT.x), int(m_vecFrame[m_iCurFrameIdx].vLT.y), int(m_vecFrame[m_iCurFrameIdx].vSlice.x), int(m_vecFrame[m_iCurFrameIdx].vSlice.y), bitmap, 0, 0);
 
-	UINT iWidth = (UINT)m_pAnimator->GetOwnerObject()->GetScale().x;
-	UINT iHeight = (UINT)m_pAnimator->GetOwnerObject()->GetScale().y;
+	//UINT iWidth = (UINT)m_pAnimator->GetOwnerObject()->GetScale().x;
+	//UINT iHeight = (UINT)m_pAnimator->GetOwnerObject()->GetScale().y;
 	//TransparentBlt(
 	//	_hDC,
 	//	(int)(vRenderPosition.x - iWidth * 0.5f), (int)(vRenderPosition.y - iHeight * 0.5f),

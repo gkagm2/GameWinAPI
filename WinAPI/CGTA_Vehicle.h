@@ -22,6 +22,9 @@ public:
     CLONE(CGTA_Vehicle);
 
 public:
+    CGTA_Vehicle(const CGTA_Vehicle& _origin);
+
+public:
     CGTA_Vehicle() = delete;
     CGTA_Vehicle(E_GroupType _eGroupType);
     virtual ~CGTA_Vehicle() override;

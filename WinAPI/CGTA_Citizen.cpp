@@ -7,17 +7,12 @@
 #include "CObject.h"
 #include "CGTA_Character.h"
 #include "CColliderRect.h"
+#include "CGTA_Player.h"
 
 CGTA_Citizen::CGTA_Citizen(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType)
 {
 }
-
-CGTA_Citizen::CGTA_Citizen(const CGTA_Citizen& _other) :
-	CGTA_Character(_other)
-{
-}
-
 
 CGTA_Citizen::~CGTA_Citizen()
 {
@@ -49,7 +44,9 @@ void CGTA_Citizen::Init()
 	// Collider set
 	CColliderRect* pCollider = new CColliderRect(this);
 	SetCollider(pCollider);
-	pCollider->SetScale(Vector3(15.f, 15.f, 15.f));
+	pCollider->SetScale(Vector3(15.f, 15.f, 0.f));
+
+	SetObjectName(L"Citizen");
 
 	SetPosition(300,300, 0);
 	CGTA_Character::Init();

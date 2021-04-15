@@ -11,6 +11,8 @@
 #include "CObject.h"
 #include "CDebug.h"
 #include "CTimeManager.h"
+#include "CCollider.h"
+#include "CColliderRect.h"
 
 CGTA_CitizenCreator::CGTA_CitizenCreator(E_GroupType e_GroupType) :
 	CObject(e_GroupType),
@@ -93,6 +95,9 @@ void CGTA_CitizenCreator::Update()
 					Vector3 vRespawnPos = { iCol * TILE_SIZE + TILE_SIZE * 0.5f, iRow * TILE_SIZE + TILE_SIZE * 0.5f, 0.f };
 					m_pClone->SetPosition(vRespawnPos);
 					CreateObject(m_pClone);
+					CCollider* pcol = m_pClone->GetCollider();
+					CColliderRect* pRectCol = dynamic_cast<CColliderRect*>(pcol);
+					Vector3 vv = pRectCol->GetScale();
 					++m_iCurCitizenCnt;
 				}
 			}
@@ -119,7 +124,7 @@ void CGTA_CitizenCreator::Update()
 			// 영역 밖이면 해제한다.
 			if (iRow < iLTRow || iCol < iLTCol || iRow > iRBRow || iCol > iRBCol) {
 				if (vecCitizen[i]->IsActive()) {
-					DeleteObject(vecCitizen[i]);
+					DestroyObject(vecCitizen[i]);
 					--m_iCurCitizenCnt;
 				}
 			}

@@ -22,9 +22,8 @@ CCollider::CCollider(const CCollider& _other) :
 	m_vOffsetPosition{_other.m_vOffsetPosition},
 	m_bIsActive(_other.m_bIsActive),
 	m_iID(g_iColliderID++),
-	m_bIsTrigger(false)
+	m_bIsTrigger(_other.m_bIsTrigger)
 {
-	
 }
 
 CCollider::~CCollider()

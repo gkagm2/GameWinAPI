@@ -18,6 +18,11 @@ CGTA_Vehicle::CGTA_Vehicle(E_GroupType _eGroupType) :
 {
 }
 
+CGTA_Vehicle::CGTA_Vehicle(const CGTA_Vehicle& _origin) :
+	CObject(_origin)
+{
+}
+
 CGTA_Vehicle::~CGTA_Vehicle()
 {
 }

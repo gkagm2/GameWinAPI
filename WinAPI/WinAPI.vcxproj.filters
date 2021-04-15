@@ -451,6 +451,9 @@
     <ClInclude Include="CGTA_Bullet.h">
       <Filter>Game\5. Object\Gta_PJ\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="CGTA_PunchDetector.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\PunchDetector</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -660,6 +663,9 @@
     </ClCompile>
     <ClCompile Include="CGTA_Bullet.cpp">
       <Filter>Game\5. Object\Gta_PJ\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_PunchDetector.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character\PunchDetector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

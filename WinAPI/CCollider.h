@@ -55,9 +55,9 @@ public:
 	bool IsTrigger() { return m_bIsTrigger; }
 	
 public:
-	CLONE(CCollider);
+	virtual CLONE(CCollider);
 
-private:
+public:
 	CCollider(const CCollider& _other);
 
 public:

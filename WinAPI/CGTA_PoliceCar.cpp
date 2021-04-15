@@ -15,8 +15,14 @@
 #include "CCore.h"
 #include "CDebug.h"
 #include "CTile.h"
+
 CGTA_PoliceCar::CGTA_PoliceCar(E_GroupType e_GroupType) :
 	CGTA_Vehicle(e_GroupType)
+{
+}
+
+CGTA_PoliceCar::CGTA_PoliceCar(const CGTA_PoliceCar& _origin) :
+	CGTA_Vehicle(_origin)
 {
 }
 
@@ -43,7 +49,6 @@ void CGTA_PoliceCar::Init()
 	SetScale(Vector3(GetScale().x * 0.5f, GetScale().y * 0.5f, 0.0f));
 
 	CColliderRect* pColRect = new CColliderRect(this);
-	//pColRect->SetScale(Vector3(GetScale().x * 0.5f, GetScale().y * 0.5f, 0.f));
 	pColRect->SetScale(Vector3(GetScale().x , GetScale().y, 0.f));
 	__super::Init();
 }

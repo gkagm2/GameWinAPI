@@ -1,6 +1,5 @@
 #pragma once
 #include "CObject.h"
-class CGTA_Vehicle;
 
 enum class ECharacterState {
 	idle,
@@ -28,14 +27,15 @@ enum class ECitizenState {
 	trace
 };
 
-class CColliderRect;
+class CGTA_Vehicle;
+class CGTA_PunchDetector;
 class CGTA_Character : public CObject
 {
 private:
 	CGTA_Vehicle* m_pVehicle;
 	Vector3 m_vNozzlePos;
 
-
+	CGTA_PunchDetector* m_pPunchDetector;
 
 public:
 	virtual void Init() override;

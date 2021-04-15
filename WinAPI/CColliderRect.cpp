@@ -11,6 +11,7 @@
 
 #include "CDebug.h"
 
+
 CColliderRect::CColliderRect(CObject* _pOwnerObject) :
     CCollider(_pOwnerObject),
     m_vOffsetMinPosition{},
@@ -31,6 +32,14 @@ CColliderRect::CColliderRect(CObject* _pOwnerObject) :
     }
 }
 
+CColliderRect::CColliderRect(const CColliderRect& _origin) :
+    CCollider(_origin),
+    m_vOffsetMinPosition{_origin.m_vOffsetMinPosition},
+    m_vOffsetMaxPosition{ _origin.m_vOffsetMaxPosition},
+    m_vScale{ _origin.m_vScale }
+{
+}
+
 CColliderRect::~CColliderRect()
 {
 }
@@ -43,6 +52,11 @@ void CColliderRect::Render(HDC _hDC)
     // viewport coordinate
     Vector3 vMin = MainCamera->GetRenderPosition(GetMinPos());
     Vector3 vMax = MainCamera->GetRenderPosition(GetMaxPos());
+    wstring objName = GetOwnerObject()->GetObjectName();
+
+    if (objName.compare(L"Citizen_copy") == 0) {
+        int a = 3;
+    }
 
     HPEN hPen = nullptr;
     if (IsHit())

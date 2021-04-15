@@ -14,6 +14,12 @@ public:
     float GetRadius() const { return m_fRadius; }
     
 public:
+    virtual CLONE(CColliderCircle); // override
+
+public:
+    CColliderCircle(const CColliderCircle& _origin);
+
+public:
     CColliderCircle() = delete;
     CColliderCircle(CObject* _pOwnerObject);
     virtual ~CColliderCircle() override;

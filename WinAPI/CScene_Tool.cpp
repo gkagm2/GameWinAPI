@@ -77,7 +77,6 @@ void CScene_Tool::Start()
 	pPoliceCar->Init();
 	AddObject(pPoliceCar);
 
-
 	// 툴 전용 카메라 생성
 	CCamera_Tool* pCamera = new CCamera_Tool(E_GroupType::MAIN_CAMERA);
 	pCamera->SetMainCamera();
@@ -119,6 +118,12 @@ void CScene_Tool::Update()
 	CScene::Update();
 	if (InputKeyPress(E_Key::F4))
 		CSceneManager::GetInstance()->ChangeScene(E_SceneType::GTA_IN);
+
+	if (InputKeyPress(E_Key::Ctrl)) {
+		auto player = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::VEHICLE);
+		if (player.size())
+			DestroyObject(player[0]);
+	}
 }
 
 void CScene_Tool::End()

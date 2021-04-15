@@ -25,6 +25,12 @@ public:
 	virtual void OnCollisionStay(CCollider* _pOther);
 
 public:
+	virtual CLONE(CColliderRect); // override
+
+public:
+	CColliderRect(const CColliderRect& _origin);
+
+public:
 	CColliderRect() = delete;
 	CColliderRect(CObject* _pOwnerObject);
 	virtual ~CColliderRect() override;

@@ -36,6 +36,7 @@ void CGTA_Weapon::ChangePrevWeapon()
 			m_eCurWeaponType = (E_WeaponType)iPrevWeaponIdx;
 			break;
 		}
+		--iPrevWeaponIdx;
 	}
 }
 

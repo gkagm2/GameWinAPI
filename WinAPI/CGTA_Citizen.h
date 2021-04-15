@@ -23,7 +23,6 @@ public:
 
 public:
 	CLONE(CGTA_Citizen);
-	CGTA_Citizen(const CGTA_Citizen& _other);
 
 public:
 	CGTA_Citizen() = delete;

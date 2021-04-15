@@ -5,6 +5,8 @@
 #include "CCamera.h"
 #include "CCore.h"
 
+
+
 CColliderCircle::CColliderCircle(CObject* _pOwnerObject) :
     CCollider(_pOwnerObject),
     m_fRadius(3.0f)
@@ -12,6 +14,12 @@ CColliderCircle::CColliderCircle(CObject* _pOwnerObject) :
     Vector3 vGap = (_pOwnerObject->GetMax() - _pOwnerObject->GetMin()) * 0.5f;
     float radius = vGap.x > vGap.y ? vGap.x : vGap.y;
     SetRadius(radius);
+}
+
+CColliderCircle::CColliderCircle(const CColliderCircle& _origin) :
+    CCollider(_origin),
+    m_fRadius(_origin.m_fRadius)
+{
 }
 
 CColliderCircle::~CColliderCircle()

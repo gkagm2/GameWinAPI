@@ -12,26 +12,34 @@
 #include "CTimeManager.h"
 #include "CCamera.h"
 #include "CObject.h"
+#include "CGTA_PunchDetector.h"
 
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
+	m_vNozzlePos(GetUpVector() * 5.f),
 	m_pVehicle(nullptr),
-	m_vNozzlePos(GetUpVector() * 5.f)
+	m_pPunchDetector(nullptr)
 {
 }
 CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	CObject(_origin),
 	m_pVehicle(nullptr),
-	m_vNozzlePos(GetUpVector() * 5.f)
+	m_vNozzlePos(GetUpVector() * 5.f),
+	m_pPunchDetector(nullptr)
 {
+	m_pPunchDetector = _origin.m_pPunchDetector->Clone();
 }
 
 CGTA_Character::~CGTA_Character()
 {
+	if (nullptr != m_pPunchDetector)
+		delete m_pPunchDetector;
 }
 	
 void CGTA_Character::Init()
 {
+	m_pPunchDetector = new CGTA_PunchDetector(E_GroupType::PROJECTILE);
+	CreateObject(m_pPunchDetector);
 	CObject::Init();
 }
 
