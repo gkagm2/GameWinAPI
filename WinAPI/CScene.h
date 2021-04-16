@@ -26,7 +26,11 @@ public: // Tile map
 	CTileMap* GetTileMap() { return m_pTileMap; }
 	void LoadTile(wstring _strRelativePath);
 	void LoadTileDialogBox(wstring _strPath);
-	void LoadAll(wstring _strPath);
+
+	void LoadItem(wstring _strRelativePath);
+	void LoadItemDialogBox(wstring _strPath);
+
+	void LoadAll();
 
 public:
 	virtual void Start() = 0;

@@ -45,6 +45,18 @@
 #define ID_FILE_SAVE                    32791
 #define ID_FILE_LOAD                    32792
 #define ID_TILE_TILETOOL                32793
+#define ID_CHARACTER_ITEM32794          32794
+#define ID_ITEM_SAVE32795               32795
+#define ID_ITEM_LOAD32796               32796
+#define ID_CHARACTERTOOL_SAVE           32797
+#define ID_CHARACTERTOOL_LOAD           32798
+#define ID_OBJECT_VEHICLE               32799
+#define ID_VEHICLE_SAVE                 32800
+#define ID_VEHICLE_LOAD                 32801
+#define ID_OBJECT_TILE                  32802
+#define ID_TILE_SAVE32803               32803
+#define ID_TILE_LOAD32804               32804
+#define ID_TILE_CREATE32805             32805
 #define IDC_STATIC                      -1
 
 // Next default values for new objects
@@ -53,7 +65,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        135
-#define _APS_NEXT_COMMAND_VALUE         32794
+#define _APS_NEXT_COMMAND_VALUE         32806
 #define _APS_NEXT_CONTROL_VALUE         1013
 #define _APS_NEXT_SYMED_VALUE           110
 #endif

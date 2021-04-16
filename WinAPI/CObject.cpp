@@ -32,12 +32,34 @@ CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 {
 }
 
-void CObject::Save()
+void CObject::Save(FILE* _pFile)
 {
+	fwrite(&m_vPosition, sizeof(Vector3), 1, _pFile);
+	fwrite(&m_vScale, sizeof(Vector3), 1, _pFile);
+	for (int i = 0; i < 3; ++i)
+		fwrite(&m_vRectPoint[i], sizeof(Vector3), 1, _pFile);
+	for (int i = 0; i < 3; ++i)
+		fwrite(&m_vRPDir[i], sizeof(Vector3), 1, _pFile);
+
+	SaveWString(m_strName, _pFile);
+	fwrite(&m_bIsDead, sizeof(bool), 1, _pFile);
+	fwrite(&m_bIsRender, sizeof(bool), 1, _pFile);
+	fwrite(&m_bIsActive, sizeof(bool), 1, _pFile);
 }
 
-void CObject::Load()
+void CObject::Load(FILE* _pFile)
 {
+	fread(&m_vPosition, sizeof(Vector3), 1, _pFile);
+	fread(&m_vScale, sizeof(Vector3), 1, _pFile);
+	for (int i = 0; i < 3; ++i)
+		fread(&m_vRectPoint[i], sizeof(Vector3), 1, _pFile);
+	for (int i = 0; i < 3; ++i)
+		fread(&m_vRPDir[i], sizeof(Vector3), 1, _pFile);
+
+	LoadWString(m_strName, _pFile);
+	fread(&m_bIsDead, sizeof(bool), 1, _pFile);
+	fread(&m_bIsRender, sizeof(bool), 1, _pFile);
+	fread(&m_bIsActive, sizeof(bool), 1, _pFile);
 }
 
 CObject::CObject(const CObject& _origin) :

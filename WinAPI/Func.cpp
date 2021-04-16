@@ -61,13 +61,15 @@ void MenuContainer(WPARAM _wmId)
 		CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(CSceneManager::GetInstance()->GetCurScene());
 		assert(pToolScene);
 		pToolScene->LoadTile(STR_FILE_PATH_Tile_Save);
-		pToolScene->LoadAll(STR_FILE_PATH_MetaData);
+		pToolScene->LoadAll();
 	}
 		break;
 
 	case ID_TILE_CREATE:
 		DialogBox(nullptr, MAKEINTRESOURCE(IDD_CREATE_TILE_DIALOG), hWnd, CreateTileProc);
 		break;
+
+	// TILE // 
 	case ID_TILE_LOAD:
 	{
 		OPENFILENAME ofn;
@@ -85,7 +87,7 @@ void MenuContainer(WPARAM _wmId)
 			assert(pToolScene);
 			pToolScene->LoadTileDialogBox(ofn.lpstrFile);
 
-			wchar_t str[255] = L"File Load";
+			wchar_t str[255] = L"Tile File Load";
 			MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Load", MB_OK);
 		}
 	}
@@ -107,12 +109,59 @@ void MenuContainer(WPARAM _wmId)
 			assert(pToolScene);
 			pToolScene->SaveTile(ofn.lpstrFile);
 
-			wchar_t str[255] = L"File Save";
+			wchar_t str[255] = L"Tile File Save";
 			MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Save", MB_OK);
+		}
+		break;
+	}
+
+	// ITEM //
+	case ID_ITEM_LOAD: 
+	{
+		OPENFILENAME ofn;
+		wchar_t strMaxPath[MAX_PATH] = L"";
+		memset(&ofn, 0, sizeof(OPENFILENAME));
+		ofn.lStructSize = sizeof(OPENFILENAME);
+		ofn.hwndOwner = CCore::GetInstance()->GetWndHandle();
+		ofn.lpstrFilter = L"葛电颇老(*.*)\0*.*\0*";
+		ofn.lpstrFile = strMaxPath;
+		ofn.nMaxFile = MAX_PATH;
+
+
+		if (0 != GetOpenFileName(&ofn)) {
+			CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(CSceneManager::GetInstance()->GetCurScene());
+			assert(pToolScene);
+			pToolScene->LoadItemDialogBox(ofn.lpstrFile);
+
+			wchar_t str[255] = L"Item File Load";
+			MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Load", MB_OK);
 		}
 	}
 		break;
+	case ID_ITEM_SAVE: 
+	{
+		OPENFILENAME ofn;
+		wchar_t strMaxPath[MAX_PATH] = L"";
+		memset(&ofn, 0, sizeof(OPENFILENAME));
+		ofn.lStructSize = sizeof(OPENFILENAME);
+		ofn.hwndOwner = CCore::GetInstance()->GetWndHandle();
+		ofn.lpstrFilter = L"葛电颇老(*.*)\0*.*\0*";
+		ofn.lpstrFile = strMaxPath;
+		ofn.nMaxFile = MAX_PATH;
+
+		if (0 != GetSaveFileName(&ofn)) {
+			CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(CSceneManager::GetInstance()->GetCurScene());
+			assert(pToolScene);
+			pToolScene->SaveItem(ofn.lpstrFile);
+
+			wchar_t str[255] = L"Item File Save";
+			MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Save", MB_OK);
+		}
+		break;
+	}
+		
 	case ID_CHARACTER_TOOL:
+	{
 		// Modeless dialog
 		if (!IsWindow(hWndTool)) {
 			hWndTool = CreateDialog(nullptr, MAKEINTRESOURCE(IDD_CHACTER_TOOL), hWnd, CharacterTool);
@@ -122,7 +171,8 @@ void MenuContainer(WPARAM _wmId)
 			SetFocus(hWndTool);
 		InvalidateRect(hWndTool, nullptr, true);
 		break;
-		
+	}
+
 	default:
 		break;
 	}

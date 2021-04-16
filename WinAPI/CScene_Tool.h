@@ -13,9 +13,8 @@ public:
 
 public:
 
-
 	void SaveTile(wstring _strPath);
-
+	void SaveItem(wstring _strPath);
 
 public:
 	CScene_Tool();

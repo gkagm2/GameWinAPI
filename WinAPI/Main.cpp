@@ -144,6 +144,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         case ID_TILE_LOAD:
             MenuContainer(wmId);
             break;
+        case ID_ITEM_SAVE:
+        case ID_ITEM_LOAD:
+            MenuContainer(wmId);
+            break;
         case ID_CHARACTER_TOOL:
             MenuContainer(wmId);
             break;

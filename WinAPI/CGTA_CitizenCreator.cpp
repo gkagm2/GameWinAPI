@@ -72,10 +72,10 @@ void CGTA_CitizenCreator::Update()
 		Vector3 vLeftTopWorldPos = m_pCamera->GetScreenToWorldPosition(Vector3(0.f, 0.f, 0.f));
 		Vector3 vRightBottomWorldPos = m_pCamera->GetScreenToWorldPosition(Vector3((float)iResolution.x, (float)iResolution.y, 0));
 
-		int iCamLTCol = vLeftTopWorldPos.x / TILE_SIZE;
-		int iCamLTRow = vLeftTopWorldPos.y / TILE_SIZE;
-		int iCamRBCol = vRightBottomWorldPos.x / TILE_SIZE;
-		int iCamRBRow = vRightBottomWorldPos.y / TILE_SIZE;
+		int iCamLTCol = (int)(vLeftTopWorldPos.x / TILE_SIZE);
+		int iCamLTRow = (int)(vLeftTopWorldPos.y / TILE_SIZE);
+		int iCamRBCol = (int)(vRightBottomWorldPos.x / TILE_SIZE);
+		int iCamRBRow = (int)(vRightBottomWorldPos.y / TILE_SIZE);
 
 		int iLTCol;
 		int iLTRow;
@@ -130,8 +130,8 @@ void CGTA_CitizenCreator::Update()
 
 		auto iter = vecCitizen.begin();
 		for (iter; iter != vecCitizen.end(); ++iter) {
-			int iRow = (*iter)->PosY() / TILE_SIZE;
-			int iCol = (*iter)->PosX() / TILE_SIZE;
+			int iRow = int((*iter)->PosY() / TILE_SIZE);
+			int iCol = int((*iter)->PosX() / TILE_SIZE);
 			// 영역 밖이면 해제한다.
 			if (iRow < iLTRow || iCol < iLTCol || iRow > iRBRow || iCol > iRBCol) {
 				if ((*iter)->IsActive()) {

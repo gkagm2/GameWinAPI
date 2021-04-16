@@ -110,8 +110,8 @@ public:
 	float ScaleZ() const { return m_vScale.z; }
 
 public:
-	void Save();
-	void Load();
+	virtual void Save(FILE* _pFile);
+	virtual void Load(FILE* _pFile);
 
 public:
 	virtual CObject* Clone() = 0;

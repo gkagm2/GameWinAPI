@@ -17,6 +17,9 @@ public:
 
 	virtual void OnCollisionEnter(CObject* _pOther) override;
 
+	virtual void Save(FILE* _pFile) override;
+	virtual void Load(FILE* _pFile) override;
+
 public:
 	//Texture 
 	void SetLT(const Vector2& _vLT) { m_vLT = _vLT; }

@@ -34,6 +34,7 @@
 #include "CDragScreen.h"
 
 #include "CDebug.h"
+#include "CGTA_Item.h"
 
 
 CScene_Tool::CScene_Tool() :
@@ -105,8 +106,37 @@ void CScene_Tool::Start()
 	// Player setting 모드는 Player의 위치를 조작할 수 있다.
 	// Citizen setting 모드는 Citizen의 랜덤 생성 위치를 조작할 수 있다.
 
+	//CGTA_Item* pItem = new CGTA_Item(E_GroupType::ITEM);
+	//pItem->Init();
+	//pItem->SetLT(Vector2(0, 0));
+	//pItem->SetItemType(E_ItemType::PISTOL);
+	//pItem->SetObjectName(STR_NAME_Pistol);
+	//pItem->SetPosition(0, 200, 0);
+	//AddObject(pItem);
 
-	
+	//CGTA_Item* pItem2 = pItem->Clone();
+	//pItem2->Init();
+	//pItem2->SetLT(Vector2(40, 0));
+	//pItem2->SetItemType(E_ItemType::ROCKET_LAUNCHER);
+	//pItem2->SetObjectName(STR_NAME_RocketLauncher);
+	//pItem2->SetPosition(50, 200, 0);
+	//AddObject(pItem2);
+
+	//CGTA_Item* pItem3 = pItem->Clone();
+	//pItem3->Init();
+	//pItem3->SetLT(Vector2(80, 0));
+	//pItem3->SetItemType(E_ItemType::SHOTGUN);
+	//pItem3->SetObjectName(STR_NAME_Shotgun);
+	//pItem3->SetPosition(100, 200, 0);
+	//AddObject(pItem3);
+
+	//CGTA_Item* pItem4 = pItem->Clone();
+	//pItem4->Init();
+	//pItem4->SetLT(Vector2(120, 0));
+	//pItem4->SetItemType(E_ItemType::SUBMACHINE_GUN);
+	//pItem4->SetObjectName(STR_NAME_SubmachineGun);
+	//pItem4->SetPosition(150, 200, 0);
+	//AddObject(pItem4);
 
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::TILE, true);
@@ -154,6 +184,31 @@ void CScene_Tool::SaveTile(wstring _strPath)
 		CTile* pTile = dynamic_cast<CTile*>(vecTiles[i]);
 		if (pTile)
 			pTile->Save(pFile);
+	}
+
+	fclose(pFile);
+}
+
+void CScene_Tool::SaveItem(wstring _strPath)
+{
+	vector<CObject*>& vecItems = GetObjects(E_GroupType::ITEM);
+	//wstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strPath;
+	wstring strFilePath = _strPath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+	if (nullptr == pFile) {
+		assert(pFile);
+		return;
+	}
+
+	int iCnt = vecItems.size();
+	fwrite(&iCnt, sizeof(int), 1, pFile);
+
+	for (UINT i = 0; i < vecItems.size(); ++i) {
+		CGTA_Item* pItem = dynamic_cast<CGTA_Item*>(vecItems[i]);
+		if (pItem)
+			pItem->Save(pFile);
 	}
 
 	fclose(pFile);
