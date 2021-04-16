@@ -26,7 +26,6 @@ CGTA_CitizenCreator::CGTA_CitizenCreator(E_GroupType e_GroupType) :
 	m_fDeleteCoolTime(0.f),
 	m_fMaxDeleteCoolTime(3.f)
 {
-
 }
 
 CGTA_CitizenCreator::~CGTA_CitizenCreator()
@@ -38,12 +37,22 @@ CGTA_CitizenCreator::~CGTA_CitizenCreator()
 void CGTA_CitizenCreator::Init()
 {
 	m_pCitizenObjPrefab = new  CGTA_Citizen(E_GroupType::CITIZEN);
+	m_pCitizenObjPrefab->SetObjectName(L"Citizen");
 	m_pCitizenObjPrefab->Init();
-	m_pCitizenObjPrefab->SetActive(false);
+
+	// TODO : 오브젝트 풀링 방식으로 바꾸는중
+	for (int i = 0; i < m_imaxCitizenCnt; ++i) {
+		CGTA_Citizen* pCitizen = m_pCitizenObjPrefab->Clone();
+		pCitizen->SetActive(false);
+		CreateObject(pCitizen);
+	}
 }
 
 void CGTA_CitizenCreator::Update()
 {
+	// TODO : 오브젝트 풀링 방식으로 바꾸기
+
+
 	// 주기적으로 생성
 	m_fCreateCoolTime += DeltaTime;
 	if (m_fCreateCoolTime >= m_fMaxCreateCoolTime) {
@@ -93,6 +102,7 @@ void CGTA_CitizenCreator::Update()
 
 					// 시민 위치 설정.
 					Vector3 vRespawnPos = { iCol * TILE_SIZE + TILE_SIZE * 0.5f, iRow * TILE_SIZE + TILE_SIZE * 0.5f, 0.f };
+
 					m_pClone->SetPosition(vRespawnPos);
 					CreateObject(m_pClone);
 					CCollider* pcol = m_pClone->GetCollider();
@@ -107,7 +117,6 @@ void CGTA_CitizenCreator::Update()
 		m_fCreateCoolTime = 0.f;
 	}
 
-
 	// 주기적으로 해제
 	m_fDeleteCoolTime += DeltaTime;
 	if (m_fDeleteCoolTime >= m_fMaxDeleteCoolTime) {
@@ -118,19 +127,21 @@ void CGTA_CitizenCreator::Update()
 		GetEnableCreateArea(iLTCol, iLTRow, iRBCol, iRBRow);
 
 		vector<CObject*>& vecCitizen = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::CITIZEN);
-		for (int i = 0; i < vecCitizen.size(); ++i) {
-			int iRow = vecCitizen[i]->PosY() / TILE_SIZE;
-			int iCol = vecCitizen[i]->PosX() / TILE_SIZE;
+
+		auto iter = vecCitizen.begin();
+		for (iter; iter != vecCitizen.end(); ++iter) {
+			int iRow = (*iter)->PosY() / TILE_SIZE;
+			int iCol = (*iter)->PosX() / TILE_SIZE;
 			// 영역 밖이면 해제한다.
 			if (iRow < iLTRow || iCol < iLTCol || iRow > iRBRow || iCol > iRBCol) {
-				if (vecCitizen[i]->IsActive()) {
-					DestroyObject(vecCitizen[i]);
+				if ((*iter)->IsActive()) {
+					DestroyObject((*iter));
 					--m_iCurCitizenCnt;
 				}
 			}
 		}
+		m_fDeleteCoolTime = 0.f;
 	}
-	m_fDeleteCoolTime = 0.f;
 }
 
 

@@ -39,7 +39,6 @@ CGTA_Character::~CGTA_Character()
 void CGTA_Character::Init()
 {
 	m_pPunchDetector = new CGTA_PunchDetector(E_GroupType::PROJECTILE);
-	CreateObject(m_pPunchDetector);
 	CObject::Init();
 }
 

@@ -36,6 +36,7 @@ void CScene::AddObject(CObject* _obj)
 void CScene::DeleteObjects(E_GroupType _eType)
 {
 	for (UINT i = 0; i < m_vecObj[(UINT)_eType].size(); ++i) {
+		UINT j = i;
 		assert(nullptr != m_vecObj[(UINT)_eType][i]);
 		delete m_vecObj[(UINT)_eType][i];
 	}
@@ -122,6 +123,10 @@ void CScene::Render(HDC _hDC)
 		}
 		vector<CObject*>::iterator iter = m_vecObj[i].begin();
 		while (iter != m_vecObj[i].end()) {
+			if (nullptr == (*iter)) {
+				iter = m_vecObj[i].erase(iter);
+				continue;
+			}
 			if (!(*iter)->IsActive()) {
 				++iter;
 				continue;

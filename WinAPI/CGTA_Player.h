@@ -10,7 +10,6 @@ class CGTA_Player : public CGTA_Character
 private:
 	bool m_bIsDrive;
 	CGTA_Weapon m_cWeapon;
-	CGTA_Bullet* m_pBulletPref;
 
 	float m_fAttackCoolTime;
 	float m_fAttackMaxCoolTime;

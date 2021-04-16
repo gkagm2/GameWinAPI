@@ -7,6 +7,10 @@ private:
 	float m_fLifeMaxCoolTime;
 	float m_fSpeed;
 
+	// TODO : 파티클 텍스쳐 넣기
+	// Particle (피 튕기기)
+	// Particle (벽, 차, 튕기기)
+
 public:
 	virtual void Init() override;
 	virtual void Update() override;

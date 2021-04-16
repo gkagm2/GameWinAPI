@@ -19,18 +19,12 @@ CGTA_Player::CGTA_Player(E_GroupType _eGroupType) :
 	m_cWeapon{},
 	m_bIsDrive(false),
 	m_fAttackCoolTime(0.f),
-	m_fAttackMaxCoolTime(0.f),
-	m_pBulletPref(nullptr)
+	m_fAttackMaxCoolTime(0.f)
 {
-	m_pBulletPref = new CGTA_Bullet(E_GroupType::PROJECTILE);
-	m_pBulletPref->Init();
-	m_pBulletPref->SetActive(false);
 }
 
 CGTA_Player::~CGTA_Player()
 {
-	if (nullptr != m_pBulletPref)
-		delete m_pBulletPref;
 }
 
 void CGTA_Player::Init()
@@ -75,6 +69,7 @@ void CGTA_Player::Init()
 
 	SetPosition(0, 0, 0);
 
+	
 	CGTA_Character::Init();
 }
 
@@ -177,9 +172,9 @@ void CGTA_Player::Attack()
 	} 
 	else {	
 		// 총알 오브젝트 생성.
-		CGTA_Bullet* pBullet = m_pBulletPref->Clone();
+		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
+		pBullet->Init();
 		pBullet->SetPosition(GetPosition() + GetNozzlePosition()); // 노즐 위치로 옮긴다.
-		pBullet->SetActive(true);
 		pBullet->SetUpVector(GetUpVector(), GetRPDir(), GetRectPoint()); // 방향 설정
 		CreateObject(pBullet);
 

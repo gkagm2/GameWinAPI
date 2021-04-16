@@ -51,7 +51,7 @@ void CGTA_Bullet::Update()
 {
 	m_fLifeCoolTime += DeltaTime;
 	if (m_fLifeCoolTime >= m_fLifeMaxCoolTime)
-		DeleteObject(this);
+		DestroyObject(this);
 
 	Vector3 vHeadDir = GetUpVector();
 	SetPosition(GetPosition() +vHeadDir * DeltaTime * m_fSpeed);

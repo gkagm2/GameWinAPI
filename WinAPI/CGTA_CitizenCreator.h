@@ -29,6 +29,7 @@ public:
 
 public:
 	void GetEnableCreateArea(int& _iLTCol, int& _iLTRow, int& _iRBCol, int& _iRBRow);
+
 public:
 	CLONE(CGTA_CitizenCreator);
 

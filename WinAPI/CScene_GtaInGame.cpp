@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "stdafx.h"7
 #include "CScene_GtaInGame.h"
 
 #include "CResourceManager.h"
@@ -23,8 +23,6 @@
 #include "CGTA_Player.h"
 #include "CGTA_CitizenCreator.h"
 
-#include "CGTA_Bullet.h"
-
 CScene_GtaInGame::CScene_GtaInGame()
 {
 }
@@ -35,13 +33,19 @@ CScene_GtaInGame::~CScene_GtaInGame()
 
 void CScene_GtaInGame::Start()
 {
-	// 플레이어 추가
+	// 타일맵 Load
+	m_pTileMap = new CTileMap(E_GroupType::TILEMAP);
+	LoadTile(STR_FILE_PATH_GTA_TILES_Save);
+	AddObject(m_pTileMap);
+
+	//// 플레이어 추가
 	CGTA_Player* pPlayer = new CGTA_Player(E_GroupType::PLAYER);
 	pPlayer->Init();
 	pPlayer->SetPosition(800, 800, 0);
 	AddObject(pPlayer);
 
-	// Camera 추가
+
+	////// Camera 추가
 	CCamera2D* pCamera = new CCamera2D(E_GroupType::MAIN_CAMERA);
 	pCamera->Init();
 	pCamera->SetMainCamera();
@@ -63,20 +67,6 @@ void CScene_GtaInGame::Start()
 	AddObject((CObject*)pCitizenCreator);
 
 	// 수배 시스템
-	//
-	
-
-	CGTA_Bullet* pbu = new CGTA_Bullet(E_GroupType::PROJECTILE);
-	pbu->SetPosition(0, 0, 0);
-	pbu->Init();
-	AddObject(pbu);
-	
-
-
-	// 타일맵 Load
-	m_pTileMap = new CTileMap(E_GroupType::TILEMAP);
-	LoadTile(STR_FILE_PATH_GTA_TILES_Save);
-	AddObject(m_pTileMap);
 	
 	// UI 추가
 
@@ -84,7 +74,6 @@ void CScene_GtaInGame::Start()
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::PLAYER, E_GroupType::CITIZEN, true);
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::PLAYER, E_GroupType::VEHICLE, true);
-	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::PLAYER, E_GroupType::PROJECTILE, true);
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::PLAYER, E_GroupType::PROJECTILE, true);
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::PLAYER, E_GroupType::TILE, true);
 
@@ -98,7 +87,6 @@ void CScene_GtaInGame::PrevUpdate()
 {
 	CScene::PrevUpdate();
 }
-
 
 void CScene_GtaInGame::Update()
 {
