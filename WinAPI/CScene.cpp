@@ -412,7 +412,7 @@ void CScene::LoadAll()
 	// load vehicle data
 
 	// load item data
-	LoadItem(strFilePath + STR_FILE_PATH_Item_Save);
+	LoadItem(strFilePath + STR_FILE_PATH_GTA_Item_Save);
 
 	// load Save data
 }

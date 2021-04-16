@@ -54,10 +54,10 @@
 // GTA Game //
 
 // Data
-#define STR_FILE_PATH_PlayerAnim_Save L"Data\\AnimFile\\Player.anim"
-#define STR_FILE_PATH_Tile_Save L"Data\\TileFile\\Tile.tile"
-#define STR_FILE_PATH_Vehicle_Save L"Data\\Objects\\Vehicle.vehicle"
-#define STR_FILE_PATH_Item_Save L"Data\\Objects\\Item.item"
+#define STR_FILE_PATH_GTA_PlayerAnim_Save L"Data\\AnimFile\\Player.anim"
+#define STR_FILE_PATH_GTA_Tile_Save L"Data\\TileFile\\Tile.tile"
+#define STR_FILE_PATH_GTA_Vehicle_Save L"Data\\Objects\\Vehicle.vehicle"
+#define STR_FILE_PATH_GTA_Item_Save L"Data\\Objects\\Item.item"
 
 #define STR_FILE_PATH_GTA_TILES_Save L"Data\\TileFile\\GTA.tile"
 

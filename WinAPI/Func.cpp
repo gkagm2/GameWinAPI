@@ -60,7 +60,7 @@ void MenuContainer(WPARAM _wmId)
 	{
 		CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(CSceneManager::GetInstance()->GetCurScene());
 		assert(pToolScene);
-		pToolScene->LoadTile(STR_FILE_PATH_Tile_Save);
+		pToolScene->LoadTile(STR_FILE_PATH_GTA_Tile_Save);
 		pToolScene->LoadAll();
 	}
 		break;

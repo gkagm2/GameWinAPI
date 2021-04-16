@@ -71,7 +71,7 @@ void CScene_Start::Start()
 	pPlayerAnimator->PlayAnimation(L"IDLE_DOWN", E_AnimationPlayType::LOOP);
 	pPlayerAnimator->Save(STR_FILE_PATH_PlayerAnim_Save);*/
 
-	pPlayerAnimator->Load(STR_FILE_PATH_PlayerAnim_Save);
+	pPlayerAnimator->Load(STR_FILE_PATH_GTA_PlayerAnim_Save);
 	pPlayerAnimator->PlayAnimation(L"WALK_UP", E_AnimationPlayType::LOOP);
 
 	float fAnimTextureWidth = pPlayer->GetAnimator()->GetAnimation(L"IDLE_DOWN")->GetFrame(0).vSlice.x;

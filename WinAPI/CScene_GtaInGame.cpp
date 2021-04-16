@@ -72,33 +72,8 @@ void CScene_GtaInGame::Start()
 	// TODO : Item 구현, Item 매니저 구현
 	// Item 설정.
 	// item 정보 save, load 만들기
-	CGTA_Item* pItem = new CGTA_Item(E_GroupType::ITEM);
-	pItem->Init();
-	pItem->SetLT(Vector2(0, 0));
-	pItem->SetItemType(E_ItemType::PISTOL);
-	pItem->SetObjectName(STR_NAME_Pistol);
-	AddObject(pItem);
-
-	CGTA_Item* pItem2 = pItem->Clone();
-	pItem2->Init();
-	pItem2->SetLT(Vector2(40, 0));
-	pItem2->SetItemType(E_ItemType::ROCKET_LAUNCHER);
-	pItem2->SetObjectName(STR_NAME_RocketLauncher);
-	AddObject(pItem2);
-
-	CGTA_Item* pItem3 = pItem->Clone();
-	pItem3->Init();
-	pItem3->SetLT(Vector2(80, 0));
-	pItem3->SetItemType(E_ItemType::SHOTGUN);
-	pItem3->SetObjectName(STR_NAME_Shotgun);
-	AddObject(pItem3);
-
-	CGTA_Item* pItem4 = pItem->Clone();
-	pItem4->Init();
-	pItem4->SetLT(Vector2(120, 0));
-	pItem4->SetItemType(E_ItemType::SUBMACHINE_GUN);
-	pItem4->SetObjectName(STR_NAME_SubmachineGun);
-	AddObject(pItem4);
+	LoadItem(STR_FILE_PATH_GTA_Item_Save);
+	
 
 	// 수배 시스템
 	
