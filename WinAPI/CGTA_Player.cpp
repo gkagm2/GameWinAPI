@@ -68,7 +68,6 @@ void CGTA_Player::Init()
 	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
 
 	SetPosition(0, 0, 0);
-
 	
 	CGTA_Character::Init();
 }

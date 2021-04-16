@@ -166,6 +166,7 @@
     <ClInclude Include="CGTA_Character.h" />
     <ClInclude Include="CGTA_Citizen.h" />
     <ClInclude Include="CGTA_Cop.h" />
+    <ClInclude Include="CGTA_Item.h" />
     <ClInclude Include="CGTA_Player.h" />
     <ClInclude Include="CGTA_PoliceCar.h" />
     <ClInclude Include="CGTA_PunchDetector.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="CGTA_Character.cpp" />
     <ClCompile Include="CGTA_Citizen.cpp" />
     <ClCompile Include="CGTA_Cop.cpp" />
+    <ClCompile Include="CGTA_Item.cpp" />
     <ClCompile Include="CGTA_Player.cpp" />
     <ClCompile Include="CGTA_PoliceCar.cpp" />
     <ClCompile Include="CGTA_PunchDetector.cpp" />

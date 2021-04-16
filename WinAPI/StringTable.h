@@ -83,6 +83,7 @@
 
 #define STR_FILE_PATH_gta_Bullet L"Texture\\GTA\\Bullet.bmp"
 
+
 // weapon
 #define STR_NAME_Fist L"Punch"
 #define STR_NAME_RocketLauncher L"Rocket Launchar"

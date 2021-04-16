@@ -107,9 +107,6 @@ void CObject::LateUpdate()
 
 void CObject::Render(HDC _hDC)
 {
-	if (false == m_bIsRender)
-		return;
-
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(m_vPosition);
 
 	if (nullptr == m_pTexture) {

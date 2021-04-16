@@ -233,6 +233,9 @@
     <Filter Include="Game\5. Object\Gta_PJ\Character\PunchDetector">
       <UniqueIdentifier>{6fed7e35-ba17-4fea-87fb-d0360b769d79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Item">
+      <UniqueIdentifier>{fb58587b-8415-4312-b732-5520ce070470}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -433,9 +436,6 @@
     <ClInclude Include="CGTA_Citizen.h">
       <Filter>Game\5. Object\Gta_PJ\Character\Citizen</Filter>
     </ClInclude>
-    <ClInclude Include="CGTA_Cop.h">
-      <Filter>Game\5. Object\Gta_PJ\Character\Cop</Filter>
-    </ClInclude>
     <ClInclude Include="CItemToolPanelUI.h">
       <Filter>Game\5. Object\UI\ItemToolPanelUI</Filter>
     </ClInclude>
@@ -453,6 +453,12 @@
     </ClInclude>
     <ClInclude Include="CGTA_PunchDetector.h">
       <Filter>Game\5. Object\Gta_PJ\Character\PunchDetector</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_Item.h">
+      <Filter>Game\5. Object\Gta_PJ\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_Cop.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\Cop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -666,6 +672,9 @@
     </ClCompile>
     <ClCompile Include="CGTA_PunchDetector.cpp">
       <Filter>Game\5. Object\Gta_PJ\Character\PunchDetector</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_Item.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

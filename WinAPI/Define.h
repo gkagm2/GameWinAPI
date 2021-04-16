@@ -72,10 +72,21 @@ enum class E_WeaponType {
 	END,
 };
 
+// Item type
+enum class E_ItemType {
+	ROCKET_LAUNCHER,
+	PISTOL,
+	SUBMACHINE_GUN,
+	SHOTGUN,
+	END,
+};
+
+
 #define EXCEPTION_COLOR_RGB_MAGENTA RGB(255,0,255) // Magenta color
 #define EXCEPTION_COLOR_RGB_BLACK RGB(0,0,0) // Magenta color
 
 #define TILE_SIZE 64
+#define TILE_SIZE_ITEM 40
 
 // Math
 #define PI 3.14159265f
