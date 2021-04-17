@@ -1,18 +1,30 @@
 #include "stdafx.h"
+#include "CCore.h"
+
+#include "CResourceManager.h"
+#include "CCollisionManager.h"
+#include "CKeyManager.h"
+#include "CSceneManager.h"
+#include "CScene.h"
+
+#include "CTexture.h"
+#include "CImageUI.h"
+
 #include "CObjTool.h"
 #include "CDragScreen.h"
 #include "CTileToolPanelUI.h";
-#include "CCore.h"
-#include "CResourceManager.h"
-#include "CTexture.h"
-#include "CImageUI.h"
-#include "CScene.h"
-#include "CSceneManager.h"
-#include "CKeyManager.h"
+
 #include "CUIManager.h"
 #include "CTileMap.h"
 #include "CTile.h"
 #include "CCamera.h"
+
+#include "CColliderCircle.h"
+#include "CColliderRect.h"
+
+// Item
+#include "CGTA_Item.h"
+#include "CGTA_Character.h"
 
 CObjTool::CObjTool(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
@@ -26,8 +38,12 @@ CObjTool::CObjTool(E_GroupType _eGroupType) :
 	startDragIdxY(-1),
 	pTileTexture(nullptr),
 	m_pGroundTileToolUI(nullptr),
-	m_pWallTileToolUI(nullptr)
+	m_pWallTileToolUI(nullptr),
 	// Tile Tool end
+	//Item Tool
+	m_pSelectedObj(nullptr),
+	m_bIsClick(false)
+	// Item Tool end
 {
 }
 
@@ -57,24 +73,16 @@ void CObjTool::PrevUpdate()
 void CObjTool::Update()
 {
 	if (InputKeyPress(E_Key::A)) {
-		m_eToolMode = E_ToolMode::MAP;
-		m_pGroundTileToolUI->SetActive(true);
-		m_pWallTileToolUI->SetActive(true);
+		OpenMapTool();
 	}
 	if (InputKeyPress(E_Key::S)) {
-		m_eToolMode = E_ToolMode::ITEM;
-		m_pGroundTileToolUI->SetActive(false);
-		m_pWallTileToolUI->SetActive(false);
+		OpenItemTool();
 	}
 	if (InputKeyPress(E_Key::D)) {
-		m_eToolMode = E_ToolMode::VEHICLE;
-		m_pGroundTileToolUI->SetActive(false);
-		m_pWallTileToolUI->SetActive(false);
+		OpenVehicleTool();
 	}
 	if (InputKeyPress(E_Key::W)) {
-		m_eToolMode = E_ToolMode::PLAYER;
-		m_pGroundTileToolUI->SetActive(false);
-		m_pWallTileToolUI->SetActive(false);
+		OpenCitizenTool();
 	}
 
 	switch (m_eToolMode) {
@@ -117,6 +125,37 @@ void CObjTool::OnCollisionExit(CObject* _pOther)
 {
 }
 
+
+void CObjTool::OpenMapTool()
+{
+	m_eToolMode = E_ToolMode::MAP;
+	m_pGroundTileToolUI->SetActive(true);
+	m_pWallTileToolUI->SetActive(true);
+	m_pDragScreen->SetDragScreenEnable(true);
+}
+
+void CObjTool::OpenItemTool()
+{
+	m_eToolMode = E_ToolMode::ITEM;
+	m_pGroundTileToolUI->SetActive(false);
+	m_pWallTileToolUI->SetActive(false);
+	m_pSelectedObj = nullptr;
+	m_pDragScreen->SetDragScreenEnable(false);
+}
+
+void CObjTool::OpenVehicleTool()
+{
+	m_eToolMode = E_ToolMode::VEHICLE;
+	m_pGroundTileToolUI->SetActive(false);
+	m_pWallTileToolUI->SetActive(false);
+}
+
+void CObjTool::OpenCitizenTool()
+{
+	m_eToolMode = E_ToolMode::PLAYER;
+	m_pGroundTileToolUI->SetActive(false);
+	m_pWallTileToolUI->SetActive(false);
+}
 
 // Tile
 void CObjTool::InitMapTool()
@@ -199,7 +238,6 @@ bool CObjTool::IsTileClicked(const Vector2& _vClickPos)
 }
 void CObjTool::MouseClick()
 {
-
 	if (InputKeyPress(E_Key::LBUTTON)) {
 		// TODO : UI를 클릭 했을 경우가 타이밍이 안맞는다. UIManager보다 이게 먼저 실행되버림ㄴ
 		// 포커스된 UI의 정보를 가져옴
@@ -317,18 +355,124 @@ void CObjTool::InitItemTool()
 	if (nullptr == pItemTex)
 		pItemTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_gta_item, STR_FILE_PATH_gta_item);
 
-	// Item Panel UI  생성.
-	// TODO : Item Tool Panel 생성
-	/*CItemToolPanelUI* pItemToolPanelUI = new CItemToolPanelUI(E_GroupType::UI);
-
-	CreateObject(pItemPanelUI);
-	CObject* pItemObjs;*/
 }
+
 void CObjTool::UpdateItemTool()
 {
+	// 클릭하여 충돌 검사
+	if (InputKeyPress(E_Key::LBUTTON)) {
+		vector<CObject*>& vecObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::ITEM);
+		
+		for (int i = (int)vecObj.size() - 1; i >= 0; --i) {
+			CGTA_Item* pItem = dynamic_cast<CGTA_Item*>(vecObj[i]);
+			if (nullptr == pItem)
+				continue;
+			if (nullptr == pItem->GetCollider())
+				continue;
+			{
+				Vector2 vWorldPos = MainCamera->GetScreenToWorldPosition(MousePosition);
+				if(CCollisionManager::GetInstance()->IsCollision(pItem->GetCollider(), Vector3(vWorldPos.x, vWorldPos.y))) {
+					// 충돌 시 선택된것임
+					m_pSelectedObj = pItem;
+					break;
+				}
+			}
+		}
+	}
+	else if (InputKeyHold(E_Key::LBUTTON)) {
+		if (nullptr != m_pSelectedObj) {
+			Vector2 vMovedPos = MainCamera->GetScreenToWorldPosition(MousePosition);
+			m_pSelectedObj->SetPosition(vMovedPos);
+		}
+	}
+	else if (InputKeyRelease(E_Key::LBUTTON)) {
+		m_pSelectedObj = nullptr;
+	}
+	else if (InputKeyPress(E_Key::RBUTTON)) {
+		vector<CObject*>& vecObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::ITEM);
 
+		for (int i = (int)vecObj.size() - 1; i >= 0; --i) {
+			CGTA_Item* pItem = dynamic_cast<CGTA_Item*>(vecObj[i]);
+			if (nullptr == pItem)
+				continue;
+			if (nullptr == pItem->GetCollider())
+				continue;
+			{
+				Vector2 vWorldPos = MainCamera->GetScreenToWorldPosition(MousePosition);
+				if (CCollisionManager::GetInstance()->IsCollision(pItem->GetCollider(), Vector3(vWorldPos.x, vWorldPos.y))) {
+					DestroyObject(pItem);
+					break;
+				}
+			}
+		}
+	}
 }
 
+void CObjTool::CreateWeaponItem(E_WeaponType _eWeaponType)
+{
+	CGTA_Item* pItem = new CGTA_Item(E_GroupType::ITEM);
+	pItem->Init();
+	pItem->SetItemType(E_ItemType::WEAPON);
+	pItem->SetWeaponType(_eWeaponType);
+
+	switch (pItem->GetItemType()) {
+
+	case E_ItemType::WEAPON:
+	{
+		TWeaponInfo tWeaponInfo;
+		switch (_eWeaponType) {
+		case E_WeaponType::PISTOL: {
+			pItem->SetLT(Vector2(0, 0));
+			pItem->SetWeaponType(E_WeaponType::PISTOL);
+			pItem->SetObjectName(STR_NAME_Pistol);
+			tWeaponInfo.strName = STR_NAME_Pistol;
+			tWeaponInfo.fShootCoolTime = 1.f;
+			tWeaponInfo.iBulletCnt = 30;
+			break;
+		}
+
+		case E_WeaponType::ROCKET_LAUNCHER: {
+			pItem->SetLT(Vector2(40, 0));
+			pItem->SetWeaponType(E_WeaponType::ROCKET_LAUNCHER);
+			pItem->SetObjectName(STR_NAME_RocketLauncher);
+			tWeaponInfo.strName = STR_NAME_RocketLauncher;
+			tWeaponInfo.fShootCoolTime = 2.5f;
+			tWeaponInfo.iBulletCnt = 10;
+			break;
+		}
+
+		case E_WeaponType::SHOTGUN: {
+			pItem->SetLT(Vector2(80, 0));
+			pItem->SetWeaponType(E_WeaponType::SHOTGUN);
+			pItem->SetObjectName(STR_NAME_Shotgun);
+			tWeaponInfo.strName = STR_NAME_Shotgun;
+			tWeaponInfo.fShootCoolTime = 1.7f;
+			tWeaponInfo.iBulletCnt = 20;
+			break;
+		}
+
+		case E_WeaponType::SUBMACHINE_GUN: {
+			pItem->SetLT(Vector2(120, 0));
+			pItem->SetWeaponType(E_WeaponType::SUBMACHINE_GUN);
+			pItem->SetObjectName(STR_NAME_SubmachineGun);
+			tWeaponInfo.strName = STR_NAME_SubmachineGun;
+			tWeaponInfo.fShootCoolTime = 0.3f;
+			tWeaponInfo.iBulletCnt = 300;
+			break;
+		}
+		}
+		pItem->SetWeaponInfo(tWeaponInfo);
+	}
+	break;
+	}
+
+	Vector2 vResolution = CCore::GetInstance()->GetResolution();
+	Vector2 vResolutionCenter = vResolution * 0.5f;
+	Vector2 vCreatePosition = MainCamera->GetScreenToWorldPosition(vResolutionCenter);
+	pItem->SetPosition(vCreatePosition);
+
+	CreateObject(pItem);
+}
 
 // Vehicle
 void CObjTool::InitVehicleTool()

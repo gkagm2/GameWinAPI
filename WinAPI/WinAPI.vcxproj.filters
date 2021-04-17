@@ -224,9 +224,6 @@
     <Filter Include="Game\6. Component\AI\Navi">
       <UniqueIdentifier>{028ada3b-bade-472d-a1b7-5045cd777412}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\5. Object\Gta_PJ\Weapon">
-      <UniqueIdentifier>{9c12837f-e152-4bfe-bafc-dd18d316f388}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\5. Object\Gta_PJ\Bullet">
       <UniqueIdentifier>{f55ffb7c-4837-4051-aa9f-c6025e0afb09}</UniqueIdentifier>
     </Filter>
@@ -235,6 +232,9 @@
     </Filter>
     <Filter Include="Game\5. Object\Gta_PJ\Item">
       <UniqueIdentifier>{fb58587b-8415-4312-b732-5520ce070470}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Tools\ObjTool">
+      <UniqueIdentifier>{4ae18555-9ac5-4769-b985-93297777a2fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -439,14 +439,8 @@
     <ClInclude Include="CItemToolPanelUI.h">
       <Filter>Game\5. Object\UI\ItemToolPanelUI</Filter>
     </ClInclude>
-    <ClInclude Include="CObjTool.h">
-      <Filter>Game\5. Object\Gta_PJ\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="CGTA_CitizenCreator.h">
       <Filter>Game\5. Object\Gta_PJ\Creator</Filter>
-    </ClInclude>
-    <ClInclude Include="CGTA_Weapon.h">
-      <Filter>Game\5. Object\Gta_PJ\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="CGTA_Bullet.h">
       <Filter>Game\5. Object\Gta_PJ\Bullet</Filter>
@@ -459,6 +453,9 @@
     </ClInclude>
     <ClInclude Include="CGTA_Cop.h">
       <Filter>Game\5. Object\Gta_PJ\Character\Cop</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjTool.h">
+      <Filter>Game\5. Object\Gta_PJ\Tools\ObjTool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -658,14 +655,8 @@
     <ClCompile Include="CItemToolPanelUI.cpp">
       <Filter>Game\5. Object\UI\ItemToolPanelUI</Filter>
     </ClCompile>
-    <ClCompile Include="CObjTool.cpp">
-      <Filter>Game\5. Object\Gta_PJ\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="CGTA_CitizenCreator.cpp">
       <Filter>Game\5. Object\Gta_PJ\Creator</Filter>
-    </ClCompile>
-    <ClCompile Include="CGTA_Weapon.cpp">
-      <Filter>Game\5. Object\Gta_PJ\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="CGTA_Bullet.cpp">
       <Filter>Game\5. Object\Gta_PJ\Bullet</Filter>
@@ -675,6 +666,9 @@
     </ClCompile>
     <ClCompile Include="CGTA_Item.cpp">
       <Filter>Game\5. Object\Gta_PJ\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjTool.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Tools\ObjTool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

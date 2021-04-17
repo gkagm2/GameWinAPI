@@ -4,6 +4,7 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CObject.h"
+#include "CCollider.h"
 #include "CAI.h"
 
 CEventManager::CEventManager() {
@@ -63,6 +64,13 @@ void CEventManager::Execute(const tEvent& _event)
 		CAI* pAI = (CAI*)_event.wParam;
 		pAI->ChangeState(*pStrKey);
 		delete pStrKey;
+	}
+		break;
+	case E_EventType::COLLIDER_ACTIVE:
+	{
+		CCollider* pCollider = (CCollider*)_event.lParam;
+		bool isActive = (bool)_event.wParam;
+		pCollider->m_bIsActive = isActive;
 	}
 		break;
 	}

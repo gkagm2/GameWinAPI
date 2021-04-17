@@ -21,7 +21,8 @@ CRigidbody::CRigidbody(CObject* _pTargetObj) :
 	m_bIsFrictionActive(true),
 	m_vGracityAccel(0.0f, 9.80665f, 0.0f),
 	m_bUseGravity(false),
-	m_bIsKinematic(false)
+	m_bIsKinematic(false),
+	m_bIsActive(true)
 {
 	_pTargetObj->SetRigidbody(this);
 }
@@ -39,7 +40,8 @@ CRigidbody::CRigidbody(const CRigidbody& _other) :
 	m_bIsFrictionActive( _other.m_fFriction),
 	m_vGracityAccel{ _other.m_vGracityAccel },
 	m_bUseGravity( _other.m_bUseGravity),
-	m_bIsKinematic( _other.m_bIsKinematic)
+	m_bIsKinematic( _other.m_bIsKinematic),
+	m_bIsActive(_other.m_bIsActive)
 {
 
 }
@@ -50,6 +52,8 @@ CRigidbody::~CRigidbody()
 
 void CRigidbody::PrevUpdate()
 {
+	if (false == m_bIsActive)
+		return;
 	m_vForce.Set(0.f,0.f,0.f);
 }
 
@@ -59,17 +63,18 @@ void CRigidbody::Update()
 		return;
 	if (m_bIsKinematic)
 		return;
+	if (false == m_bIsActive)
+		return;
 }
-
 
 void CRigidbody::LateUpdate()
 {
+	if (false == m_bIsActive)
+		return;
 	if (nullptr == m_pOwnerObject)
 		return;
 	if (m_bIsKinematic)
 		return;
-
-
 
 	m_vAccel = m_vForce / m_fMass; // °¡¼Óµµ
 

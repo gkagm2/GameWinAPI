@@ -24,6 +24,8 @@ private:
 	bool m_bUseGravity; // 중력 사용 플래그
 	bool m_bIsKinematic; // 물리 효과 없애기 플래그
 
+	bool m_bIsActive;
+
 public:
 	CObject* GetOwnerObject() { return m_pOwnerObject; }
 
@@ -54,6 +56,10 @@ public:
 	CLONE(CRigidbody);
 private:
 	CRigidbody(const CRigidbody& _other);
+
+public:
+	bool GetActive() { return m_bIsActive; }
+	void SetActive(bool _bIsActive) { m_bIsActive = _bIsActive; }
 
 public:
 	CRigidbody() = delete;

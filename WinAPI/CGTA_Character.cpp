@@ -16,16 +16,26 @@
 
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
-	m_vNozzlePos(GetUpVector() * 5.f),
 	m_pVehicle(nullptr),
-	m_pPunchDetector(nullptr)
+	m_vNozzlePos(GetUpVector() * 5.f),
+	m_pPunchDetector(nullptr),
+	m_eCurWeaponType(E_WeaponType::FIST)
 {
+	// weapon system
+	int iSize = (int)E_WeaponType::END;
+	m_vecWeapon.resize(iSize, std::make_pair(false, TWeaponInfo{}));
+	m_vecWeapon[(UINT)E_WeaponType::FIST].second.strName = STR_NAME_Fist;
+	m_vecWeapon[(UINT)E_WeaponType::FIST].first = true;
+	m_vecWeapon[(UINT)E_WeaponType::FIST].second.bIsInfinite = true;
+	m_vecWeapon[(UINT)E_WeaponType::FIST].second.fShootCoolTime = 1.f;
 }
+
 CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	CObject(_origin),
 	m_pVehicle(nullptr),
 	m_vNozzlePos(GetUpVector() * 5.f),
-	m_pPunchDetector(nullptr)
+	m_pPunchDetector(nullptr),
+	m_eCurWeaponType(E_WeaponType::FIST)
 {
 	m_pPunchDetector = _origin.m_pPunchDetector->Clone();
 }
@@ -100,4 +110,49 @@ void CGTA_Character::OnCollisionStay(CObject* _pOther)
 
 void CGTA_Character::OnCollisionExit(CObject* _pOther)
 {
+}
+
+void TWeaponInfo::Save(FILE* _pFile)
+{
+	SaveWString(strName, _pFile);
+	fwrite(&fSplashRange, sizeof(float), 1, _pFile);
+	fwrite(&fDamage, sizeof(float), 1, _pFile);
+	fwrite(&iBulletCnt, sizeof(int), 1, _pFile);
+	fwrite(&bSplashDamage, sizeof(bool), 1, _pFile);
+	fwrite(&bIsInfinite, sizeof(bool), 1, _pFile);
+	fwrite(&fShootCoolTime, sizeof(bool), 1, _pFile);
+}
+
+void TWeaponInfo::Load(FILE* _pFile)
+{
+	LoadWString(strName, _pFile);
+	fread(&fSplashRange, sizeof(float), 1, _pFile);
+	fread(&fDamage, sizeof(float), 1, _pFile);
+	fread(&iBulletCnt, sizeof(int), 1, _pFile);
+	fread(&bSplashDamage, sizeof(bool), 1, _pFile);
+	fread(&bIsInfinite, sizeof(bool), 1, _pFile);
+	fread(&fShootCoolTime, sizeof(bool), 1, _pFile);
+}
+
+TWeaponInfo::TWeaponInfo(const TWeaponInfo& _other) :
+	strName(_other.strName),
+	fSplashRange(_other.fSplashRange),
+	fDamage(_other.fDamage),
+	iBulletCnt(_other.iBulletCnt),
+	bSplashDamage(_other.bSplashDamage),
+	bIsInfinite(_other.bIsInfinite),
+	fShootCoolTime(_other.fShootCoolTime)
+{
+}
+
+void TCharacterInfo::Save(FILE* _pFile)
+{
+	fwrite(&fHp, sizeof(float), 1, _pFile);
+	fwrite(&fArmor, sizeof(float), 1, _pFile);
+}
+
+void TCharacterInfo::Load(FILE* _pFile)
+{
+	fread(&fHp, sizeof(float), 1, _pFile);
+	fread(&fArmor, sizeof(float), 1, _pFile);
 }

@@ -26,7 +26,6 @@ private:
 	bool m_bIsRender;			// 렌더링 여부
 	bool m_bIsActive;			// 활성화 여부
 
-
 private:
 	void _SetIsDead(bool _bIsDead) { m_bIsDead = _bIsDead; }
 
@@ -100,7 +99,7 @@ public:
 	bool IsDead() { return m_bIsDead; }
 
 	bool IsActive() { return m_bIsActive; }
-	bool SetActive(bool _bActive) { return m_bIsActive = _bActive; }
+	void SetActive(bool _bIsActive);
 
 	float PosX() const { return m_vPosition.x; }
 	float PosY() const { return m_vPosition.y; }

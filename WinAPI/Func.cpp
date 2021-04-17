@@ -3,6 +3,7 @@
 #include "CEventManager.h"
 #include "CObject.h"
 #include "CCore.h"
+#include "CObjTool.h"
 
 #include "resource.h"
 
@@ -41,11 +42,18 @@ void LoadWString(wstring& _str, FILE* _pFile) {
 #include "CScene.h"
 #include "CScene_Tool.h"
 INT_PTR CALLBACK CreateTileProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK CharacterTool(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
-HWND hWndTool = nullptr;
+INT_PTR CALLBACK CharacterTool(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK ItemTool(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+HWND hWndItemTool = nullptr;
 void MenuContainer(WPARAM _wmId)
 {
 	HWND hWnd = CCore::GetInstance()->GetWndHandle();
+
+	if (hWndItemTool) {
+		CloseWindow(hWndItemTool);
+		//InvalidateRect(hWndItemTool, nullptr, true);
+		hWndItemTool = nullptr;
+	}
 
 	switch (_wmId) {
 	case ID_FILE_SAVE:
@@ -70,6 +78,22 @@ void MenuContainer(WPARAM _wmId)
 		break;
 
 	// TILE // 
+	case ID_TILE_TOOL:
+	{
+		vector<CObject*>& vecObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::PREV);
+		CObjTool* pObjTool = nullptr;
+		for (int i = 0; vecObj.size(); ++i) {
+			pObjTool = dynamic_cast<CObjTool*>(vecObj[i]);
+			if (pObjTool)
+				break;
+		}
+		assert(pObjTool);
+
+		if (nullptr == pObjTool)
+			break;
+		pObjTool->OpenMapTool();
+		break;
+	}
 	case ID_TILE_LOAD:
 	{
 		OPENFILENAME ofn;
@@ -116,6 +140,33 @@ void MenuContainer(WPARAM _wmId)
 	}
 
 	// ITEM //
+	case ID_ITEM_TOOL:
+	{
+		// Modeless dialog
+		if (!IsWindow(hWndItemTool)) {
+			hWndItemTool = CreateDialog(nullptr, MAKEINTRESOURCE(IDD_ITEM_TOOL), hWnd, ItemTool);
+			ShowWindow(hWndItemTool, SW_SHOW);
+		}
+		else
+			SetFocus(hWndItemTool);
+		InvalidateRect(hWndItemTool, nullptr, true);
+
+		vector<CObject*>& vecObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::PREV);
+		CObjTool* pObjTool = nullptr;
+		for (int i = 0; vecObj.size(); ++i) {
+			pObjTool = dynamic_cast<CObjTool*>(vecObj[i]);
+			if (pObjTool)
+				break;
+		}
+		assert(pObjTool);
+
+		if (nullptr == pObjTool)
+			break;
+		pObjTool->OpenItemTool();
+
+		break;
+	}
+		break;
 	case ID_ITEM_LOAD: 
 	{
 		OPENFILENAME ofn;
@@ -163,13 +214,13 @@ void MenuContainer(WPARAM _wmId)
 	case ID_CHARACTER_TOOL:
 	{
 		// Modeless dialog
-		if (!IsWindow(hWndTool)) {
-			hWndTool = CreateDialog(nullptr, MAKEINTRESOURCE(IDD_CHACTER_TOOL), hWnd, CharacterTool);
-			ShowWindow(hWndTool, SW_SHOW);
+		if (!IsWindow(hWndItemTool)) {
+			hWndItemTool = CreateDialog(nullptr, MAKEINTRESOURCE(IDD_CHACTER_TOOL), hWnd, CharacterTool);
+			ShowWindow(hWndItemTool, SW_SHOW);
 		}
 		else
-			SetFocus(hWndTool);
-		InvalidateRect(hWndTool, nullptr, true);
+			SetFocus(hWndItemTool);
+		InvalidateRect(hWndItemTool, nullptr, true);
 		break;
 	}
 

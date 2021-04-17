@@ -3,7 +3,8 @@
 enum class E_EventType {
 	CREATE_OBJECT,
 	DELETE_OBJECT,
-	CHANGE_STATE
+	CHANGE_STATE,
+	COLLIDER_ACTIVE
 };
 
 struct tEvent {

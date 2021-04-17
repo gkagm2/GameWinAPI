@@ -46,7 +46,7 @@ public:
 
 	UINT GetID() { return m_iID; }
 
-	void SetActive(bool _bIsActive) { m_bIsActive = _bIsActive; }
+	void SetActive(bool _bIsActive);
 	bool IsActive() { return m_bIsActive; }
 
 	bool IsHit() { return m_iCollisionCount > 0; }
@@ -72,4 +72,5 @@ public:
 public:
 	friend class CCollisionManager;
 	friend class CObject;
+	friend class CEventManager;
 };

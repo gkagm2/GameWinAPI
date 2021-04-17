@@ -24,6 +24,8 @@ private:
 	float m_fAnimTexWidth; // Get으로만 접근하기
 	float m_fAnimTexHeight;
 
+	bool m_bIsActive;
+
 public:
 	void LateUpdate();
 	void Render(HDC _hDC);

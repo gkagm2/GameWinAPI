@@ -66,6 +66,11 @@ struct Vector2 {
 		y -= rhs;
 		return *this;
 	}
+	Vector2& operator*=(const float& rhs) {
+		x *= rhs;
+		y *= rhs;
+		return *this;
+	}
 	Vector2 operator/(const float& rhs) const {
 		if (0.0f == rhs)
 			return Vector2(0.0f, 0.0f);

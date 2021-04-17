@@ -1,15 +1,14 @@
 #pragma once
 #include "CGTA_Character.h"
-#include "CGTA_Weapon.h"
 
 class CGTA_Weapon;
 class CGTA_Bullet;
+class CGTA_Item;
 
 class CGTA_Player : public CGTA_Character
 {
 private:
 	bool m_bIsDrive;
-	CGTA_Weapon m_cWeapon;
 
 	float m_fAttackCoolTime;
 	float m_fAttackMaxCoolTime;
@@ -33,7 +32,8 @@ public:
 	virtual void GetInTheVehicle() override;
 	virtual void GetOutTheVehicle() override;
 
-	
+public:
+	void GetItem(CGTA_Item* pItem);
 
 	void ChangePrevWeapon();
 	void ChangeNextWeapon();

@@ -27,15 +27,28 @@ enum class ECitizenState {
 	trace
 };
 
+struct TCharacterInfo {
+	float fHp;
+	float fArmor;
+
+	TCharacterInfo() : fHp(10.f), fArmor(0.f) {}
+	void Save(FILE* _pFile);
+	void Load(FILE* _pFile);
+};
+
+
 class CGTA_Vehicle;
 class CGTA_PunchDetector;
 class CGTA_Character : public CObject
 {
-private:
+protected:
 	CGTA_Vehicle* m_pVehicle;
 	Vector3 m_vNozzlePos;
 
 	CGTA_PunchDetector* m_pPunchDetector;
+
+	E_WeaponType m_eCurWeaponType;
+	vector<std::pair<bool, TWeaponInfo> > m_vecWeapon; // true : allow, false : not allow
 
 public:
 	virtual void Init() override;
@@ -56,6 +69,14 @@ public:
 	virtual void GetInTheVehicle() {}
 	virtual void GetOutTheVehicle() {}
 	virtual const Vector3& GetNozzlePosition() final { return GetUpVector() * 5.f; }
+
+	// Weapon
+	bool IsWeaponExists(E_WeaponType _eWeaponType) { return m_vecWeapon[(UINT)_eWeaponType].first; }
+	E_WeaponType GetCurWeaponType() { return m_eCurWeaponType; }
+	const TWeaponInfo& GetWeaponInfo(E_WeaponType _eWeaponType) { return m_vecWeapon[(UINT)_eWeaponType].second; }
+	void SetWeaponState(bool _bAllow, E_WeaponType _eWeaponType) { m_vecWeapon[(UINT)_eWeaponType].first = _bAllow; }
+
+	void SetWeaponInfo(E_WeaponType _eWeaponType, const TWeaponInfo& _tWeaponInfo) { m_vecWeapon[(UINT)_eWeaponType].second = _tWeaponInfo; }
 
 public:
 	CLONE(CGTA_Character);

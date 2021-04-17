@@ -9,7 +9,8 @@ CAnimator::CAnimator(CObject* _pOwner) :
 	m_pCurAnimation(nullptr),
 	m_ePlayType(E_AnimationPlayType::ONCE),
 	m_fAnimTexWidth(0.f),
-	m_fAnimTexHeight(0.f)
+	m_fAnimTexHeight(0.f),
+	m_bIsActive(true)
 {
 	_pOwner->SetAnimator(this);
 }
@@ -19,7 +20,8 @@ CAnimator::CAnimator(const CAnimator& _origin) :
 	m_pCurAnimation(nullptr),
 	m_ePlayType(_origin.m_ePlayType),
 	m_fAnimTexWidth(_origin.m_fAnimTexWidth),
-	m_fAnimTexHeight(_origin.m_fAnimTexHeight)
+	m_fAnimTexHeight(_origin.m_fAnimTexHeight),
+	m_bIsActive(_origin.m_bIsActive)
 {
 	map<wstring, CAnimation*>::const_iterator iter = _origin.m_mapAnimation.begin();
 	for (; iter != _origin.m_mapAnimation.cend(); ++iter) {
@@ -78,6 +80,8 @@ void CAnimator::PlayAnimation(const wstring& _strName, E_AnimationPlayType _eTyp
 
 void CAnimator::LateUpdate()
 {
+	if (false == m_bIsActive)
+		return;
 	if (nullptr == m_pCurAnimation)
 		return;
 
@@ -100,6 +104,8 @@ void CAnimator::LateUpdate()
 
 void CAnimator::Render(HDC _hDC)
 {
+	if (false == m_bIsActive)
+		return;
 	if (nullptr == m_pCurAnimation)
 		return;
 

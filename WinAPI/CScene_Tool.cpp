@@ -90,10 +90,11 @@ void CScene_Tool::Start()
 	m_pTileMap->CreateTileGrid(10, 10);
 	AddObject(m_pTileMap);
 	
-
+	// 툴 모음
 	CObjTool* pObjTool = new CObjTool(E_GroupType::PREV);
 	pObjTool->Init();
 	AddObject(pObjTool);
+
 
 	// Select Controller에서는 오브젝트들을 드래그해서 선택할 수 있다.
 	// Tile setting 모드와
@@ -105,38 +106,6 @@ void CScene_Tool::Start()
 	// Vehicle setting 모드는 차량의 위치를 조작할 수 있다.
 	// Player setting 모드는 Player의 위치를 조작할 수 있다.
 	// Citizen setting 모드는 Citizen의 랜덤 생성 위치를 조작할 수 있다.
-
-	//CGTA_Item* pItem = new CGTA_Item(E_GroupType::ITEM);
-	//pItem->Init();
-	//pItem->SetLT(Vector2(0, 0));
-	//pItem->SetItemType(E_ItemType::PISTOL);
-	//pItem->SetObjectName(STR_NAME_Pistol);
-	//pItem->SetPosition(0, 200, 0);
-	//AddObject(pItem);
-
-	//CGTA_Item* pItem2 = pItem->Clone();
-	//pItem2->Init();
-	//pItem2->SetLT(Vector2(40, 0));
-	//pItem2->SetItemType(E_ItemType::ROCKET_LAUNCHER);
-	//pItem2->SetObjectName(STR_NAME_RocketLauncher);
-	//pItem2->SetPosition(50, 200, 0);
-	//AddObject(pItem2);
-
-	//CGTA_Item* pItem3 = pItem->Clone();
-	//pItem3->Init();
-	//pItem3->SetLT(Vector2(80, 0));
-	//pItem3->SetItemType(E_ItemType::SHOTGUN);
-	//pItem3->SetObjectName(STR_NAME_Shotgun);
-	//pItem3->SetPosition(100, 200, 0);
-	//AddObject(pItem3);
-
-	//CGTA_Item* pItem4 = pItem->Clone();
-	//pItem4->Init();
-	//pItem4->SetLT(Vector2(120, 0));
-	//pItem4->SetItemType(E_ItemType::SUBMACHINE_GUN);
-	//pItem4->SetObjectName(STR_NAME_SubmachineGun);
-	//pItem4->SetPosition(150, 200, 0);
-	//AddObject(pItem4);
 
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::TILE, true);
@@ -202,7 +171,7 @@ void CScene_Tool::SaveItem(wstring _strPath)
 		return;
 	}
 
-	int iCnt = vecItems.size();
+	int iCnt = (int)vecItems.size();
 	fwrite(&iCnt, sizeof(int), 1, pFile);
 
 	for (UINT i = 0; i < vecItems.size(); ++i) {
@@ -244,7 +213,7 @@ INT_PTR CreateTileProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)FALSE;
 }
 
-INT_PTR CALLBACK CharacterTool(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
+INT_PTR CALLBACK CharacterTool(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message)
 	{
 	case WM_INITDIALOG:
@@ -253,7 +222,7 @@ INT_PTR CALLBACK CharacterTool(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
 		{
-			EndDialog(hDlg, LOWORD(wParam));
+			EndDialog(hWnd, LOWORD(wParam));
 			return (INT_PTR)TRUE;
 		}
 		if (LOWORD(wParam) == IDC_Load_BUTTON2) {
@@ -262,8 +231,55 @@ INT_PTR CALLBACK CharacterTool(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 
 		break;
 	case WM_CLOSE:
-		DestroyWindow(hDlg);
-		break;
+		DestroyWindow(hWnd);
+		return (INT_PTR)TRUE;
 	}
+	return (INT_PTR)FALSE;
+}
+
+// Item Tool
+INT_PTR ItemTool(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message) {
+	case WM_INITDIALOG:
+		return (INT_PTR)TRUE;
+
+	case WM_COMMAND:
+	{
+		vector<CObject*>& vecObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::PREV);
+
+		CObjTool* pObjTool = nullptr;
+		int i = -1;
+		for (int i = 0; i < vecObj.size(); ++i) {
+			pObjTool = dynamic_cast<CObjTool*>(vecObj[i]);
+			if (nullptr != pObjTool)
+				break;
+		}
+		assert(pObjTool && L"objTool이 null임");
+		// TODO : 리스트로 바꾸기
+		if (LOWORD(wParam) == IDC_CREATE_ROCKETLAUNCHER_BUTTON) {
+			pObjTool->CreateWeaponItem(E_WeaponType::ROCKET_LAUNCHER);
+			return (INT_PTR)TRUE;
+		}
+		else if (LOWORD(wParam) == IDC_CREATE_PISTOL_BUTTON) {
+			pObjTool->CreateWeaponItem(E_WeaponType::PISTOL);
+			return (INT_PTR)TRUE;
+		}
+		else if (LOWORD(wParam) == IDC_CREATE_SHOTGUN_BUTTON) {
+			pObjTool->CreateWeaponItem(E_WeaponType::SHOTGUN);
+			return (INT_PTR)TRUE;
+		}
+		else if (LOWORD(wParam) == IDC_CREATE_SUBMACHINEGUN_BUTTON) {
+			pObjTool->CreateWeaponItem(E_WeaponType::SUBMACHINE_GUN);
+			return (INT_PTR)TRUE;
+		}
+		else if (LOWORD(wParam) == IDCANCEL) {
+			EndDialog(hWnd, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+	}
+		return (INT_PTR)TRUE;
+	}
+
 	return (INT_PTR)FALSE;
 }

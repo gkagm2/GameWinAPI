@@ -38,10 +38,12 @@ private:
 	bool _IsCollision(CColliderCircle* _pColCircle1, CColliderCircle* _pColCircle2);
 	bool _IsCollision(CColliderCircle* _pColCircle, const Vector3& _vPoint);
 	bool _IsCollision(CColliderRect* _pColRect, const Vector3& _vPoint);
-	bool _IsCollision(const Vector3& _vPoint1, const Vector3& _vPoint2);
-	bool IsCollision(CCollider* _col1, CCollider* _col2);
 
 public:
+	bool IsCollision(CCollider* _col1, CCollider* _col2);
+	bool IsCollision(CCollider* _col, const Vector3& _vPoint);
+	bool IsCollision(const Vector3& _vPoint1, const Vector3& _vPoint2);
+
 	void SetNotIntersection(CColliderRect* _pColRect1, CColliderRect* _pColRect2);
 
 public:

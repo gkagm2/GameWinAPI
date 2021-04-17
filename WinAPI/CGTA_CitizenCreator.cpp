@@ -52,7 +52,6 @@ void CGTA_CitizenCreator::Update()
 {
 	// TODO : 오브젝트 풀링 방식으로 바꾸기
 
-
 	// 주기적으로 생성
 	m_fCreateCoolTime += DeltaTime;
 	if (m_fCreateCoolTime >= m_fMaxCreateCoolTime) {

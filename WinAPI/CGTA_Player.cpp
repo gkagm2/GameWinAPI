@@ -13,10 +13,10 @@
 #include "CGTA_Character.h"
 #include "CGTA_Bullet.h"
 #include "CRigidbody2D.h"
+#include "CGTA_Item.h"
 
 CGTA_Player::CGTA_Player(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType),
-	m_cWeapon{},
 	m_bIsDrive(false),
 	m_fAttackCoolTime(0.f),
 	m_fAttackMaxCoolTime(0.f)
@@ -159,9 +159,9 @@ void CGTA_Player::Move()
 
 void CGTA_Player::Attack()
 {
-	TWeaponInfo& tWeaponInfo = m_cWeapon.GetCurWeaponInfo();
+	TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
 
-	E_WeaponType eWeaponType = m_cWeapon.GetCurWeaponType();
+	E_WeaponType eWeaponType = GetCurWeaponType();
 
 	// 주먹이면
 	if (E_WeaponType::FIST == eWeaponType) {
@@ -180,7 +180,7 @@ void CGTA_Player::Attack()
 		if (false == tWeaponInfo.bIsInfinite) { // 무한이 아닐 경우
 			--tWeaponInfo.iBulletCnt;
 			if (tWeaponInfo.iBulletCnt <= 0) {
-				m_cWeapon.SetWeaponState(false, m_cWeapon.GetCurWeaponType());
+				SetWeaponState(false, GetCurWeaponType());
 				ChangeNextWeapon();
 				return;
 			}
@@ -204,18 +204,70 @@ void CGTA_Player::GetOutTheVehicle()
 {
 }
 
+void CGTA_Player::GetItem(CGTA_Item* pItem)
+{
+	// 아이템을 얻으면
+	if (E_ItemType::WEAPON == pItem->GetItemType()) {
+		E_WeaponType eWeaponType = pItem->GetWeaponType();
+		TWeaponInfo tWeaponInfo = GetWeaponInfo(eWeaponType);
+
+		//총알 추가
+		tWeaponInfo.iBulletCnt += pItem->GetWeaponInfo().iBulletCnt;
+
+		// 아이템을 이미 가지고 있다면 아이템의 총알을 더해준다.
+		if (IsWeaponExists(eWeaponType)) {
+			
+			SetWeaponInfo(eWeaponType, tWeaponInfo);
+		}
+		// 아이템이 없으면 그 아이템을 허용시키고 값들 대입 후, 현재 무기로 바꿔준다.
+		else {
+			SetWeaponState(true, eWeaponType); // 아이템 허용
+			while (eWeaponType != GetCurWeaponType()) // 현재 무기로 바꿈
+				ChangeNextWeapon();
+
+			const TWeaponInfo& tCurWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
+			m_fAttackMaxCoolTime = tCurWeaponInfo.fShootCoolTime;
+			m_fAttackCoolTime = tCurWeaponInfo.fShootCoolTime;
+		}
+	}
+}
+
 void CGTA_Player::ChangePrevWeapon()
 {
-	m_cWeapon.ChangePrevWeapon();
-	const TWeaponInfo& tWeaponInfo =  m_cWeapon.GetCurWeaponInfo();
+	int iNextWeaponIdx = (int)m_eCurWeaponType + 1;
+	while (true) {
+		if (iNextWeaponIdx >= (int)E_WeaponType::END)
+			iNextWeaponIdx = 0;
+
+		if (true == m_vecWeapon[iNextWeaponIdx].first) {
+			m_eCurWeaponType = (E_WeaponType)iNextWeaponIdx;
+			break;
+		}
+		++iNextWeaponIdx;
+	}
+
+
+
+	const TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
 	m_fAttackMaxCoolTime = tWeaponInfo.fShootCoolTime;
 	m_fAttackCoolTime = tWeaponInfo.fShootCoolTime;
 }
 
 void CGTA_Player::ChangeNextWeapon()
 {
-	m_cWeapon.ChangeNextWeapon();
-	const TWeaponInfo& tWeaponInfo = m_cWeapon.GetCurWeaponInfo();
+	int iPrevWeaponIdx = (int)m_eCurWeaponType - 1;
+	while (true) {
+		if (iPrevWeaponIdx < 0)
+			iPrevWeaponIdx = (int)E_WeaponType::END - 1;
+
+		if (true == m_vecWeapon[iPrevWeaponIdx].first) {
+			m_eCurWeaponType = (E_WeaponType)iPrevWeaponIdx;
+			break;
+		}
+		--iPrevWeaponIdx;
+	}
+
+	const TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
 	m_fAttackMaxCoolTime = tWeaponInfo.fShootCoolTime;
 	m_fAttackCoolTime = tWeaponInfo.fShootCoolTime;
 }

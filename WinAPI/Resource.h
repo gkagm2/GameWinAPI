@@ -15,6 +15,7 @@
 #define IDC_WINAPI                      109
 #define IDR_MAINFRAME                   128
 #define IDD_CHACTER_TOOL                132
+#define IDD_ITEM_TOOL                   135
 #define IDC_EDIT_CREATE_TILE_COL        1002
 #define IDC_EDIT_CREATE_TILE_ROW        1003
 #define IDC_STATIC_CREATE_TILE_COL      1004
@@ -26,7 +27,11 @@
 #define IDC_Load_BUTTON2                1011
 #define IDC_Player_Button               1012
 #define IDC_Vehicle_Button              1013
+#define IDC_CREATE_SUBMACHINEGUN_BUTTON 1013
 #define IDC_Item_Button                 1014
+#define IDC_CREATE_ROCKETLAUNCHER_BUTTON 1014
+#define IDC_CREATE_SHOTGUN_BUTTON       1015
+#define IDC_CREATE_PISTOL_BUTTON        1017
 #define ID_TITL                         32771
 #define ID_TOOLS_TILE                   32772
 #define ID_TILE_SAVE                    32773
@@ -57,6 +62,10 @@
 #define ID_TILE_SAVE32803               32803
 #define ID_TILE_LOAD32804               32804
 #define ID_TILE_CREATE32805             32805
+#define ID_CHARACTER_CREATE             32806
+#define ID_ITEM_CREATE                  32807
+#define ID_ITEM_TOOL                    32808
+#define ID_TILE_TOOL                    32809
 #define IDC_STATIC                      -1
 
 // Next default values for new objects
@@ -64,9 +73,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        135
-#define _APS_NEXT_COMMAND_VALUE         32806
-#define _APS_NEXT_CONTROL_VALUE         1013
+#define _APS_NEXT_RESOURCE_VALUE        136
+#define _APS_NEXT_COMMAND_VALUE         32810
+#define _APS_NEXT_CONTROL_VALUE         1014
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif

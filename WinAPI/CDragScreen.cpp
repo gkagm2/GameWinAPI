@@ -8,7 +8,8 @@
 CDragScreen::CDragScreen(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
 	m_bIsPressed(false),
-	m_vStartPos{}
+	m_vStartPos{},
+	m_bIsEnableDrag(true)
 {
 }
 
@@ -18,13 +19,15 @@ CDragScreen::~CDragScreen()
 
 void CDragScreen::Update()
 {
-	if (InputKeyPress(E_Key::LBUTTON)) {
-		m_bIsPressed = true;
+	if (m_bIsEnableDrag) {
+		if (InputKeyPress(E_Key::LBUTTON)) {
+			m_bIsPressed = true;
 
-		m_vStartPos = MainCamera->GetScreenToWorldPosition(MousePosition);
-	}
-	if (InputKeyRelease(E_Key::LBUTTON)) {
-		m_bIsPressed = false;
+			m_vStartPos = MainCamera->GetScreenToWorldPosition(MousePosition);
+		}
+		if (InputKeyRelease(E_Key::LBUTTON)) {
+			m_bIsPressed = false;
+		}
 	}
 }
 
@@ -50,4 +53,9 @@ void CDragScreen::OnMousePressed()
 {
 	m_bIsPressed = true;
 	m_vStartPos = MousePosition;
+}
+
+void CDragScreen::SetDragScreenEnable(bool _bEnable)
+{
+	m_bIsEnableDrag = _bEnable;
 }

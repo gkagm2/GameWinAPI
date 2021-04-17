@@ -44,8 +44,6 @@ void CCollisionManager::CollisionByGroup(UINT _iGroup1Idx, UINT _iGroup2Idx)
 				continue;
 			if (_iGroup1Idx == _iGroup2Idx && i == j)
 				continue;
-			if (!vecLeft[i]->GetCollider()->IsActive() || !vecRight[j]->GetCollider()->IsActive())
-				continue;
 
 			// 두 충돌체의 고유 아이디를 조합해서 키값을 만들어 냄
 			U_ColliderID id{};
@@ -60,9 +58,7 @@ void CCollisionManager::CollisionByGroup(UINT _iGroup1Idx, UINT _iGroup2Idx)
 
 			// 충돌 검사
 			if (IsCollision(vecLeft[i]->GetCollider(), vecRight[j]->GetCollider())) { // 충돌했을 경우
-
 				if (iter->second) { // 이전에도 충돌했을 시
-
 					// 둘 중 하나라도 삭제 예정 상태일 경우
 					if (vecLeft[i]->IsDead() || vecRight[j]->IsDead()) {
 						// 충돌을 벗어난다.
@@ -71,16 +67,27 @@ void CCollisionManager::CollisionByGroup(UINT _iGroup1Idx, UINT _iGroup2Idx)
 						iter->second = false;
 					}
 					else {
-						vecLeft[i]->GetCollider()->OnCollisionStay(vecRight[j]->GetCollider());
-						vecRight[j]->GetCollider()->OnCollisionStay(vecLeft[i]->GetCollider());
+						// 하나라도 active가 false가 된게 있으면
+						if (!vecLeft[i]->GetCollider()->IsActive() || !vecRight[j]->GetCollider()->IsActive()) {
+							// 충돌을 벗어난다.
+							vecLeft[i]->GetCollider()->OnCollisionExit(vecRight[j]->GetCollider());
+							vecRight[j]->GetCollider()->OnCollisionExit(vecLeft[i]->GetCollider());
+							iter->second = false;
+						}
+						else {
+							vecLeft[i]->GetCollider()->OnCollisionStay(vecRight[j]->GetCollider());
+							vecRight[j]->GetCollider()->OnCollisionStay(vecLeft[i]->GetCollider());
+						}
 					}
 				}
 				else {
 					// 둘다 삭제 예정이 아니고 처음 충돌 시 
 					if (!vecLeft[i]->IsDead() && !vecRight[j]->IsDead()) {
-						vecLeft[i]->GetCollider()->OnCollisionEnter(vecRight[j]->GetCollider());
-						vecRight[j]->GetCollider()->OnCollisionEnter(vecLeft[i]->GetCollider());
-						iter->second = true;
+						if (vecLeft[i]->GetCollider()->IsActive() && vecRight[j]->GetCollider()->IsActive()) {
+							vecLeft[i]->GetCollider()->OnCollisionEnter(vecRight[j]->GetCollider());
+							vecRight[j]->GetCollider()->OnCollisionEnter(vecLeft[i]->GetCollider());
+							iter->second = true;
+						}
 					}
 				}
 			}
@@ -249,16 +256,32 @@ bool CCollisionManager::_IsCollision(CColliderRect* _pColRect, const Vector3& _v
 {
 	const Vector3& minPos = _pColRect->GetMinPos();
 	const Vector3& maxPos = _pColRect->GetMaxPos();
-	if (minPos.x >= _vPoint.x && minPos.y >= _vPoint.y && minPos.z >= _vPoint.z &&
-		maxPos.x <= _vPoint.x && maxPos.y <= _vPoint.y && maxPos.z <= _vPoint.z)
+	if (minPos.x <= _vPoint.x && minPos.y <= _vPoint.y && minPos.z <= _vPoint.z &&
+		maxPos.x >= _vPoint.x && maxPos.y >= _vPoint.y && maxPos.z >= _vPoint.z)
 		return true;
 	return false;
 }
 
 // 점과 점 충돌체크
-bool CCollisionManager::_IsCollision(const Vector3& _vPoint1, const Vector3& _vPoint2)
+bool CCollisionManager::IsCollision(const Vector3& _vPoint1, const Vector3& _vPoint2)
 {
 	return _vPoint1 == _vPoint2;
+}
+
+// 콜라이더와 픽셀 좌표 충돌체크
+bool CCollisionManager::IsCollision(CCollider* _col, const Vector3& _vPoint)
+{
+	{
+		auto childCol = dynamic_cast<CColliderCircle*>(_col);
+		if (childCol)
+			return _IsCollision(childCol, _vPoint);
+	}
+	{
+		auto childCol = dynamic_cast<CColliderRect*>(_col);
+		if (childCol)
+			return _IsCollision(childCol, _vPoint);
+	}
+	return false;
 }
 
 bool CCollisionManager::IsCollision(CCollider* _col1, CCollider* _col2)
@@ -286,9 +309,9 @@ bool CCollisionManager::IsCollision(CCollider* _col1, CCollider* _col2)
 		auto childCol2 = dynamic_cast<CColliderRect*>(_col2);
 		if (childCol1 && childCol2) {
 			return _IsCollision(childCol1, childCol2);
-		}
-			
+		}	
 	}
+
 	return false;
 }
 

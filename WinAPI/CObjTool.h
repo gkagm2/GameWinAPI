@@ -9,8 +9,10 @@ enum class E_ToolMode {
 	PLAYER,
 };
 
+
 class CDragScreen;
 class CTileToolPanelUI;
+class CColliderRect;
 class CObjTool : public CObject
 {
 
@@ -33,6 +35,8 @@ private:
 	// Citizen Tool
 
 	// Item Tool
+	CObject* m_pSelectedObj;
+	bool m_bIsClick;
 	
 public:
 	virtual void Init() override;
@@ -49,6 +53,11 @@ public:
 	void SetToolMode(E_ToolMode _eToolMode) { m_eToolMode = _eToolMode; }
 	E_ToolMode GetToolMode() { return m_eToolMode; }
 
+	void OpenMapTool();
+	void OpenItemTool();
+	void OpenVehicleTool();
+	void OpenCitizenTool();
+
 	// Tile
 	void InitMapTool();
 	void UpdateMapTool();
@@ -58,6 +67,7 @@ public:
 	// Item
 	void InitItemTool();
 	void UpdateItemTool();
+	void CreateWeaponItem(E_WeaponType _eWeaponType);
 
 	// Vehicle
 	void InitVehicleTool();

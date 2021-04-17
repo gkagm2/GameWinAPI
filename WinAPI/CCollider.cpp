@@ -2,6 +2,7 @@
 #include "CCollider.h"
 #include "CCollisionManager.h"
 #include "CObject.h"
+#include "CEventManager.h"
 
 UINT CCollider::g_iColliderID = 0;
 
@@ -38,4 +39,14 @@ void CCollider::OnCollisionStay(CCollider* _pOther)
 Vector3 CCollider::GetPosition()
 {
 	return GetOffsetPosition() + m_pOwnerObject->GetPosition();
+}
+
+void CCollider::SetActive(bool _bIsActive)
+{
+	m_bIsActive = _bIsActive;
+	/*tEvent evt;
+	evt.eType = E_EventType::COLLIDER_ACTIVE;
+	evt.lParam = (DWORD_PTR)this;
+	evt.wParam = (DWORD_PTR)_bIsActive;
+	CEventManager::GetInstance()->AddEvent(evt);*/
 }

@@ -74,13 +74,30 @@ enum class E_WeaponType {
 
 // Item type
 enum class E_ItemType {
-	ROCKET_LAUNCHER,
-	PISTOL,
-	SUBMACHINE_GUN,
-	SHOTGUN,
-	END,
+	WEAPON,
+	END
 };
 
+enum class E_ItemState {
+	ON,
+	OFF
+};
+
+struct TWeaponInfo {
+	wstring strName;
+	float fSplashRange;
+	float fDamage;
+	int iBulletCnt;
+	bool bSplashDamage;
+	bool bIsInfinite;
+	float fShootCoolTime;
+	TWeaponInfo() : strName(L""), fSplashRange(20.f), fDamage(1.f), iBulletCnt(0), bSplashDamage(false), bIsInfinite(false), fShootCoolTime(1.f) {}
+
+	void Save(FILE* _pFile);
+	void Load(FILE* _pFile);
+
+	TWeaponInfo(const TWeaponInfo& _other);
+};
 
 #define EXCEPTION_COLOR_RGB_MAGENTA RGB(255,0,255) // Magenta color
 #define EXCEPTION_COLOR_RGB_BLACK RGB(0,0,0) // Magenta color
