@@ -16,10 +16,14 @@
 
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
+	m_bIsDrive(false),
+	m_fAttackCoolTime(0.f),
+	m_fAttackMaxCoolTime(0.f),
 	m_pVehicle(nullptr),
 	m_vNozzlePos(GetUpVector() * 5.f),
 	m_pPunchDetector(nullptr),
-	m_eCurWeaponType(E_WeaponType::FIST)
+	m_eCurWeaponType(E_WeaponType::FIST),
+	m_eCharacterState(E_CharacterState::idle)
 {
 	// weapon system
 	int iSize = (int)E_WeaponType::END;
@@ -28,14 +32,21 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_vecWeapon[(UINT)E_WeaponType::FIST].first = true;
 	m_vecWeapon[(UINT)E_WeaponType::FIST].second.bIsInfinite = true;
 	m_vecWeapon[(UINT)E_WeaponType::FIST].second.fShootCoolTime = 1.f;
+
+	m_pPunchDetector = new CGTA_PunchDetector(E_GroupType::PROJECTILE);
+	m_pPunchDetector->Init();
 }
 
 CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	CObject(_origin),
+	m_bIsDrive(false),
+	m_fAttackCoolTime(0.f),
+	m_fAttackMaxCoolTime(0.f),
 	m_pVehicle(nullptr),
 	m_vNozzlePos(GetUpVector() * 5.f),
 	m_pPunchDetector(nullptr),
-	m_eCurWeaponType(E_WeaponType::FIST)
+	m_eCurWeaponType(E_WeaponType::FIST),
+	m_eCharacterState(E_CharacterState::idle)
 {
 	m_pPunchDetector = _origin.m_pPunchDetector->Clone();
 }
@@ -48,7 +59,7 @@ CGTA_Character::~CGTA_Character()
 	
 void CGTA_Character::Init()
 {
-	m_pPunchDetector = new CGTA_PunchDetector(E_GroupType::PROJECTILE);
+	
 	CObject::Init();
 }
 
@@ -110,6 +121,11 @@ void CGTA_Character::OnCollisionStay(CObject* _pOther)
 
 void CGTA_Character::OnCollisionExit(CObject* _pOther)
 {
+}
+
+void CGTA_Character::Attack()
+{
+
 }
 
 void TWeaponInfo::Save(FILE* _pFile)

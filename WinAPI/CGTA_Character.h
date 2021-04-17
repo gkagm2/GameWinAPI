@@ -1,7 +1,7 @@
 #pragma once
 #include "CObject.h"
 
-enum class ECharacterState {
+enum class E_CharacterState {
 	idle,
 	idle_weapon,
 	walk,
@@ -42,6 +42,11 @@ class CGTA_PunchDetector;
 class CGTA_Character : public CObject
 {
 protected:
+	bool m_bIsDrive;
+
+	float m_fAttackCoolTime;
+	float m_fAttackMaxCoolTime;
+
 	CGTA_Vehicle* m_pVehicle;
 	Vector3 m_vNozzlePos;
 
@@ -49,6 +54,8 @@ protected:
 
 	E_WeaponType m_eCurWeaponType;
 	vector<std::pair<bool, TWeaponInfo> > m_vecWeapon; // true : allow, false : not allow
+
+	E_CharacterState m_eCharacterState; // 현재 캐릭터 상태
 
 public:
 	virtual void Init() override;
@@ -63,7 +70,7 @@ public:
 
 public:
 	virtual void Move() {}
-	virtual void Attack() {}
+	virtual void Attack();
 	virtual void Drive() {}
 	virtual void Dead() {}
 	virtual void GetInTheVehicle() {}
@@ -77,6 +84,11 @@ public:
 	void SetWeaponState(bool _bAllow, E_WeaponType _eWeaponType) { m_vecWeapon[(UINT)_eWeaponType].first = _bAllow; }
 
 	void SetWeaponInfo(E_WeaponType _eWeaponType, const TWeaponInfo& _tWeaponInfo) { m_vecWeapon[(UINT)_eWeaponType].second = _tWeaponInfo; }
+
+	// Character State
+	void SetCharacterState(E_CharacterState _eCharacterState) { m_eCharacterState = _eCharacterState; }
+	E_CharacterState GetCharacterState() { return m_eCharacterState; }
+
 
 public:
 	CLONE(CGTA_Character);

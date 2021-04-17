@@ -14,12 +14,10 @@
 #include "CGTA_Bullet.h"
 #include "CRigidbody2D.h"
 #include "CGTA_Item.h"
+#include "CGTA_PunchDetector.h"
 
 CGTA_Player::CGTA_Player(E_GroupType _eGroupType) :
-	CGTA_Character(_eGroupType),
-	m_bIsDrive(false),
-	m_fAttackCoolTime(0.f),
-	m_fAttackMaxCoolTime(0.f)
+	CGTA_Character(_eGroupType)
 {
 }
 
@@ -85,12 +83,16 @@ void CGTA_Player::Update()
 	else
 		Move();
 
-	if (InputKeyPress(E_Key::Ctrl)) {
-		m_fAttackCoolTime += DeltaTime;
+	m_fAttackCoolTime += DeltaTime;
+	if (InputKeyHold(E_Key::Ctrl)) {
 		if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
 			Attack();
 			m_fAttackCoolTime = 0.f;
 		}
+	}
+	if (InputKeyRelease(E_Key::Ctrl)) {
+		if (E_WeaponType::FIST == GetCurWeaponType())
+			m_pPunchDetector->GetCollider()->SetActive(false);
 	}
 
 	if (InputKeyPress(E_Key::Z)) {
@@ -98,6 +100,37 @@ void CGTA_Player::Update()
 	}
 	if (InputKeyPress(E_Key::X)) {
 		ChangeNextWeapon();
+	}
+
+	// State
+	switch (m_eCharacterState) {
+	case E_CharacterState::idle:
+		break;
+	case E_CharacterState::idle_weapon:
+		break;
+	case E_CharacterState::run:
+		break;
+	case E_CharacterState::run_weapon:
+		break;
+	case E_CharacterState::walk:
+		break;
+	case E_CharacterState::walk_weapon:
+		break;
+	case E_CharacterState::attack: {
+	}
+		break;
+	case E_CharacterState::attack_Weapon: {
+
+	}
+		break;
+	case E_CharacterState::dead:
+		break;
+	case E_CharacterState::getInTheCar:
+		break;
+	case E_CharacterState::getOffTheCar:
+		break;
+	case E_CharacterState::hit:
+		break;
 	}
 }
 
@@ -160,14 +193,16 @@ void CGTA_Player::Move()
 void CGTA_Player::Attack()
 {
 	TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
-
 	E_WeaponType eWeaponType = GetCurWeaponType();
 
 	// 주먹이면
 	if (E_WeaponType::FIST == eWeaponType) {
 		GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
-		// Punch 컬라이더가 하나 생성되었다가 사라진다.
-	
+		// Punch 컬라이더가 생성된다
+		m_pPunchDetector->GetCollider()->SetActive(true);
+
+		// 생성된 후 사라지기
+		SetCharacterState(E_CharacterState::attack);
 	} 
 	else {	
 		// 총알 오브젝트 생성.
@@ -185,6 +220,7 @@ void CGTA_Player::Attack()
 				return;
 			}
 		}
+		SetCharacterState(E_CharacterState::attack_Weapon);
 	}
 }
 

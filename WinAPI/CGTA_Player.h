@@ -8,10 +8,7 @@ class CGTA_Item;
 class CGTA_Player : public CGTA_Character
 {
 private:
-	bool m_bIsDrive;
-
-	float m_fAttackCoolTime;
-	float m_fAttackMaxCoolTime;
+	
 	
 public:
 	virtual void Init() override;
