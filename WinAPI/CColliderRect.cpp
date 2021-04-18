@@ -71,42 +71,42 @@ void CColliderRect::Render(HDC _hDC)
 
     //////////////////////////////////
     /// OBB Rendering
-    Vector3 leftVec = GetMinPos();
-    Vector3 midle = GetPosition();
-    leftVec.y = 0;
-    Vector3 sc = GetScale();
+    //Vector3 leftVec = GetMinPos();
+    //Vector3 midle = GetPosition();
+    //leftVec.y = 0;
+    //Vector3 sc = GetScale();
 
-    float fHalfWidth = GetScale().x * 0.5f;
-    float fHalfHeight = GetScale().y * 0.5f;
+    //float fHalfWidth = GetScale().x * 0.5f;
+    //float fHalfHeight = GetScale().y * 0.5f;
 
-    // left top
-    Vector3 upVec = GetOwnerObject()->GetUpVector();
-    Vector3 rightVec = GetOwnerObject()->GetRightVector();
+    //// left top
+    //Vector3 upVec = GetOwnerObject()->GetUpVector();
+    //Vector3 rightVec = GetOwnerObject()->GetRightVector();
 
-    Vector3 vRTPos = upVec * fHalfHeight + rightVec * fHalfWidth;
-    Vector3 vRBPos = -upVec * fHalfHeight + rightVec * fHalfWidth;
-    Vector3 vLTPos = upVec * fHalfHeight - rightVec * fHalfWidth;
-    Vector3 vLBPos = -upVec * fHalfHeight - rightVec * fHalfWidth;
+    //Vector3 vRTPos = upVec * fHalfHeight + rightVec * fHalfWidth;
+    //Vector3 vRBPos = -upVec * fHalfHeight + rightVec * fHalfWidth;
+    //Vector3 vLTPos = upVec * fHalfHeight - rightVec * fHalfWidth;
+    //Vector3 vLBPos = -upVec * fHalfHeight - rightVec * fHalfWidth;
 
-    vLTPos = MainCamera->GetRenderPosition(GetPosition() + vLTPos);
-    vRTPos = MainCamera->GetRenderPosition(GetPosition() + vRTPos);
-    vLBPos = MainCamera->GetRenderPosition(GetPosition() + vLBPos);
-    vRBPos = MainCamera->GetRenderPosition(GetPosition() + vRBPos);
+    //vLTPos = MainCamera->GetRenderPosition(GetPosition() + vLTPos);
+    //vRTPos = MainCamera->GetRenderPosition(GetPosition() + vRTPos);
+    //vLBPos = MainCamera->GetRenderPosition(GetPosition() + vLBPos);
+    //vRBPos = MainCamera->GetRenderPosition(GetPosition() + vRBPos);
 
-    MoveToEx(_hDC, (int)vLTPos.x, (int)vLTPos.y, nullptr);
-    LineTo(_hDC, (int)vLBPos.x, (int)vLBPos.y);
+    //MoveToEx(_hDC, (int)vLTPos.x, (int)vLTPos.y, nullptr);
+    //LineTo(_hDC, (int)vLBPos.x, (int)vLBPos.y);
 
-    MoveToEx(_hDC, (int)vLBPos.x, (int)vLBPos.y, nullptr);
-    LineTo(_hDC, (int)vRBPos.x, (int)vRBPos.y);
+    //MoveToEx(_hDC, (int)vLBPos.x, (int)vLBPos.y, nullptr);
+    //LineTo(_hDC, (int)vRBPos.x, (int)vRBPos.y);
 
-    MoveToEx(_hDC, (int)vRBPos.x, (int)vRBPos.y, nullptr);
-    LineTo(_hDC, (int)vRTPos.x, (int)vRTPos.y);
+    //MoveToEx(_hDC, (int)vRBPos.x, (int)vRBPos.y, nullptr);
+    //LineTo(_hDC, (int)vRTPos.x, (int)vRTPos.y);
 
-    MoveToEx(_hDC, (int)vRTPos.x, (int)vRTPos.y, nullptr);
-    LineTo(_hDC, (int)vLTPos.x, (int)vLTPos.y);
+    //MoveToEx(_hDC, (int)vRTPos.x, (int)vRTPos.y, nullptr);
+    //LineTo(_hDC, (int)vLTPos.x, (int)vLTPos.y);
 
     // AABB Rendering
-    //Rectangle(_hDC, (int)vMin.x, (int)vMin.y, (int)vMax.x, (int)vMax.y);
+    Rectangle(_hDC, (int)vMin.x, (int)vMin.y, (int)vMax.x, (int)vMax.y);
         
     SelectObject(_hDC, oldBrush);
     SelectObject(_hDC, hOldPen);
@@ -125,10 +125,20 @@ void CColliderRect::LateUpdate()
 void CColliderRect::OnCollisionStay(CCollider* _pOther)
 {
     if (false == _pOther->IsTrigger() && false == m_bIsTrigger) {
-        CColliderRect* pColRect = dynamic_cast<CColliderRect*>(_pOther);
-        CRigidbody* pRigidbody = pColRect->GetOwnerObject()->GetRigidbody();
-        if (nullptr != pColRect && nullptr != pRigidbody) {
-            CCollisionManager::GetInstance()->SetNotIntersection(pColRect, this);
+        CColliderRect* pOtherColRect = dynamic_cast<CColliderRect*>(_pOther);
+        if (nullptr != pOtherColRect) {
+            CRigidbody* pOtherRigidbody = pOtherColRect->GetOwnerObject()->GetRigidbody();
+            CRigidbody* pThisRigidbody = GetOwnerObject()->GetRigidbody(); 
+
+            // 서로 리지드 바디가 있으면
+            if (nullptr != pOtherRigidbody && nullptr != pThisRigidbody) {
+                // 질량이 높은것이 Hold, 낮은것이 밀린다.
+                if (pOtherRigidbody->GetMass() > pThisRigidbody->GetMass())
+                    CCollisionManager::GetInstance()->SetNotIntersection(this, pOtherColRect);
+            }
+            else if(nullptr != pOtherRigidbody)
+                CCollisionManager::GetInstance()->SetNotIntersection(pOtherColRect, this);
+        
         }
     }
 

@@ -59,16 +59,12 @@ void CGTA_Player::Init()
 	Vector2 vScale{ fAnimTextureWidth, fAnimTextureHeight };
 	SetScale(Vector3(vScale.x, vScale.y, 0.0f));
 
-	// Collider set
-	CColliderRect* pCollider = new CColliderRect(this);
-	SetCollider(pCollider);
-	pCollider->SetScale(Vector3(15.f, 15.f, 15.f));
-
-	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
-
 	SetPosition(0, 0, 0);
-	
+
+	SetObjectName(L"Player");
 	CGTA_Character::Init();
+
+	GetRigidbody()->SetMass(10.f);
 }
 
 void CGTA_Player::PrevUpdate()

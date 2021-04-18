@@ -20,9 +20,6 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC _hDC) override;
 
-protected:
-	void CheckAndAttachedCollider();
-
 public:
 	void RenderDefaultTile(HDC _hDC, const Vector3& _vRenderPos);
 

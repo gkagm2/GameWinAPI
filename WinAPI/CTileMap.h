@@ -10,6 +10,8 @@ private:
 	UINT m_iTileMapWidth;
 	UINT m_iTileMapHeight;
 	
+private:
+	enum class E_VisitedState { not_visited, visited }; // 최적화에 사용됨
 
 public:
 	// virtual void PrevUpdate() override; 

@@ -50,8 +50,6 @@ void CGTA_CitizenCreator::Init()
 
 void CGTA_CitizenCreator::Update()
 {
-	// TODO : 오브젝트 풀링 방식으로 바꾸기
-
 	// 주기적으로 생성
 	m_fCreateCoolTime += DeltaTime;
 	if (m_fCreateCoolTime >= m_fMaxCreateCoolTime) {
@@ -84,9 +82,9 @@ void CGTA_CitizenCreator::Update()
 
 		vector<CObject*>& vecCitizen = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::CITIZEN);
 
-		for (int iRow = iLTRow; iRow <= iRBRow; ++iRow) {
-			for (int iCol = iLTCol; iCol <= iRBCol; ++iCol) {
-				CTile* pTile = dynamic_cast<CTile*>(vecTiles[pTileMap->GetCol() * iRow + iCol]);
+		for (int iRow = iLTRow; iRow < iRBRow; ++iRow) {
+			for (int iCol = iLTCol; iCol < iRBCol; ++iCol) {
+				CTile* pTile = dynamic_cast<CTile*>(vecTiles[pTileMap->GetCol()  * iRow + iCol]);
 				if (nullptr == pTile)
 					continue;
 				if (m_iCurCitizenCnt > m_imaxCitizenCnt)

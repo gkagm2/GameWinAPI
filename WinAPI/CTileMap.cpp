@@ -4,6 +4,7 @@
 #include "CTileMap.h"
 #include "CTile.h"
 #include "CObject.h"
+#include "CColliderRect.h"
 
 CTileMap::CTileMap(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
@@ -48,30 +49,51 @@ void CTileMap::CreateTileGrid(UINT _iRow, UINT _iCol)
 	}
 }
 
-// TODO : 타일 콜라이더 최적화하기
+
+
 void CTileMap::GetEndIdxOfRectArea(int** _grid, int _startX, int _startY, int& _endX, int& _endY) {
-	if (0 == _grid[_startY][_startX]) {
-		_grid[_startY][_startX] = 1;
-	}
 
-	// 오른쪽 끝까지 간다.
-	int startX = _startX;
-	int startY = _startY;
+	vector<CObject*>& vecTileObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::TILE);
 
-	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
-	vector<CObject*>& tiles = pCurScene->GetObjects(E_GroupType::TILE);
+	CTile* pTile = dynamic_cast<CTile*>(vecTileObj[_startY * m_iCol + _startX]);
 
-	while (true) {
-		for (int y = startY; y < (int)m_iRow; ++y) {
-			for (int x = startX; x < (int)m_iCol; ++x) {
-				CTile* pTile = (CTile*)tiles[m_iCol * y + x];
-				if (E_TileType::Wall == pTile->GetTileType()) {
-					
+	// get min size of column and row
+	int minX = m_iCol - 1;
+	int minY = m_iRow - 1;
+	int y = _startY;
+	int x = _startX;
+	for (; y < m_iRow; ++y) {
+		x = _startX;
+
+		pTile = dynamic_cast<CTile*>(vecTileObj[y * m_iCol + x]);
+		if (!(E_TileType::Wall == pTile->GetTileType() || E_TileType::Water == pTile->GetTileType()) || (int)E_VisitedState::visited == _grid[y][x]) {
+			minY = y - 1;
+			break;
+		}
+
+		for (; x <= minX; ++x) {
+			pTile = dynamic_cast<CTile*>(vecTileObj[y * m_iCol + x]);
+			if (!(E_TileType::Wall == pTile->GetTileType() || E_TileType::Water == pTile->GetTileType()) || (int)E_VisitedState::visited == _grid[y][x] ) {
+				if (minX > x - 1) {
+					minX = x - 1;
 				}
 			}
 		}
 	}
+
+	// 잡힌 영역을 방문했다고 표시한다.
+	for (int y = _startY; y <= minY; ++y) {
+		for (int x = _startX; x <= minX; ++x) {
+			_grid[y][x] = 1;
+		}
+	}
+	x = _startX;
+	y = _startY;
+
+	_endX = minX;
+	_endY = minY;
 }
+
 
 void CTileMap::OptimizationTileCollider()
 {
@@ -80,13 +102,16 @@ void CTileMap::OptimizationTileCollider()
 	for (int i = 0; i < (int)m_iRow; ++i)
 		grid[i] = new int[(int)m_iCol];
 
-
 	for (int i = 0; i < (int)m_iRow; ++i)
 		memset(grid[i], 0, sizeof(int) * m_iCol);
 
-	// grid type -> 0 : non visited, 1: visited
-	
+	// 잡힌 영역을 저장할 벡터
+	vector<CObject*>& vecTileObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::TILE);
+
+	// grid type -> 0 : not visited, 1: visited
+	vector<RECT> vecPos; // 콜라이더를 생성시킬 벡터
 	// collider 영역 잡기.
+	enum class E_VisitedState{ not_visited, visited};
 	int startPosX = 0;
 	int startPosY = 0;
 	int endPosX = 0;
@@ -95,14 +120,27 @@ void CTileMap::OptimizationTileCollider()
 		for (int x = 0; x < (int)m_iCol; ++x) {
 			endPosX = startPosX = x;
 			endPosY = startPosY = y;
-			if ((int)E_TileType::Wall == grid[startPosY][startPosX]) {
-				GetEndIdxOfRectArea(grid, startPosX, startPosX, endPosX, endPosY);
-
-				// start Pos 와 end Pos idx를 이용하여
-				// 콜라이더 생성
-				// 맨 왼쪽 위의 타일에 콜라이더를 생성한다.
+			CTile* pTile = dynamic_cast<CTile*>(vecTileObj[startPosY * m_iCol + startPosX]);
+			if ((E_TileType::Wall == pTile->GetTileType() || E_TileType::Water == pTile->GetTileType()) && (int)E_VisitedState::not_visited == grid[startPosY][startPosX]) {
+				GetEndIdxOfRectArea(grid, startPosX, startPosY, endPosX, endPosY);
+				vecPos.push_back(RECT{ startPosX,startPosY,endPosX,endPosY });
 			}
-			grid[startPosY][startPosX] = 1;
+			grid[startPosY][startPosX] = (int)E_VisitedState::visited;
+		}
+	}
+
+	// 콜라이더 설정
+	for (UINT i = 0; i < vecPos.size(); ++i) {
+		RECT tRect = vecPos[i];
+
+		CTile* pTile = dynamic_cast<CTile*>(vecTileObj[tRect.top* m_iCol + tRect.left]);
+		if (pTile) {
+			CColliderRect* pColRect = new CColliderRect(pTile);
+
+			float scaleX = (float)TILE_SIZE * (tRect.right + 1 - tRect.left);
+			float scaleY = (float)TILE_SIZE * (tRect.bottom + 1 - tRect.top);
+			pColRect->SetScale(Vector3(scaleX, scaleY));
+			pColRect->SetOffsetPosition(Vector3(scaleX * 0.5f, scaleY * 0.5f));
 		}
 	}
 

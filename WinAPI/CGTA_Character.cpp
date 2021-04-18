@@ -12,6 +12,7 @@
 #include "CTimeManager.h"
 #include "CCamera.h"
 #include "CObject.h"
+#include "CRigidbody2D.h"
 
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
@@ -60,7 +61,14 @@ CGTA_Character::~CGTA_Character()
 	
 void CGTA_Character::Init()
 {
-	
+	// Collider set
+	CColliderRect* pCollider = new CColliderRect(this);
+	SetCollider(pCollider);
+	pCollider->SetScale(Vector3(45.f, 45.f, 0.f));
+
+	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
+	SetRigidbody(pRigidbody);
+
 	CObject::Init();
 }
 

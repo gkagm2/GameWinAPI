@@ -57,6 +57,9 @@ void CTile::Render(HDC _hDC)
 		// 이미지 드로잉.
 		BitBlt(_hDC, (int)vRenderPos.x, (int)vRenderPos.y, g_iTileSize, g_iTileSize, GetTexture()->GetDC(), GetCol() * g_iTileSize, GetRow() * g_iTileSize, SRCCOPY);
 	}
+
+	if (GetCollider())
+		GetCollider()->Render(_hDC);
 }
 
 void CTile::RenderDefaultTile(HDC _hDC, const Vector3& _vRenderPos)
@@ -74,8 +77,7 @@ void CTile::SetTile(int _iImageIdx, E_TileType _eTileType, CTexture* _pTileTextu
 	m_eTileType = _eTileType;
 	SetTexture(_pTileTexture);
 	m_iMaxCol = GetTexture()->GetWidth() / g_iTileSize;
-	m_iMaxRow = GetTexture()->GetHeight() / g_iTileSize;	
-	CheckAndAttachedCollider();
+	m_iMaxRow = GetTexture()->GetHeight() / g_iTileSize;
 }
 
 Vector3 CTile::GetMin()
@@ -94,24 +96,6 @@ Vector3 CTile::GetMax()
 	else
 		vMaxPosition += GetScale();
 	return vMaxPosition;
-}
-
-void CTile::CheckAndAttachedCollider()
-{
-	if (E_TileType::Wall == m_eTileType) {
-		if (nullptr != GetCollider())
-			return;
-		CColliderRect* pcolRect = new CColliderRect(this);
-		pcolRect->SetScale(Vector3((float)g_iTileSize, (float)g_iTileSize, 0.f));
-		pcolRect->SetOffsetPosition(Vector3(g_iTileSize * 0.5f, g_iTileSize * 0.5f,0.f));
-	}
-	else {
-		if (nullptr != GetCollider()) {
-			CCollider* pCollider = GetCollider();
-			delete pCollider;
-			SetCollider(nullptr);
-		}
-	}
 }
 
 void CTile::Save(FILE* _pFile)
@@ -154,6 +138,4 @@ void CTile::Load(FILE* _pFile)
 		m_iMaxCol = GetTexture()->GetWidth() / g_iTileSize;
 		m_iMaxRow = GetTexture()->GetHeight() / g_iTileSize;
 	}
-
-	CheckAndAttachedCollider();
 }

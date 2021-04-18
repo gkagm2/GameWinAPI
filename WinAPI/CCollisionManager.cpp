@@ -103,7 +103,7 @@ void CCollisionManager::CollisionByGroup(UINT _iGroup1Idx, UINT _iGroup2Idx)
 }
 
 // 사각형과 사각형 충돌체크 AABB
-/*
+
 bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _pColRect2, RECT* _ptIntersectionRect)
 {
 	if( (_pColRect1->GetScale().x + _pColRect2->GetScale().x) * 0.5f < abs(_pColRect1->GetPosition().x - _pColRect2->GetPosition().x) ||
@@ -120,17 +120,17 @@ bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _
 	// 교차 영역을 담을 포인터 변수가 존재하면
 	if (nullptr != _ptIntersectionRect) {
 		// 수평 충돌
-		_ptIntersectionRect->left = max(_pColRect1->GetMinPos().x, _pColRect2->GetMinPos().x);
-		_ptIntersectionRect->right = min(_pColRect1->GetMaxPos().x, _pColRect2->GetMaxPos().x);
+		_ptIntersectionRect->left = int(max(_pColRect1->GetMinPos().x, _pColRect2->GetMinPos().x));
+		_ptIntersectionRect->right = int(min(_pColRect1->GetMaxPos().x, _pColRect2->GetMaxPos().x));
 		// 수직 충돌
-		_ptIntersectionRect->top = max(_pColRect1->GetMinPos().y, _pColRect2->GetMinPos().y);
-		_ptIntersectionRect->bottom = min(_pColRect1->GetMaxPos().y, _pColRect2->GetMaxPos().y);
+		_ptIntersectionRect->top = int(max(_pColRect1->GetMinPos().y, _pColRect2->GetMinPos().y));
+		_ptIntersectionRect->bottom = int(min(_pColRect1->GetMaxPos().y, _pColRect2->GetMaxPos().y));
 	}
 
 	return true;
 }
-*/
 
+/*
 // 사각형과 사각형 충돌체크 OBB 2D
 bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _pColRect2, RECT* _ptIntersectionRect) {
 	// 투영시킬 각 사각형의 up, right 벡터
@@ -187,6 +187,7 @@ bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _
 
 	return true;
 }
+*/
 
 // 사각형과 원 충돌체크
 bool CCollisionManager::_IsCollision(CColliderRect* _pColRect, CColliderCircle* _pColCircle)
@@ -327,13 +328,13 @@ void CCollisionManager::SetNotIntersection(CColliderRect* _pColRect, CColliderRe
 		// 위 아래 체크
 		if (iWidth > iHeight) {
 			// 위에서 충돌 시
-			if (tIntersectionRect.top == _pColHoldRect->GetMinPos().y) {
+			if (tIntersectionRect.top == (int)_pColHoldRect->GetMinPos().y) {
 				// 충돌 수직 높이만큼 위로 밀어줌
 				const Vector3& vRectPos = _pColRect->GetOwnerObject()->GetPosition();
 				_pColRect->GetOwnerObject()->SetPosition(vRectPos.x, vRectPos.y - iHeight, vRectPos.z);
 			}
 			// 아래에서 충돌 시
-			else if (tIntersectionRect.bottom == _pColHoldRect->GetMaxPos().y) {
+			else if (tIntersectionRect.bottom == (int)_pColHoldRect->GetMaxPos().y) {
 				// 충돌 수직 높이만큼 아래로 밀어줌
 				const Vector3& vRectPos = _pColRect->GetOwnerObject()->GetPosition();
 				_pColRect->GetOwnerObject()->SetPosition(vRectPos.x, vRectPos.y + iHeight, vRectPos.z);
@@ -342,13 +343,13 @@ void CCollisionManager::SetNotIntersection(CColliderRect* _pColRect, CColliderRe
 		// 좌우 체크
 		else {
 			// 왼쪽에서 충돌 시
-			if (tIntersectionRect.left == _pColHoldRect->GetMinPos().x) {
+			if (tIntersectionRect.left == (int)_pColHoldRect->GetMinPos().x) {
 				// 충돌된 가로 길이만큼 왼쪽으로 밀어줌
 				const Vector3& vRectPos = _pColRect->GetOwnerObject()->GetPosition();
 				_pColRect->GetOwnerObject()->SetPosition(vRectPos.x - iWidth, vRectPos.y, vRectPos.z);
 			}
 			// 오른쪽에서 충돌 시
-			else if (tIntersectionRect.right == _pColHoldRect->GetMaxPos().x) {
+			else if (tIntersectionRect.right == (int)_pColHoldRect->GetMaxPos().x) {
 				// 충돌된 가로 길이만큼 오른쪽으로 밀어줌
 				const Vector3& vRectPos = _pColRect->GetOwnerObject()->GetPosition();
 				_pColRect->GetOwnerObject()->SetPosition(vRectPos.x + iWidth, vRectPos.y, vRectPos.z);

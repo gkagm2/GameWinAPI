@@ -367,7 +367,8 @@ void CScene::LoadTileDialogBox(wstring _strPath)
 		}
 
 	}
-
+	//collider 설정 후 최적화
+	m_pTileMap->OptimizationTileCollider();
 	fclose(pFile);
 }
 

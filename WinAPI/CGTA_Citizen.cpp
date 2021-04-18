@@ -8,6 +8,7 @@
 #include "CGTA_Character.h"
 #include "CColliderRect.h"
 #include "CGTA_Player.h"
+#include "CRigidbody2D.h"
 
 CGTA_Citizen::CGTA_Citizen(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType)
@@ -44,12 +45,14 @@ void CGTA_Citizen::Init()
 	// Collider set
 	CColliderRect* pCollider = new CColliderRect(this);
 	SetCollider(pCollider);
-	pCollider->SetScale(Vector3(15.f, 15.f, 0.f));
+	pCollider->SetScale(Vector3(20.f, 20.f, 0.f));
 
 	SetObjectName(L"Citizen");
 
 	SetPosition(300,300, 0);
 	CGTA_Character::Init();
+
+	GetRigidbody()->SetMass(9.0f);
 }
 
 void CGTA_Citizen::PrevUpdate()
