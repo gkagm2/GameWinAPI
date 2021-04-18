@@ -6,6 +6,7 @@ class CCollider
 {
 private:
 	static UINT g_iColliderID;
+	static bool g_bIsRender;			// 렌더링 여부
 
 protected:
 	CObject* m_pOwnerObject;	// 이 객체를 가지고 있는 오브젝트
@@ -17,6 +18,7 @@ protected:
 	UINT m_iID;					// 충돌체 고유 식별번호
 
 	bool m_bIsTrigger;			// 충돌 시 고정 여부
+	
 
 public:
 	virtual void Render(HDC _hDC) {}
@@ -53,6 +55,9 @@ public:
 
 	void SetTrigger(bool _bIsTrigger) { m_bIsTrigger = _bIsTrigger; }
 	bool IsTrigger() { return m_bIsTrigger; }
+
+	static void SetRenderActive(bool _bIsRender) { g_bIsRender = _bIsRender; }
+	bool IsRender() { return g_bIsRender; }
 	
 public:
 	virtual CLONE(CCollider);

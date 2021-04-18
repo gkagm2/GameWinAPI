@@ -101,8 +101,10 @@ void CGTA_Item::Render(HDC _hDC)
 	}
 
 	// ColliderRendering
-	if (nullptr != GetCollider())
-		GetCollider()->Render(_hDC);
+	if (nullptr != GetCollider()) {
+		if (GetCollider()->IsRender())
+			GetCollider()->Render(_hDC);
+	}
 }
 
 void CGTA_Item::OnCollisionEnter(CObject* _pOther)

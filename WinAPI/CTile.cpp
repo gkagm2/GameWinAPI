@@ -58,8 +58,10 @@ void CTile::Render(HDC _hDC)
 		BitBlt(_hDC, (int)vRenderPos.x, (int)vRenderPos.y, g_iTileSize, g_iTileSize, GetTexture()->GetDC(), GetCol() * g_iTileSize, GetRow() * g_iTileSize, SRCCOPY);
 	}
 
-	if (GetCollider())
-		GetCollider()->Render(_hDC);
+	if (GetCollider()) {
+		if(GetCollider()->IsRender())
+			GetCollider()->Render(_hDC);
+	}
 }
 
 void CTile::RenderDefaultTile(HDC _hDC, const Vector3& _vRenderPos)

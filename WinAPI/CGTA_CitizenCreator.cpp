@@ -36,9 +36,11 @@ CGTA_CitizenCreator::~CGTA_CitizenCreator()
 
 void CGTA_CitizenCreator::Init()
 {
-	m_pCitizenObjPrefab = new  CGTA_Citizen(E_GroupType::CITIZEN);
-	m_pCitizenObjPrefab->SetObjectName(L"Citizen");
-	m_pCitizenObjPrefab->Init();
+	if (nullptr == m_pCitizenObjPrefab) {
+		m_pCitizenObjPrefab = new  CGTA_Citizen(E_GroupType::CITIZEN);
+		m_pCitizenObjPrefab->SetObjectName(L"Citizen");
+		m_pCitizenObjPrefab->Init();
+	}
 
 	// TODO : 오브젝트 풀링 방식으로 바꾸는중
 	for (int i = 0; i < m_imaxCitizenCnt; ++i) {
@@ -144,7 +146,6 @@ void CGTA_CitizenCreator::Update()
 
 void CGTA_CitizenCreator::Render(HDC _hDC)
 {
-
 }
 
 void CGTA_CitizenCreator::GetEnableCreateArea(int& _iLTCol, int& _iLTRow, int& _iRBCol, int& _iRBRow)

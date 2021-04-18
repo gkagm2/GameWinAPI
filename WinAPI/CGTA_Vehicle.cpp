@@ -124,6 +124,7 @@ void CGTA_Vehicle::Render(HDC _hDC)
 	}
 	
 	if (nullptr != GetCollider()) {
-		GetCollider()->Render(_hDC);
+		if(GetCollider()->IsRender())
+			GetCollider()->Render(_hDC);
 	}
 }

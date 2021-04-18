@@ -5,6 +5,7 @@
 #include "CEventManager.h"
 
 UINT CCollider::g_iColliderID = 0;
+bool CCollider::g_bIsRender = true;
 
 CCollider::CCollider(CObject* _ownerObject) :
 	m_pOwnerObject(_ownerObject),

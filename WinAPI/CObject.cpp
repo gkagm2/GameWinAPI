@@ -142,7 +142,8 @@ void CObject::Render(HDC _hDC)
 
 	// ColliderRendering
 	if (nullptr != m_pCollider) {
-		m_pCollider->Render(_hDC);
+		if(GetCollider()->IsRender())
+			m_pCollider->Render(_hDC);
 	}
 }
 

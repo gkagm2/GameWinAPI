@@ -155,7 +155,8 @@ void CMonster::Render(HDC _hDC)
 
 	// ColliderRendering
 	if (nullptr != GetCollider()) {
-		GetCollider()->Render(_hDC);
+		if (GetCollider()->IsRender())
+			GetCollider()->Render(_hDC);
 	}
 }
 

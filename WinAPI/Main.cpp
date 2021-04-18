@@ -23,7 +23,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_ int       nCmdShow)
 {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    //_crtBreakAlloc(); // prompt창에 메모리 누수 발생 시 라인이 뜨는데 그 라인의 숫자를 파라미터에 넣으면 메모리 누수 발생지점에서 중단점이 걸린다.
+    // _crtBreakAlloc(); // prompt창에 메모리 누수 발생 시 라인이 뜨는데 그 라인의 숫자를 파라미터에 넣으면 메모리 누수 발생지점에서 중단점이 걸린다.
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
