@@ -42,6 +42,10 @@ void CGTA_Cop::OnCollisionExit(CObject* _pOther)
 {
 }
 
+void CGTA_Cop::State()
+{
+}
+
 void CGTA_Cop::Move()
 {
 }

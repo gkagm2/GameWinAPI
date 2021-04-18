@@ -83,6 +83,30 @@ void CGTA_Citizen::OnCollisionExit(CObject* _pOther)
 {
 }
 
+void CGTA_Citizen::State()
+{
+	switch (m_eCharacterState) {
+	case E_CharacterState::idle:
+		GetAnimator()->PlayAnimation(L"idle", E_AnimationPlayType::LOOP);
+		break;
+	case E_CharacterState::walk:
+		GetAnimator()->PlayAnimation(L"walk", E_AnimationPlayType::LOOP);
+		break;
+	case E_CharacterState::run:
+		GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
+		break;
+	case E_CharacterState::stun:
+		GetAnimator()->PlayAnimation(L"stun", E_AnimationPlayType::LOOP);
+		Stun();
+		break;
+	case E_CharacterState::dead:
+		wstring strDeadArr[] = { L"dead1", L"dead2" };
+		GetAnimator()->PlayAnimation(strDeadArr[rand() % 2].c_str(), E_AnimationPlayType::LOOP);
+		Dead();
+		break;
+	}
+}
+
 void CGTA_Citizen::Move()
 {
 }

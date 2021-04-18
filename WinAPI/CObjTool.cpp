@@ -422,7 +422,7 @@ void CObjTool::CreateWeaponItem(E_WeaponType _eWeaponType)
 		TWeaponInfo tWeaponInfo;
 		switch (_eWeaponType) {
 		case E_WeaponType::PISTOL: {
-			pItem->SetLT(Vector2(0, 0));
+			pItem->SetLT(Vector2(80, 0));
 			pItem->SetWeaponType(E_WeaponType::PISTOL);
 			pItem->SetObjectName(STR_NAME_Pistol);
 			tWeaponInfo.strName = STR_NAME_Pistol;
@@ -432,7 +432,7 @@ void CObjTool::CreateWeaponItem(E_WeaponType _eWeaponType)
 		}
 
 		case E_WeaponType::ROCKET_LAUNCHER: {
-			pItem->SetLT(Vector2(40, 0));
+			pItem->SetLT(Vector2(0, 0));
 			pItem->SetWeaponType(E_WeaponType::ROCKET_LAUNCHER);
 			pItem->SetObjectName(STR_NAME_RocketLauncher);
 			tWeaponInfo.strName = STR_NAME_RocketLauncher;
@@ -442,7 +442,7 @@ void CObjTool::CreateWeaponItem(E_WeaponType _eWeaponType)
 		}
 
 		case E_WeaponType::SHOTGUN: {
-			pItem->SetLT(Vector2(80, 0));
+			pItem->SetLT(Vector2(40, 0));
 			pItem->SetWeaponType(E_WeaponType::SHOTGUN);
 			pItem->SetObjectName(STR_NAME_Shotgun);
 			tWeaponInfo.strName = STR_NAME_Shotgun;

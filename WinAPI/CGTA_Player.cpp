@@ -14,7 +14,7 @@
 #include "CGTA_Bullet.h"
 #include "CRigidbody2D.h"
 #include "CGTA_Item.h"
-#include "CGTA_PunchDetector.h"
+#include "CDebug.h"
 
 CGTA_Player::CGTA_Player(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType)
@@ -32,6 +32,7 @@ void CGTA_Player::Init()
 	if (nullptr == pTexture)
 		pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_gta_player, STR_FILE_PATH_gta_player);
 	SetTexture(pTexture);
+
 
 	// Animator set
 	SetAnimator(new CAnimator(this));
@@ -77,7 +78,6 @@ void CGTA_Player::PrevUpdate()
 
 void CGTA_Player::Update()
 {
-
 	if (m_bIsDrive)
 		Drive();
 	else
@@ -87,12 +87,14 @@ void CGTA_Player::Update()
 	if (InputKeyHold(E_Key::Ctrl)) {
 		if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
 			Attack();
+			ActivePunchDetector(true);
 			m_fAttackCoolTime = 0.f;
 		}
 	}
 	if (InputKeyRelease(E_Key::Ctrl)) {
-		if (E_WeaponType::FIST == GetCurWeaponType())
-			m_pPunchDetector->GetCollider()->SetActive(false);
+		if (E_WeaponType::FIST == GetCurWeaponType()) {
+
+		}
 	}
 
 	if (InputKeyPress(E_Key::Z)) {
@@ -102,36 +104,9 @@ void CGTA_Player::Update()
 		ChangeNextWeapon();
 	}
 
-	// State
-	switch (m_eCharacterState) {
-	case E_CharacterState::idle:
-		break;
-	case E_CharacterState::idle_weapon:
-		break;
-	case E_CharacterState::run:
-		break;
-	case E_CharacterState::run_weapon:
-		break;
-	case E_CharacterState::walk:
-		break;
-	case E_CharacterState::walk_weapon:
-		break;
-	case E_CharacterState::attack: {
-	}
-		break;
-	case E_CharacterState::attack_Weapon: {
-
-	}
-		break;
-	case E_CharacterState::dead:
-		break;
-	case E_CharacterState::getInTheCar:
-		break;
-	case E_CharacterState::getOffTheCar:
-		break;
-	case E_CharacterState::hit:
-		break;
-	}
+	
+	Debug->Print(Vector2(30, 80), L"s", GetWeaponInfo(GetCurWeaponType()).strName.c_str());
+	State();
 }
 
 void CGTA_Player::LateUpdate()
@@ -156,6 +131,51 @@ void CGTA_Player::OnCollisionExit(CObject* _pOther)
 {
 }
 
+void CGTA_Player::State()
+{
+	// State
+	switch (m_eCharacterState) {
+	case E_CharacterState::idle: {
+		if (HaveGun())
+			GetAnimator()->PlayAnimation(L"idle_gun", E_AnimationPlayType::LOOP);
+		else
+			GetAnimator()->PlayAnimation(L"idle", E_AnimationPlayType::LOOP);
+	}
+		break;
+	case E_CharacterState::run:
+		if (HaveGun())
+			GetAnimator()->PlayAnimation(L"run_gun", E_AnimationPlayType::LOOP);
+		else
+			GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
+		break;
+	case E_CharacterState::walk:
+		break;
+	case E_CharacterState::attack:
+		if (false == HaveGun()) {
+			if (true == GetAnimator()->GetAnimation(L"punch")->IsFinish()) {
+
+				if (InputKeyHold(E_Key::UP) || InputKeyHold(E_Key::DOWN))
+					SetCharacterState(E_CharacterState::run);
+				else
+					SetCharacterState(E_CharacterState::idle);
+			}
+			else {
+				GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
+				int iCurFrame = GetAnimator()->GetAnimation(L"punch")->GetCurFrame();
+			}
+		}
+		break;
+	case E_CharacterState::dead:
+		break;
+	case E_CharacterState::getInTheCar:
+		break;
+	case E_CharacterState::getOffTheCar:
+		break;
+	case E_CharacterState::hit:
+		break;
+	}
+}
+
 void CGTA_Player::Move()
 {
 	Vector3 vHeadDir = GetUpVector();
@@ -167,18 +187,19 @@ void CGTA_Player::Move()
 		RotateRP(220 * DeltaTime);
 	}
 
-	if (InputKeyPress(E_Key::UP)) {
-		GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
-	}
-	if (InputKeyPress(E_Key::DOWN)) {
-		GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
-	}
 	if (InputKeyRelease(E_Key::UP)) {
-		GetAnimator()->PlayAnimation(L"idle", E_AnimationPlayType::ONCE);
+		SetCharacterState(E_CharacterState::idle);
 	}
 	if (InputKeyRelease(E_Key::DOWN)) {
-		GetAnimator()->PlayAnimation(L"idle", E_AnimationPlayType::ONCE);
+		SetCharacterState(E_CharacterState::idle);
 	}
+	if (InputKeyPress(E_Key::UP)) {
+		SetCharacterState(E_CharacterState::run);
+	}
+	if (InputKeyPress(E_Key::DOWN)) {
+		SetCharacterState(E_CharacterState::run);
+	}
+	
 
 	if (InputKeyHold(E_Key::UP)) {
 		float x = GetPosition().x - GetUpVector().x * 300 * DeltaTime;
@@ -199,10 +220,6 @@ void CGTA_Player::Attack()
 	if (E_WeaponType::FIST == eWeaponType) {
 		GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
 		// Punch 컬라이더가 생성된다
-		m_pPunchDetector->GetCollider()->SetActive(true);
-
-		// 생성된 후 사라지기
-		SetCharacterState(E_CharacterState::attack);
 	} 
 	else {	
 		// 총알 오브젝트 생성.
@@ -220,8 +237,8 @@ void CGTA_Player::Attack()
 				return;
 			}
 		}
-		SetCharacterState(E_CharacterState::attack_Weapon);
 	}
+	SetCharacterState(E_CharacterState::attack);
 }
 
 void CGTA_Player::Drive()
@@ -248,16 +265,17 @@ void CGTA_Player::GetItem(CGTA_Item* pItem)
 		TWeaponInfo tWeaponInfo = GetWeaponInfo(eWeaponType);
 
 		//총알 추가
-		tWeaponInfo.iBulletCnt += pItem->GetWeaponInfo().iBulletCnt;
+		int iBullet = tWeaponInfo.iBulletCnt;
+		tWeaponInfo = pItem->GetWeaponInfo();
+		tWeaponInfo.iBulletCnt += iBullet;
 
 		// 아이템을 이미 가지고 있다면 아이템의 총알을 더해준다.
-		if (IsWeaponExists(eWeaponType)) {
-			
+		if (IsWeaponExists(eWeaponType))
 			SetWeaponInfo(eWeaponType, tWeaponInfo);
-		}
 		// 아이템이 없으면 그 아이템을 허용시키고 값들 대입 후, 현재 무기로 바꿔준다.
 		else {
 			SetWeaponState(true, eWeaponType); // 아이템 허용
+			SetWeaponInfo(eWeaponType, tWeaponInfo); // 바뀐 정보 적용
 			while (eWeaponType != GetCurWeaponType()) // 현재 무기로 바꿈
 				ChangeNextWeapon();
 
@@ -281,8 +299,6 @@ void CGTA_Player::ChangePrevWeapon()
 		}
 		++iNextWeaponIdx;
 	}
-
-
 
 	const TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
 	m_fAttackMaxCoolTime = tWeaponInfo.fShootCoolTime;

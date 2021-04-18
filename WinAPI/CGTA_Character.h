@@ -3,17 +3,14 @@
 
 enum class E_CharacterState {
 	idle,
-	idle_weapon,
 	walk,
-	walk_weapon,
 	hit,
 	run,
-	run_weapon,
 	attack,
-	attack_Weapon,
 	getInTheCar,
 	getOffTheCar,
 	dead,
+	stun
 };
 
 enum class ECopState {
@@ -47,6 +44,12 @@ protected:
 	float m_fAttackCoolTime;
 	float m_fAttackMaxCoolTime;
 
+	float m_fStunCoolTime;
+	float m_fStunMaxCoolTime;
+
+	float m_fDeadCoolTime;
+	float m_fDeadMaxCoolTime;
+
 	CGTA_Vehicle* m_pVehicle;
 	Vector3 m_vNozzlePos;
 
@@ -69,6 +72,8 @@ public:
 	virtual void OnCollisionExit(CObject* _pOther);
 
 public:
+	virtual void State();
+	virtual void Stun();
 	virtual void Move() {}
 	virtual void Attack();
 	virtual void Drive() {}
@@ -85,10 +90,17 @@ public:
 
 	void SetWeaponInfo(E_WeaponType _eWeaponType, const TWeaponInfo& _tWeaponInfo) { m_vecWeapon[(UINT)_eWeaponType].second = _tWeaponInfo; }
 
+	void ActivePunchDetector(bool _bActive);
+
 	// Character State
 	void SetCharacterState(E_CharacterState _eCharacterState) { m_eCharacterState = _eCharacterState; }
 	E_CharacterState GetCharacterState() { return m_eCharacterState; }
 
+	bool HaveGun() {
+		if (E_WeaponType::FIST == GetCurWeaponType())
+			return false;
+		return true;
+	}
 
 public:
 	CLONE(CGTA_Character);

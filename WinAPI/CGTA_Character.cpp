@@ -12,13 +12,16 @@
 #include "CTimeManager.h"
 #include "CCamera.h"
 #include "CObject.h"
-#include "CGTA_PunchDetector.h"
 
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
 	m_bIsDrive(false),
 	m_fAttackCoolTime(0.f),
 	m_fAttackMaxCoolTime(0.f),
+	m_fStunCoolTime(0.f),
+	m_fStunMaxCoolTime(10.f),
+	m_fDeadCoolTime(0.f),
+	m_fDeadMaxCoolTime(20.f),
 	m_pVehicle(nullptr),
 	m_vNozzlePos(GetUpVector() * 5.f),
 	m_pPunchDetector(nullptr),
@@ -32,9 +35,6 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_vecWeapon[(UINT)E_WeaponType::FIST].first = true;
 	m_vecWeapon[(UINT)E_WeaponType::FIST].second.bIsInfinite = true;
 	m_vecWeapon[(UINT)E_WeaponType::FIST].second.fShootCoolTime = 1.f;
-
-	m_pPunchDetector = new CGTA_PunchDetector(E_GroupType::PROJECTILE);
-	m_pPunchDetector->Init();
 }
 
 CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
@@ -42,19 +42,20 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	m_bIsDrive(false),
 	m_fAttackCoolTime(0.f),
 	m_fAttackMaxCoolTime(0.f),
+	m_fStunCoolTime(0.f),
+	m_fStunMaxCoolTime(10.f),
+	m_fDeadCoolTime(0.f),
+	m_fDeadMaxCoolTime(20.f),
 	m_pVehicle(nullptr),
 	m_vNozzlePos(GetUpVector() * 5.f),
 	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
 	m_eCharacterState(E_CharacterState::idle)
 {
-	m_pPunchDetector = _origin.m_pPunchDetector->Clone();
 }
 
 CGTA_Character::~CGTA_Character()
 {
-	if (nullptr != m_pPunchDetector)
-		delete m_pPunchDetector;
 }
 	
 void CGTA_Character::Init()
@@ -123,9 +124,27 @@ void CGTA_Character::OnCollisionExit(CObject* _pOther)
 {
 }
 
+void CGTA_Character::State()
+{
+
+}
+
+void CGTA_Character::Stun()
+{
+	m_fStunCoolTime += DeltaTime;
+	if (m_fStunCoolTime >= m_fStunMaxCoolTime) {
+		SetCharacterState(E_CharacterState::run);
+		m_fStunCoolTime =0.f;
+	}
+}
+
 void CGTA_Character::Attack()
 {
 
+}
+
+void CGTA_Character::ActivePunchDetector(bool _bActive)
+{
 }
 
 void TWeaponInfo::Save(FILE* _pFile)

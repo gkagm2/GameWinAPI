@@ -75,7 +75,10 @@ void CAnimator::PlayAnimation(const wstring& _strName, E_AnimationPlayType _eTyp
 	m_pCurAnimation = iter->second; // 애니메이션 지정
 	m_ePlayType = _eType;
 
-	m_pCurAnimation->Reset();
+	if (E_AnimationPlayType::ONCE == _eType) {
+		if (m_pCurAnimation->IsFinish())
+			m_pCurAnimation->Reset();
+	}
 }
 
 void CAnimator::LateUpdate()

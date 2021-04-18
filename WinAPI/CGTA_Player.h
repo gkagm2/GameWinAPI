@@ -22,6 +22,7 @@ public:
 	virtual void OnCollisionExit(CObject* _pOther);
 
 public:
+	virtual void State() override;
 	virtual void Move() override;
 	virtual void Attack() override;
 	virtual void Drive() override;
