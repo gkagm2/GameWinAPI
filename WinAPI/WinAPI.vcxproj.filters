@@ -254,6 +254,21 @@
     <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState">
       <UniqueIdentifier>{a8f7be8e-9252-451d-ba9b-ddf2188beb27}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState\Idle">
+      <UniqueIdentifier>{b82915f7-6066-4720-b1f5-2712c1a554bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState\Runaway">
+      <UniqueIdentifier>{0c209658-1cc0-4e08-9056-72b19f353b5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState\Trace">
+      <UniqueIdentifier>{57fb1e19-dc24-4108-8cfd-5018942f2e88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState\Wander">
+      <UniqueIdentifier>{0e8f63ab-3abb-4b69-b85e-1cb9ab3f2d8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\AI\AStar">
+      <UniqueIdentifier>{47b3f1d7-26d5-452b-b542-e4bf2378ad35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -481,8 +496,20 @@
     <ClInclude Include="CGTA_AIState.h">
       <Filter>Game\5. Object\Gta_PJ\AI\AI State</Filter>
     </ClInclude>
-    <ClInclude Include="CGTA_IdleState_Citizen.h">
-      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState</Filter>
+    <ClInclude Include="CGTA_IdleState.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_RunawayState.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Runaway</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_TraceState.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Trace</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_WanderState.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Wander</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_AStar.h">
+      <Filter>Game\5. Object\Gta_PJ\AI\AStar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -703,8 +730,20 @@
     <ClCompile Include="CGTA_AIState.cpp">
       <Filter>Game\5. Object\Gta_PJ\AI\AI State</Filter>
     </ClCompile>
-    <ClCompile Include="CGTA_IdleState_Citizen.cpp">
-      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState</Filter>
+    <ClCompile Include="CGTA_IdleState.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_RunawayState.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Runaway</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_TraceState.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Trace</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_WanderState.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Wander</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_AStar.cpp">
+      <Filter>Game\5. Object\Gta_PJ\AI\AStar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

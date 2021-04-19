@@ -6,7 +6,6 @@ private:
 
 public:
 	virtual void Init() override;
-	virtual void PrevUpdate() override;
 	virtual void Update() override;
 	virtual void LateUpdate() override;
 	virtual void Render(HDC _hDC) override;

@@ -1,6 +1,6 @@
 #pragma once
 #include "CGTA_AIState.h"
-class CGTA_IdleState_Citizen : public CGTA_AIState
+class CGTA_IdleState : public CGTA_AIState
 {
 private:
 	CObject* m_pTarget;
@@ -13,6 +13,6 @@ public:
 	virtual void End() override;
 
 public:
-	CGTA_IdleState_Citizen();
-	virtual ~CGTA_IdleState_Citizen() override;
+	CGTA_IdleState();
+	virtual ~CGTA_IdleState() override;
 };

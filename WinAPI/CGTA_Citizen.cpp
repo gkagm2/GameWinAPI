@@ -11,6 +11,10 @@
 #include "CRigidbody2D.h"
 #include "CGTA_AI.h"
 #include "CGTA_AIState.h"
+#include "CGTA_IdleState.h"
+#include "CGTA_RunawayState.h"
+#include "CGTA_WanderState.h"
+
 
 CGTA_Citizen::CGTA_Citizen(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType)
@@ -57,24 +61,21 @@ void CGTA_Citizen::Init()
 
 	// AI set
 	CreateAI();
-	GetAI()->AddState(L"idle", new CGTA_IdleState_Citizen);
-	GetAI()->AddState(L"runaway", new CGTA_RunawayState_Citizen);
-	GetAI()->AddState(L"wander", new CGTA_Wander_Citizen);
+	GetAI()->AddState(L"idle", new CGTA_IdleState);
+	GetAI()->AddState(L"runaway", new CGTA_RunawayState);
+	GetAI()->AddState(L"wander", new CGTA_WanderState);
 	GetAI()->ChangeState(L"wander");
 
 }
 
-void CGTA_Citizen::PrevUpdate()
-{
-	__super::PrevUpdate();
-}
-
 void CGTA_Citizen::Update()
 {
+	GetAI()->Update();
 }
 
 void CGTA_Citizen::LateUpdate()
 {
+	GetAI()->LateUpdate();
 	__super::LateUpdate();
 }
 
