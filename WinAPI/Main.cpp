@@ -36,8 +36,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
-    // TODO : Delete this
-    srand(static_cast<int>(time(nullptr))); // TEST CODE
+    srand(static_cast<int>(time(nullptr)));
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINAPI));
 

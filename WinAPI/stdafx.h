@@ -21,10 +21,16 @@
 using std::map;
 #include <unordered_map>
 using std::unordered_map;
+
+#include <set>
+using std::set;
 using std::make_pair;
+
 
 #include <queue>
 using std::queue;
+#include <stack>
+using std::stack;
 
 #include <list>
 using std::list;
@@ -35,9 +41,6 @@ using std::wstring;
 using std::vector;
 #include <bitset>
 using std::bitset;
-
-#include <queue>
-using std::queue;
 
 #include "Define.h"
 #include "Struct.h"
