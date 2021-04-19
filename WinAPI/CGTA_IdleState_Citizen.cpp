@@ -1,6 +1,7 @@
 #include "CGTA_IdleState_Citizen.h"
 
-CGTA_IdleState_Citizen::CGTA_IdleState_Citizen()
+CGTA_IdleState_Citizen::CGTA_IdleState_Citizen() :
+	m_pTarget(nullptr)
 {
 }
 

@@ -29,7 +29,8 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_pVehicle(nullptr),
 	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
-	m_eCharacterState(E_CharacterState::idle)
+	m_eCharacterState(E_CharacterState::idle),
+	m_pAI(nullptr)
 {
 	// weapon system
 	int iSize = (int)E_WeaponType::END;
@@ -53,12 +54,15 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	m_pVehicle(nullptr),
 	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
-	m_eCharacterState(E_CharacterState::idle)
+	m_eCharacterState(E_CharacterState::idle),
+	m_pAI(nullptr)
 {
 }
 
 CGTA_Character::~CGTA_Character()
 {
+	if (nullptr != m_pAI)
+		delete m_pAI;
 }
 	
 void CGTA_Character::Init()
