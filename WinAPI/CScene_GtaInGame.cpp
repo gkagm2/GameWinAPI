@@ -24,6 +24,7 @@
 #include "CGTA_CitizenCreator.h"
 
 #include "CGTA_Item.h"
+#include "CGTA_Bullet.h"
 
 CScene_GtaInGame::CScene_GtaInGame()
 {
@@ -73,7 +74,7 @@ void CScene_GtaInGame::Start()
 	// Item 설정.
 	// item 정보 save, load 만들기
 	LoadItem(STR_FILE_PATH_GTA_Item_Save);
-	
+
 
 	// 수배 시스템
 	
@@ -93,15 +94,13 @@ void CScene_GtaInGame::Start()
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::CITIZEN, E_GroupType::VEHICLE, true);
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::CITIZEN, E_GroupType::PROJECTILE, true);
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::CITIZEN, E_GroupType::PUNCH, true);
-	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::CITIZEN, E_GroupType::CITIZEN, true);
+	//CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::CITIZEN, E_GroupType::CITIZEN, true);
 	//CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::CITIZEN, E_GroupType::TILE, true);
 
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::PROJECTILE, true);
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::TILE, true);
-	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::PROJECTILE, true);
-	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::PROJECTILE, true);
-	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::PROJECTILE, true);
-	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::PROJECTILE, true);
+
+	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::TILE, E_GroupType::PROJECTILE, true);
 }
 
 void CScene_GtaInGame::PrevUpdate()

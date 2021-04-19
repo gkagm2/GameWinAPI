@@ -24,7 +24,6 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_fDeadCoolTime(0.f),
 	m_fDeadMaxCoolTime(20.f),
 	m_pVehicle(nullptr),
-	m_vNozzlePos(GetUpVector() * 5.f),
 	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
 	m_eCharacterState(E_CharacterState::idle)
@@ -48,7 +47,6 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	m_fDeadCoolTime(0.f),
 	m_fDeadMaxCoolTime(20.f),
 	m_pVehicle(nullptr),
-	m_vNozzlePos(GetUpVector() * 5.f),
 	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
 	m_eCharacterState(E_CharacterState::idle)
@@ -63,7 +61,7 @@ void CGTA_Character::Init()
 {
 	// Collider set
 	CColliderRect* pCollider = new CColliderRect(this);
-	pCollider->SetScale(Vector3(45.f, 45.f, 0.f));
+	pCollider->SetScale(Vector3(15.f, 15.f, 0.f));
 
 	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
 	SetRigidbody(pRigidbody);

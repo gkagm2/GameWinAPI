@@ -112,20 +112,16 @@ void CObject::Render(HDC _hDC)
 		if (nullptr != m_pAnimator)
 			m_pAnimator->Render(_hDC);
 		else {
-			UINT iWidth = (UINT)ScaleX();
-			UINT iHeight = (UINT)ScaleY();
-			UINT iWidth1 = m_pTexture->GetWidth();
-			UINT iHeight1 = m_pTexture->GetHeight();
-			HDC hTextureDC = m_pTexture->GetDC();
 
+			const Vector3& vScale = GetScale();
 			// 예외처리할 색상 RGB값을 처리하기 위해 BitBlt대신 TransparentBlt을 이용 (library 필요)
 			TransparentBlt(
 				_hDC,
-				(int)(vRenderPosition.x - iWidth * 0.5f), (int)(vRenderPosition.y - iHeight * 0.5f),
-				iWidth, iHeight,
-				hTextureDC,
+				(int)(vRenderPosition.x - vScale.x * 0.5f), (int)(vRenderPosition.y - vScale.y * 0.5f),
+				(int)vScale.x, (int)vScale.y,
+				m_pTexture->GetDC(),
 				0, 0,
-				iWidth1, iHeight1,
+				m_pTexture->GetWidth(), m_pTexture->GetHeight(),
 				(COLORREF)EXCEPTION_COLOR_RGB_BLACK); // 제거 할 색상
 
 			/*BitBlt(

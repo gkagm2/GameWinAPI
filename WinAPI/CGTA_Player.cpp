@@ -221,8 +221,9 @@ void CGTA_Player::Attack()
 		// 총알 오브젝트 생성.
 		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
 		pBullet->Init();
-		pBullet->SetPosition(GetPosition() + GetNozzlePosition()); // 노즐 위치로 옮긴다.
 		pBullet->SetUpVector(GetUpVector(), GetRPDir(), GetRectPoint()); // 방향 설정
+		pBullet->RotateRP(180);
+		pBullet->SetPosition(GetPosition() - GetNozzlePosition()); // 노즐 위치로 옮긴다.
 		CreateObject(pBullet);
 
 		if (false == tWeaponInfo.bIsInfinite) { // 무한이 아닐 경우
@@ -277,7 +278,6 @@ void CGTA_Player::GetItem(CGTA_Item* pItem)
 
 			const TWeaponInfo& tCurWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
 			m_fAttackMaxCoolTime = tCurWeaponInfo.fShootCoolTime;
-			m_fAttackCoolTime = tCurWeaponInfo.fShootCoolTime;
 		}
 	}
 }
@@ -298,7 +298,7 @@ void CGTA_Player::ChangePrevWeapon()
 
 	const TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
 	m_fAttackMaxCoolTime = tWeaponInfo.fShootCoolTime;
-	m_fAttackCoolTime = tWeaponInfo.fShootCoolTime;
+	m_fAttackCoolTime = 0.f;
 }
 
 void CGTA_Player::ChangeNextWeapon()
@@ -317,5 +317,5 @@ void CGTA_Player::ChangeNextWeapon()
 
 	const TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
 	m_fAttackMaxCoolTime = tWeaponInfo.fShootCoolTime;
-	m_fAttackCoolTime = tWeaponInfo.fShootCoolTime;
+	m_fAttackCoolTime = 0.f;
 }

@@ -236,6 +236,9 @@
     <Filter Include="Game\5. Object\Gta_PJ\Tools\ObjTool">
       <UniqueIdentifier>{4ae18555-9ac5-4769-b985-93297777a2fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Bullet\Shotgun">
+      <UniqueIdentifier>{7df942bb-b475-43c9-93b5-eb1f8be7025c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

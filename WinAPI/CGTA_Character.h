@@ -51,7 +51,6 @@ protected:
 	float m_fDeadMaxCoolTime;
 
 	CGTA_Vehicle* m_pVehicle;
-	Vector3 m_vNozzlePos;
 
 	CGTA_PunchDetector* m_pPunchDetector;
 
@@ -80,7 +79,8 @@ public:
 	virtual void Dead() {}
 	virtual void GetInTheVehicle() {}
 	virtual void GetOutTheVehicle() {}
-	virtual const Vector3& GetNozzlePosition() final { return GetUpVector() * 5.f; }
+
+	Vector3 GetNozzlePosition() { return GetUpVector() * 15.0f; }
 
 	// Weapon
 	bool IsWeaponExists(E_WeaponType _eWeaponType) { return m_vecWeapon[(UINT)_eWeaponType].first; }

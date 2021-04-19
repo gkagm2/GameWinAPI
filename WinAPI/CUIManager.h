@@ -13,4 +13,6 @@ public:
 public:
 	void SetCurFocusedUI(CUI* _pCurFocusedUI) { m_pCurFocusedUI = _pCurFocusedUI; }
 	CUI* GetCurFocusedUI() { return m_pCurFocusedUI; }
+
+	bool IsMousePointInUI();
 };

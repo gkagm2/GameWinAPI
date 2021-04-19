@@ -239,8 +239,12 @@ bool CObjTool::IsTileClicked(const Vector2& _vClickPos)
 void CObjTool::MouseClick()
 {
 	if (InputKeyPress(E_Key::LBUTTON)) {
-		// TODO : UI를 클릭 했을 경우가 타이밍이 안맞는다. UIManager보다 이게 먼저 실행되버림ㄴ
 		// 포커스된 UI의 정보를 가져옴
+		bool bIsMousePointInUI = CUIManager::GetInstance()->IsMousePointInUI();
+		if(bIsMousePointInUI)
+			m_pDragScreen->SetDragScreenEnable(false);
+		else
+			m_pDragScreen->SetDragScreenEnable(true);
 		
 		vector<CObject*>& pTiles = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::TILE);
 		CUI* pFocusedUI = CUIManager::GetInstance()->GetCurFocusedUI();
@@ -277,6 +281,9 @@ void CObjTool::MouseClick()
 
 			// 타일 영역 안에 클릭했는지 체크
 			if (false == IsTileClicked(vClickPos))
+				return;
+
+			if (bIsMousePointInUI)
 				return;
 
 			// 클릭한 타일의 정보를 가온다.
@@ -334,7 +341,6 @@ void CObjTool::MouseClick()
 		bIsDrag = false;
 	}
 }
-
 
 // Citizen
 void CObjTool::InitCitizenTool()

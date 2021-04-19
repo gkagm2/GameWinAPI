@@ -5,14 +5,22 @@
 #include "CTexture.h"
 #include "CResource.h"
 #include "CResourceManager.h"
+#include "CCamera2D.h"
+#include "CScene.h"
+#include "CSceneManager.h"
+#include "CDebug.h"
+#include "CTile.h"
+#include "CGTA_Citizen.h"
+#include "CGTA_Player.h"
+#include "CGTA_Vehicle.h"
+
 
 CGTA_Bullet::CGTA_Bullet(E_GroupType e_GroupType) :
-	CObject(m_eGroupType),
+	CObject(e_GroupType),
 	m_fLifeCoolTime(0.f),
-	m_fLifeMaxCoolTime(7.f),
-	m_fSpeed(140.f)
+	m_fLifeMaxCoolTime(3.f),
+	m_fSpeed(1000.f)
 {
-
 }
 
 CGTA_Bullet::CGTA_Bullet(const CGTA_Bullet& _origin) :
@@ -38,11 +46,11 @@ void CGTA_Bullet::Init()
 
 	// 충돌 설정
 	CColliderRect* pCollider = new CColliderRect(this);
-	SetCollider(pCollider);
-	pCollider->SetScale(Vector3(10.f, 10.f, 0.f));
+	pCollider->SetScale(Vector3(20.f, 20.f, 0.f));
+	pCollider->SetTrigger(true);
 
 	// 크기 설정
-	SetScale(Vector3(20.f, 20.f, 0.f));
+	SetScale(Vector3(30.f, 30.f, 0.f));
 
 	CObject::Init();
 }
@@ -54,11 +62,62 @@ void CGTA_Bullet::Update()
 		DestroyObject(this);
 
 	Vector3 vHeadDir = GetUpVector();
-	SetPosition(GetPosition() +vHeadDir * DeltaTime * m_fSpeed);
+	SetPosition(GetPosition() + vHeadDir * DeltaTime * m_fSpeed);
+}
+
+void CGTA_Bullet::Render(HDC _hDC)
+{
+	Vector3 pos = GetPosition();
+	Vector3 vRenderPosition = MainCamera->GetRenderPosition(GetPosition());
+	Debug->Print(vRenderPosition, L"dd", vRenderPosition.x, vRenderPosition.y);
+	int scalex = GetScale().x;
+	int scaley = GetScale().y;
+	int width = GetTexture()->GetWidth();
+	int height = GetTexture()->GetHeight();
+
+	BitBlt(
+		_hDC,
+		(int)(vRenderPosition.x - GetTexture()->GetWidth() * 0.5f),
+		(int)(vRenderPosition.y - GetTexture()->GetHeight() * 0.5f),
+		GetTexture()->GetWidth(),
+		GetTexture()->GetHeight(),
+		GetTexture()->GetDC(),
+		0,
+		0,
+		SRCCOPY);
+	// Print Position
+
+		// ColliderRendering
+	if (nullptr != GetCollider()) {
+		if (GetCollider()->IsRender())
+			GetCollider()->Render(_hDC);
+	}
 }
 
 void CGTA_Bullet::OnCollisionEnter(CObject* _pOther)
 {
+	auto pTile = dynamic_cast<CTile*>(_pOther);
+	if (pTile) {
+		if (E_TileType::Wall == pTile->GetTileType())
+			DestroyObject(this);
+		return;
+	}
+	auto pCitizen = dynamic_cast<CGTA_Citizen*>(_pOther);
+	if (pCitizen) {
+		DestroyObject(this);
+		return;
+	}
+
+	auto pPlayer = dynamic_cast<CGTA_Player*>(_pOther);
+	if (pPlayer) {
+		DestroyObject(this);
+		return;
+	}
+	auto pVehicle = dynamic_cast<CGTA_Vehicle*>(_pOther);
+	if (pVehicle) {
+		DestroyObject(this);
+		return;
+	}
 }
 
 void CGTA_Bullet::OnCollisionStay(CObject* _pOther)

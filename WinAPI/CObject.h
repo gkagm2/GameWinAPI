@@ -29,9 +29,10 @@ private:
 private:
 	void _SetIsDead(bool _bIsDead) { m_bIsDead = _bIsDead; }
 
-protected:
+private:
 	E_GroupType m_eGroupType;
 	
+protected:
 	void SetGroupType(E_GroupType _eGroupType) { m_eGroupType = _eGroupType; }
 
 public:

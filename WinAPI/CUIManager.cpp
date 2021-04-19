@@ -71,6 +71,7 @@ void CUIManager::Update()
 				que.push(vecChilds[i]);
 
 			if (pChildUI->IsPointerOn(MousePosition)) {
+				
 				pChildUI->m_bIsOn = true;
 				if (pTargetUI->m_bIsOn)
 					pTargetUI->m_bIsOn = false;
@@ -87,7 +88,7 @@ void CUIManager::Update()
 				pTargetUI->m_bIsOn = false;
 		}
 		else { // 마우스 포인터가 UI 내부에 있을 경우
-			if (false == pTargetUI->m_bIsOn) 
+			if (false == pTargetUI->m_bIsOn)
 				pTargetUI->m_bIsOn = true;
 
 			if (InputKeyPress(E_Key::LBUTTON)) {
@@ -124,4 +125,24 @@ void CUIManager::Update()
 			}
 		}
 	}
+}
+
+bool CUIManager::IsMousePointInUI()
+{
+	vector<CObject*>& vecUIObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::UI);
+	queue<CUI*> que;
+	for (UINT i = 0; i < vecUIObj.size(); ++i)
+		que.push((CUI*)vecUIObj[i]);
+	
+	while (!que.empty()) {
+		CUI* pUI = que.front();
+		que.pop();
+		if (pUI->IsPointerOn(MousePosition))
+			return true;
+		
+		for (UINT i = 0; i < pUI->GetChildsUI().size(); ++i)
+			que.push(pUI->GetChildsUI()[i]);
+	}
+
+	return false;
 }

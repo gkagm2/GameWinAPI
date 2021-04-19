@@ -14,6 +14,7 @@ private:
 public:
 	virtual void Init() override;
 	virtual void Update() override;
+	virtual void Render(HDC _hDC) override;
 
 	virtual void OnCollisionEnter(CObject* _pOther) override;
 	virtual void OnCollisionStay(CObject* _pOther) override;

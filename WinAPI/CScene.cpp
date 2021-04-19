@@ -110,7 +110,6 @@ void CScene::LateUpdate()
 			if (!m_vecObj[i][j]->IsDead())
 				m_vecObj[i][j]->LateUpdate();
 		}
-			
 	}
 }
 
@@ -124,18 +123,17 @@ void CScene::Render(HDC _hDC)
 		}
 		vector<CObject*>::iterator iter = m_vecObj[i].begin();
 		while (iter != m_vecObj[i].end()) {
-			if (nullptr == (*iter)) {
+			/*if (nullptr == (*iter)) {
 				iter = m_vecObj[i].erase(iter);
 				continue;
-			}
-			if (!(*iter)->IsActive()) {
-				++iter;
-				continue;
-			}
-
+			}*/
 			if ((*iter)->IsDead())
 				iter = m_vecObj[i].erase(iter);
 			else {
+				if (!(*iter)->IsActive()) {
+					++iter;
+					continue;
+				}
 				if ((*iter)->IsRender())
 					(*iter)->Render(_hDC);
 				++iter;
@@ -337,6 +335,7 @@ void CScene::LoadTile(wstring _strRelativePath)
 {
 	wstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativePath;
 	LoadTileDialogBox(strFilePath);
+	m_pTileMap->OptimizationTileCollider(); // 최적화
 }
 
 void CScene::LoadTileDialogBox(wstring _strPath)
@@ -367,8 +366,6 @@ void CScene::LoadTileDialogBox(wstring _strPath)
 		}
 
 	}
-	//collider 설정 후 최적화
-	m_pTileMap->OptimizationTileCollider();
 	fclose(pFile);
 }
 

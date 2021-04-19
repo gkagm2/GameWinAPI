@@ -39,7 +39,7 @@ CMonster::CMonster(E_GroupType _eGroupType) :
 }
 
 CMonster::CMonster(const CMonster& _other) :
-	CObject(_other.m_eGroupType),
+	CObject(_other),
 	m_fSpeed(_other.m_fSpeed),
 	m_fDirection(_other.m_fDirection),
 	m_fRange(_other.m_fRange),

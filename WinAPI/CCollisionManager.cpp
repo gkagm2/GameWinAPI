@@ -288,29 +288,29 @@ bool CCollisionManager::IsCollision(CCollider* _col, const Vector3& _vPoint)
 bool CCollisionManager::IsCollision(CCollider* _col1, CCollider* _col2)
 {
 	{
-		auto childCol1 = dynamic_cast<CColliderCircle*>(_col1);
-		auto childCol2 = dynamic_cast<CColliderCircle*>(_col2);
-		if (childCol1 && childCol2)
-			return _IsCollision(childCol1, childCol2);
-	}
-	{
-		auto childCol1 = dynamic_cast<CColliderCircle*>(_col1);
-		auto childCol2 = dynamic_cast<CColliderRect*>(_col2);
-		if (childCol1 && childCol2)
-			return _IsCollision(childCol1, childCol2);
-	}
-	{
-		auto childCol1 = dynamic_cast<CColliderRect*>(_col1);
-		auto childCol2 = dynamic_cast<CColliderCircle*>(_col2);
-		if (childCol1 && childCol2)
-			return _IsCollision(childCol1, childCol2);
-	}
-	{
 		auto childCol1 = dynamic_cast<CColliderRect*>(_col1);
 		auto childCol2 = dynamic_cast<CColliderRect*>(_col2);
 		if (childCol1 && childCol2) {
 			return _IsCollision(childCol1, childCol2);
-		}	
+		}
+	}
+	{
+		auto childCol1 = dynamic_cast<CColliderCircle*>(_col1);
+		auto childCol2 = dynamic_cast<CColliderCircle*>(_col2);
+		if (childCol1 && childCol2)
+			return _IsCollision(childCol1, childCol2);
+	}
+	{
+		auto childCol1 = dynamic_cast<CColliderCircle*>(_col1);
+		auto childCol2 = dynamic_cast<CColliderRect*>(_col2);
+		if (childCol1 && childCol2)
+			return _IsCollision(childCol1, childCol2);
+	}
+	{
+		auto childCol1 = dynamic_cast<CColliderRect*>(_col1);
+		auto childCol2 = dynamic_cast<CColliderCircle*>(_col2);
+		if (childCol1 && childCol2)
+			return _IsCollision(childCol1, childCol2);
 	}
 
 	return false;
