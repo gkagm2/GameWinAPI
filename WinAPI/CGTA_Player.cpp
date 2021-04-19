@@ -218,6 +218,8 @@ void CGTA_Player::Attack()
 		// Punch 컬라이더가 생성된다
 	} 
 	else {	
+		// 총 타입에 따라 Shoot.
+		
 		// 총알 오브젝트 생성.
 		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
 		pBullet->Init();

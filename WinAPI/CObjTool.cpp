@@ -432,7 +432,7 @@ void CObjTool::CreateWeaponItem(E_WeaponType _eWeaponType)
 			pItem->SetWeaponType(E_WeaponType::PISTOL);
 			pItem->SetObjectName(STR_NAME_Pistol);
 			tWeaponInfo.strName = STR_NAME_Pistol;
-			tWeaponInfo.fShootCoolTime = 1.f;
+			tWeaponInfo.fShootCoolTime = 0.6f;
 			tWeaponInfo.iBulletCnt = 30;
 			break;
 		}
@@ -442,7 +442,7 @@ void CObjTool::CreateWeaponItem(E_WeaponType _eWeaponType)
 			pItem->SetWeaponType(E_WeaponType::ROCKET_LAUNCHER);
 			pItem->SetObjectName(STR_NAME_RocketLauncher);
 			tWeaponInfo.strName = STR_NAME_RocketLauncher;
-			tWeaponInfo.fShootCoolTime = 2.5f;
+			tWeaponInfo.fShootCoolTime = 1.0f;
 			tWeaponInfo.iBulletCnt = 10;
 			break;
 		}
@@ -452,7 +452,7 @@ void CObjTool::CreateWeaponItem(E_WeaponType _eWeaponType)
 			pItem->SetWeaponType(E_WeaponType::SHOTGUN);
 			pItem->SetObjectName(STR_NAME_Shotgun);
 			tWeaponInfo.strName = STR_NAME_Shotgun;
-			tWeaponInfo.fShootCoolTime = 1.7f;
+			tWeaponInfo.fShootCoolTime = 1.2f;
 			tWeaponInfo.iBulletCnt = 20;
 			break;
 		}
@@ -462,7 +462,7 @@ void CObjTool::CreateWeaponItem(E_WeaponType _eWeaponType)
 			pItem->SetWeaponType(E_WeaponType::SUBMACHINE_GUN);
 			pItem->SetObjectName(STR_NAME_SubmachineGun);
 			tWeaponInfo.strName = STR_NAME_SubmachineGun;
-			tWeaponInfo.fShootCoolTime = 0.3f;
+			tWeaponInfo.fShootCoolTime = 0.13f;
 			tWeaponInfo.iBulletCnt = 300;
 			break;
 		}

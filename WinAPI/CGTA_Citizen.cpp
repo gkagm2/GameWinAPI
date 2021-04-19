@@ -9,6 +9,8 @@
 #include "CColliderRect.h"
 #include "CGTA_Player.h"
 #include "CRigidbody2D.h"
+#include "CGTA_AI.h"
+#include "CGTA_AIState.h"
 
 CGTA_Citizen::CGTA_Citizen(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType)
@@ -52,6 +54,14 @@ void CGTA_Citizen::Init()
 	CGTA_Character::Init();
 
 	GetRigidbody()->SetMass(9.0f);
+
+	// AI set
+	CreateAI();
+	GetAI()->AddState(L"idle", new CGTA_IdleState_Citizen);
+	GetAI()->AddState(L"runaway", new CGTA_RunawayState_Citizen);
+	GetAI()->AddState(L"wander", new CGTA_Wander_Citizen);
+	GetAI()->ChangeState(L"wander");
+
 }
 
 void CGTA_Citizen::PrevUpdate()

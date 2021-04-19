@@ -224,9 +224,6 @@
     <Filter Include="Game\6. Component\AI\Navi">
       <UniqueIdentifier>{028ada3b-bade-472d-a1b7-5045cd777412}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\5. Object\Gta_PJ\Bullet">
-      <UniqueIdentifier>{f55ffb7c-4837-4051-aa9f-c6025e0afb09}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\5. Object\Gta_PJ\Character\PunchDetector">
       <UniqueIdentifier>{6fed7e35-ba17-4fea-87fb-d0360b769d79}</UniqueIdentifier>
     </Filter>
@@ -236,8 +233,26 @@
     <Filter Include="Game\5. Object\Gta_PJ\Tools\ObjTool">
       <UniqueIdentifier>{4ae18555-9ac5-4769-b985-93297777a2fa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\5. Object\Gta_PJ\Bullet\Shotgun">
+    <Filter Include="Game\5. Object\Gta_PJ\Gun">
+      <UniqueIdentifier>{7fa69039-200b-4fd2-b888-2b7ed7abd396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Gun\Bullet">
+      <UniqueIdentifier>{f55ffb7c-4837-4051-aa9f-c6025e0afb09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Gun\Shotgun">
       <UniqueIdentifier>{7df942bb-b475-43c9-93b5-eb1f8be7025c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Gun\Submachine Gun">
+      <UniqueIdentifier>{44e5ad1e-6c03-4c66-8b4b-f59ced628eae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\AI">
+      <UniqueIdentifier>{b3ed760a-9e9f-447a-a247-0a53e68de516}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\AI\AI State">
+      <UniqueIdentifier>{82dd7ef6-53f2-460b-8f16-fd5cd1570126}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState">
+      <UniqueIdentifier>{a8f7be8e-9252-451d-ba9b-ddf2188beb27}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -446,7 +461,7 @@
       <Filter>Game\5. Object\Gta_PJ\Creator</Filter>
     </ClInclude>
     <ClInclude Include="CGTA_Bullet.h">
-      <Filter>Game\5. Object\Gta_PJ\Bullet</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Gun\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="CGTA_Item.h">
       <Filter>Game\5. Object\Gta_PJ\Item</Filter>
@@ -456,6 +471,18 @@
     </ClInclude>
     <ClInclude Include="CObjTool.h">
       <Filter>Game\5. Object\Gta_PJ\Tools\ObjTool</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_Gun.h">
+      <Filter>Game\5. Object\Gta_PJ\Gun</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_AI.h">
+      <Filter>Game\5. Object\Gta_PJ\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_AIState.h">
+      <Filter>Game\5. Object\Gta_PJ\AI\AI State</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_IdleState_Citizen.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -659,13 +686,25 @@
       <Filter>Game\5. Object\Gta_PJ\Creator</Filter>
     </ClCompile>
     <ClCompile Include="CGTA_Bullet.cpp">
-      <Filter>Game\5. Object\Gta_PJ\Bullet</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Gun\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="CGTA_Item.cpp">
       <Filter>Game\5. Object\Gta_PJ\Item</Filter>
     </ClCompile>
     <ClCompile Include="CObjTool.cpp">
       <Filter>Game\5. Object\Gta_PJ\Tools\ObjTool</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_Gun.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Gun</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_AI.cpp">
+      <Filter>Game\5. Object\Gta_PJ\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_AIState.cpp">
+      <Filter>Game\5. Object\Gta_PJ\AI\AI State</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_IdleState_Citizen.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

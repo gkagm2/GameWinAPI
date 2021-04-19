@@ -11,11 +11,14 @@
 #include "CSceneManager.h"
 #include "CTimeManager.h"
 #include "CCamera.h"
+#include "CCamera2D.h"
 #include "CObject.h"
 #include "CRigidbody2D.h"
+#include "CGTA_AI.h"
 
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
+	m_tInfo{},
 	m_bIsDrive(false),
 	m_fAttackCoolTime(0.f),
 	m_fAttackMaxCoolTime(0.f),
@@ -34,11 +37,12 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_vecWeapon[(UINT)E_WeaponType::FIST].second.strName = STR_NAME_Fist;
 	m_vecWeapon[(UINT)E_WeaponType::FIST].first = true;
 	m_vecWeapon[(UINT)E_WeaponType::FIST].second.bIsInfinite = true;
-	m_vecWeapon[(UINT)E_WeaponType::FIST].second.fShootCoolTime = 1.f;
+	m_vecWeapon[(UINT)E_WeaponType::FIST].second.fShootCoolTime = 0.7f;
 }
 
 CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	CObject(_origin),
+	m_tInfo(_origin.m_tInfo),
 	m_bIsDrive(false),
 	m_fAttackCoolTime(0.f),
 	m_fAttackMaxCoolTime(0.f),
@@ -115,6 +119,7 @@ void CGTA_Character::Render(HDC _hDC)
 		if (GetCollider()->IsRender())
 			GetCollider()->Render(_hDC);
 	}
+	
 	//__super::Render(_hDC);
 }
 
@@ -149,6 +154,14 @@ void CGTA_Character::Attack()
 
 }
 
+void CGTA_Character::CreateAI()
+{
+	if (nullptr == m_pAI) {
+		m_pAI = new CGTA_AI();
+		m_pAI->m_pCharacter = this;
+	}
+}
+
 void CGTA_Character::ActivePunchDetector(bool _bActive)
 {
 }
@@ -161,7 +174,7 @@ void TWeaponInfo::Save(FILE* _pFile)
 	fwrite(&iBulletCnt, sizeof(int), 1, _pFile);
 	fwrite(&bSplashDamage, sizeof(bool), 1, _pFile);
 	fwrite(&bIsInfinite, sizeof(bool), 1, _pFile);
-	fwrite(&fShootCoolTime, sizeof(bool), 1, _pFile);
+	fwrite(&fShootCoolTime, sizeof(float), 1, _pFile);
 }
 
 void TWeaponInfo::Load(FILE* _pFile)
@@ -172,7 +185,19 @@ void TWeaponInfo::Load(FILE* _pFile)
 	fread(&iBulletCnt, sizeof(int), 1, _pFile);
 	fread(&bSplashDamage, sizeof(bool), 1, _pFile);
 	fread(&bIsInfinite, sizeof(bool), 1, _pFile);
-	fread(&fShootCoolTime, sizeof(bool), 1, _pFile);
+	fread(&fShootCoolTime, sizeof(float), 1, _pFile);
+}
+
+
+TWeaponInfo::TWeaponInfo() : 
+	strName(L""), 
+	fSplashRange(20.f), 
+	fDamage(1.f), 
+	iBulletCnt(0), 
+	bSplashDamage(false), 
+	bIsInfinite(false), 
+	fShootCoolTime(1.f)
+{
 }
 
 TWeaponInfo::TWeaponInfo(const TWeaponInfo& _other) :

@@ -2,6 +2,8 @@
 #include "CGTA_Character.h"
 class CGTA_Citizen : public CGTA_Character
 {
+private:
+
 public:
 	virtual void Init() override;
 	virtual void PrevUpdate() override;

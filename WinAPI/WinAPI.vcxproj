@@ -153,6 +153,8 @@
     <ClInclude Include="CCameraManager.h" />
     <ClInclude Include="CCamera_Tool.h" />
     <ClInclude Include="CCar.h" />
+    <ClInclude Include="CGTA_AI.h" />
+    <ClInclude Include="CGTA_AIState.h" />
     <ClInclude Include="CGTA_Bullet.h" />
     <ClInclude Include="CGTA_CitizenCreator.h" />
     <ClInclude Include="CCollider.h" />
@@ -166,6 +168,8 @@
     <ClInclude Include="CGTA_Character.h" />
     <ClInclude Include="CGTA_Citizen.h" />
     <ClInclude Include="CGTA_Cop.h" />
+    <ClInclude Include="CGTA_Gun.h" />
+    <ClInclude Include="CGTA_IdleState_Citizen.h" />
     <ClInclude Include="CGTA_Item.h" />
     <ClInclude Include="CGTA_Player.h" />
     <ClInclude Include="CGTA_PoliceCar.h" />
@@ -227,6 +231,8 @@
     <ClCompile Include="CCameraManager.cpp" />
     <ClCompile Include="CCamera_Tool.cpp" />
     <ClCompile Include="CCar.cpp" />
+    <ClCompile Include="CGTA_AI.cpp" />
+    <ClCompile Include="CGTA_AIState.cpp" />
     <ClCompile Include="CGTA_Bullet.cpp" />
     <ClCompile Include="CGTA_CitizenCreator.cpp" />
     <ClCompile Include="CCollider.cpp" />
@@ -240,6 +246,8 @@
     <ClCompile Include="CGTA_Character.cpp" />
     <ClCompile Include="CGTA_Citizen.cpp" />
     <ClCompile Include="CGTA_Cop.cpp" />
+    <ClCompile Include="CGTA_Gun.cpp" />
+    <ClCompile Include="CGTA_IdleState_Citizen.cpp" />
     <ClCompile Include="CGTA_Item.cpp" />
     <ClCompile Include="CGTA_Player.cpp" />
     <ClCompile Include="CGTA_PoliceCar.cpp" />

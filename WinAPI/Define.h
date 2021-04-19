@@ -92,11 +92,12 @@ struct TWeaponInfo {
 	bool bSplashDamage;
 	bool bIsInfinite;
 	float fShootCoolTime;
-	TWeaponInfo() : strName(L""), fSplashRange(20.f), fDamage(1.f), iBulletCnt(0), bSplashDamage(false), bIsInfinite(false), fShootCoolTime(1.f) {}
+	
 
 	void Save(FILE* _pFile);
 	void Load(FILE* _pFile);
 
+	TWeaponInfo();
 	TWeaponInfo(const TWeaponInfo& _other);
 };
 

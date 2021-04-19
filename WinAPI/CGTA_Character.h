@@ -36,9 +36,12 @@ struct TCharacterInfo {
 
 class CGTA_Vehicle;
 class CGTA_PunchDetector;
+class CGTA_AI;
 class CGTA_Character : public CObject
 {
 protected:
+	TCharacterInfo m_tInfo;
+
 	bool m_bIsDrive;
 
 	float m_fAttackCoolTime;
@@ -58,6 +61,8 @@ protected:
 	vector<std::pair<bool, TWeaponInfo> > m_vecWeapon; // true : allow, false : not allow
 
 	E_CharacterState m_eCharacterState; // 현재 캐릭터 상태
+
+	CGTA_AI* m_pAI; // AI
 
 public:
 	virtual void Init() override;
@@ -79,6 +84,10 @@ public:
 	virtual void Dead() {}
 	virtual void GetInTheVehicle() {}
 	virtual void GetOutTheVehicle() {}
+
+	// AI
+	void CreateAI();
+	CGTA_AI* GetAI() { return m_pAI; } 
 
 	Vector3 GetNozzlePosition() { return GetUpVector() * 15.0f; }
 
