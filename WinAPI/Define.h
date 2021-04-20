@@ -48,6 +48,7 @@ enum class E_GroupType {
 	PUNCH,
 	MONSTER,
 	MONSTER_PROJECTILE,
+	PATH_FINDING,
 	PREV,
 	UI =30,
 	MAIN_CAMERA = 31,

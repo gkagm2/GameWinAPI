@@ -67,13 +67,7 @@ void CGTA_Bullet::Update()
 
 void CGTA_Bullet::Render(HDC _hDC)
 {
-	Vector3 pos = GetPosition();
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(GetPosition());
-	Debug->Print(vRenderPosition, L"dd", vRenderPosition.x, vRenderPosition.y);
-	int scalex = GetScale().x;
-	int scaley = GetScale().y;
-	int width = GetTexture()->GetWidth();
-	int height = GetTexture()->GetHeight();
 
 	BitBlt(
 		_hDC,
@@ -85,7 +79,6 @@ void CGTA_Bullet::Render(HDC _hDC)
 		0,
 		0,
 		SRCCOPY);
-	// Print Position
 
 		// ColliderRendering
 	if (nullptr != GetCollider()) {

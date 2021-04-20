@@ -45,6 +45,14 @@ struct Vector2 {
 		y = (float)_rhs.y;
 		return *this;
 	}
+	Vector2 operator+(const float& _rhs) const {
+		return Vector2(x + _rhs, y + _rhs);
+	}
+	Vector2& operator+=(const float& _rhs) {
+		x += _rhs;
+		y += _rhs;
+		return *this;
+	}
 	Vector2 operator+(const Vector2& _rhs) const {
 		return Vector2{ x + _rhs.x, y + _rhs.y };
 	}

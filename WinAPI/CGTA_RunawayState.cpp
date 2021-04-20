@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "CGTA_RunawayState.h"
 
 CGTA_RunawayState::CGTA_RunawayState() :

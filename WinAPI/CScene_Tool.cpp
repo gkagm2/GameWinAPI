@@ -36,6 +36,9 @@
 #include "CDebug.h"
 #include "CGTA_Item.h"
 
+#include "CPathFinding.h"
+#include "CAITestObj.h"
+
 
 CScene_Tool::CScene_Tool() :
 	m_hMenu(nullptr)
@@ -95,6 +98,11 @@ void CScene_Tool::Start()
 	pObjTool->Init();
 	AddObject(pObjTool);
 
+	// AI Test
+	CAITestObj* pTestObj = new CAITestObj(E_GroupType::DEFAULT);
+	pTestObj->Init();
+	pTestObj->SetPosition(TILE_SIZE* 5 , TILE_SIZE*5);
+	AddObject(pTestObj);
 
 	// Select Controller에서는 오브젝트들을 드래그해서 선택할 수 있다.
 	// Tile setting 모드와

@@ -40,7 +40,7 @@ public:
 	void Load(FILE* _pFile);
 
 	int GetCurFrame() { return m_iCurFrameIdx; }
-	int GetMaxFrame() { return m_vecFrame.size(); }
+	int GetMaxFrame() { return (int)m_vecFrame.size(); }
 
 public:
 	CLONE(CAnimation);

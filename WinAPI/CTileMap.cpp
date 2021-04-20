@@ -5,6 +5,7 @@
 #include "CTile.h"
 #include "CObject.h"
 #include "CColliderRect.h"
+#include "CPathFinding.h"
 
 CTileMap::CTileMap(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
@@ -12,10 +13,16 @@ CTileMap::CTileMap(E_GroupType _eGroupType) :
 	m_iCol(0),
 	m_iTileMapWidth(0),
 	m_iTileMapHeight(0)
+
 {
+	CreatePathFinding();
 }
 
 CTileMap::~CTileMap()
+{
+}
+
+void CTileMap::CreatePathFinding()
 {
 }
 
@@ -49,8 +56,6 @@ void CTileMap::CreateTileGrid(UINT _iRow, UINT _iCol)
 	}
 }
 
-
-
 void CTileMap::GetEndIdxOfRectArea(int** _grid, int _startX, int _startY, int& _endX, int& _endY) {
 
 	vector<CObject*>& vecTileObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::TILE);
@@ -58,11 +63,11 @@ void CTileMap::GetEndIdxOfRectArea(int** _grid, int _startX, int _startY, int& _
 	CTile* pTile = dynamic_cast<CTile*>(vecTileObj[_startY * m_iCol + _startX]);
 
 	// get min size of column and row
-	int minX = m_iCol - 1;
-	int minY = m_iRow - 1;
+	int minX = (int)m_iCol - 1;
+	int minY = (int)m_iRow - 1;
 	int y = _startY;
 	int x = _startX;
-	for (; y < m_iRow; ++y) {
+	for (; y < (int)m_iRow; ++y) {
 		x = _startX;
 
 		pTile = dynamic_cast<CTile*>(vecTileObj[y * m_iCol + x]);
@@ -94,6 +99,16 @@ void CTileMap::GetEndIdxOfRectArea(int** _grid, int _startX, int _startY, int& _
 	_endY = minY;
 }
 
+TTilePos CTileMap::VectorToTilePos(const Vector2& _vPos)
+{
+	return TTilePos { int(abs(_vPos.x / TILE_SIZE)), int(abs(_vPos.y / TILE_SIZE)) };
+	
+}
+
+Vector2 CTileMap::TilePosToVector(const TTilePos& _tTilePos)
+{
+	return Vector2{ abs(_tTilePos.x * TILE_SIZE), abs(_tTilePos.y * TILE_SIZE) };
+}
 
 void CTileMap::OptimizationTileCollider()
 {

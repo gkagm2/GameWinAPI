@@ -155,9 +155,6 @@
     <Filter Include="Game\5. Object\UI\DragUI">
       <UniqueIdentifier>{0be8818f-94ea-4ee3-8aee-2521308e5e8a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\5. Object\EventTrigger">
-      <UniqueIdentifier>{ea83af06-4d01-49c3-afd6-f763680152f2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\5. Object\Gta_PJ">
       <UniqueIdentifier>{5863e0f6-3934-4a82-a320-f7eacc985a72}</UniqueIdentifier>
     </Filter>
@@ -266,8 +263,11 @@
     <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState\Wander">
       <UniqueIdentifier>{0e8f63ab-3abb-4b69-b85e-1cb9ab3f2d8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\5. Object\Gta_PJ\AI\AStar">
+    <Filter Include="Game\5. Object\Gta_PJ\AI\PathFinding">
       <UniqueIdentifier>{47b3f1d7-26d5-452b-b542-e4bf2378ad35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\AITest">
+      <UniqueIdentifier>{0f86fac4-0d49-4dc1-879a-c152b9657168}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -508,9 +508,10 @@
     <ClInclude Include="CGTA_WanderState.h">
       <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Wander</Filter>
     </ClInclude>
-    <ClInclude Include="CGTA_AStar.h">
-      <Filter>Game\5. Object\Gta_PJ\AI\AStar</Filter>
+    <ClInclude Include="CPathFinding.h">
+      <Filter>Game\5. Object\Gta_PJ\AI\PathFinding</Filter>
     </ClInclude>
+    <ClInclude Include="CAITestObj.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -742,9 +743,10 @@
     <ClCompile Include="CGTA_WanderState.cpp">
       <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Wander</Filter>
     </ClCompile>
-    <ClCompile Include="CGTA_AStar.cpp">
-      <Filter>Game\5. Object\Gta_PJ\AI\AStar</Filter>
+    <ClCompile Include="CPathFinding.cpp">
+      <Filter>Game\5. Object\Gta_PJ\AI\PathFinding</Filter>
     </ClCompile>
+    <ClCompile Include="CAITestObj.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">

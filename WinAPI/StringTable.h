@@ -70,8 +70,8 @@
 #define STR_FILE_NAME_gta_item L"Texture\\GTA\\gtaItems.bmp"
 #define STR_FILE_PATH_gta_item L"Texture\\GTA\\gtaItems.bmp"
 
-#define STR_FILE_NAME_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1_a.bmp"
-#define STR_FILE_PATH_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1_a.bmp"
+#define STR_FILE_NAME_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1.bmp"
+#define STR_FILE_PATH_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1.bmp"
 
 #define STR_FILE_NAME_UI_GTA_BG L"Texture\\GTA\\ui_bg.bmp"
 #define STR_FILE_PATH_UI_GTA_BG L"Texture\\GTA\\ui_bg.bmp"

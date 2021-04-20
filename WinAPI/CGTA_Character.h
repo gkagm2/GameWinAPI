@@ -79,6 +79,7 @@ public:
 	virtual void State();
 	virtual void Stun();
 	virtual void Move() {}
+
 	virtual void Attack();
 	virtual void Drive() {}
 	virtual void Dead() {}

@@ -1,4 +1,4 @@
-#include "stdafx.h"7
+#include "stdafx.h"
 #include "CScene_GtaInGame.h"
 
 #include "CResourceManager.h"
@@ -22,9 +22,11 @@
 #include "CGTA_PoliceCar.h"
 #include "CGTA_Player.h"
 #include "CGTA_CitizenCreator.h"
+#include "CGTA_Citizen.h"
 
 #include "CGTA_Item.h"
 #include "CGTA_Bullet.h"
+
 
 CScene_GtaInGame::CScene_GtaInGame()
 {
@@ -64,10 +66,14 @@ void CScene_GtaInGame::Start()
 	// CVehicleManager;
 
 	// Citizen 매니저 추가
-	CGTA_CitizenCreator* pCitizenCreator = new CGTA_CitizenCreator(E_GroupType::DEFAULT);
+	/*CGTA_CitizenCreator* pCitizenCreator = new CGTA_CitizenCreator(E_GroupType::DEFAULT);
 	pCitizenCreator->Init();
 	pCitizenCreator->SetCamera(pCamera);
-	AddObject((CObject*)pCitizenCreator);
+	AddObject((CObject*)pCitizenCreator);*/
+	CGTA_Citizen* pCitizen = new CGTA_Citizen(E_GroupType::CITIZEN);
+	pCitizen->Init();
+	pCitizen->SetPosition(600, 600);
+	AddObject(pCitizen);
 	
 
 	// TODO : Item 구현, Item 매니저 구현

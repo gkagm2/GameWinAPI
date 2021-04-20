@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="CAI.h" />
     <ClInclude Include="CAIState.h" />
+    <ClInclude Include="CAITestObj.h" />
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CAnimator.h" />
     <ClInclude Include="CBackground.h" />
@@ -155,7 +156,7 @@
     <ClInclude Include="CCar.h" />
     <ClInclude Include="CGTA_AI.h" />
     <ClInclude Include="CGTA_AIState.h" />
-    <ClInclude Include="CGTA_AStar.h" />
+    <ClInclude Include="CPathFinding.h" />
     <ClInclude Include="CGTA_Bullet.h" />
     <ClInclude Include="CGTA_CitizenCreator.h" />
     <ClInclude Include="CCollider.h" />
@@ -226,6 +227,7 @@
   <ItemGroup>
     <ClCompile Include="CAI.cpp" />
     <ClCompile Include="CAIState.cpp" />
+    <ClCompile Include="CAITestObj.cpp" />
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CBackground.cpp" />
@@ -237,7 +239,7 @@
     <ClCompile Include="CCar.cpp" />
     <ClCompile Include="CGTA_AI.cpp" />
     <ClCompile Include="CGTA_AIState.cpp" />
-    <ClCompile Include="CGTA_AStar.cpp" />
+    <ClCompile Include="CPathFinding.cpp" />
     <ClCompile Include="CGTA_Bullet.cpp" />
     <ClCompile Include="CGTA_CitizenCreator.cpp" />
     <ClCompile Include="CCollider.cpp" />

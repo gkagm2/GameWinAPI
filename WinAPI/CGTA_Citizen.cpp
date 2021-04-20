@@ -122,6 +122,7 @@ void CGTA_Citizen::State()
 
 void CGTA_Citizen::Move()
 {
+
 }
 
 void CGTA_Citizen::Attack()

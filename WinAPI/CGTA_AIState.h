@@ -2,6 +2,7 @@
 #include "stdafx.h"
 class CGTA_AI;
 class CGTA_Character;
+class CPathFinding;
 class CGTA_AIState
 {
 private:

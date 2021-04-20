@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "CGTA_TraceState.h"
 
 CGTA_TraceState::CGTA_TraceState() :
