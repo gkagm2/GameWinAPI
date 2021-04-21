@@ -10,8 +10,8 @@
 CPathFinding::CPathFinding() :
 	m_pTileMap(nullptr),
 	m_pvecTiles(nullptr),
-	m_iDirX{ 1, 0, -1, 0 },
-	m_iDirY{ 0, 1, 0, -1 }
+	m_iDirX{ 1, 0, -1, 0, 1, -1, 1, -1 },
+	m_iDirY{ 0, 1, 0, -1, 1, 1, -1, -1 }
 {
 	vector<CObject*>& vecTile = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::TILE);
 	m_pvecTiles = &vecTile;
@@ -89,16 +89,17 @@ void CPathFinding::TracePath(const vector<vector<Cell> >& cellDetails, const TTi
 // return : 길을 찾으면 true, 못찾으면 false 리턴
 bool CPathFinding::PathFind(const TTilePos& start, const TTilePos& dest)
 {
-	if (false == IsValid(start.y, start.x))
+	if (false == IsValid(start.x, start.y))
 		return false;
-	if (false == IsValid(dest.y, dest.x))
-		return false;
-
-	if (false == IsUnBlocked(start.y, start.x) ||
-		false == IsUnBlocked(dest.y, dest.x))
+	if (false == IsValid(dest.x, dest.y))
 		return false;
 
-	if (IsDestination(start.y, start.x, dest))
+	if (false == IsUnBlocked(start.x, start.y))
+		return false;
+	if (false == IsUnBlocked(dest.x, dest.y))
+		return false;
+
+	if (IsDestination(start.x, start.y, dest))
 		return false;
 
 	int iRow = m_pTileMap->GetRow();
@@ -118,19 +119,19 @@ bool CPathFinding::PathFind(const TTilePos& start, const TTilePos& dest)
 	}
 
 	// 시작 노드를 초기화 한다.
-	int i = start.y, j = start.x; // i = y, j = x
-	cellDetails[i][j].f = 0.f;
-	cellDetails[i][j].g = 0.f;
-	cellDetails[i][j].h = 0.f;
-	cellDetails[i][j].parentX = j;
-	cellDetails[i][j].parentY = i;
+	int iX = start.x, iY = start.y; // i = y, j = x
+	cellDetails[iY][iX].f = 0.f;
+	cellDetails[iY][iX].g = 0.f;
+	cellDetails[iY][iX].h = 0.f;
+	cellDetails[iY][iX].parentX = iX;
+	cellDetails[iY][iX].parentY = iY;
 
 	// open list를 만든다.
 	set<pPair> openList;
 
 	// 시작 지점의 f를 0으로 둔다.
 
-	openList.insert(std::make_pair(0.f, make_pair(i, j)));
+	openList.insert(std::make_pair(0.f, make_pair(iX, iY)));
 
 	bool foundDest = false;
 
@@ -139,28 +140,28 @@ bool CPathFinding::PathFind(const TTilePos& start, const TTilePos& dest)
 
 		openList.erase(openList.begin()); // openList에 있는 vertex를 삭제.
 
-		i = p.second.first;  // y
-		j = p.second.second; // x
-		closedList[i][j] = true;
+		iX = p.second.first; // x
+		iY = p.second.second;  // y
+		closedList[iY][iX] = true;
 
-		// 4방향의 successor를 생성한다.
-		for (int d = 0; d < 4; ++d) {
-			int x = j + m_iDirX[d];
-			int y = i + m_iDirY[d];
+		// 8방향의 successor를 생성한다.
+		for (int d = 0; d < 8; ++d) {
+			int x = iX + m_iDirX[d];
+			int y = iY + m_iDirY[d];
 
 			if (false == IsValid(x, y))
 				continue;
 
 			if (true == IsDestination(x, y, dest)) {
 				// 목적지 Cell의 부모를 설정한다.
-				cellDetails[y][x].parentX = j;
-				cellDetails[y][x].parentY = i;
+				cellDetails[y][x].parentX = iX;
+				cellDetails[y][x].parentY = iY;
 				// TODO : Found Destination
 				TracePath(cellDetails, dest);
 				return true;
 			}
 			else if (false == closedList[y][x] && true == IsUnBlocked(x, y)) {
-				float gNew = cellDetails[i][j].g + 1.0f;
+				float gNew = cellDetails[iY][iX].g + 1.0f;
 				float hNew = (float)GetDistance(x, y, dest.x, dest.y);
 				float fNew = gNew + hNew;
 
@@ -168,12 +169,12 @@ bool CPathFinding::PathFind(const TTilePos& start, const TTilePos& dest)
 				// 이미 openList면 
 				if (cellDetails[y][x].f == (std::numeric_limits<float>::max)() ||
 					cellDetails[y][x].f > fNew) {
-					openList.insert(make_pair(fNew, make_pair(y, x)));
+					openList.insert(make_pair(fNew, make_pair(x, y)));
 					cellDetails[y][x].f = fNew;
 					cellDetails[y][x].g = gNew;
 					cellDetails[y][x].h = hNew;
-					cellDetails[y][x].parentX = j;
-					cellDetails[y][x].parentY = i;
+					cellDetails[y][x].parentX = iX;
+					cellDetails[y][x].parentY = iY;
 				}
 			}
 		}

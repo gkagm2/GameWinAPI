@@ -9,7 +9,6 @@ private:
 	CGTA_AI* m_pAI;
 	CPathFinding* m_pPathFinding;
 
-
 	float m_fPathFindCoolTime;
 	float m_fPathFindMaxCoolTime;
 	bool m_bIsPathFind;
@@ -22,6 +21,8 @@ public:
 	virtual void OnCollisionEnter(CObject* _pOther);
 	virtual void OnCollisionStay(CObject* _pOther);
 	virtual void OnCollisionExit(CObject* _pOther);
+	
+	bool IsArrivedDestination();
 
 	void CreatePathFinding();
 

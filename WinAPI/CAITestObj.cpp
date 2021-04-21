@@ -60,8 +60,10 @@ void CAITestObj::Update()
 		list<TTilePos>& path = m_pPathFinding->GetPath();
 
 		list<TTilePos>::iterator iter = path.begin();
-
+		if (IsArrivedDestination())
+			return;
 		TTilePos prev= *iter;
+		
 		++iter;
 		for (; iter != path.end(); ++iter) {
 			Vector2 vCurPos = MainCamera->GetRenderPosition(pTileMap->TilePosToVector(prev));
@@ -74,6 +76,37 @@ void CAITestObj::Update()
 			LineTo(_hDC, destPos.x, destPos.y);
 			Ellipse(_hDC, destPos.x - 5, destPos.y - 5, destPos.x + 5, destPos.y + 5);
 			prev = *iter;
+		}
+	}
+
+	if (m_bIsPathFind) {
+		list<TTilePos>& path = m_pPathFinding->GetPath();
+		// 목적지에 도착했는지 확인한다.
+		// 목적지에 도착했으면
+		if (IsArrivedDestination()) {
+			return;
+		}
+		else { // 목적지에 도착하지 않았으면
+
+			TTilePos curPos = pTileMap->VectorToTilePos(GetPosition());
+			// 뭘해야되지?
+			// 첫번째의 위치를 가져온다.
+			TTilePos tPos= path.front();
+
+			// 위치가 같다면
+			if (tPos.x == curPos.x && tPos.y == curPos.y) {
+				path.pop_front(); // 팝해준다.
+			}
+			else { // 위치가 같지 않다면
+				// 그 위치로 이동한다.
+				// 1.  방향 구하기
+				Vector2 vDir = Vector2(tPos.x - curPos.x, tPos.y - curPos.y);
+				vDir.Normalized();
+
+				// 이동
+				SetPosition(GetPosition() + vDir * 300.f * DeltaTime);
+			}
+
 		}
 	}
 }
@@ -93,6 +126,14 @@ void CAITestObj::OnCollisionStay(CObject* _pOther)
 
 void CAITestObj::OnCollisionExit(CObject* _pOther)
 {
+}
+
+bool CAITestObj::IsArrivedDestination()
+{
+	list<TTilePos>& path = m_pPathFinding->GetPath();
+	if (path.size() == 0)
+		return true;
+	return false;
 }
 
 void CAITestObj::CreatePathFinding()
