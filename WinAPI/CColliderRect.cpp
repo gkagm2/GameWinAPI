@@ -133,7 +133,7 @@ void CColliderRect::OnCollisionStay(CCollider* _pOther)
             // 서로 리지드 바디가 있으면
             if (nullptr != pOtherRigidbody && nullptr != pThisRigidbody) {
                 // 질량이 높은것이 Hold, 낮은것이 밀린다.
-                if (pOtherRigidbody->GetMass() > pThisRigidbody->GetMass())
+                if (pOtherRigidbody->GetMass() >= pThisRigidbody->GetMass())
                     CCollisionManager::GetInstance()->SetNotIntersection(this, pOtherColRect);
             }
             else if(nullptr != pOtherRigidbody)

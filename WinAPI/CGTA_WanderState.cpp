@@ -76,7 +76,7 @@ void CGTA_WanderState::Update()
 			Vector2 vNextPos = pTileMap->TilePosToVector(path.front());
 			vNextPos += TILE_SIZE * 0.5f;
 
-			if (abs(vNextPos.x - vCurPos.x) < 10 && abs(vNextPos.y - vCurPos.y) < 10) {
+			if (abs(vNextPos.x - vCurPos.x) < 15 && abs(vNextPos.y - vCurPos.y) < 15) {
 				path.pop_front(); // 팝해준다.
 			}
 			else { // 위치가 같지 않다면
