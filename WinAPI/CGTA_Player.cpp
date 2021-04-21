@@ -300,7 +300,6 @@ void CGTA_Player::ChangePrevWeapon()
 
 	const TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
 	m_fAttackMaxCoolTime = tWeaponInfo.fShootCoolTime;
-	m_fAttackCoolTime = 0.f;
 }
 
 void CGTA_Player::ChangeNextWeapon()
@@ -319,5 +318,4 @@ void CGTA_Player::ChangeNextWeapon()
 
 	const TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
 	m_fAttackMaxCoolTime = tWeaponInfo.fShootCoolTime;
-	m_fAttackCoolTime = 0.f;
 }

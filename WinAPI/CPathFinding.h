@@ -1,4 +1,5 @@
 #pragma once
+#include "CComponent.h"
 struct TTilePos {
 	int x;
 	int y;
@@ -19,16 +20,18 @@ struct Cell {
 
 class CTileMap;
 class CObject;
-class CPathFinding
+class CPathFinding : public CComponent
 {
 private:
 	CTileMap* m_pTileMap;
 	vector<CObject*>* m_pvecTiles;
 	list<TTilePos> m_stkPath;
+	set<E_TileType> m_setObstacleTile;
+
 
 	// ↖ ↑ ↗ ← → ↙ ↓ ↘ (index 순서에 따른 뱡향)
-	int m_iDirX[8];
-	int m_iDirY[8];
+	static const  int m_iDirX[8];
+	static const int m_iDirY[8];
 
 	typedef std::pair<int, int> Pair;
 	typedef std::pair<float, std::pair<int, int> > pPair;
@@ -48,7 +51,15 @@ public:
 	void Draw(int curX, int curY);
 
 	list<TTilePos>& GetPath() { return m_stkPath; }
-	
+
+	// 장애물로 취급할 타일 타입 설정
+	void AddObstacleTile(E_TileType _eTileType);
+	void DeleteObstacleTile(E_TileType _eTileType);
+	const vector<E_TileType>& GetObstacleTiles();
+
+public:
+	CLONE(CPathFinding);
+	CPathFinding(const CPathFinding& _origin);
 public:
 	CPathFinding();
 	virtual ~CPathFinding();

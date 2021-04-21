@@ -1,5 +1,5 @@
 #pragma once
-
+#include "CComponent.h"
 class CObject;
 class CTexture;
 class CAnimation;
@@ -10,7 +10,7 @@ enum class E_AnimationPlayType {
 	PINGPONG,	// 앞 뒤로 왔다갔다 반복
 };
 
-class CAnimator
+class CAnimator : public CComponent
 {
 private:
 	

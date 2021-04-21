@@ -17,6 +17,8 @@ private:
 	Vector3 m_vUpVec; // Up vector
 
 	CTexture* m_pTexture;		// 텍스쳐
+
+	// Component
 	CCollider* m_pCollider;		// 충돌체 컴포넌트
 	CAnimator* m_pAnimator;		// 애니메이터
 	CRigidbody* m_pRigidbody;	// 리지드바디

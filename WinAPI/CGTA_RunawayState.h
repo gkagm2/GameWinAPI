@@ -13,6 +13,9 @@ public:
 	virtual void End() override;
 
 public:
+	CLONE(CGTA_RunawayState);
+
+public:
 	CGTA_RunawayState();
 	virtual ~CGTA_RunawayState() override;
 };

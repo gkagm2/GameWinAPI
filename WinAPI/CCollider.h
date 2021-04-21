@@ -1,8 +1,10 @@
 #pragma once
+#include "CComponent.h"
 #include "CObject.h"
 
+
 class CObject;
-class CCollider
+class CCollider : public CComponent
 {
 private:
 	static UINT g_iColliderID;

@@ -3,7 +3,14 @@
 #include "CGTA_AIState.h"
 #include "CGTA_Character.h"
 #include "CAI.h"
+
 CGTA_AIState::CGTA_AIState() :
+	m_pAI(nullptr)
+{
+}
+
+CGTA_AIState::CGTA_AIState(const CGTA_AIState& _origin) :
+	m_strName(_origin.m_strName),
 	m_pAI(nullptr)
 {
 }

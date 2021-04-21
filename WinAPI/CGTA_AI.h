@@ -1,8 +1,8 @@
 #pragma once
-
+#include "CComponent.h"
 class CGTA_AIState;
 class CGTA_Character;
-class CGTA_AI
+class CGTA_AI : public CComponent
 {
 private:
 	unordered_map<wstring, CGTA_AIState*> m_umapState;
@@ -21,6 +21,8 @@ public:
 
 public:
 	CLONE(CGTA_AI);
+
+	CGTA_AI(const CGTA_AI& _origin);
 
 public:
 	CGTA_AI();

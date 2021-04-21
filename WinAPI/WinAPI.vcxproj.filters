@@ -512,6 +512,9 @@
       <Filter>Game\5. Object\Gta_PJ\AI\PathFinding</Filter>
     </ClInclude>
     <ClInclude Include="CAITestObj.h" />
+    <ClInclude Include="CComponent.h">
+      <Filter>Game\6. Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -747,6 +750,9 @@
       <Filter>Game\5. Object\Gta_PJ\AI\PathFinding</Filter>
     </ClCompile>
     <ClCompile Include="CAITestObj.cpp" />
+    <ClCompile Include="CComponent.cpp">
+      <Filter>Game\6. Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">

@@ -23,7 +23,6 @@ public:
 	virtual void OnCollisionExit(CObject* _pOther);
 	
 	bool IsArrivedDestination();
-
 	void CreatePathFinding();
 
 public:

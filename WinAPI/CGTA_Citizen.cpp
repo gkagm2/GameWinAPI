@@ -10,6 +10,7 @@
 #include "CGTA_Player.h"
 #include "CRigidbody2D.h"
 #include "CGTA_AI.h"
+#include "CPathFinding.h"
 #include "CGTA_AIState.h"
 #include "CGTA_IdleState.h"
 #include "CGTA_RunawayState.h"
@@ -61,10 +62,15 @@ void CGTA_Citizen::Init()
 
 	// AI set
 	CreateAI();
+	CreatePathFinding();
+	m_pPathFinding->AddObstacleTile(E_TileType::Wall);
+	m_pPathFinding->AddObstacleTile(E_TileType::Water);
+
 	GetAI()->AddState(L"idle", new CGTA_IdleState);
 	GetAI()->AddState(L"runaway", new CGTA_RunawayState);
 	GetAI()->AddState(L"wander", new CGTA_WanderState);
 	GetAI()->ChangeState(L"wander");
+	 
 
 }
 

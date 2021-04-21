@@ -154,6 +154,7 @@
     <ClInclude Include="CCameraManager.h" />
     <ClInclude Include="CCamera_Tool.h" />
     <ClInclude Include="CCar.h" />
+    <ClInclude Include="CComponent.h" />
     <ClInclude Include="CGTA_AI.h" />
     <ClInclude Include="CGTA_AIState.h" />
     <ClInclude Include="CPathFinding.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="CCameraManager.cpp" />
     <ClCompile Include="CCamera_Tool.cpp" />
     <ClCompile Include="CCar.cpp" />
+    <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CGTA_AI.cpp" />
     <ClCompile Include="CGTA_AIState.cpp" />
     <ClCompile Include="CPathFinding.cpp" />

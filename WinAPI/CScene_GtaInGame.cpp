@@ -74,6 +74,10 @@ void CScene_GtaInGame::Start()
 	pCitizen->Init();
 	pCitizen->SetPosition(600, 600);
 	AddObject(pCitizen);
+
+	CGTA_Citizen* pCitizen2 = pCitizen->Clone();
+	pCitizen2->SetPosition(600, 800);
+	AddObject(pCitizen2);
 	
 
 	// TODO : Item 구현, Item 매니저 구현
@@ -100,7 +104,7 @@ void CScene_GtaInGame::Start()
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::CITIZEN, E_GroupType::VEHICLE, true);
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::CITIZEN, E_GroupType::PROJECTILE, true);
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::CITIZEN, E_GroupType::PUNCH, true);
-	//CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::CITIZEN, E_GroupType::CITIZEN, true);
+	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::CITIZEN, E_GroupType::CITIZEN, true);
 	//CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::CITIZEN, E_GroupType::TILE, true);
 
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::PROJECTILE, true);

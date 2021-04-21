@@ -27,8 +27,9 @@ enum class ECitizenState {
 struct TCharacterInfo {
 	float fHp;
 	float fArmor;
+	float fMoveSpeed;
 
-	TCharacterInfo() : fHp(10.f), fArmor(0.f) {}
+	TCharacterInfo() : fHp(10.f), fArmor(0.f), fMoveSpeed(300.f) {}
 	void Save(FILE* _pFile);
 	void Load(FILE* _pFile);
 };
@@ -37,6 +38,7 @@ struct TCharacterInfo {
 class CGTA_Vehicle;
 class CGTA_PunchDetector;
 class CGTA_AI;
+class CPathFinding;
 class CGTA_Character : public CObject
 {
 protected:
@@ -62,7 +64,9 @@ protected:
 
 	E_CharacterState m_eCharacterState; // 현재 캐릭터 상태
 
+	// Component 
 	CGTA_AI* m_pAI; // AI
+	CPathFinding* m_pPathFinding;
 
 public:
 	virtual void Init() override;
@@ -79,6 +83,7 @@ public:
 	virtual void State();
 	virtual void Stun();
 	virtual void Move() {}
+	virtual void MoveAI() {}
 
 	virtual void Attack();
 	virtual void Drive() {}
@@ -89,6 +94,11 @@ public:
 	// AI
 	void CreateAI();
 	CGTA_AI* GetAI() { return m_pAI; } 
+	
+
+	bool IsArrivedDestination();
+	void CreatePathFinding();
+	CPathFinding* GetPathFinding() { return m_pPathFinding; }
 
 	Vector3 GetNozzlePosition() { return GetUpVector() * 15.0f; }
 
@@ -121,4 +131,3 @@ public:
 	CGTA_Character(E_GroupType _eGroupType);
 	virtual ~CGTA_Character() override;
 };
-

@@ -15,6 +15,7 @@
 #include "CObject.h"
 #include "CRigidbody2D.h"
 #include "CGTA_AI.h"
+#include "CPathFinding.h"
 
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
@@ -30,7 +31,8 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
 	m_eCharacterState(E_CharacterState::idle),
-	m_pAI(nullptr)
+	m_pAI(nullptr),
+	m_pPathFinding(nullptr)
 {
 	// weapon system
 	int iSize = (int)E_WeaponType::END;
@@ -55,16 +57,28 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
 	m_eCharacterState(E_CharacterState::idle),
-	m_pAI(nullptr)
+	m_pAI(nullptr),
+	m_pPathFinding(nullptr)
 {
+	if (nullptr != _origin.m_pAI) {
+		m_pAI = _origin.m_pAI->Clone();
+		m_pAI->m_pCharacter = this;
+
+	}
+		
+	if (nullptr != _origin.m_pPathFinding) {
+		m_pPathFinding = _origin.m_pPathFinding->Clone();
+	}
 }
 
 CGTA_Character::~CGTA_Character()
 {
 	if (nullptr != m_pAI)
 		delete m_pAI;
+	if (nullptr != m_pPathFinding)
+		delete m_pPathFinding;
 }
-	
+		
 void CGTA_Character::Init()
 {
 	// Collider set
@@ -84,6 +98,7 @@ void CGTA_Character::PrevUpdate()
 
 void CGTA_Character::Update()
 {
+	m_pAI->Update();
 }
 
 void CGTA_Character::LateUpdate()
@@ -166,8 +181,27 @@ void CGTA_Character::CreateAI()
 	}
 }
 
+bool CGTA_Character::IsArrivedDestination()
+{
+	list<TTilePos>& path = m_pPathFinding->GetPath();
+	if (path.size() == 0)
+		return true;
+	return false;
+}
+
+void CGTA_Character::CreatePathFinding()
+{
+	if (nullptr == m_pPathFinding) {
+		m_pPathFinding = new CPathFinding();
+		m_pPathFinding->Init();
+	}
+}
+
 void CGTA_Character::ActivePunchDetector(bool _bActive)
 {
+	float m_fPathFindCoolTime;
+	float m_fPathFindMaxCoolTime;
+	bool m_bIsPathFind;
 }
 
 void TWeaponInfo::Save(FILE* _pFile)
@@ -191,7 +225,6 @@ void TWeaponInfo::Load(FILE* _pFile)
 	fread(&bIsInfinite, sizeof(bool), 1, _pFile);
 	fread(&fShootCoolTime, sizeof(float), 1, _pFile);
 }
-
 
 TWeaponInfo::TWeaponInfo() : 
 	strName(L""), 
@@ -219,10 +252,12 @@ void TCharacterInfo::Save(FILE* _pFile)
 {
 	fwrite(&fHp, sizeof(float), 1, _pFile);
 	fwrite(&fArmor, sizeof(float), 1, _pFile);
+	fwrite(&fMoveSpeed, sizeof(float), 1, _pFile);
 }
 
 void TCharacterInfo::Load(FILE* _pFile)
 {
 	fread(&fHp, sizeof(float), 1, _pFile);
 	fread(&fArmor, sizeof(float), 1, _pFile);
+	fread(&fMoveSpeed, sizeof(float), 1, _pFile);
 }

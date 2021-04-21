@@ -2,10 +2,28 @@
 #include "CGTA_AI.h"
 #include "CGTA_AIState.h"
 
+
+
 CGTA_AI::CGTA_AI() :
 	m_pCurState(nullptr),
 	m_pCharacter(nullptr)
 {
+}
+
+CGTA_AI::CGTA_AI(const CGTA_AI& _origin) :
+	m_pCurState(nullptr),
+	m_pCharacter(nullptr)
+{
+	unordered_map<wstring, CGTA_AIState*>::const_iterator iter = _origin.m_umapState.begin();
+
+	for (; iter != _origin.m_umapState.end(); ++iter) {
+		wstring strName = iter->first;
+		auto state = iter->second->Clone();
+		state->SetAI(this);
+		m_umapState.insert(make_pair(strName, state));
+	}
+	if (nullptr != _origin.m_pCurState) 
+		ChangeState(_origin.m_pCurState->GetName());
 }
 
 CGTA_AI::~CGTA_AI()

@@ -7,14 +7,24 @@
 #include "CObject.h"
 #include <numeric>
 
+const int CPathFinding::m_iDirX[] = { 1, 0, -1, 0, 1, -1, 1, -1 };
+const int CPathFinding::m_iDirY[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+
 CPathFinding::CPathFinding() :
 	m_pTileMap(nullptr),
-	m_pvecTiles(nullptr),
-	m_iDirX{ 1, 0, -1, 0, 1, -1, 1, -1 },
-	m_iDirY{ 0, 1, 0, -1, 1, 1, -1, -1 }
+	m_pvecTiles(nullptr)
 {
-	vector<CObject*>& vecTile = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::TILE);
-	m_pvecTiles = &vecTile;
+	Init();
+}
+
+CPathFinding::CPathFinding(const CPathFinding& _origin) :
+	m_pTileMap(_origin.m_pTileMap),
+	m_pvecTiles(nullptr)
+{
+	m_stkPath.assign(_origin.m_stkPath.begin(), _origin.m_stkPath.end());
+	set<E_TileType>::iterator iter = _origin.m_setObstacleTile.begin();
+	for (; iter != _origin.m_setObstacleTile.end(); ++iter)
+		m_setObstacleTile.insert(*iter);
 }
 
 CPathFinding::~CPathFinding()
@@ -35,7 +45,9 @@ float CPathFinding::GetDistance(int x1, int y1, int x2, int y2)
 }
 
 bool CPathFinding::IsValid(int x, int y) {
-	if (x < 0 || y < 0 || x >= (int)m_pTileMap->GetCol() || y >= (int)m_pTileMap->GetRow())
+	int iCol = (int)m_pTileMap->GetCol();
+	int iRow = (int)m_pTileMap->GetRow();
+	if (x < 0 || y < 0 || x >= iCol || y >= iRow)
 		return false;
 	return true;
 }
@@ -46,8 +58,12 @@ bool CPathFinding::IsUnBlocked(int x, int y)
 	int idx = y * (int)(m_pTileMap->GetCol()) + x;
 	CTile* pTile = (CTile*)vecTile[idx];
 
-	if (E_TileType::Wall == pTile->GetTileType() || E_TileType::Water == pTile->GetTileType())
-		return false;
+	set<E_TileType>::iterator iter = m_setObstacleTile.begin();
+	for (; iter != m_setObstacleTile.end(); ++iter) {
+		E_TileType tileType = *iter;
+		if (tileType == pTile->GetTileType())
+			return false;
+	}
 	return true;
 }
 
@@ -185,4 +201,24 @@ bool CPathFinding::PathFind(const TTilePos& start, const TTilePos& dest)
 
 void CPathFinding::Draw(int curX, int curY)
 {
+}
+
+void CPathFinding::AddObstacleTile(E_TileType _eTileType)
+{
+	m_setObstacleTile.insert(_eTileType);
+}
+
+void CPathFinding::DeleteObstacleTile(E_TileType _eTileType)
+{
+	m_setObstacleTile.erase(_eTileType);
+}
+
+const vector<E_TileType>& CPathFinding::GetObstacleTiles()
+{
+	vector<E_TileType> vecObstacleTiles;
+	set<E_TileType>::iterator iter = m_setObstacleTile.begin();
+	for (; iter != m_setObstacleTile.end(); ++iter) {
+		vecObstacleTiles.push_back(*iter);
+	}
+	return vecObstacleTiles;
 }

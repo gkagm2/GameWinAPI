@@ -1,7 +1,8 @@
 #pragma once
+#include "CComponent.h"
 
 class CObject;
-class CRigidbody
+class CRigidbody : public CComponent
 {
 private:
 	CObject* m_pOwnerObject;

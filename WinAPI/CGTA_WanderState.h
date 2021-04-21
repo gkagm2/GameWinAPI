@@ -10,6 +10,8 @@ private:
 
 	float m_fPathFindCoolTime;
 	float m_fPathFindMaxCoolTime;
+	bool m_bIsPathFind;
+
 public:
 	virtual void Update() override;
 	virtual void LateUpdate() override;
@@ -18,7 +20,7 @@ public:
 	virtual void End() override;
 
 public:
-
+	CLONE(CGTA_WanderState);
 
 public:
 	CGTA_WanderState();

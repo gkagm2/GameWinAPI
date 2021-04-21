@@ -26,6 +26,12 @@ public:
 
 	CGTA_Character* GetCharacter();
 
+
+public:
+	virtual CGTA_AIState* Clone() = 0;
+
+	CGTA_AIState(const CGTA_AIState& _origin);
+
 public:
 	CGTA_AIState();
 	virtual ~CGTA_AIState();

@@ -13,6 +13,8 @@ public:
 	virtual void End() override;
 
 public:
+	CLONE(CGTA_IdleState);
+public:
 	CGTA_IdleState();
 	virtual ~CGTA_IdleState() override;
 };
