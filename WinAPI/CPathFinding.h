@@ -1,17 +1,5 @@
 #pragma once
 #include "CComponent.h"
-struct TTilePos {
-	int x;
-	int y;
-	TTilePos(int _x, int _y) : x(_x), y(_y) {}
-	TTilePos() : x(0), y(0) {}
-
-	bool operator<(const TTilePos& _rhs) {
-		if (_rhs.x > x && _rhs.y > y)
-			return true;
-		return false;
-	}
-};
 
 struct Cell {
 	int parentX, parentY;
@@ -28,6 +16,7 @@ private:
 	list<TTilePos> m_stkPath;
 	set<E_TileType> m_setObstacleTile;
 
+	bool m_bFoundDestination;
 
 	// ↖ ↑ ↗ ← → ↙ ↓ ↘ (index 순서에 따른 뱡향)
 	static const  int m_iDirX[8];
@@ -56,6 +45,9 @@ public:
 	void AddObstacleTile(E_TileType _eTileType);
 	void DeleteObstacleTile(E_TileType _eTileType);
 	const vector<E_TileType>& GetObstacleTiles();
+
+	bool IsArrivedDestination();
+	bool IsFoundDestination() {	return m_bFoundDestination;	}
 
 public:
 	CLONE(CPathFinding);

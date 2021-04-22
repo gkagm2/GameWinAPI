@@ -8,8 +8,6 @@ private:
 	Vector3 m_vStartPos;
 	Vector3 m_vDestPos; // Destination Position
 
-	float m_fPathFindCoolTime;
-	float m_fPathFindMaxCoolTime;
 	bool m_bIsPathFind;
 
 public:
@@ -18,6 +16,9 @@ public:
 
 	virtual void Start() override;
 	virtual void End() override;
+
+public:
+	TTilePos GetRandomDestinationPos();
 
 public:
 	CLONE(CGTA_WanderState);

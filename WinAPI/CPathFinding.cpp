@@ -12,14 +12,16 @@ const int CPathFinding::m_iDirY[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
 
 CPathFinding::CPathFinding() :
 	m_pTileMap(nullptr),
-	m_pvecTiles(nullptr)
+	m_pvecTiles(nullptr),
+	m_bFoundDestination(false)
 {
 	Init();
 }
 
 CPathFinding::CPathFinding(const CPathFinding& _origin) :
 	m_pTileMap(_origin.m_pTileMap),
-	m_pvecTiles(nullptr)
+	m_pvecTiles(nullptr),
+	m_bFoundDestination(_origin.m_bFoundDestination)
 {
 	m_stkPath.assign(_origin.m_stkPath.begin(), _origin.m_stkPath.end());
 	set<E_TileType>::iterator iter = _origin.m_setObstacleTile.begin();
@@ -105,6 +107,7 @@ void CPathFinding::TracePath(const vector<vector<Cell> >& cellDetails, const TTi
 // return : 길을 찾으면 true, 못찾으면 false 리턴
 bool CPathFinding::PathFind(const TTilePos& start, const TTilePos& dest)
 {
+	m_bFoundDestination = false;
 	if (false == IsValid(start.x, start.y))
 		return false;
 	if (false == IsValid(dest.x, dest.y))
@@ -149,7 +152,6 @@ bool CPathFinding::PathFind(const TTilePos& start, const TTilePos& dest)
 
 	openList.insert(std::make_pair(0.f, make_pair(iX, iY)));
 
-	bool foundDest = false;
 
 	while (!openList.empty()) {
 		pPair p = *openList.begin();
@@ -172,7 +174,7 @@ bool CPathFinding::PathFind(const TTilePos& start, const TTilePos& dest)
 				// 목적지 Cell의 부모를 설정한다.
 				cellDetails[y][x].parentX = iX;
 				cellDetails[y][x].parentY = iY;
-				// TODO : Found Destination
+				m_bFoundDestination = true;
 				TracePath(cellDetails, dest);
 				return true;
 			}
@@ -221,4 +223,15 @@ const vector<E_TileType>& CPathFinding::GetObstacleTiles()
 		vecObstacleTiles.push_back(*iter);
 	}
 	return vecObstacleTiles;
+}
+
+bool CPathFinding::IsArrivedDestination()
+{
+	if (m_bFoundDestination == false)
+		return false;
+
+	list<TTilePos>& path = GetPath();
+	if (path.size() == 0)
+		return true;
+	return false;
 }

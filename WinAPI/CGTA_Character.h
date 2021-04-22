@@ -10,7 +10,7 @@ enum class E_CharacterState {
 	getInTheCar,
 	getOffTheCar,
 	dead,
-	stun
+	stun,
 };
 
 enum class ECopState {
@@ -18,7 +18,7 @@ enum class ECopState {
 	run,
 };
 
-enum class ECitizenState {
+enum class E_AIState {
 	wander,
 	runAway,
 	trace
@@ -39,12 +39,14 @@ class CGTA_Vehicle;
 class CGTA_PunchDetector;
 class CGTA_AI;
 class CPathFinding;
+class CGTA_Item;
 class CGTA_Character : public CObject
 {
 protected:
 	TCharacterInfo m_tInfo;
 
 	bool m_bIsDrive;
+	bool m_bIsMoved;
 
 	float m_fAttackCoolTime;
 	float m_fAttackMaxCoolTime;
@@ -63,6 +65,7 @@ protected:
 	vector<std::pair<bool, TWeaponInfo> > m_vecWeapon; // true : allow, false : not allow
 
 	E_CharacterState m_eCharacterState; // 현재 캐릭터 상태
+	E_AIState m_eAIState; // AI 상태
 
 	// Component 
 	CGTA_AI* m_pAI; // AI
@@ -83,24 +86,29 @@ public:
 	virtual void State();
 	virtual void Stun();
 	virtual void Move() {}
-	virtual void MoveAI() {}
-
 	virtual void Attack();
 	virtual void Drive() {}
 	virtual void Dead() {}
 	virtual void GetInTheVehicle() {}
 	virtual void GetOutTheVehicle() {}
 
+	void ChangePrevWeapon();
+	void ChangeNextWeapon();
+	void GetItem(CGTA_Item* pItem);
+
+	// AI
+	virtual void MoveAI() {}
+	virtual void Trace();
+	virtual void Wander();
+
 	// AI
 	void CreateAI();
 	CGTA_AI* GetAI() { return m_pAI; } 
-	
 
-	bool IsArrivedDestination();
 	void CreatePathFinding();
 	CPathFinding* GetPathFinding() { return m_pPathFinding; }
 
-	Vector3 GetNozzlePosition() { return GetUpVector() * 15.0f; }
+	Vector3 GetNozzlePosition() { return GetUpVector() * 17.0f; }
 
 	// Weapon
 	bool IsWeaponExists(E_WeaponType _eWeaponType) { return m_vecWeapon[(UINT)_eWeaponType].first; }
@@ -112,15 +120,22 @@ public:
 
 	void ActivePunchDetector(bool _bActive);
 
-	// Character State
+
+	// Character, AI State
 	void SetCharacterState(E_CharacterState _eCharacterState) { m_eCharacterState = _eCharacterState; }
 	E_CharacterState GetCharacterState() { return m_eCharacterState; }
+
+	void SetAIState(E_AIState _eAIState) { m_eAIState = _eAIState; }
+	E_AIState GetAIState() { return m_eAIState; }
 
 	bool HaveGun() {
 		if (E_WeaponType::FIST == GetCurWeaponType())
 			return false;
 		return true;
 	}
+	
+
+	TCharacterInfo& CharacterInfo() { return m_tInfo; }
 
 public:
 	CLONE(CGTA_Character);

@@ -35,6 +35,7 @@ public:
 	void CreateAnimation(const wstring& _strName, CTexture* _pTex, Vector2 _vLT, Vector2 _vSlice, int _iMaxFrame, float _fDuration);
 
 	CAnimation* GetAnimation(const wstring& _strName);
+	CAnimation* GetCurAnimation() { return m_pCurAnimation; }
 
 	void PlayAnimation(const wstring& _strName, E_AnimationPlayType _eType);
 

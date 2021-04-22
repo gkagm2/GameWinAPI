@@ -23,6 +23,7 @@
 #include "CGTA_Player.h"
 #include "CGTA_CitizenCreator.h"
 #include "CGTA_Citizen.h"
+#include "CGTA_Cop.h"
 
 #include "CGTA_Item.h"
 #include "CGTA_Bullet.h"
@@ -74,6 +75,11 @@ void CScene_GtaInGame::Start()
 	pCitizen->Init();
 	pCitizen->SetPosition(600, 600);
 	AddObject(pCitizen);
+
+	CGTA_Cop* pCop = new CGTA_Cop(E_GroupType::CITIZEN);
+	pCop->Init();
+	pCop->SetPosition(800, 600);
+	AddObject(pCop);
 
 	CGTA_Citizen* pCitizen2 = pCitizen->Clone();
 	pCitizen2->SetPosition(600, 800);

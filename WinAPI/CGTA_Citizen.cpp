@@ -70,8 +70,6 @@ void CGTA_Citizen::Init()
 	GetAI()->AddState(L"runaway", new CGTA_RunawayState);
 	GetAI()->AddState(L"wander", new CGTA_WanderState);
 	GetAI()->ChangeState(L"wander");
-	 
-
 }
 
 void CGTA_Citizen::Update()
@@ -120,7 +118,16 @@ void CGTA_Citizen::State()
 		break;
 	case E_CharacterState::dead:
 		wstring strDeadArr[] = { L"dead1", L"dead2" };
-		GetAnimator()->PlayAnimation(strDeadArr[rand() % 2].c_str(), E_AnimationPlayType::LOOP);
+		bool bIsDeadAnim = false;
+		for (int i = 0; i < 2; ++i) {
+			if (0 == GetAnimator()->GetCurAnimation()->GetName().compare(strDeadArr[i])) {
+				bIsDeadAnim = true;
+				break;
+			}
+		}
+		if (false == bIsDeadAnim) {
+			GetAnimator()->PlayAnimation(strDeadArr[rand() % 2].c_str(), E_AnimationPlayType::LOOP);
+		}
 		Dead();
 		break;
 	}

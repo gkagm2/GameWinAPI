@@ -26,7 +26,6 @@ public:
 
 	CGTA_Character* GetCharacter();
 
-
 public:
 	virtual CGTA_AIState* Clone() = 0;
 

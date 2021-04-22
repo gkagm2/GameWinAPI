@@ -2,7 +2,8 @@
 #include "CEventManager.h"
 #include "CGTA_AIState.h"
 #include "CGTA_Character.h"
-#include "CAI.h"
+#include "CGTA_AI.h"
+
 
 CGTA_AIState::CGTA_AIState() :
 	m_pAI(nullptr)
@@ -30,5 +31,5 @@ void CGTA_AIState::ChangeState(const wstring& _strNextState)
 
 CGTA_Character* CGTA_AIState::GetCharacter()
 {
-	return nullptr;
+	return m_pAI->GetCharacter();
 }

@@ -15,12 +15,16 @@
 #include "CObject.h"
 #include "CRigidbody2D.h"
 #include "CGTA_AI.h"
+#include "CGTA_AIState.h"
 #include "CPathFinding.h"
+#include "CGTA_Bullet.h"
+#include "CGTA_Item.h"
 
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
 	m_tInfo{},
 	m_bIsDrive(false),
+	m_bIsMoved(false),
 	m_fAttackCoolTime(0.f),
 	m_fAttackMaxCoolTime(0.f),
 	m_fStunCoolTime(0.f),
@@ -31,6 +35,7 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
 	m_eCharacterState(E_CharacterState::idle),
+	m_eAIState(E_AIState::wander),
 	m_pAI(nullptr),
 	m_pPathFinding(nullptr)
 {
@@ -47,6 +52,7 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	CObject(_origin),
 	m_tInfo(_origin.m_tInfo),
 	m_bIsDrive(false),
+	m_bIsMoved(false),
 	m_fAttackCoolTime(0.f),
 	m_fAttackMaxCoolTime(0.f),
 	m_fStunCoolTime(0.f),
@@ -57,6 +63,7 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
 	m_eCharacterState(E_CharacterState::idle),
+	m_eAIState(_origin.m_eAIState),
 	m_pAI(nullptr),
 	m_pPathFinding(nullptr)
 {
@@ -64,11 +71,12 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 		m_pAI = _origin.m_pAI->Clone();
 		m_pAI->m_pCharacter = this;
 
+		if (nullptr != _origin.m_pAI->GetCurState())
+			m_pAI->ChangeState(_origin.m_pAI->GetCurState()->GetName());
 	}
 		
-	if (nullptr != _origin.m_pPathFinding) {
+	if (nullptr != _origin.m_pPathFinding)
 		m_pPathFinding = _origin.m_pPathFinding->Clone();
-	}
 }
 
 CGTA_Character::~CGTA_Character()
@@ -170,7 +178,111 @@ void CGTA_Character::Stun()
 
 void CGTA_Character::Attack()
 {
+	TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
+	E_WeaponType eWeaponType = GetCurWeaponType();
 
+	// 주먹이면
+	if (E_WeaponType::FIST == eWeaponType) {
+		GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
+		// Punch 컬라이더가 생성된다
+	}
+	else {
+		// 총 타입에 따라 Shoot.
+
+		// 총알 오브젝트 생성.
+		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
+		pBullet->Init();
+		pBullet->SetUpVector(GetUpVector(), GetRPDir(), GetRectPoint()); // 방향 설정
+		pBullet->RotateRP(180);
+		pBullet->SetPosition(GetPosition() - GetNozzlePosition()); // 노즐 위치로 옮긴다.
+		CreateObject(pBullet);
+
+		if (false == tWeaponInfo.bIsInfinite) { // 무한이 아닐 경우
+			--tWeaponInfo.iBulletCnt;
+			if (tWeaponInfo.iBulletCnt <= 0) {
+				SetWeaponState(false, GetCurWeaponType());
+				ChangeNextWeapon();
+				return;
+			}
+		}
+	}
+	SetCharacterState(E_CharacterState::attack);
+}
+
+void CGTA_Character::ChangePrevWeapon()
+{
+	int iNextWeaponIdx = (int)m_eCurWeaponType + 1;
+	while (true) {
+		if (iNextWeaponIdx >= (int)E_WeaponType::END)
+			iNextWeaponIdx = 0;
+
+		if (true == m_vecWeapon[iNextWeaponIdx].first) {
+			m_eCurWeaponType = (E_WeaponType)iNextWeaponIdx;
+			break;
+		}
+		++iNextWeaponIdx;
+	}
+
+	const TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
+	m_fAttackMaxCoolTime = tWeaponInfo.fShootCoolTime;
+}
+
+void CGTA_Character::ChangeNextWeapon()
+{
+	int iPrevWeaponIdx = (int)m_eCurWeaponType - 1;
+	while (true) {
+		if (iPrevWeaponIdx < 0)
+			iPrevWeaponIdx = (int)E_WeaponType::END - 1;
+
+		if (true == m_vecWeapon[iPrevWeaponIdx].first) {
+			m_eCurWeaponType = (E_WeaponType)iPrevWeaponIdx;
+			break;
+		}
+		--iPrevWeaponIdx;
+	}
+
+	const TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
+	m_fAttackMaxCoolTime = tWeaponInfo.fShootCoolTime;
+}
+
+void CGTA_Character::GetItem(CGTA_Item* pItem)
+{
+	// 아이템을 얻으면
+	if (E_ItemType::WEAPON == pItem->GetItemType()) {
+		E_WeaponType eWeaponType = pItem->GetWeaponType();
+		TWeaponInfo tWeaponInfo = GetWeaponInfo(eWeaponType);
+
+		//총알 추가
+		int iBullet = tWeaponInfo.iBulletCnt;
+		tWeaponInfo = pItem->GetWeaponInfo();
+		tWeaponInfo.iBulletCnt += iBullet;
+
+		// 아이템을 이미 가지고 있다면 아이템의 총알을 더해준다.
+		if (IsWeaponExists(eWeaponType))
+			SetWeaponInfo(eWeaponType, tWeaponInfo);
+		// 아이템이 없으면 그 아이템을 허용시키고 값들 대입 후, 현재 무기로 바꿔준다.
+		else {
+			SetWeaponState(true, eWeaponType); // 아이템 허용
+			SetWeaponInfo(eWeaponType, tWeaponInfo); // 바뀐 정보 적용
+			while (eWeaponType != GetCurWeaponType()) // 현재 무기로 바꿈
+				ChangeNextWeapon();
+
+			const TWeaponInfo& tCurWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
+			m_fAttackMaxCoolTime = tCurWeaponInfo.fShootCoolTime;
+		}
+	}
+}
+
+void CGTA_Character::Trace()
+{
+	SetCharacterState(E_CharacterState::run);
+	SetAIState(E_AIState::trace);
+}
+
+void CGTA_Character::Wander()
+{
+	SetCharacterState(E_CharacterState::walk);
+	SetAIState(E_AIState::wander);
 }
 
 void CGTA_Character::CreateAI()
@@ -179,14 +291,6 @@ void CGTA_Character::CreateAI()
 		m_pAI = new CGTA_AI();
 		m_pAI->m_pCharacter = this;
 	}
-}
-
-bool CGTA_Character::IsArrivedDestination()
-{
-	list<TTilePos>& path = m_pPathFinding->GetPath();
-	if (path.size() == 0)
-		return true;
-	return false;
 }
 
 void CGTA_Character::CreatePathFinding()

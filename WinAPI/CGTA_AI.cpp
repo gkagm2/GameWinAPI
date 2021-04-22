@@ -22,8 +22,6 @@ CGTA_AI::CGTA_AI(const CGTA_AI& _origin) :
 		state->SetAI(this);
 		m_umapState.insert(make_pair(strName, state));
 	}
-	if (nullptr != _origin.m_pCurState) 
-		ChangeState(_origin.m_pCurState->GetName());
 }
 
 CGTA_AI::~CGTA_AI()

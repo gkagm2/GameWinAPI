@@ -30,4 +30,3 @@ public:
 	CGTA_Cop(E_GroupType _eGroupType);
 	virtual ~CGTA_Cop() override;
 };
-

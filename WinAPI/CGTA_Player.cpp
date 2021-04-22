@@ -51,6 +51,7 @@ void CGTA_Player::Init()
 	GetAnimator()->CreateAnimation(L"walk_gun", pTexture, Vector2(0,40 * 10), Vector2(40, 40), 3, 0.07f);
 	GetAnimator()->CreateAnimation(L"punch", pTexture, Vector2(0,40 * 11), Vector2(40, 40), 6, 0.07f);
 	GetAnimator()->CreateAnimation(L"run", pTexture, Vector2(0,40 * 12), Vector2(40, 40), 8, 0.07f);
+	GetAnimator()->CreateAnimation(L"walk", pTexture, Vector2(0, 40 * 13), Vector2(40, 40), 4, 0.07f);
 
 	GetAnimator()->PlayAnimation(L"idle", E_AnimationPlayType::ONCE);
 
@@ -149,8 +150,7 @@ void CGTA_Player::State()
 	case E_CharacterState::attack:
 		if (false == HaveGun()) {
 			if (true == GetAnimator()->GetAnimation(L"punch")->IsFinish()) {
-
-				if (InputKeyHold(E_Key::UP) || InputKeyHold(E_Key::DOWN))
+				if (m_bIsMoved)
 					SetCharacterState(E_CharacterState::run);
 				else
 					SetCharacterState(E_CharacterState::idle);
@@ -161,7 +161,23 @@ void CGTA_Player::State()
 			}
 		}
 		break;
-	case E_CharacterState::dead:
+	case E_CharacterState::dead: {
+		if(nullptr == GetAnimator()->GetCurAnimation())
+			break;
+		wstring strDeads[] = { L"dead1",L"dead2",L"dead3",L"dead4" };
+		wstring strCurKeyName = GetAnimator()->GetCurAnimation()->GetName();
+		bool bIsSetDeadAnim = false;
+		for (int i = 0; i < 4; ++i) {
+			if (0 == strDeads[i].compare(strCurKeyName)) {
+				bIsSetDeadAnim = true;
+				break;
+			}
+		}
+		if (false == bIsSetDeadAnim) {
+			int iRandom = rand() % 4;
+			GetAnimator()->PlayAnimation(strDeads[iRandom], E_AnimationPlayType::ONCE);
+		}
+	}
 		break;
 	case E_CharacterState::getInTheCar:
 		break;
@@ -184,26 +200,25 @@ void CGTA_Player::Move()
 	}
 
 	if (InputKeyRelease(E_Key::UP)) {
+		m_bIsMoved = false;
 		SetCharacterState(E_CharacterState::idle);
 	}
 	if (InputKeyRelease(E_Key::DOWN)) {
+		m_bIsMoved = false;
 		SetCharacterState(E_CharacterState::idle);
 	}
-	if (InputKeyPress(E_Key::UP)) {
-		SetCharacterState(E_CharacterState::run);
-	}
-	if (InputKeyPress(E_Key::DOWN)) {
-		SetCharacterState(E_CharacterState::run);
-	}
-	
 
 	if (InputKeyHold(E_Key::UP)) {
-		float x = GetPosition().x - GetUpVector().x * 300 * DeltaTime;
-		float y = GetPosition().y - GetUpVector().y * 300 * DeltaTime;
-		SetPosition(GetPosition().x - GetUpVector().x * 300 * DeltaTime, GetPosition().y - GetUpVector().y * 300 * DeltaTime);
+		m_bIsMoved = true;
+		float x = GetPosition().x - GetUpVector().x * CharacterInfo().fMoveSpeed * DeltaTime;
+		float y = GetPosition().y - GetUpVector().y * CharacterInfo().fMoveSpeed * DeltaTime;
+		SetPosition(GetPosition().x - GetUpVector().x * CharacterInfo().fMoveSpeed * DeltaTime, GetPosition().y - GetUpVector().y * 300 * DeltaTime);
+		SetCharacterState(E_CharacterState::run);
 	}
 	if (InputKeyHold(E_Key::DOWN)) {
-		SetPosition(GetPosition().x + GetUpVector().x * 300 * DeltaTime, GetPosition().y + GetUpVector().y * 300 * DeltaTime);
+		m_bIsMoved = true;
+		SetPosition(GetPosition().x + GetUpVector().x * CharacterInfo().fMoveSpeed * DeltaTime, GetPosition().y + GetUpVector().y * CharacterInfo().fMoveSpeed * DeltaTime);
+		SetCharacterState(E_CharacterState::run);
 	}
 }
 
@@ -254,68 +269,4 @@ void CGTA_Player::GetInTheVehicle()
 
 void CGTA_Player::GetOutTheVehicle()
 {
-}
-
-void CGTA_Player::GetItem(CGTA_Item* pItem)
-{
-	// 아이템을 얻으면
-	if (E_ItemType::WEAPON == pItem->GetItemType()) {
-		E_WeaponType eWeaponType = pItem->GetWeaponType();
-		TWeaponInfo tWeaponInfo = GetWeaponInfo(eWeaponType);
-
-		//총알 추가
-		int iBullet = tWeaponInfo.iBulletCnt;
-		tWeaponInfo = pItem->GetWeaponInfo();
-		tWeaponInfo.iBulletCnt += iBullet;
-
-		// 아이템을 이미 가지고 있다면 아이템의 총알을 더해준다.
-		if (IsWeaponExists(eWeaponType))
-			SetWeaponInfo(eWeaponType, tWeaponInfo);
-		// 아이템이 없으면 그 아이템을 허용시키고 값들 대입 후, 현재 무기로 바꿔준다.
-		else {
-			SetWeaponState(true, eWeaponType); // 아이템 허용
-			SetWeaponInfo(eWeaponType, tWeaponInfo); // 바뀐 정보 적용
-			while (eWeaponType != GetCurWeaponType()) // 현재 무기로 바꿈
-				ChangeNextWeapon();
-
-			const TWeaponInfo& tCurWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
-			m_fAttackMaxCoolTime = tCurWeaponInfo.fShootCoolTime;
-		}
-	}
-}
-
-void CGTA_Player::ChangePrevWeapon()
-{
-	int iNextWeaponIdx = (int)m_eCurWeaponType + 1;
-	while (true) {
-		if (iNextWeaponIdx >= (int)E_WeaponType::END)
-			iNextWeaponIdx = 0;
-
-		if (true == m_vecWeapon[iNextWeaponIdx].first) {
-			m_eCurWeaponType = (E_WeaponType)iNextWeaponIdx;
-			break;
-		}
-		++iNextWeaponIdx;
-	}
-
-	const TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
-	m_fAttackMaxCoolTime = tWeaponInfo.fShootCoolTime;
-}
-
-void CGTA_Player::ChangeNextWeapon()
-{
-	int iPrevWeaponIdx = (int)m_eCurWeaponType - 1;
-	while (true) {
-		if (iPrevWeaponIdx < 0)
-			iPrevWeaponIdx = (int)E_WeaponType::END - 1;
-
-		if (true == m_vecWeapon[iPrevWeaponIdx].first) {
-			m_eCurWeaponType = (E_WeaponType)iPrevWeaponIdx;
-			break;
-		}
-		--iPrevWeaponIdx;
-	}
-
-	const TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
-	m_fAttackMaxCoolTime = tWeaponInfo.fShootCoolTime;
 }

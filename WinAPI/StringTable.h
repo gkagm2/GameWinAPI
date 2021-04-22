@@ -67,6 +67,8 @@
 #define STR_FILE_NAME_gta_citizen L"Texture\\GTA\\gtaCitizen.bmp"
 #define STR_FILE_PATH_gta_citizen L"Texture\\GTA\\gtaCitizen.bmp"
 
+#define STR_FILE_PATH_gta_cops L"Texture\\GTA\\gtaCops.bmp"
+
 #define STR_FILE_NAME_gta_item L"Texture\\GTA\\gtaItems.bmp"
 #define STR_FILE_PATH_gta_item L"Texture\\GTA\\gtaItems.bmp"
 

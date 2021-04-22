@@ -102,6 +102,19 @@ struct TWeaponInfo {
 	TWeaponInfo(const TWeaponInfo& _other);
 };
 
+struct TTilePos {
+	int x;
+	int y;
+	TTilePos(int _x, int _y) : x(_x), y(_y) {}
+	TTilePos() : x(0), y(0) {}
+
+	bool operator<(const TTilePos& _rhs) {
+		if (_rhs.x > x && _rhs.y > y)
+			return true;
+		return false;
+	}
+};
+
 #define EXCEPTION_COLOR_RGB_MAGENTA RGB(255,0,255) // Magenta color
 #define EXCEPTION_COLOR_RGB_BLACK RGB(0,0,0) // Magenta color
 

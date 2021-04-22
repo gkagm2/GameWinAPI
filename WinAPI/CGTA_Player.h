@@ -9,7 +9,6 @@ class CGTA_Player : public CGTA_Character
 {
 private:
 	
-	
 public:
 	virtual void Init() override;
 	virtual void PrevUpdate() override;
@@ -31,10 +30,6 @@ public:
 	virtual void GetOutTheVehicle() override;
 
 public:
-	void GetItem(CGTA_Item* pItem);
-
-	void ChangePrevWeapon();
-	void ChangeNextWeapon();
 
 public:
 	CLONE(CGTA_Player);
