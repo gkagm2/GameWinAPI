@@ -17,8 +17,8 @@ CGTA_WanderState::CGTA_WanderState() :
 	m_vStartPos{},
 	m_vDestPos{},
 	m_bIsPathFind(false),
-	m_iFindDepthMin(30),
-	m_iFindDepthMax(40)
+	m_iFindDepthMin(5),
+	m_iFindDepthMax(7)
 {
 }
 
@@ -34,17 +34,19 @@ void CGTA_WanderState::Update()
 	// BFS를 이용하여 찾도록 할까?
 	// 랜덤 거리를 임의로 해서 움직이게 할까??
 	// 360도를 이용하여 거리를 구한다음  아냐아냐.. 대충 4~5정도의 Tile이 떨어진곳에서 BFS를 이용하여 구하는게 좋을 것 같다. 나중에 수정하기
-	TTilePos destPos = GetRandomDestinationPos(m_iFindDepthMin, m_iFindDepthMax);
+
 
 	// input을 해야하는게 아니라 이제부터 랜덤값을 이용하여 
 	// 목적지를 못찾았으면
 	if (false == GetCharacter()->GetPathFinding()->IsFoundDestination()) {
+		TTilePos destPos = GetRandomDestinationPos(m_iFindDepthMin, m_iFindDepthMax);
 		// 길을 찾는다.
 		m_bIsPathFind = GetCharacter()->GetPathFinding()->PathFind(startPos, destPos);
 	}
 	else {
 		// 목적지를 찾았고 그 목적지에 도착한 상태면
 		if (true == GetCharacter()->GetPathFinding()->IsArrivedDestination()) {
+			TTilePos destPos = GetRandomDestinationPos(m_iFindDepthMin, m_iFindDepthMax);
 			// 다른 길을 찾는다.
 			m_bIsPathFind =GetCharacter()->GetPathFinding()->PathFind(startPos, destPos);
 		}
@@ -139,17 +141,20 @@ TTilePos CGTA_WanderState::GetRandomDestinationPos(int _iDepthMin,int _iDepthMax
 
 	vector<CObject*>& vecTiles = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::TILE);
 	
-	queue<TTilePos> que;
-	que.push(tCurPos);
+	queue<std::pair<TTilePos, int>> que;
 	int iDepth = 0;
+	que.push(make_pair(tCurPos, iDepth));
 
 
 	// TODO : 중복값 없애기
-	map<int, TTilePos> com;
+	map<wstring, TTilePos> mapDestPos;
 
 	while (!que.empty()) {
+		tCurPos = que.front().first;
+		iDepth = que.front().second;
 		if (iDepth > _iDepthMax)
 			break;
+		que.pop();
 
 		for (int i = 0; i < 4; ++i) {
 			int x = tCurPos.x + dirX[i];
@@ -171,26 +176,21 @@ TTilePos CGTA_WanderState::GetRandomDestinationPos(int _iDepthMin,int _iDepthMax
 
 			if (bIsObstacle)
 				continue;
-			que.push(TTilePos{ x,y });
+			que.push(make_pair(TTilePos{ x,y }, iDepth + 1));
 			if (_iDepthMin <= iDepth && _iDepthMax >= iDepth) {
 				TTilePos tPos = { x,y };
-				auto iter = com.begin();
-				for (; iter != com.end(); ++iter) {
-					if (tPos == (*iter).second) {
-						continue;
-					}
-				}
-				com.insert(make_pair(tPos.x + 123 + tPos.x + 321 + tPos.y +234 + tPos.y + 345, tPos));
+				wstring key = std::to_wstring(x) + std::to_wstring(y);
+				if(mapDestPos.find(key) != mapDestPos.end())
+					continue;
+				mapDestPos.insert(make_pair(key, tPos));
 			}
 		}
-		++iDepth;
 	}
 	
 	// TODO : 벡터의 중복 요소 없앰
-	auto iter = com.begin();
+	auto iter = mapDestPos.begin();
 
-
-	int iSize = (int)com.size();
+	int iSize = (int)mapDestPos.size();
 	if (iSize == 0)
 		return TTilePos{ tCurPos.x, tCurPos.y };
 
