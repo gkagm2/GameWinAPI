@@ -228,3 +228,9 @@ void MenuContainer(WPARAM _wmId)
 		break;
 	}
 }
+
+inline bool operator>(const TTilePos& _l, const TTilePos& _r) {
+	if (_l.x > _r.x && _l.y > _r.y)
+		return true;
+	return false;
+}

@@ -10,6 +10,9 @@ private:
 
 	bool m_bIsPathFind;
 
+	int m_iFindDepthMin;
+	int m_iFindDepthMax;
+
 public:
 	virtual void Update() override;
 	virtual void LateUpdate() override;
@@ -18,7 +21,7 @@ public:
 	virtual void End() override;
 
 public:
-	TTilePos GetRandomDestinationPos();
+	TTilePos GetRandomDestinationPos(int _iDepthMin, int _iDepthMax);
 
 public:
 	CLONE(CGTA_WanderState);

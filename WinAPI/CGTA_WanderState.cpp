@@ -10,12 +10,15 @@
 #include "CKeyManager.h"
 #include "CCamera.h"
 #include "CCore.h"
+#include "CTile.h"
 
 CGTA_WanderState::CGTA_WanderState() :
 	m_pTarget(nullptr),
 	m_vStartPos{},
 	m_vDestPos{},
-	m_bIsPathFind(false)
+	m_bIsPathFind(false),
+	m_iFindDepthMin(30),
+	m_iFindDepthMax(40)
 {
 }
 
@@ -31,25 +34,25 @@ void CGTA_WanderState::Update()
 	// BFS를 이용하여 찾도록 할까?
 	// 랜덤 거리를 임의로 해서 움직이게 할까??
 	// 360도를 이용하여 거리를 구한다음  아냐아냐.. 대충 4~5정도의 Tile이 떨어진곳에서 BFS를 이용하여 구하는게 좋을 것 같다. 나중에 수정하기
-	TTilePos destPos = GetRandomDestinationPos();
+	TTilePos destPos = GetRandomDestinationPos(m_iFindDepthMin, m_iFindDepthMax);
 
 	// input을 해야하는게 아니라 이제부터 랜덤값을 이용하여 
 	// 목적지를 못찾았으면
 	if (false == GetCharacter()->GetPathFinding()->IsFoundDestination()) {
 		// 길을 찾는다.
-		GetCharacter()->GetPathFinding()->PathFind(startPos, destPos);
+		m_bIsPathFind = GetCharacter()->GetPathFinding()->PathFind(startPos, destPos);
 	}
 	else {
 		// 목적지를 찾았고 그 목적지에 도착한 상태면
 		if (true == GetCharacter()->GetPathFinding()->IsArrivedDestination()) {
 			// 다른 길을 찾는다.
-			GetCharacter()->GetPathFinding()->PathFind(startPos, destPos);
+			m_bIsPathFind =GetCharacter()->GetPathFinding()->PathFind(startPos, destPos);
+		}
+		else {
+
 		}
 	}
 
-	if (InputKeyPress(E_Key::Ctrl)) {
-		m_bIsPathFind = GetAI()->GetCharacter()->GetPathFinding()->PathFind(startPos, destPos);
-	}
 	if (m_bIsPathFind) {
 		HDC _hDC = CCore::GetInstance()->GetDC();
 		list<TTilePos>& path = GetAI()->GetCharacter()->GetPathFinding()->GetPath();
@@ -63,8 +66,8 @@ void CGTA_WanderState::Update()
 		for (; iter != path.end(); ++iter) {
 			Vector2 vCurPos = MainCamera->GetRenderPosition(pTileMap->TilePosToVector(prev));
 			vCurPos += (TILE_SIZE * 0.5f);
-			Rectangle(_hDC, vCurPos.x - 5, vCurPos.y - 5, vCurPos.x + 5, vCurPos.y + 5);
-			MoveToEx(_hDC, vCurPos.x, vCurPos.y, nullptr);
+			Rectangle(_hDC, (int)vCurPos.x - 5, (int)vCurPos.y - 5, (int)vCurPos.x + 5, (int)vCurPos.y + 5);
+			MoveToEx(_hDC, (int)vCurPos.x, (int)vCurPos.y, nullptr);
 			Vector2 destPos = MainCamera->GetRenderPosition(pTileMap->TilePosToVector(*iter));
 
 			destPos += (TILE_SIZE * 0.5f);
@@ -101,7 +104,7 @@ void CGTA_WanderState::Update()
 				vDir.Normalized();
 
 				// 이동
-				GetAI()->GetCharacter()->SetPosition(GetAI()->GetCharacter()->GetPosition() + vDir * 300.f * DeltaTime);
+				GetAI()->GetCharacter()->SetPosition(GetAI()->GetCharacter()->GetPosition() + vDir * 150.f * DeltaTime);
 			}
 		}
 	}
@@ -121,14 +124,81 @@ void CGTA_WanderState::End()
 
 }
 
-TTilePos CGTA_WanderState::GetRandomDestinationPos()
+// BFS 이용하여 Delpth(Level) 사이의 위치값을 리턴
+TTilePos CGTA_WanderState::GetRandomDestinationPos(int _iDepthMin,int _iDepthMax)
 {
 	CTileMap* pTileMap = CSceneManager::GetInstance()->GetCurScene()->GetTileMap();
 
-	// TODO 과부하가 일어나지 않는 범위 내에서 만들어야될거같은데..
-	float fDistance = (float)(rand() % 10 + 50);
-	float fDegree = float(rand() % 360);
-	float fX = cosf(fDegree);
-	float fY = sinf(fDegree);
-	return pTileMap->VectorToTilePos({ fX,fY });
+	TTilePos tCurPos = pTileMap->VectorToTilePos(GetCharacter()->GetPosition());
+
+	int iCol = (int)pTileMap->GetCol();
+	int iRow = (int)pTileMap->GetRow();	
+
+	int dirX[] = { 1, -1, 0, 0 };
+	int dirY[] = { 0, 0, 1, -1 };
+
+	vector<CObject*>& vecTiles = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::TILE);
+	
+	queue<TTilePos> que;
+	que.push(tCurPos);
+	int iDepth = 0;
+
+
+	// TODO : 중복값 없애기
+	map<int, TTilePos> com;
+
+	while (!que.empty()) {
+		if (iDepth > _iDepthMax)
+			break;
+
+		for (int i = 0; i < 4; ++i) {
+			int x = tCurPos.x + dirX[i];
+			int y = tCurPos.y + dirY[i];
+
+			if (false == GetCharacter()->GetPathFinding()->IsValid(x, y))
+				continue;
+
+			const vector<E_TileType>& vecTileType = GetCharacter()->GetPathFinding()->GetObstacleTiles();
+			bool bIsObstacle = false;
+
+			for (int type = 0; type < vecTileType.size(); ++type) {
+				CTile* pTile = (CTile*)vecTiles[y * iCol + x];
+				if (pTile->GetTileType() == vecTileType[type]) {
+					bIsObstacle = true;
+					break;
+				}
+			}
+
+			if (bIsObstacle)
+				continue;
+			que.push(TTilePos{ x,y });
+			if (_iDepthMin <= iDepth && _iDepthMax >= iDepth) {
+				TTilePos tPos = { x,y };
+				auto iter = com.begin();
+				for (; iter != com.end(); ++iter) {
+					if (tPos == (*iter).second) {
+						continue;
+					}
+				}
+				com.insert(make_pair(tPos.x + 123 + tPos.x + 321 + tPos.y +234 + tPos.y + 345, tPos));
+			}
+		}
+		++iDepth;
+	}
+	
+	// TODO : 벡터의 중복 요소 없앰
+	auto iter = com.begin();
+
+
+	int iSize = (int)com.size();
+	if (iSize == 0)
+		return TTilePos{ tCurPos.x, tCurPos.y };
+
+	int randIdx = rand() % iSize;
+
+	for (int i = 0; i < randIdx; ++i) {
+		iter++;
+	}
+
+	return iter->second;
 }

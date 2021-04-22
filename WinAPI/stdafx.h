@@ -19,6 +19,7 @@
 
 #include <map>
 using std::map;
+using std::multimap;
 #include <unordered_map>
 using std::unordered_map;
 
@@ -41,6 +42,8 @@ using std::wstring;
 using std::vector;
 #include <bitset>
 using std::bitset;
+
+#include <algorithm>
 
 #include "Define.h"
 #include "Struct.h"

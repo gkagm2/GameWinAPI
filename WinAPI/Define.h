@@ -107,13 +107,37 @@ struct TTilePos {
 	int y;
 	TTilePos(int _x, int _y) : x(_x), y(_y) {}
 	TTilePos() : x(0), y(0) {}
-
-	bool operator<(const TTilePos& _rhs) {
-		if (_rhs.x > x && _rhs.y > y)
+	
+	bool operator==(const TTilePos& _rhs) {
+		if (x == _rhs.x && y == _rhs.y)
 			return true;
 		return false;
 	}
+	bool operator<(const TTilePos& rhs) const
+	{
+		if (x > rhs.x && y > rhs.y)
+			return true;
+		else if (x > rhs.x) {
+			return true;
+		}
+		else if (y > rhs.y)
+			return true;
+		else
+			return false;
+	}
 };
+
+struct TTilePosComparae {
+	bool operator()(const TTilePos& l, const TTilePos& r) {
+		if (l.x > r.x)
+			return true;
+		else if (l.y > r.y)
+			return true;
+		else
+			return false;
+	}
+};
+
 
 #define EXCEPTION_COLOR_RGB_MAGENTA RGB(255,0,255) // Magenta color
 #define EXCEPTION_COLOR_RGB_BLACK RGB(0,0,0) // Magenta color

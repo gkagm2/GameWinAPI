@@ -30,12 +30,12 @@ public:
 
 protected:
 	float GetDistance(int x1, int y1, int x2, int y2);
-	bool IsValid(int x, int y);
 	bool IsUnBlocked(int x, int y);
 	bool IsDestination(int x, int y, const TTilePos& dest);
 	void TracePath(const vector<vector<Cell> >& cellDetails, const TTilePos& dest);
 
 public:
+	bool IsValid(int x, int y);
 	bool PathFind(const TTilePos& start, const TTilePos& dest);
 	void Draw(int curX, int curY);
 
