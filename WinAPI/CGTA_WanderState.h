@@ -10,8 +10,8 @@ private:
 
 	bool m_bIsPathFind;
 
-	int m_iFindDepthMin;
-	int m_iFindDepthMax;
+	float m_fMinSearchDistance;
+	float m_fMaxSearchDistance;
 
 public:
 	virtual void Update() override;
@@ -21,6 +21,9 @@ public:
 	virtual void End() override;
 
 public:
+	TTilePos GetRandomDestinationPos(float _fMinSearchDistance, float _fMaxSearchDistance);
+
+	// FIXED : BFS를 이용하여 목적지 랜덤 설정. 사용 안함
 	TTilePos GetRandomDestinationPos(int _iDepthMin, int _iDepthMax);
 
 public:

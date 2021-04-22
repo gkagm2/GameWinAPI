@@ -17,8 +17,8 @@ CGTA_WanderState::CGTA_WanderState() :
 	m_vStartPos{},
 	m_vDestPos{},
 	m_bIsPathFind(false),
-	m_iFindDepthMin(5),
-	m_iFindDepthMax(7)
+	m_fMinSearchDistance(600.f),
+	m_fMaxSearchDistance(800.f)
 {
 }
 
@@ -39,14 +39,14 @@ void CGTA_WanderState::Update()
 	// input을 해야하는게 아니라 이제부터 랜덤값을 이용하여 
 	// 목적지를 못찾았으면
 	if (false == GetCharacter()->GetPathFinding()->IsFoundDestination()) {
-		TTilePos destPos = GetRandomDestinationPos(m_iFindDepthMin, m_iFindDepthMax);
+		TTilePos destPos = GetRandomDestinationPos(m_fMinSearchDistance, m_fMaxSearchDistance);
 		// 길을 찾는다.
 		m_bIsPathFind = GetCharacter()->GetPathFinding()->PathFind(startPos, destPos);
 	}
 	else {
 		// 목적지를 찾았고 그 목적지에 도착한 상태면
 		if (true == GetCharacter()->GetPathFinding()->IsArrivedDestination()) {
-			TTilePos destPos = GetRandomDestinationPos(m_iFindDepthMin, m_iFindDepthMax);
+			TTilePos destPos = GetRandomDestinationPos(m_fMinSearchDistance, m_fMaxSearchDistance);
 			// 다른 길을 찾는다.
 			m_bIsPathFind =GetCharacter()->GetPathFinding()->PathFind(startPos, destPos);
 		}
@@ -126,11 +126,54 @@ void CGTA_WanderState::End()
 
 }
 
+TTilePos CGTA_WanderState::GetRandomDestinationPos(float _fMinSearchDistance, float _fMaxSearchDistance)
+{
+	CTileMap* pTileMap = CSceneManager::GetInstance()->GetCurScene()->GetTileMap();
+	TTilePos tCurPos = pTileMap->VectorToTilePos(GetCharacter()->GetPosition());
+	vector<CObject*>& vecTiles = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::TILE);
+
+	int iCol = (int)pTileMap->GetCol();
+	int iRow = (int)pTileMap->GetRow();
+
+	
+
+	const vector<E_TileType>& vecTileType = GetCharacter()->GetPathFinding()->GetObstacleTiles();
+	bool bIsObstacle = false;
+	TTilePos tDestPos{tCurPos.x, tCurPos.y};
+	int iTryCnt = 0;
+	while (iTryCnt <= 10) {
+		float fRandomDegree = float(rand() % 360);
+		float fRandomMinDistance = float((rand() % (int)_fMaxSearchDistance) + _fMinSearchDistance); // 600에서 800 사이
+		fRandomDegree = 180.f;
+		Vector3 vDir = { cosf(fRandomDegree), sinf(fRandomDegree), 0.f };
+
+		Vector3 vDestPos = GetCharacter()->GetPosition() +  vDir * fRandomMinDistance;
+		tDestPos = pTileMap->VectorToTilePos(vDestPos);
+		
+		if (GetCharacter()->GetPathFinding()->IsValid(tDestPos.x, tDestPos.y)) {
+			// 갈 수 있는 타일인지 체크한다.
+			for (int type = 0; type < vecTileType.size(); ++type) {
+				// FIXED : release로 할 경우 에러 뜸
+				CTile* pTile = (CTile*)vecTiles[tDestPos.y * iCol + tDestPos.x];
+				if (pTile->GetTileType() == vecTileType[type]) {
+					bIsObstacle = true;
+						break;
+				}
+			}
+			// 갈 수 있으면 종료
+			if (false == bIsObstacle)
+				break;
+		}
+		
+		++iTryCnt;
+	}
+	return tDestPos;
+}
+
 // BFS 이용하여 Delpth(Level) 사이의 위치값을 리턴
 TTilePos CGTA_WanderState::GetRandomDestinationPos(int _iDepthMin,int _iDepthMax)
 {
 	CTileMap* pTileMap = CSceneManager::GetInstance()->GetCurScene()->GetTileMap();
-
 	TTilePos tCurPos = pTileMap->VectorToTilePos(GetCharacter()->GetPosition());
 
 	int iCol = (int)pTileMap->GetCol();
@@ -166,6 +209,7 @@ TTilePos CGTA_WanderState::GetRandomDestinationPos(int _iDepthMin,int _iDepthMax
 			const vector<E_TileType>& vecTileType = GetCharacter()->GetPathFinding()->GetObstacleTiles();
 			bool bIsObstacle = false;
 
+			// 갈 수 있는 타일인지 체크한다.
 			for (int type = 0; type < vecTileType.size(); ++type) {
 				CTile* pTile = (CTile*)vecTiles[y * iCol + x];
 				if (pTile->GetTileType() == vecTileType[type]) {
