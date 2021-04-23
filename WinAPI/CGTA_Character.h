@@ -28,8 +28,9 @@ struct TCharacterInfo {
 	float fHp;
 	float fArmor;
 	float fMoveSpeed;
+	float fWalkSpeed;
 
-	TCharacterInfo() : fHp(10.f), fArmor(0.f), fMoveSpeed(300.f) {}
+	TCharacterInfo() : fHp(10.f), fArmor(0.f), fMoveSpeed(300.f), fWalkSpeed(100.f) {}
 	void Save(FILE* _pFile);
 	void Load(FILE* _pFile);
 };
@@ -56,6 +57,8 @@ protected:
 
 	float m_fDeadCoolTime;
 	float m_fDeadMaxCoolTime;
+
+	float m_fRunawayDistance; // 총을 쏠 경우 일정 영역안에 있으면 도망치는 용도로 사용
 
 	CGTA_Vehicle* m_pVehicle;
 
@@ -100,6 +103,7 @@ public:
 	virtual void MoveAI() {}
 	virtual void Trace();
 	virtual void Wander();
+	virtual void Runaway();
 
 	// AI
 	void CreateAI();

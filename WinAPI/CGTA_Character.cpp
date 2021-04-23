@@ -31,6 +31,7 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_fStunMaxCoolTime(10.f),
 	m_fDeadCoolTime(0.f),
 	m_fDeadMaxCoolTime(20.f),
+	m_fRunawayDistance(500.f),
 	m_pVehicle(nullptr),
 	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
@@ -59,6 +60,7 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	m_fStunMaxCoolTime(10.f),
 	m_fDeadCoolTime(0.f),
 	m_fDeadMaxCoolTime(20.f),
+	m_fRunawayDistance(_origin.m_fRunawayDistance),
 	m_pVehicle(nullptr),
 	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
@@ -285,6 +287,12 @@ void CGTA_Character::Wander()
 	SetAIState(E_AIState::wander);
 }
 
+void CGTA_Character::Runaway()
+{
+	SetCharacterState(E_CharacterState::run);
+	SetAIState(E_AIState::runAway);
+}
+
 void CGTA_Character::CreateAI()
 {
 	if (nullptr == m_pAI) {
@@ -357,6 +365,7 @@ void TCharacterInfo::Save(FILE* _pFile)
 	fwrite(&fHp, sizeof(float), 1, _pFile);
 	fwrite(&fArmor, sizeof(float), 1, _pFile);
 	fwrite(&fMoveSpeed, sizeof(float), 1, _pFile);
+	fwrite(&fWalkSpeed, sizeof(float), 1, _pFile);
 }
 
 void TCharacterInfo::Load(FILE* _pFile)
@@ -364,4 +373,5 @@ void TCharacterInfo::Load(FILE* _pFile)
 	fread(&fHp, sizeof(float), 1, _pFile);
 	fread(&fArmor, sizeof(float), 1, _pFile);
 	fread(&fMoveSpeed, sizeof(float), 1, _pFile);
+	fread(&fWalkSpeed, sizeof(float), 1, _pFile);
 }

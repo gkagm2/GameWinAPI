@@ -23,6 +23,9 @@ public:
 	virtual void GetInTheVehicle() override;
 	virtual void GetOutTheVehicle() override;
 
+	virtual void Wander() override;
+	virtual void Runaway() override;
+
 public:
 	CLONE(CGTA_Citizen);
 

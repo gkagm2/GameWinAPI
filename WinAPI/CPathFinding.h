@@ -47,7 +47,7 @@ public:
 
 	bool IsArrivedDestination();
 	bool IsFoundDestination() {	return m_bFoundDestination;	}
-
+	bool IsObstacle(int _iCol, int _iRow);
 public:
 	CLONE(CPathFinding);
 	CPathFinding(const CPathFinding& _origin);

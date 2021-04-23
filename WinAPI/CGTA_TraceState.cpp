@@ -10,7 +10,7 @@
 
 CGTA_TraceState::CGTA_TraceState() :
 	m_pTarget(nullptr),
-	m_fDistance(200.f)
+	m_fDistance(300.f)
 {
 }
 

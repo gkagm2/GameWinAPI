@@ -15,7 +15,7 @@
 #include "CGTA_IdleState.h"
 #include "CGTA_RunawayState.h"
 #include "CGTA_WanderState.h"
-
+#include "CGTA_Bullet.h"
 
 CGTA_Citizen::CGTA_Citizen(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType)
@@ -69,7 +69,8 @@ void CGTA_Citizen::Init()
 	GetAI()->AddState(L"idle", new CGTA_IdleState);
 	GetAI()->AddState(L"runaway", new CGTA_RunawayState);
 	GetAI()->AddState(L"wander", new CGTA_WanderState);
-	GetAI()->ChangeState(L"wander");
+
+	Wander();
 }
 
 void CGTA_Citizen::Update()
@@ -90,6 +91,9 @@ void CGTA_Citizen::Render(HDC _hDC)
 
 void CGTA_Citizen::OnCollisionEnter(CObject* _pOther)
 {
+	CGTA_Bullet* pBullet = dynamic_cast<CGTA_Bullet*>(_pOther);
+	if (pBullet)
+		Runaway();
 }
 
 void CGTA_Citizen::OnCollisionStay(CObject* _pOther)
@@ -156,4 +160,16 @@ void CGTA_Citizen::GetInTheVehicle()
 
 void CGTA_Citizen::GetOutTheVehicle()
 {
+}
+
+void CGTA_Citizen::Wander()
+{
+	GetAI()->ChangeState(L"wander");
+	CGTA_Character::Wander();
+}
+
+void CGTA_Citizen::Runaway()
+{
+	GetAI()->ChangeState(L"runaway");
+	CGTA_Character::Runaway();
 }

@@ -11,10 +11,13 @@
 #include "CTimeManager.h"
 #include "CCamera.h"
 #include "CGTA_Character.h"
+#include "CGTA_Citizen.h"
 #include "CGTA_Bullet.h"
 #include "CRigidbody2D.h"
 #include "CGTA_Item.h"
+#include "CGTA_AI.h"
 #include "CDebug.h"
+
 
 CGTA_Player::CGTA_Player(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType)
@@ -227,32 +230,27 @@ void CGTA_Player::Attack()
 	TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
 	E_WeaponType eWeaponType = GetCurWeaponType();
 
-	// 주먹이면
-	if (E_WeaponType::FIST == eWeaponType) {
-		GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
-		// Punch 컬라이더가 생성된다
-	} 
-	else {	
-		// 총 타입에 따라 Shoot.
-		
-		// 총알 오브젝트 생성.
-		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
-		pBullet->Init();
-		pBullet->SetUpVector(GetUpVector(), GetRPDir(), GetRectPoint()); // 방향 설정
-		pBullet->RotateRP(180);
-		pBullet->SetPosition(GetPosition() - GetNozzlePosition()); // 노즐 위치로 옮긴다.
-		CreateObject(pBullet);
+	// 총이면
+	if (E_WeaponType::FIST != eWeaponType) {
 
-		if (false == tWeaponInfo.bIsInfinite) { // 무한이 아닐 경우
-			--tWeaponInfo.iBulletCnt;
-			if (tWeaponInfo.iBulletCnt <= 0) {
-				SetWeaponState(false, GetCurWeaponType());
-				ChangeNextWeapon();
-				return;
+		// 시민들 상태값 변환
+		vector<CObject*>& vecObjs = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::CITIZEN);
+		for (UINT i = 0; i < vecObjs.size(); ++i) {
+			CGTA_Citizen* pCitizen = dynamic_cast<CGTA_Citizen*>(vecObjs[i]);
+			if (pCitizen) {
+				// 범위 내에 있는 사람들은 
+				Vector3 vPosition = GetPosition();
+				Vector3 vCitizenPos = pCitizen->GetPosition();
+				float fDistance = (vPosition - vCitizenPos).GetDistance();
+
+				if (fDistance <= m_fRunawayDistance) {
+					if (pCitizen)
+						pCitizen->Runaway();
+				}
 			}
 		}
 	}
-	SetCharacterState(E_CharacterState::attack);
+	CGTA_Character::Attack();
 }
 
 void CGTA_Player::Drive()

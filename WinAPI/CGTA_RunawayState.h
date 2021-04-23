@@ -4,6 +4,12 @@ class CGTA_RunawayState : public CGTA_AIState
 {
 private:
 	CObject* m_pTarget;
+	float m_fMaxRunDistance;
+
+	float m_fPathFindCoolTime;
+	float m_fPathFindMaxCoolTime;
+
+	bool m_bIsPathFind;
 
 public:
 	virtual void Update() override;

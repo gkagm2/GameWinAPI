@@ -5,6 +5,8 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CObject.h"
+#include "CScene.h"
+#include "CSceneManager.h"
 #include <numeric>
 
 const int CPathFinding::m_iDirX[] = { 1, 0, -1, 0, 1, -1, 1, -1 };
@@ -218,5 +220,19 @@ bool CPathFinding::IsArrivedDestination()
 	list<TTilePos>& path = GetPath();
 	if (path.size() == 0)
 		return true;
+	return false;
+}
+
+bool CPathFinding::IsObstacle(int _iCol, int _iRow)
+{
+	vector<CObject*>& vecTiles = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::TILE);
+	for (auto iter = m_setObstacleTile.begin(); iter != m_setObstacleTile.end(); ++iter) {
+		CTile* pTile = (CTile*)vecTiles[_iRow * m_pTileMap->GetCol() + _iCol];
+		if (pTile) {
+			if (pTile->GetTileType() == *iter) {
+				return true;
+			}
+		}
+	}
 	return false;
 }

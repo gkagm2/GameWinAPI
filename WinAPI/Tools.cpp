@@ -142,6 +142,8 @@ Vector2 ResizeScaleMaintainRatio(float _fitWidth, float _fitHeight, float _width
 // 벡터 회전 2D Rotate
 Vector3 Rotate(const Vector3& _vVec, float _fDegree)
 {
+	// degree + : 시계방향
+	// degree - : 반시계방향
 	float fRadian = CMyMath::DegreeToRadian(_fDegree);
 
 	// 회전 

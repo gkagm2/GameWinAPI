@@ -30,11 +30,6 @@ void CGTA_WanderState::Update()
 	CTileMap* pTileMap = CSceneManager::GetInstance()->GetCurScene()->GetTileMap();
 
 	TTilePos startPos = pTileMap->VectorToTilePos(GetAI()->GetCharacter()->GetPosition());
-	// TODO : 목적지를 어떻게할까.. 랜덤으로 찾게 해야되는데..
-	// BFS를 이용하여 찾도록 할까?
-	// 랜덤 거리를 임의로 해서 움직이게 할까??
-	// 360도를 이용하여 거리를 구한다음  아냐아냐.. 대충 4~5정도의 Tile이 떨어진곳에서 BFS를 이용하여 구하는게 좋을 것 같다. 나중에 수정하기
-
 
 	// input을 해야하는게 아니라 이제부터 랜덤값을 이용하여 
 	// 목적지를 못찾았으면
@@ -50,11 +45,9 @@ void CGTA_WanderState::Update()
 			// 다른 길을 찾는다.
 			m_bIsPathFind =GetCharacter()->GetPathFinding()->PathFind(startPos, destPos);
 		}
-		else {
-
-		}
 	}
 
+	// 경로 렌더링
 	if (m_bIsPathFind) {
 		HDC _hDC = CCore::GetInstance()->GetDC();
 		list<TTilePos>& path = GetAI()->GetCharacter()->GetPathFinding()->GetPath();
@@ -79,6 +72,7 @@ void CGTA_WanderState::Update()
 		}
 	}
 
+	// 경로에 따라 이동한다.
 	if (m_bIsPathFind) {
 		list<TTilePos>& path = GetAI()->GetCharacter()->GetPathFinding()->GetPath();
 		// 목적지에 도착했는지 확인한다.
@@ -87,8 +81,6 @@ void CGTA_WanderState::Update()
 			return;
 		}
 		else { // 목적지에 도착하지 않았으면
-
-			// 뭘해야되지?
 			// 다음에 가야 할 위치를 가져온다.
 			Vector2 vCurPos = GetAI()->GetCharacter()->GetPosition();
 
@@ -106,7 +98,7 @@ void CGTA_WanderState::Update()
 				vDir.Normalized();
 
 				// 이동
-				GetAI()->GetCharacter()->SetPosition(GetAI()->GetCharacter()->GetPosition() + vDir * 150.f * DeltaTime);
+				GetAI()->GetCharacter()->SetPosition(GetAI()->GetCharacter()->GetPosition() + vDir * GetCharacter()->CharacterInfo().fWalkSpeed *DeltaTime);
 			}
 		}
 	}
@@ -118,7 +110,6 @@ void CGTA_WanderState::LateUpdate()
 
 void CGTA_WanderState::Start()
 {
-	GetCharacter()->Wander();
 }
 
 void CGTA_WanderState::End()
@@ -187,7 +178,6 @@ TTilePos CGTA_WanderState::GetRandomDestinationPos(int _iDepthMin,int _iDepthMax
 	que.push(make_pair(tCurPos, iDepth));
 
 
-	// TODO : 중복값 없애기
 	map<wstring, TTilePos> mapDestPos;
 
 	while (!que.empty()) {
@@ -228,8 +218,7 @@ TTilePos CGTA_WanderState::GetRandomDestinationPos(int _iDepthMin,int _iDepthMax
 			}
 		}
 	}
-	
-	// TODO : 벡터의 중복 요소 없앰
+
 	auto iter = mapDestPos.begin();
 
 	int iSize = (int)mapDestPos.size();
@@ -237,10 +226,8 @@ TTilePos CGTA_WanderState::GetRandomDestinationPos(int _iDepthMin,int _iDepthMax
 		return TTilePos{ tCurPos.x, tCurPos.y };
 
 	int randIdx = rand() % iSize;
-
-	for (int i = 0; i < randIdx; ++i) {
+	for (int i = 0; i < randIdx; ++i)
 		iter++;
-	}
 
 	return iter->second;
 }
