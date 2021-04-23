@@ -12,7 +12,6 @@ class CPathFinding : public CComponent
 {
 private:
 	CTileMap* m_pTileMap;
-	vector<CObject*>* m_pvecTiles;
 	list<TTilePos> m_stkPath;
 	set<E_TileType> m_setObstacleTile;
 
@@ -44,7 +43,7 @@ public:
 	// 장애물로 취급할 타일 타입 설정
 	void AddObstacleTile(E_TileType _eTileType);
 	void DeleteObstacleTile(E_TileType _eTileType);
-	const vector<E_TileType>& GetObstacleTiles();
+	const set<E_TileType>& GetObstacleTiles() { return m_setObstacleTile; }
 
 	bool IsArrivedDestination();
 	bool IsFoundDestination() {	return m_bFoundDestination;	}

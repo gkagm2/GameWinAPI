@@ -137,14 +137,13 @@ TTilePos CGTA_WanderState::GetRandomDestinationPos(float _fMinSearchDistance, fl
 
 	
 
-	const vector<E_TileType>& vecTileType = GetCharacter()->GetPathFinding()->GetObstacleTiles();
+	const set<E_TileType>& setTileType = GetCharacter()->GetPathFinding()->GetObstacleTiles();
 	bool bIsObstacle = false;
 	TTilePos tDestPos{tCurPos.x, tCurPos.y};
 	int iTryCnt = 0;
 	while (iTryCnt <= 10) {
 		float fRandomDegree = float(rand() % 360);
 		float fRandomMinDistance = float((rand() % (int)_fMaxSearchDistance) + _fMinSearchDistance); // 600에서 800 사이
-		fRandomDegree = 180.f;
 		Vector3 vDir = { cosf(fRandomDegree), sinf(fRandomDegree), 0.f };
 
 		Vector3 vDestPos = GetCharacter()->GetPosition() +  vDir * fRandomMinDistance;
@@ -152,12 +151,11 @@ TTilePos CGTA_WanderState::GetRandomDestinationPos(float _fMinSearchDistance, fl
 		
 		if (GetCharacter()->GetPathFinding()->IsValid(tDestPos.x, tDestPos.y)) {
 			// 갈 수 있는 타일인지 체크한다.
-			for (int type = 0; type < vecTileType.size(); ++type) {
-				// FIXED : release로 할 경우 에러 뜸
+			for (auto iter = setTileType.begin(); iter != setTileType.end(); ++iter) {
 				CTile* pTile = (CTile*)vecTiles[tDestPos.y * iCol + tDestPos.x];
-				if (pTile->GetTileType() == vecTileType[type]) {
+				if (pTile->GetTileType() == *iter) {
 					bIsObstacle = true;
-						break;
+					break;
 				}
 			}
 			// 갈 수 있으면 종료
@@ -206,13 +204,13 @@ TTilePos CGTA_WanderState::GetRandomDestinationPos(int _iDepthMin,int _iDepthMax
 			if (false == GetCharacter()->GetPathFinding()->IsValid(x, y))
 				continue;
 
-			const vector<E_TileType>& vecTileType = GetCharacter()->GetPathFinding()->GetObstacleTiles();
+			const set<E_TileType>& setTileType = GetCharacter()->GetPathFinding()->GetObstacleTiles();
 			bool bIsObstacle = false;
 
 			// 갈 수 있는 타일인지 체크한다.
-			for (int type = 0; type < vecTileType.size(); ++type) {
+			for (auto iter = setTileType.begin(); iter != setTileType.end() ; ++iter) {
 				CTile* pTile = (CTile*)vecTiles[y * iCol + x];
-				if (pTile->GetTileType() == vecTileType[type]) {
+				if (pTile->GetTileType() == *iter) {
 					bIsObstacle = true;
 					break;
 				}

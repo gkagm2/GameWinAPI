@@ -12,7 +12,6 @@ const int CPathFinding::m_iDirY[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
 
 CPathFinding::CPathFinding() :
 	m_pTileMap(nullptr),
-	m_pvecTiles(nullptr),
 	m_bFoundDestination(false)
 {
 	Init();
@@ -20,7 +19,6 @@ CPathFinding::CPathFinding() :
 
 CPathFinding::CPathFinding(const CPathFinding& _origin) :
 	m_pTileMap(_origin.m_pTileMap),
-	m_pvecTiles(nullptr),
 	m_bFoundDestination(_origin.m_bFoundDestination)
 {
 	m_stkPath.assign(_origin.m_stkPath.begin(), _origin.m_stkPath.end());
@@ -36,9 +34,6 @@ CPathFinding::~CPathFinding()
 void CPathFinding::Init()
 {
 	m_pTileMap = CSceneManager::GetInstance()->GetCurScene()->GetTileMap();
-
-	vector<CObject*>& vecTile = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::TILE);
-	m_pvecTiles = &vecTile;
 }
 
 float CPathFinding::GetDistance(int x1, int y1, int x2, int y2)
@@ -213,16 +208,6 @@ void CPathFinding::AddObstacleTile(E_TileType _eTileType)
 void CPathFinding::DeleteObstacleTile(E_TileType _eTileType)
 {
 	m_setObstacleTile.erase(_eTileType);
-}
-
-const vector<E_TileType>& CPathFinding::GetObstacleTiles()
-{
-	vector<E_TileType> vecObstacleTiles;
-	set<E_TileType>::iterator iter = m_setObstacleTile.begin();
-	for (; iter != m_setObstacleTile.end(); ++iter) {
-		vecObstacleTiles.push_back(*iter);
-	}
-	return vecObstacleTiles;
 }
 
 bool CPathFinding::IsArrivedDestination()
