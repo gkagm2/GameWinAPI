@@ -14,7 +14,7 @@
 #include "CSceneManager.h"
 #include "CTimeManager.h"
 
-CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
+CObject::CObject(E_GroupType _eGroupType = E_GroupType::DEFAULT) :
 	m_vPosition{ 0, 0, 0 },
 	m_vScale{ 100.0f, 100.0f, 100.0f },
 	m_vRectPoint{},
@@ -22,7 +22,7 @@ CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_pCollider(nullptr),
 	m_pAnimator(nullptr),
 	m_pRigidbody(nullptr),
-	m_eGroupType(e_GroupType),
+	m_eGroupType(_eGroupType),
 	m_strName(STR_OBJECT_DEFAULT_NAME),
 	m_bIsDead(false),
 	m_bIsRender(true),

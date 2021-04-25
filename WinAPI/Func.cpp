@@ -44,7 +44,9 @@ void LoadWString(wstring& _str, FILE* _pFile) {
 INT_PTR CALLBACK CreateTileProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK CharacterTool(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK ItemTool(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK ObjectTool(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 HWND hWndItemTool = nullptr;
+HWND hWndObjectTool = nullptr;
 void MenuContainer(WPARAM _wmId)
 {
 	HWND hWnd = CCore::GetInstance()->GetWndHandle();
@@ -54,7 +56,11 @@ void MenuContainer(WPARAM _wmId)
 		//InvalidateRect(hWndItemTool, nullptr, true);
 		hWndItemTool = nullptr;
 	}
-
+	if (hWndObjectTool) {
+		CloseWindow(hWndObjectTool);
+		hWndObjectTool = nullptr;
+	}
+		
 	switch (_wmId) {
 	case ID_FILE_SAVE:
 		// Tile Info
@@ -210,6 +216,73 @@ void MenuContainer(WPARAM _wmId)
 		}
 		break;
 	}
+
+	// Object Tool
+	case ID_OBJECT_TOOL: {
+		// Modeless dialog
+		if (!IsWindow(hWndObjectTool)) {
+			hWndObjectTool = CreateDialog(nullptr, MAKEINTRESOURCE(IDD_OBJECT_TOOL), hWnd, ObjectTool);
+			ShowWindow(hWndObjectTool, SW_SHOW);
+		}
+		else
+			SetFocus(hWndObjectTool);
+		InvalidateRect(hWndObjectTool, nullptr, true);
+
+		vector<CObject*>& vecObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::PREV);
+		CObjTool* pObjTool = nullptr;
+		for (int i = 0; vecObj.size(); ++i) {
+			pObjTool = dynamic_cast<CObjTool*>(vecObj[i]);
+			if (pObjTool)
+				break;
+		}
+		assert(pObjTool);
+
+		if (nullptr == pObjTool)
+			break;
+		pObjTool->OpenPlayerTool();
+		break;
+	}
+	case ID_OBJECT_TOOL_SAVE: {
+		OPENFILENAME ofn;
+		wchar_t strMaxPath[MAX_PATH] = L"";
+		memset(&ofn, 0, sizeof(OPENFILENAME));
+		ofn.lStructSize = sizeof(OPENFILENAME);
+		ofn.hwndOwner = CCore::GetInstance()->GetWndHandle();
+		ofn.lpstrFilter = L"葛电颇老(*.*)\0*.*\0*";
+		ofn.lpstrFile = strMaxPath;
+		ofn.nMaxFile = MAX_PATH;
+
+		if (0 != GetSaveFileName(&ofn)) {
+			CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(CSceneManager::GetInstance()->GetCurScene());
+			assert(pToolScene);
+			pToolScene->SavePlayer(ofn.lpstrFile);
+
+			wchar_t str[255] = L"Player File Save";
+			MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Save", MB_OK);
+		}
+	}
+
+		break;
+	case ID_OBJECT_TOOL_LOAD: {
+		OPENFILENAME ofn;
+		wchar_t strMaxPath[MAX_PATH] = L"";
+		memset(&ofn, 0, sizeof(OPENFILENAME));
+		ofn.lStructSize = sizeof(OPENFILENAME);
+		ofn.hwndOwner = CCore::GetInstance()->GetWndHandle();
+		ofn.lpstrFilter = L"葛电颇老(*.*)\0*.*\0*";
+		ofn.lpstrFile = strMaxPath;
+		ofn.nMaxFile = MAX_PATH;
+
+		if (0 != GetOpenFileName(&ofn)) {
+			CScene_Tool* pToolScene = dynamic_cast<CScene_Tool*>(CSceneManager::GetInstance()->GetCurScene());
+			assert(pToolScene);
+			pToolScene->LoadItemDialogBox(ofn.lpstrFile);
+
+			wchar_t str[255] = L"Player File Load";
+			MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Load", MB_OK);
+		}
+	}
+		break;
 		
 	case ID_CHARACTER_TOOL:
 	{

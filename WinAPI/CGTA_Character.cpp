@@ -40,7 +40,6 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_fDeadMaxCoolTime(20.f),
 	m_fNoticeDistance(500.f),
 	m_pVehicle(nullptr),
-	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
 	m_eCharacterState(E_CharacterState::idle),
 	m_eAIState(E_AIState::wander),
@@ -69,7 +68,6 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	m_fDeadMaxCoolTime(20.f),
 	m_fNoticeDistance(_origin.m_fNoticeDistance),
 	m_pVehicle(nullptr),
-	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(_origin.m_eCurWeaponType),
 	m_eCharacterState(_origin.m_eCharacterState),
 	m_eAIState(_origin.m_eAIState),
@@ -208,17 +206,16 @@ void CGTA_Character::Attack()
 	E_WeaponType ecurWeaponType = GetCurWeaponType();
 	TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
 
-		// 총 타입에 따라 Shoot.
-
-		// 총알 오브젝트 생성.
-		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
-		pBullet->Init();
 	// 주먹이면
 	if (E_WeaponType::FIST == ecurWeaponType) {
 		GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
 		// Punch 컬라이더가 생성된다
 	}
 	else {
+		// 총 타입에 따라 Shoot.
+		// 총알 오브젝트 생성.
+		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
+		pBullet->Init();
 		pBullet->SetDamage(tWeaponInfo.fDamage);
 		float fDegree = GetRotateDegree();
 		pBullet->SetRotateDegree(fDegree - 180); // 방향 설정
@@ -381,13 +378,6 @@ void CGTA_Character::SelectWeapon(E_WeaponType _eWeaponType)
 		return;
 	while (_eWeaponType != GetCurWeaponType())
 		ChangeNextWeapon();
-}
-
-void CGTA_Character::ActivePunchDetector(bool _bActive)
-{
-	float m_fPathFindCoolTime;
-	float m_fPathFindMaxCoolTime;
-	bool m_bIsPathFind;
 }
 
 void TWeaponInfo::Save(FILE* _pFile)

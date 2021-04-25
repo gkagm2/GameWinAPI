@@ -200,12 +200,6 @@
     <Filter Include="Game\5. Object\Gta_PJ\Character\Player">
       <UniqueIdentifier>{53d11fc6-25eb-4557-87c8-a46d3e9b4f07}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen">
-      <UniqueIdentifier>{51844bb3-b649-4948-aa1d-f965a4de6c5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\5. Object\Gta_PJ\Character\Cop">
-      <UniqueIdentifier>{7cdf5b8e-a727-4ee3-85f0-ce477b3826d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\5. Object\Gta_PJ\Tools">
       <UniqueIdentifier>{0c85be84-89f1-4c7f-b025-7ab142ae2a85}</UniqueIdentifier>
     </Filter>
@@ -248,32 +242,47 @@
     <Filter Include="Game\5. Object\Gta_PJ\AI\AI State">
       <UniqueIdentifier>{82dd7ef6-53f2-460b-8f16-fd5cd1570126}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState">
-      <UniqueIdentifier>{a8f7be8e-9252-451d-ba9b-ddf2188beb27}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState\Idle">
-      <UniqueIdentifier>{b82915f7-6066-4720-b1f5-2712c1a554bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState\Runaway">
-      <UniqueIdentifier>{0c209658-1cc0-4e08-9056-72b19f353b5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState\Trace">
-      <UniqueIdentifier>{57fb1e19-dc24-4108-8cfd-5018942f2e88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState\Wander">
-      <UniqueIdentifier>{0e8f63ab-3abb-4b69-b85e-1cb9ab3f2d8b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\5. Object\Gta_PJ\AI\PathFinding">
       <UniqueIdentifier>{47b3f1d7-26d5-452b-b542-e4bf2378ad35}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\5. Object\Gta_PJ\Character\AITest">
-      <UniqueIdentifier>{0f86fac4-0d49-4dc1-879a-c152b9657168}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState\Dead">
-      <UniqueIdentifier>{2942c057-81ab-4ec1-991d-44f6683025fe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\5. Object\Test">
       <UniqueIdentifier>{de9996ef-2e9c-4356-b524-44dc65eb6063}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citi_Citizen">
+      <UniqueIdentifier>{51844bb3-b649-4948-aa1d-f965a4de6c5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState">
+      <UniqueIdentifier>{a8f7be8e-9252-451d-ba9b-ddf2188beb27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Idle">
+      <UniqueIdentifier>{b82915f7-6066-4720-b1f5-2712c1a554bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Runaway">
+      <UniqueIdentifier>{0c209658-1cc0-4e08-9056-72b19f353b5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Trace">
+      <UniqueIdentifier>{57fb1e19-dc24-4108-8cfd-5018942f2e88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Wander">
+      <UniqueIdentifier>{0e8f63ab-3abb-4b69-b85e-1cb9ab3f2d8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Dead">
+      <UniqueIdentifier>{2942c057-81ab-4ec1-991d-44f6683025fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citi_Citizen\Cop">
+      <UniqueIdentifier>{7cdf5b8e-a727-4ee3-85f0-ce477b3826d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citi_Citizen\Citizen">
+      <UniqueIdentifier>{991f8a8a-df46-4367-8c44-223884ffbd36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Test">
+      <UniqueIdentifier>{5db0c3da-2948-409b-82d7-cf57f816ded8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Test\AITest">
+      <UniqueIdentifier>{0f86fac4-0d49-4dc1-879a-c152b9657168}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Test\LookAtTest">
+      <UniqueIdentifier>{00c00bb4-4948-40f2-88f6-659e9a792e32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -472,9 +481,6 @@
     <ClInclude Include="CGTA_Character.h">
       <Filter>Game\5. Object\Gta_PJ\Character</Filter>
     </ClInclude>
-    <ClInclude Include="CGTA_Citizen.h">
-      <Filter>Game\5. Object\Gta_PJ\Character\Citizen</Filter>
-    </ClInclude>
     <ClInclude Include="CItemToolPanelUI.h">
       <Filter>Game\5. Object\UI\ItemToolPanelUI</Filter>
     </ClInclude>
@@ -488,7 +494,7 @@
       <Filter>Game\5. Object\Gta_PJ\Item</Filter>
     </ClInclude>
     <ClInclude Include="CGTA_Cop.h">
-      <Filter>Game\5. Object\Gta_PJ\Character\Cop</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\Cop</Filter>
     </ClInclude>
     <ClInclude Include="CObjTool.h">
       <Filter>Game\5. Object\Gta_PJ\Tools\ObjTool</Filter>
@@ -503,26 +509,36 @@
       <Filter>Game\5. Object\Gta_PJ\AI\AI State</Filter>
     </ClInclude>
     <ClInclude Include="CGTA_IdleState.h">
-      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Idle</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Idle</Filter>
     </ClInclude>
     <ClInclude Include="CGTA_RunawayState.h">
-      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Runaway</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Runaway</Filter>
     </ClInclude>
     <ClInclude Include="CGTA_TraceState.h">
-      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Trace</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Trace</Filter>
     </ClInclude>
     <ClInclude Include="CGTA_WanderState.h">
-      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Wander</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Wander</Filter>
     </ClInclude>
     <ClInclude Include="CPathFinding.h">
       <Filter>Game\5. Object\Gta_PJ\AI\PathFinding</Filter>
     </ClInclude>
-    <ClInclude Include="CAITestObj.h" />
     <ClInclude Include="CComponent.h">
       <Filter>Game\6. Component</Filter>
     </ClInclude>
-    <ClInclude Include="CGTA_DeadState.h" />
-    <ClInclude Include="CLookAtTestObj.h" />
+    <ClInclude Include="CGTA_Citizen.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\Citizen</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_DeadState.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="CAITestObj.h">
+      <Filter>Game\5. Object\Gta_PJ\Test\AITest</Filter>
+    </ClInclude>
+    <ClInclude Include="CLookAtTestObj.h">
+      <Filter>Game\5. Object\Gta_PJ\Test\LookAtTest</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_PunchDetector.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -712,11 +728,8 @@
     <ClCompile Include="CGTA_Character.cpp">
       <Filter>Game\5. Object\Gta_PJ\Character</Filter>
     </ClCompile>
-    <ClCompile Include="CGTA_Citizen.cpp">
-      <Filter>Game\5. Object\Gta_PJ\Character\Citizen</Filter>
-    </ClCompile>
     <ClCompile Include="CGTA_Cop.cpp">
-      <Filter>Game\5. Object\Gta_PJ\Character\Cop</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\Cop</Filter>
     </ClCompile>
     <ClCompile Include="CItemToolPanelUI.cpp">
       <Filter>Game\5. Object\UI\ItemToolPanelUI</Filter>
@@ -743,26 +756,36 @@
       <Filter>Game\5. Object\Gta_PJ\AI\AI State</Filter>
     </ClCompile>
     <ClCompile Include="CGTA_IdleState.cpp">
-      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Idle</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Idle</Filter>
     </ClCompile>
     <ClCompile Include="CGTA_RunawayState.cpp">
-      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Runaway</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Runaway</Filter>
     </ClCompile>
     <ClCompile Include="CGTA_TraceState.cpp">
-      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Trace</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Trace</Filter>
     </ClCompile>
     <ClCompile Include="CGTA_WanderState.cpp">
-      <Filter>Game\5. Object\Gta_PJ\Character\Citizen\AIState\Wander</Filter>
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Wander</Filter>
     </ClCompile>
     <ClCompile Include="CPathFinding.cpp">
       <Filter>Game\5. Object\Gta_PJ\AI\PathFinding</Filter>
     </ClCompile>
-    <ClCompile Include="CAITestObj.cpp" />
     <ClCompile Include="CComponent.cpp">
       <Filter>Game\6. Component</Filter>
     </ClCompile>
-    <ClCompile Include="CGTA_DeadState.cpp" />
-    <ClCompile Include="CLookAtTestObj.cpp" />
+    <ClCompile Include="CGTA_Citizen.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\Citizen</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_DeadState.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="CAITestObj.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Test\AITest</Filter>
+    </ClCompile>
+    <ClCompile Include="CLookAtTestObj.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Test\LookAtTest</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_PunchDetector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">

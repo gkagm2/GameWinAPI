@@ -126,7 +126,7 @@ protected:
 
 public:
 	CObject() = delete;
-	CObject(E_GroupType e_GroupType);
+	CObject(E_GroupType _eGroupType);
 	virtual ~CObject();
 
 public:

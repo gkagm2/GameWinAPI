@@ -12,9 +12,11 @@ public:
 	virtual void End() override;
 
 public:
+	void LoadAll();
 
 	void SaveTile(wstring _strPath);
 	void SaveItem(wstring _strPath);
+	void SavePlayer(wstring _strPath);
 
 public:
 	CScene_Tool();

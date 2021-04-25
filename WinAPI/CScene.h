@@ -30,6 +30,9 @@ public: // Tile map
 	void LoadItem(wstring _strRelativePath);
 	void LoadItemDialogBox(wstring _strPath);
 
+	void LoadPlayer(wstring _strRelativePath);
+	void LoadPlayerDialogBox(wstring _strPath);
+
 	void LoadAll();
 
 public:

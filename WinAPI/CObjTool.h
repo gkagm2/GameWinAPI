@@ -57,6 +57,7 @@ public:
 	void OpenItemTool();
 	void OpenVehicleTool();
 	void OpenCitizenTool();
+	void OpenPlayerTool();
 
 	// Tile
 	void InitMapTool();
@@ -81,7 +82,9 @@ public:
 
 	// Player
 	void InitPlayerTool();
+	void CreatePlayer();
 	void UpdatePlayerTool();
+	void SetPositionToCenter();
 
 public:
 	CLONE_DISABLE(CObjTool);

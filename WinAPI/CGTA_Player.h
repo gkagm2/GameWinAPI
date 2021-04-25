@@ -30,8 +30,6 @@ public:
 	virtual void GetOutTheVehicle() override;
 
 public:
-
-public:
 	CLONE(CGTA_Player);
 
 public:

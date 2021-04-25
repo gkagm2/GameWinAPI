@@ -13,6 +13,7 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CGTA_Item.h"
+#include "CGTA_Player.h"
 
 
 CScene::CScene() :
@@ -401,16 +402,50 @@ void CScene::LoadItemDialogBox(wstring _strPath)
 	fclose(pFile);
 }
 
+void CScene::LoadPlayer(wstring _strRelativePath)
+{
+	wstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativePath;
+	LoadPlayerDialogBox(strFilePath);
+}
+
+void CScene::LoadPlayerDialogBox(wstring _strPath)
+{
+	wstring strFilePath = _strPath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
+	if (nullptr == pFile) {
+		assert(pFile && L"경로 이상함. 플레이어 로드 실패");
+		return;
+	}
+
+	int iCnt = 0;
+	fread(&iCnt, sizeof(int), 1, pFile);
+
+	DeleteObjects(E_GroupType::PLAYER);
+
+	for (int i = 0; i < iCnt; ++i) {
+		CGTA_Player* pPlayer = new CGTA_Player(E_GroupType::PLAYER);
+		pPlayer->Init();
+		pPlayer->Load(pFile);
+		AddObject(pPlayer);
+	}
+	fclose(pFile);
+}
+
 void CScene::LoadAll()
 {
 	wstring strFilePath = CPathManager::GetInstance()->GetContentPath();
 	// Path : MetaData path
 	// load player data
-	// 
+	LoadPlayer(STR_FILE_PATH_GTA_Player_Save);
+	
 	// load vehicle data
 
 	// load item data
-	LoadItem(strFilePath + STR_FILE_PATH_GTA_Item_Save);
+	LoadItem(STR_FILE_PATH_GTA_Item_Save);
+
 
 	// load Save data
+	
 }

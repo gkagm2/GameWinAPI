@@ -76,10 +76,10 @@ void CScene_Tool::Start()
 	//AddObject(pPlayer);
 
 	// Vehicle
-	CGTA_PoliceCar* pPoliceCar = new CGTA_PoliceCar(E_GroupType::VEHICLE);
+	/*CGTA_PoliceCar* pPoliceCar = new CGTA_PoliceCar(E_GroupType::VEHICLE);
 	pPoliceCar->SetObjectName(L"Police Car");
 	pPoliceCar->Init();
-	AddObject(pPoliceCar);
+	AddObject(pPoliceCar);*/
 
 	// 툴 전용 카메라 생성
 	CCamera_Tool* pCamera = new CCamera_Tool(E_GroupType::MAIN_CAMERA);
@@ -98,17 +98,7 @@ void CScene_Tool::Start()
 	pObjTool->Init();
 	AddObject(pObjTool);
 
-	// AI Test
-	CAITestObj* pTestObj = new CAITestObj(E_GroupType::DEFAULT);
-	pTestObj->Init();
-	pTestObj->SetPosition(TILE_SIZE* 5 , TILE_SIZE*5);
-	AddObject(pTestObj);
-
-	// Look At Test
-	CLookAtTestObj* pLookAtTestObj = new CLookAtTestObj(E_GroupType::DEFAULT);
-	pLookAtTestObj->Init();
-	pLookAtTestObj->SetPosition(700, 700);
-	AddObject(pLookAtTestObj);
+	LoadAll();
 
 	// Select Controller에서는 오브젝트들을 드래그해서 선택할 수 있다.
 	// Tile setting 모드와
@@ -142,6 +132,13 @@ void CScene_Tool::End()
 	CCore::GetInstance()->ResizeWindowScreen(CCore::GetInstance()->GetResolution(), false);
 
 	DeleteAllObjects();
+}
+
+void CScene_Tool::LoadAll()
+{
+	LoadTile(STR_FILE_PATH_GTA_TILES_Save);
+	//LoadPlayer(STR_FILE_PATH_GTA_Player_Save);
+	LoadItem(STR_FILE_PATH_GTA_Item_Save);
 }
 
 void CScene_Tool::SaveTile(wstring _strPath)
@@ -192,6 +189,31 @@ void CScene_Tool::SaveItem(wstring _strPath)
 		CGTA_Item* pItem = dynamic_cast<CGTA_Item*>(vecItems[i]);
 		if (pItem)
 			pItem->Save(pFile);
+	}
+
+	fclose(pFile);
+}
+
+void CScene_Tool::SavePlayer(wstring _strPath)
+{
+	vector<CObject*>& vecPlayer = GetObjects(E_GroupType::PLAYER);
+	//wstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strPath;
+	wstring strFilePath = _strPath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+	if (nullptr == pFile) {
+		assert(pFile);
+		return;
+	}
+
+	int iCnt = (int)vecPlayer.size();
+	fwrite(&iCnt, sizeof(int), 1, pFile);
+
+	for (UINT i = 0; i < vecPlayer.size(); ++i) {
+		CGTA_Player* pPlayer = dynamic_cast<CGTA_Player*>(vecPlayer[i]);
+		if (pPlayer)
+			pPlayer->Save(pFile);
 	}
 
 	fclose(pFile);
@@ -297,6 +319,40 @@ INT_PTR ItemTool(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 	}
 		return (INT_PTR)TRUE;
+	}
+
+	return (INT_PTR)FALSE;
+}
+
+// Object Tool
+INT_PTR ObjectTool(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message) {
+	case WM_INITDIALOG:
+		return (INT_PTR)TRUE;
+
+	case WM_COMMAND:
+	{
+		vector<CObject*>& vecObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::PREV);
+
+		CObjTool* pObjTool = nullptr;
+		int i = -1;
+		for (int i = 0; i < vecObj.size(); ++i) {
+			pObjTool = dynamic_cast<CObjTool*>(vecObj[i]);
+			if (nullptr != pObjTool)
+				break;
+		}
+		assert(pObjTool && L"objTool이 null임");
+		if (LOWORD(wParam) == IDC_SET_POSITION_TO_CENTER_BUTTON2) {
+			pObjTool->SetPositionToCenter();
+			return (INT_PTR)TRUE;
+		}
+		else if (LOWORD(wParam) == IDCANCEL) {
+			EndDialog(hWnd, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+	}
+	return (INT_PTR)TRUE;
 	}
 
 	return (INT_PTR)FALSE;

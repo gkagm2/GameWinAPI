@@ -89,7 +89,6 @@ void CGTA_Player::Update()
 	if (InputKeyHold(E_Key::Ctrl)) {
 		if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
 			Attack();
-			ActivePunchDetector(true);
 			m_fAttackCoolTime = 0.f;
 		}
 	}

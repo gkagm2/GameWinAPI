@@ -58,6 +58,7 @@
 #define STR_FILE_PATH_GTA_Tile_Save L"Data\\TileFile\\Tile.tile"
 #define STR_FILE_PATH_GTA_Vehicle_Save L"Data\\Objects\\Vehicle.vehicle"
 #define STR_FILE_PATH_GTA_Item_Save L"Data\\Objects\\Item.item"
+#define STR_FILE_PATH_GTA_Player_Save L"Data\\Objects\\Player.player"
 
 #define STR_FILE_PATH_GTA_TILES_Save L"Data\\TileFile\\GTA.tile"
 

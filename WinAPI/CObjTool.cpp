@@ -26,6 +26,8 @@
 #include "CGTA_Item.h"
 #include "CGTA_Character.h"
 
+#include "CGTA_Player.h"
+
 CObjTool::CObjTool(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
 	m_eToolMode(E_ToolMode::MAP),
@@ -72,19 +74,6 @@ void CObjTool::PrevUpdate()
 
 void CObjTool::Update()
 {
-	if (InputKeyPress(E_Key::A)) {
-		OpenMapTool();
-	}
-	if (InputKeyPress(E_Key::S)) {
-		OpenItemTool();
-	}
-	if (InputKeyPress(E_Key::D)) {
-		OpenVehicleTool();
-	}
-	if (InputKeyPress(E_Key::W)) {
-		OpenCitizenTool();
-	}
-
 	switch (m_eToolMode) {
 	case E_ToolMode::MAP:
 		UpdateMapTool();
@@ -152,9 +141,18 @@ void CObjTool::OpenVehicleTool()
 
 void CObjTool::OpenCitizenTool()
 {
+	m_eToolMode = E_ToolMode::CITIZEN;
+	m_pGroundTileToolUI->SetActive(false);
+	m_pWallTileToolUI->SetActive(false);
+}
+
+void CObjTool::OpenPlayerTool()
+{
 	m_eToolMode = E_ToolMode::PLAYER;
 	m_pGroundTileToolUI->SetActive(false);
 	m_pWallTileToolUI->SetActive(false);
+	m_pSelectedObj = nullptr;
+	m_pDragScreen->SetDragScreenEnable(false);
 }
 
 // Tile
@@ -494,6 +492,78 @@ void CObjTool::UpdateVehicleTool()
 void CObjTool::InitPlayerTool()
 {
 }
+
+void CObjTool::CreatePlayer()
+{
+	vector<CObject*>& vecPlayer = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::PLAYER);
+	if (vecPlayer.size() == 0) {
+		CGTA_Player* pPlayer = new CGTA_Player(E_GroupType::PLAYER);
+		pPlayer->Init();
+		pPlayer->SetPosition(800, 800, 0);
+		CSceneManager::GetInstance()->GetCurScene()->AddObject(pPlayer);
+	}
+}
+
 void CObjTool::UpdatePlayerTool()
 {
+	vector<CObject*>& vecObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::PLAYER);
+	// 클릭하여 충돌 검사
+	if (InputKeyPress(E_Key::LBUTTON)) {
+		for (int i = (int)vecObj.size() - 1; i >= 0; --i) {
+			CGTA_Player* pPlayer = dynamic_cast<CGTA_Player*>(vecObj[i]);
+			if (nullptr == pPlayer)
+				continue;
+			if (nullptr == pPlayer->GetCollider())
+				continue;
+			{
+				Vector2 vWorldPos = MainCamera->GetScreenToWorldPosition(MousePosition);
+				if (CCollisionManager::GetInstance()->IsCollision(pPlayer->GetCollider(), Vector3(vWorldPos.x, vWorldPos.y))) {
+					// 충돌 시 선택된것임
+					m_pSelectedObj = pPlayer;
+					break;
+				}
+			}
+		}
+	}
+	else if (InputKeyHold(E_Key::LBUTTON)) {
+		if (nullptr != m_pSelectedObj) {
+			Vector2 vMovedPos = MainCamera->GetScreenToWorldPosition(MousePosition);
+			m_pSelectedObj->SetPosition(vMovedPos);
+		}
+	}
+	else if (InputKeyRelease(E_Key::LBUTTON)) {
+		m_pSelectedObj = nullptr;
+	}
+	else if (InputKeyPress(E_Key::RBUTTON)) {
+		for (int i = (int)vecObj.size() - 1; i >= 0; --i) {
+			CGTA_Player* pPlayer = dynamic_cast<CGTA_Player*>(vecObj[i]);
+			if (nullptr == pPlayer)
+				continue;
+			if (nullptr == pPlayer->GetCollider())
+				continue;
+			{
+				Vector2 vWorldPos = MainCamera->GetScreenToWorldPosition(MousePosition);
+				if (CCollisionManager::GetInstance()->IsCollision(pPlayer->GetCollider(), Vector3(vWorldPos.x, vWorldPos.y))) {
+					DestroyObject(pPlayer);
+					break;
+				}
+			}
+		}
+	}
+}
+
+void CObjTool::SetPositionToCenter()
+{
+	vector<CObject*>& vecObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::PLAYER);
+
+	if (vecObj.size() == 0)
+		CreatePlayer();
+		
+	CGTA_Player* pPlayer = dynamic_cast<CGTA_Player*>(vecObj[0]);
+	if (pPlayer) {
+		Vector2 vResolution = CCore::GetInstance()->GetResolution();
+		Vector2 vResolutionCenter = vResolution * 0.5f;
+		Vector2 vCreatePosition = MainCamera->GetScreenToWorldPosition(vResolutionCenter);
+		pPlayer->SetPosition(vCreatePosition);
+	}
 }

@@ -149,7 +149,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         case ID_ITEM_LOAD:
             MenuContainer(wmId);
             break;
-        case ID_CHARACTER_TOOL:
+        case ID_OBJECT_TOOL:
+        case ID_OBJECT_TOOL_SAVE:
+        case ID_OBJECT_TOOL_LOAD:
             MenuContainer(wmId);
             break;
         case IDM_EXIT:

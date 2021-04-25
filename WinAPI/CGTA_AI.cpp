@@ -82,7 +82,21 @@ void CGTA_AI::RotateBody()
 	Vector3 vHeadDir = GetCharacter()->GetUpVector();
 	vHeadDir *= -1;
 
-	GetCharacter()->RotateRP(vNextPathDir, vHeadDir, 250.f * DeltaTime);
+	Vector3 vCross = CMyMath::GetCross(vNextPathDir, vHeadDir);
+	if (vCross.z < 0) {
+		if (vCross.z < -0.1f)
+			GetCharacter()->RotateRP(vNextPathDir, vHeadDir, 250.f * DeltaTime);
+		else
+			GetCharacter()->RotateRP(vNextPathDir, vHeadDir, 100.f * DeltaTime);
+	}
+	else if (vCross.z > 0) {
+		if (vCross.z > 0.1f)
+			GetCharacter()->RotateRP(vNextPathDir, vHeadDir, 250.f * DeltaTime);
+		else
+			GetCharacter()->RotateRP(vNextPathDir, vHeadDir, 100.f * DeltaTime);
+	}
+			
+
 	//GetCharacter()->LookAt(vNextPathPos, 200.f);
 }
 

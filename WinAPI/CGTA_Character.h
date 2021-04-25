@@ -38,7 +38,6 @@ struct TCharacterInfo {
 
 
 class CGTA_Vehicle;
-class CGTA_PunchDetector;
 class CGTA_AI;
 class CPathFinding;
 class CGTA_Item;
@@ -62,8 +61,6 @@ protected:
 	float m_fNoticeDistance; // 총을 쏠 경우 일정 영역안에 있으면 알아차리는 용도
 
 	CGTA_Vehicle* m_pVehicle;
-
-	CGTA_PunchDetector* m_pPunchDetector;
 
 	E_WeaponType m_eCurWeaponType;
 	vector<std::pair<bool, TWeaponInfo> > m_vecWeapon; // true : allow, false : not allow
@@ -128,9 +125,6 @@ public:
 
 	void SetWeaponInfo(E_WeaponType _eWeaponType, const TWeaponInfo& _tWeaponInfo) { m_vecWeapon[(UINT)_eWeaponType].second = _tWeaponInfo; }
 	void SelectWeapon(E_WeaponType _eWeaponType);
-
-	void ActivePunchDetector(bool _bActive);
-
 
 	// Character, AI State
 	void SetCharacterState(E_CharacterState _eCharacterState) { m_eCharacterState = _eCharacterState; }

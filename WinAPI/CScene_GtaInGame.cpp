@@ -45,33 +45,13 @@ void CScene_GtaInGame::Start()
 	AddObject(m_pTileMap);
 
 	//// 플레이어 추가
-	CGTA_Player* pPlayer = new CGTA_Player(E_GroupType::PLAYER);
+	/*CGTA_Player* pPlayer = new CGTA_Player(E_GroupType::PLAYER);
 	pPlayer->Init();
 	pPlayer->SetPosition(800, 800, 0);
-	AddObject(pPlayer);
+	AddObject(pPlayer);*/
 
+	LoadAll();
 
-	////// Camera 추가
-	CCamera2D* pCamera = new CCamera2D(E_GroupType::MAIN_CAMERA);
-	pCamera->Init();
-	pCamera->SetMainCamera();
-	pCamera->SetTargetObject(pPlayer);
-	pCamera->SetLookAt(pPlayer->GetPosition());
-	pCamera->AddEffect(E_CamEffect::FADE_IN, 3.f);
-	AddObject((CObject*)pCamera);
-	
-	// 자동차나 
-	// 시민들을 자동생성을 관리해줄 매니저 오브젝트를 하나 생성하겠습니다.
-	
-	// Vehicle 매니저 추가
-	// CVehicleManager;
-
-
-	// Citizen 매니저 추가
-	/*CGTA_CitizenCreator* pCitizenCreator = new CGTA_CitizenCreator(E_GroupType::DEFAULT);
-	pCitizenCreator->Init();
-	pCitizenCreator->SetCamera(pCamera);
-	AddObject((CObject*)pCitizenCreator);*/
 
 	CGTA_Citizen* pCitizen = new CGTA_Citizen(E_GroupType::CITIZEN);
 	pCitizen->Init();
@@ -102,17 +82,42 @@ void CScene_GtaInGame::Start()
 	//CGTA_Citizen* pCitizen3 = pCitizen->Clone();
 	//pCitizen3->SetPosition(600, 900);
 	//AddObject(pCitizen3);
+
 	
+	// 자동차나 
+	// 시민들을 자동생성을 관리해줄 매니저 오브젝트를 하나 생성하겠습니다.
+	
+	// Vehicle 매니저 추가
+	// CVehicleManager;
+
+
+
+	// Citizen 매니저 추가
+	/*CGTA_CitizenCreator* pCitizenCreator = new CGTA_CitizenCreator(E_GroupType::DEFAULT);
+	pCitizenCreator->Init();
+	pCitizenCreator->SetCamera(pCamera);
+	AddObject((CObject*)pCitizenCreator);*/
+
 
 	// TODO : Item 구현, Item 매니저 구현
 	// Item 설정.
 	// item 정보 save, load 만들기
-	LoadItem(STR_FILE_PATH_GTA_Item_Save);
-
 
 	// 수배 시스템
 	
 	// UI 추가
+	
+
+	////// Camera 추가
+	CGTA_Player* pPlayer = (CGTA_Player*)CSceneManager::GetInstance()->GetCurScene()->FindObject(L"Player");
+	CCamera2D* pCamera = new CCamera2D(E_GroupType::MAIN_CAMERA);
+	pCamera->Init();
+	pCamera->SetMainCamera();
+	pCamera->SetTargetObject(pPlayer);
+	pCamera->SetLookAt(pPlayer->GetPosition());
+	pCamera->AddEffect(E_CamEffect::FADE_IN, 3.f);
+	AddObject((CObject*)pCamera);
+
 
 	// Render X
 	CCollider::SetRenderActive(false);

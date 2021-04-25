@@ -158,6 +158,7 @@
     <ClInclude Include="CGTA_AI.h" />
     <ClInclude Include="CGTA_AIState.h" />
     <ClInclude Include="CGTA_DeadState.h" />
+    <ClInclude Include="CGTA_PunchDetector.h" />
     <ClInclude Include="CLookAtTestObj.h" />
     <ClInclude Include="CPathFinding.h" />
     <ClInclude Include="CGTA_Bullet.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="CGTA_AI.cpp" />
     <ClCompile Include="CGTA_AIState.cpp" />
     <ClCompile Include="CGTA_DeadState.cpp" />
+    <ClCompile Include="CGTA_PunchDetector.cpp" />
     <ClCompile Include="CLookAtTestObj.cpp" />
     <ClCompile Include="CPathFinding.cpp" />
     <ClCompile Include="CGTA_Bullet.cpp" />
