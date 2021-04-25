@@ -2,6 +2,8 @@
 #include "CObject.h"
 class CLookAtTestObj : public CObject
 {
+private:
+	float angle;
 public:
 	virtual void Init() override;
 	virtual void Update() override;

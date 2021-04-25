@@ -220,8 +220,8 @@ void CGTA_Character::Attack()
 	}
 	else {
 		pBullet->SetDamage(tWeaponInfo.fDamage);
-		pBullet->SetUpVector(GetUpVector(), GetRPDir(), GetRectPoint()); // 방향 설정
-		pBullet->RotateRP(180);
+		float fDegree = GetRotateDegree();
+		pBullet->SetRotateDegree(fDegree - 180); // 방향 설정
 		pBullet->SetPosition(GetPosition() - GetNozzlePosition()); // 노즐 위치로 옮긴다.
 		CreateObject(pBullet);
 
@@ -314,6 +314,11 @@ void CGTA_Character::GetItem(CGTA_Item* pItem)
 			m_fAttackMaxCoolTime = tCurWeaponInfo.fShootCoolTime;
 		}
 	}
+}
+
+void CGTA_Character::AutoTarget()
+{
+	GetAngle 
 }
 
 void CGTA_Character::InitAI()

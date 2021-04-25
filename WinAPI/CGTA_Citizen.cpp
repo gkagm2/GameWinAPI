@@ -143,7 +143,8 @@ void CGTA_Citizen::Attack()
 		// 총알 오브젝트 생성.
 		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
 		pBullet->Init();
-		pBullet->SetUpVector(GetUpVector(), GetRPDir(), GetRectPoint()); // 방향 설정
+		float fDegree = GetRotateDegree();
+		pBullet->SetRotateDegree(fDegree); // 방향 설정
 		pBullet->RotateRP(180);
 		pBullet->SetPosition(GetPosition() - GetNozzlePosition()); // 노즐 위치로 옮긴다.
 		CreateObject(pBullet);

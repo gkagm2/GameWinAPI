@@ -78,10 +78,10 @@ void CScene_GtaInGame::Start()
 	pCitizen->SetPosition(600, 600);
 	AddObject(pCitizen);
 
-	/*CGTA_Cop* pCop = new CGTA_Cop(E_GroupType::CITIZEN);
+	CGTA_Cop* pCop = new CGTA_Cop(E_GroupType::CITIZEN);
 	pCop->Init();
 	pCop->SetPosition(800, 600);
-	AddObject(pCop);*/
+	AddObject(pCop);
 
 	CGTA_Cop* pCop1 = new CGTA_Cop(E_GroupType::CITIZEN);
 	pCop1->Init();
@@ -95,16 +95,13 @@ void CScene_GtaInGame::Start()
 	pCop1->SetPosition(800, 700);
 	AddObject(pCop1);
 
-	
+	//CGTA_Citizen* pCitizen2 = pCitizen->Clone();
+	//pCitizen2->SetPosition(600, 800);
+	//AddObject(pCitizen2);
 
-
-	CGTA_Citizen* pCitizen2 = pCitizen->Clone();
-	pCitizen2->SetPosition(600, 800);
-	AddObject(pCitizen2);
-
-	CGTA_Citizen* pCitizen3 = pCitizen->Clone();
-	pCitizen3->SetPosition(600, 900);
-	AddObject(pCitizen3);
+	//CGTA_Citizen* pCitizen3 = pCitizen->Clone();
+	//pCitizen3->SetPosition(600, 900);
+	//AddObject(pCitizen3);
 	
 
 	// TODO : Item 구현, Item 매니저 구현

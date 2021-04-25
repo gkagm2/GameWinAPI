@@ -18,8 +18,6 @@ CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_vPosition{ 0, 0, 0 },
 	m_vScale{ 100.0f, 100.0f, 100.0f },
 	m_vRectPoint{},
-	m_vRPDir{},
-	m_vUpVec{ 0.f, -1.f , 0.f },
 	m_pTexture(nullptr),
 	m_pCollider(nullptr),
 	m_pAnimator(nullptr),
@@ -29,13 +27,12 @@ CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_bIsDead(false),
 	m_bIsRender(true),
 	m_bIsActive(true),
-	m_fRotateAngle(0.f)
+	m_fRotateDegree(0.f)
 {
 }
 CObject::CObject(const CObject& _origin) :
 	m_vPosition{ _origin.m_vPosition},
 	m_vScale{ _origin.m_vScale },
-	m_vUpVec{ _origin.m_vUpVec },
 	m_pTexture(_origin.m_pTexture),
 	m_eGroupType(_origin.m_eGroupType),
 	m_pCollider(nullptr),
@@ -45,12 +42,10 @@ CObject::CObject(const CObject& _origin) :
 	m_bIsDead(_origin.m_bIsDead),
 	m_bIsRender(_origin.m_bIsRender),
 	m_bIsActive(_origin.m_bIsActive),
-	m_fRotateAngle(0.f)
+	m_fRotateDegree(0.f)
 {
-	for (int i = 0; i < 3; ++i) {
+	for (int i = 0; i < 3; ++i)
 		m_vRectPoint[i] = _origin.m_vRectPoint[i];
-		m_vRPDir[i] = _origin.m_vRPDir[i];
-	}
 
 	if (_origin.m_pCollider) {
 		m_pCollider = _origin.m_pCollider->Clone();
@@ -172,67 +167,53 @@ void CObject::InitRectPoint()
 
 const Vector3& CObject::GetRectPoint(int _idx)
 {
-	m_vRectPoint[_idx].Normalized();
-	m_vRectPoint[_idx].x *= GetScale().x;
-	m_vRectPoint[_idx].y *= GetScale().y;
-	m_vRectPoint[_idx].z *= GetScale().z;
-	return m_vRectPoint[_idx];
+	Vector3 dir;
+	dir = m_vRectPoint[_idx];
+	dir.Normalized();
+
+	dir = Rotate(dir, m_fRotateDegree);
+
+	dir.x *= GetScale().x;
+	dir.y *= GetScale().y;
+	dir.z *= GetScale().z;
+	return dir;
 }
 
 void CObject::RotateRP(float _fDegree)
 {
-	m_vUpVec = Rotate(m_vUpVec, _fDegree);
-
-	Vector3 dir[3];
-	dir[0] = m_vRectPoint[0];
-	dir[1] = m_vRectPoint[1];
-	dir[2] = m_vRectPoint[2];
-	dir[0].Normalized();
-	dir[1].Normalized();
-	dir[2].Normalized();
-
-	dir[0] = Rotate(dir[0], _fDegree);
-	dir[1] = Rotate(dir[1], _fDegree);
-	dir[2] = Rotate(dir[2], _fDegree);
-
-	Vector3 rp0 = GetRectPoint(0);
-	Vector3 rp1 = GetRectPoint(1);
-	Vector3 rp2 = GetRectPoint(2);
-	SetRectPoint(0, dir[0] * rp0.GetDistance());
-	SetRectPoint(1, dir[1] * rp1.GetDistance());
-	SetRectPoint(2, dir[2] * rp2.GetDistance());
+	m_fRotateDegree += _fDegree;
 }
 
-void CObject::RotateRP(Vector3 _vDir)
+void CObject::RotateRP(const Vector3& _vTargetDir, const Vector3& _vHeadDir, float fDegree)
 {
-#pragma region direction Rendering (Test)
-	/*Vector3 rendPos = MainCamera->GetRenderPosition(GetCharacter()->GetPosition());
-	HDC hdc = CCore::GetInstance()->GetDC();
-	MoveToEx(hdc, rendPos.x, rendPos.y, nullptr);
-	LineTo(hdc, rendPos.x + vHeadDir.x * 70.f, rendPos.y + vHeadDir.y * 70.f);
-	MoveToEx(hdc, rendPos.x, rendPos.y, nullptr);
-	LineTo(hdc, rendPos.x + vNextPathDir.x * 100.f, rendPos.y + vNextPathDir.y * 100.f);*/
-#pragma endregion
-	Vector3 vHeadDir = GetUpVector();
-	_vDir.y *= -1.f;
-	vHeadDir.y *= -1.f;
-
-	float vDot = CMyMath::GetDot(_vDir, vHeadDir);
-	if (isnan(vDot))
+	Vector3 vCross = CMyMath::GetCross(_vTargetDir, _vHeadDir);
+	float fTargetDirDegree = atan2f(_vTargetDir.y, _vTargetDir.x) * CMyMath::Rad2Deg(); // 타겟 방향으로 회전 한 각 구하기
+	float fHeadDirDegree = atan2f(_vHeadDir.y, _vHeadDir.x) * CMyMath::Rad2Deg();
+	if (fTargetDirDegree == fHeadDirDegree)
 		return;
-	Vector3 vCross = CMyMath::GetCross(_vDir, vHeadDir);
-	if (vCross.z < 0) {
-		if (vCross.z > -0.1f)
-			RotateRP(100 * DeltaTime);
-		else
-			RotateRP(350 * DeltaTime);
-	}
-	else if (vCross.z > 0) {
-		if (vCross.z < 0.1f)
-			RotateRP(-100 * DeltaTime);
-		else
-			RotateRP(-350 * DeltaTime);
-	}
+	if (vCross.z < 0)
+		RotateRP(fDegree);
+	else if (vCross.z > 0)
+		RotateRP(-fDegree);
+}
+
+void CObject::LookAt(Vector3 _vTargetPos, float _fRotateSpeed)
+{
+	Vector3 vObjPos = GetPosition();
+	Vector3 vLookAtDir = { _vTargetPos.x - vObjPos.x, _vTargetPos.y - vObjPos.y };
+	vLookAtDir.Normalized();
+
+	Vector3 vHeadDir = GetUpVector();
+
+	float angle = atan2f(vLookAtDir.y, vLookAtDir.x) * CMyMath::Rad2Deg(); // 타겟 방향으로 회전 한 각 구하기
+
+	SetRotateDegree(angle - 90);
+
+	/*Vector3 vCross = CMyMath::GetCross(vLookAtDir, vHeadDir);
+	if (vCross.z < 0)
+		RotateRP(_fRotateSpeed * DeltaTime);
+	else if (vCross.z > 0)
+		RotateRP(-_fRotateSpeed * DeltaTime);*/
 }
 
 Vector3 CObject::GetMax()
@@ -247,13 +228,11 @@ Vector3 CObject::GetMax()
 	return maxVec;
 }
 
-void CObject::SetUpVector(const Vector3& _upVector, const Vector3 _vRPDir[3], const Vector3 _vRectPoint[3])
+Vector3 CObject::GetUpVector()
 {
-	m_vUpVec = _upVector;
-	for (int i = 0; i < 3; ++i) {
-		m_vRPDir[i] = _vRPDir[i];
-		m_vRectPoint[i] = _vRectPoint[i];
-	}
+	Vector3 vUpVec = { 0, -1, 0 };
+	vUpVec = Rotate(vUpVec, m_fRotateDegree);
+	return vUpVec;
 }
 
 void CObject::SetTexture(CTexture* _pTexture)
@@ -294,40 +273,18 @@ void CObject::SetActive(bool _bIsActive)
 		GetRigidbody()->SetActive(_bIsActive);
 }
 
-void CObject::LookAt(Vector3 _vTargetPos, float _fRotateSpeed)
-{
-	Vector3 vObjPos = GetPosition();
-	Vector3 vLookAtDir = { _vTargetPos.x - vObjPos.x, _vTargetPos.y - vObjPos.y };
-	vLookAtDir.Normalized();
-
-	Vector3 vHeadDir = GetUpVector();
-	//vLookAtDir.y *= -1.f;
-	//vHeadDir.y *= -1.f;
-
-	float vDot = CMyMath::GetDot(vLookAtDir, vHeadDir);
-	if (isnan(vDot))
-		assert(nullptr && L"float value is nan");
-	Vector3 vCross = CMyMath::GetCross(vLookAtDir, vHeadDir);
-	if (vCross.z < 0)
-		RotateRP(_fRotateSpeed);
-	else if (vCross.z > 0)
-		RotateRP(-_fRotateSpeed);
-}
-
 void CObject::Save(FILE* _pFile)
 {
 	fwrite(&m_vPosition, sizeof(Vector3), 1, _pFile);
 	fwrite(&m_vScale, sizeof(Vector3), 1, _pFile);
 	for (int i = 0; i < 3; ++i)
 		fwrite(&m_vRectPoint[i], sizeof(Vector3), 1, _pFile);
-	for (int i = 0; i < 3; ++i)
-		fwrite(&m_vRPDir[i], sizeof(Vector3), 1, _pFile);
 
 	SaveWString(m_strName, _pFile);
 	fwrite(&m_bIsDead, sizeof(bool), 1, _pFile);
 	fwrite(&m_bIsRender, sizeof(bool), 1, _pFile);
 	fwrite(&m_bIsActive, sizeof(bool), 1, _pFile);
-	fwrite(&m_fRotateAngle, sizeof(float), 1, _pFile);
+	fwrite(&m_fRotateDegree, sizeof(float), 1, _pFile);
 }
 
 void CObject::Load(FILE* _pFile)
@@ -336,12 +293,10 @@ void CObject::Load(FILE* _pFile)
 	fread(&m_vScale, sizeof(Vector3), 1, _pFile);
 	for (int i = 0; i < 3; ++i)
 		fread(&m_vRectPoint[i], sizeof(Vector3), 1, _pFile);
-	for (int i = 0; i < 3; ++i)
-		fread(&m_vRPDir[i], sizeof(Vector3), 1, _pFile);
 
 	LoadWString(m_strName, _pFile);
 	fread(&m_bIsDead, sizeof(bool), 1, _pFile);
 	fread(&m_bIsRender, sizeof(bool), 1, _pFile);
 	fread(&m_bIsActive, sizeof(bool), 1, _pFile);
-	fread(&m_fRotateAngle, sizeof(float), 1, _pFile);
+	fread(&m_fRotateDegree, sizeof(float), 1, _pFile);
 }

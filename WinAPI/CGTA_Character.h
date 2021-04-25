@@ -101,6 +101,8 @@ public:
 	void ChangeNextWeapon();
 	void GetItem(CGTA_Item* pItem);
 
+	void AutoTarget();
+
 	// AI
 	void InitAI();
 	virtual void MoveAI() {}

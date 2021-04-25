@@ -13,8 +13,6 @@ private:
 	Vector3 m_vScale;
 
 	Vector3 m_vRectPoint[3];
-	Vector3 m_vRPDir[3]; //RP : RectPoint
-	Vector3 m_vUpVec; // Up vector
 
 	CTexture* m_pTexture;		// 텍스쳐
 
@@ -28,14 +26,14 @@ private:
 	bool m_bIsRender;			// 렌더링 여부
 	bool m_bIsActive;			// 활성화 여부
 
-	float m_fRotateAngle;
+	float m_fRotateDegree;
 
 private:
 	void _SetIsDead(bool _bIsDead) { m_bIsDead = _bIsDead; }
 
 private:
 	E_GroupType m_eGroupType;
-	
+
 protected:
 	void SetGroupType(E_GroupType _eGroupType) { m_eGroupType = _eGroupType; }
 
@@ -61,7 +59,8 @@ public:
 	void SetRectPoint(int _idx, Vector3 _vPoint) { m_vRectPoint[_idx] = _vPoint; }
 	// Rotate idx range : 0 ~ 2
 	void RotateRP(float _fDegree);
-	void RotateRP(Vector3 _vDir);
+	void RotateRP(const Vector3& _vTargetDir, const Vector3& _vHeadDir, float fDegree);
+
 
 	void SetPosition(Vector3 _vPos) { m_vPosition = _vPos; }
 	void SetPosition(Vector2 _vPos) { m_vPosition = _vPos; }
@@ -75,12 +74,11 @@ public:
 	virtual Vector3 GetMin();
 	virtual Vector3 GetMax();
 
-	Vector3 GetUpVector() { return  m_vUpVec; }
-	void SetUpVector(const Vector3& _upVector, const Vector3 _vRPDir[3], const Vector3 _vRectPoint[3]);
-	Vector3 GetRightVector() { return Rotate(m_vUpVec, 90); }
-
-	Vector3* GetRectPoint() { return m_vRectPoint; }
-	Vector3* GetRPDir() { return m_vRPDir; }
+	Vector3 GetUpVector();
+	Vector3 GetRightVector() { return Rotate(GetUpVector(), 90); }
+	float GetRotateDegree() { return m_fRotateDegree; }
+	void SetRotateDegree(float _fDegree) { m_fRotateDegree = _fDegree; }
+	void SetRotation(float _fDegree) { m_fRotateDegree = _fDegree; }
 
 	void SetTexture(CTexture* _pTexture);
 	CTexture* GetTexture() { return  m_pTexture; }

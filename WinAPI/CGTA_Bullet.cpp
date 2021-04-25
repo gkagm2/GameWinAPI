@@ -28,7 +28,8 @@ CGTA_Bullet::CGTA_Bullet(const CGTA_Bullet& _origin) :
 	CObject(_origin),
 	m_fLifeCoolTime(0.f),
 	m_fLifeMaxCoolTime(_origin.m_fLifeMaxCoolTime),
-	m_fSpeed(_origin.m_fSpeed)
+	m_fSpeed(_origin.m_fSpeed),
+	m_fDamage(_origin.m_fDamage)
 {
 }
 

@@ -32,5 +32,4 @@ public:
 	CGTA_Bullet() = delete;
 	CGTA_Bullet(E_GroupType e_GroupType);
 	virtual ~CGTA_Bullet();
-	
 };

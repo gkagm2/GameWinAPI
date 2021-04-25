@@ -75,9 +75,15 @@ void CGTA_AI::RotateBody()
 	TTilePos tNextPathPos = GetCharacter()->GetPathFinding()->GetNextPath();
 	Vector2 vNextPathPos = pTileMap->TilePosToVector(tNextPathPos);
 	vNextPathPos = vNextPathPos + TILE_SIZE * 0.5f;
-	Vector3 vNextPathDir = { vNextPathPos.x - GetCharacter()->GetPosition().x, vNextPathPos.y - GetCharacter()->GetPosition().y };
+
+	Vector3 vNextPathDir = vNextPathPos - GetCharacter()->GetPosition();
 	vNextPathDir.Normalized();
-	GetCharacter()->RotateRP(vNextPathDir);
+
+	Vector3 vHeadDir = GetCharacter()->GetUpVector();
+	vHeadDir *= -1;
+
+	GetCharacter()->RotateRP(vNextPathDir, vHeadDir, 250.f * DeltaTime);
+	//GetCharacter()->LookAt(vNextPathPos, 200.f);
 }
 
 void CGTA_AI::Render(HDC _hDC)

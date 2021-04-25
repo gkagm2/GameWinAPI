@@ -17,6 +17,7 @@ CCamera::CCamera(E_GroupType _eGroupType = E_GroupType::MAIN_CAMERA) :
 
 CCamera::~CCamera()
 {
+	CSceneManager::GetInstance()->GetCurScene()->SetMainCamera(nullptr);
 }
 
 void CCamera::Init()

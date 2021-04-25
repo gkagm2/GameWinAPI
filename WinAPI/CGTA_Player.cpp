@@ -191,7 +191,6 @@ void CGTA_Player::State()
 
 void CGTA_Player::Move()
 {
-	Vector3 vHeadDir = GetUpVector();
 	//RotateInfo().Update();
 	if (InputKeyHold(E_Key::LEFT)) {
 		RotateRP(-220 * DeltaTime);

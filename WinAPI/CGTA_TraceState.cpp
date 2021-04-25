@@ -51,22 +51,27 @@ void CGTA_TraceState::Update()
 		}
 		else {
 			if (fDistance <= 20.f) {
+				CGTA_Character* pCharacter =dynamic_cast<CGTA_Character*>(m_pTarget);
+				if (pCharacter) {
+					if (E_CharacterState::dead == pCharacter->GetCharacterState())
+						GetCharacter()->Wander();
+				}
+				//CGTA_Vehicle* pVehicle = dynamic_cast<CGTA_Vehicle>*(m_pTarget);
+				// 사정거리 내로 왔으면
 				m_fAttackCoolTime += DeltaTime;
-				Vector3 vDir = GetCharacter()->GetPosition() - m_pTarget->GetPosition();
-				vDir.Normalized();
-				vDir.y *= -1;
-				GetCharacter()->LookAt(vDir, 400 * DeltaTime);
+				GetCharacter()->LookAt(m_pTarget->GetPosition(), 400 * DeltaTime);
 				if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
 					GetCharacter()->Attack(m_pTarget->GetPosition());
 					m_fAttackCoolTime = 0.f;
 				}
-				// 멈춰서 때린다.
+				GetCharacter()->SetCharacterState(E_CharacterState::idle);
 			}
 			else {
 				// 그냥 움직이기
 				Vector3 vDir = m_pTarget->GetPosition() - GetCharacter()->GetPosition();
 				vDir.Normalized();
 				GetCharacter()->SetPosition(GetCharacter()->GetPosition() + vDir * GetCharacter()->CharacterInfo().fMoveSpeed* 0.7f * DeltaTime);
+				GetCharacter()->SetCharacterState(E_CharacterState::run);
 			}
 		}
 	}
@@ -78,18 +83,22 @@ void CGTA_TraceState::Update()
 				if (false == GetCharacter()->GetPathFinding()->IsArrivedDestination())
 					GetAI()->RotateBody();
 			}
+			GetCharacter()->SetCharacterState(E_CharacterState::run);
 		}
 		// 200미터 거리 안이면 총을 쏜다.
 		else {
+			CGTA_Character* pCharacter = dynamic_cast<CGTA_Character*>(m_pTarget);
+			if (pCharacter) {
+				if (E_CharacterState::dead == pCharacter->GetCharacterState())
+					GetCharacter()->Wander();
+			}
 			m_fAttackCoolTime += DeltaTime;
-			Vector3 vDir = GetCharacter()->GetPosition() - m_pTarget->GetPosition();
-			vDir.Normalized();
-			vDir.y *= -1;
-			GetCharacter()->LookAt(vDir, 400 * DeltaTime);
+			GetCharacter()->LookAt(m_pTarget->GetPosition(), 400 * DeltaTime);
 			if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
 				GetCharacter()->Attack(m_pTarget->GetPosition());
 				m_fAttackCoolTime = 0.f;
 			}
+			GetCharacter()->SetCharacterState(E_CharacterState::idle);
 		}
 	}
 }
