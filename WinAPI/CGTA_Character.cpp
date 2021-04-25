@@ -31,7 +31,7 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_fStunMaxCoolTime(10.f),
 	m_fDeadCoolTime(0.f),
 	m_fDeadMaxCoolTime(20.f),
-	m_fRunawayDistance(500.f),
+	m_fNoticeDistance(500.f),
 	m_pVehicle(nullptr),
 	m_pPunchDetector(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
@@ -60,11 +60,11 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	m_fStunMaxCoolTime(10.f),
 	m_fDeadCoolTime(0.f),
 	m_fDeadMaxCoolTime(20.f),
-	m_fRunawayDistance(_origin.m_fRunawayDistance),
+	m_fNoticeDistance(_origin.m_fNoticeDistance),
 	m_pVehicle(nullptr),
 	m_pPunchDetector(nullptr),
-	m_eCurWeaponType(E_WeaponType::FIST),
-	m_eCharacterState(E_CharacterState::idle),
+	m_eCurWeaponType(_origin.m_eCurWeaponType),
+	m_eCharacterState(_origin.m_eCharacterState),
 	m_eAIState(_origin.m_eAIState),
 	m_pAI(nullptr),
 	m_pPathFinding(nullptr)
@@ -93,7 +93,8 @@ void CGTA_Character::Init()
 {
 	// Collider set
 	CColliderRect* pCollider = new CColliderRect(this);
-	pCollider->SetScale(Vector3(15.f, 15.f, 0.f));
+	//pCollider->SetScale(Vector3(15.f, 15.f, 0.f));
+	pCollider->SetScale(Vector3(30.f, 30.f, 0.f));
 
 	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
 	SetRigidbody(pRigidbody);
@@ -149,11 +150,29 @@ void CGTA_Character::Render(HDC _hDC)
 			GetCollider()->Render(_hDC);
 	}
 	
+	if (m_pAI) {
+		m_pAI->Render(_hDC);
+	}
+		
 	//__super::Render(_hDC);
 }
 
 void CGTA_Character::OnCollisionEnter(CObject* _pOther)
 {
+	CGTA_Bullet* pBullet = dynamic_cast<CGTA_Bullet*>(_pOther);
+	if (pBullet) {
+		if (CharacterInfo().fArmor > 0.f) {
+			CharacterInfo().fArmor -= pBullet->GetDamage();
+			CharacterInfo().fArmor = min(CharacterInfo().fArmor, 0.f);
+		}
+		else {
+			CharacterInfo().fHp -= pBullet->GetDamage();
+			CharacterInfo().fHp = min(CharacterInfo().fHp, 0.f);
+		}
+		if (CharacterInfo().fHp <= 0.f) {
+			SetCharacterState(E_CharacterState::dead);
+		}
+	}
 }
 
 void CGTA_Character::OnCollisionStay(CObject* _pOther)
@@ -180,11 +199,11 @@ void CGTA_Character::Stun()
 
 void CGTA_Character::Attack()
 {
+	E_WeaponType ecurWeaponType = GetCurWeaponType();
 	TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
-	E_WeaponType eWeaponType = GetCurWeaponType();
 
 	// 주먹이면
-	if (E_WeaponType::FIST == eWeaponType) {
+	if (E_WeaponType::FIST == ecurWeaponType) {
 		GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
 		// Punch 컬라이더가 생성된다
 	}
@@ -194,6 +213,7 @@ void CGTA_Character::Attack()
 		// 총알 오브젝트 생성.
 		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
 		pBullet->Init();
+		pBullet->SetDamage(GetWeaponInfo(ecurWeaponType).fDamage);
 		pBullet->SetUpVector(GetUpVector(), GetRPDir(), GetRectPoint()); // 방향 설정
 		pBullet->RotateRP(180);
 		pBullet->SetPosition(GetPosition() - GetNozzlePosition()); // 노즐 위치로 옮긴다.
@@ -209,6 +229,28 @@ void CGTA_Character::Attack()
 		}
 	}
 	SetCharacterState(E_CharacterState::attack);
+}
+
+void CGTA_Character::Attack(Vector3 _TargetPos)
+{
+	TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
+	E_WeaponType eWeaponType = GetCurWeaponType();
+
+	// 캐릭터를 회전해야되는데.. 어떻게 해야될꼬.
+	Vector3 vDir = _TargetPos - GetPosition();
+	vDir.Normalized();
+	Vector3 vHeadDir = GetUpVector();
+
+	float fDegree = CMyMath::GetDot(vDir, vHeadDir);
+	Vector3 vCross = CMyMath::GetCross(vDir, vHeadDir);
+	if (vCross.z < 0) {
+		RotateRP(fDegree);
+	}
+	else if(vCross.z > 0) {
+		RotateRP(-fDegree);
+	}
+
+	Attack();
 }
 
 void CGTA_Character::ChangePrevWeapon()
@@ -358,6 +400,33 @@ TWeaponInfo::TWeaponInfo(const TWeaponInfo& _other) :
 	bIsInfinite(_other.bIsInfinite),
 	fShootCoolTime(_other.fShootCoolTime)
 {
+}
+
+void TWeaponInfo::InitWeapon(E_WeaponType _eWeaponType)
+{
+	switch (_eWeaponType) {
+	case E_WeaponType::PISTOL:
+		strName = STR_NAME_Pistol;
+		fShootCoolTime = 0.6f;
+		iBulletCnt = 30;
+		break;
+	case E_WeaponType::ROCKET_LAUNCHER:
+		strName = STR_NAME_RocketLauncher;
+		fShootCoolTime = 1.0f;
+		iBulletCnt = 10;
+		break;
+	case E_WeaponType::SHOTGUN:
+		strName = STR_NAME_Shotgun;
+		fShootCoolTime = 1.2f;
+		iBulletCnt = 20;
+		break;
+	case E_WeaponType::SUBMACHINE_GUN:
+		strName = STR_NAME_SubmachineGun;
+		fShootCoolTime = 0.13f;
+		iBulletCnt = 300;
+		break;
+	}
+	
 }
 
 void TCharacterInfo::Save(FILE* _pFile)

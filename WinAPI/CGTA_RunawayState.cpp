@@ -36,8 +36,11 @@ void CGTA_RunawayState::Update()
 	
 	float fDistance = (vPosition - m_pTarget->GetPosition()).GetDistance();
 
-	// 내부에 있으면
-	if (fDistance <= m_fMaxRunDistance) {
+	// 내부에 없으면
+	if (fDistance > m_fMaxRunDistance) {
+		GetCharacter()->Wander();
+	}
+	else { // 내부에 있으면
 		CTileMap* pTileMap = CSceneManager::GetInstance()->GetCurScene()->GetTileMap();
 		// 계속해서 도망친다.
 		// 오브젝트의 반대 방향으로 도망친다.
@@ -49,9 +52,10 @@ void CGTA_RunawayState::Update()
 
 		m_fPathFindCoolTime += DeltaTime;
 		if (m_fPathFindCoolTime >= m_fPathFindMaxCoolTime) {
+			// 각도에 따른 도망 칠 경로 계산
 			float angle = 0;
 			while (angle < 180) {
-				m_bIsPathFind = GetCharacter()->GetPathFinding()->PathFind(tCurPos, tRunDestPos);
+				m_bIsPathFind = GetCharacter()->GetPathFinding()->FindPath(tCurPos, tRunDestPos);
 				if (m_bIsPathFind)
 					break;
 
@@ -86,41 +90,12 @@ void CGTA_RunawayState::Update()
 			m_fPathFindCoolTime = 0.f;
 		}
 			
+		// 경로에 따라 이동한다.
 		if (m_bIsPathFind) {
-			// 경로에 따라 이동한다.
-			list<TTilePos>& path = GetAI()->GetCharacter()->GetPathFinding()->GetPath();
-			// 목적지에 도착했는지 확인한다.
-			// 목적지에 도착했으면
-			if (GetAI()->GetCharacter()->GetPathFinding()->IsArrivedDestination()) {
-				return;
-			}
-			else { // 목적지에 도착하지 않았으면
-				// 다음에 가야 할 위치를 가져온다.
-				Vector2 vCurPos = GetAI()->GetCharacter()->GetPosition();
-
-				// 위치가 같다면
-				Vector2 vNextPos = pTileMap->TilePosToVector(path.front());
-				vNextPos += TILE_SIZE * 0.5f;
-
-				if (abs(vNextPos.x - vCurPos.x) < 15 && abs(vNextPos.y - vCurPos.y) < 15) {
-					path.pop_front(); // 팝해준다.
-				}
-				else { // 위치가 같지 않다면
-					// 그 위치로 이동한다.
-					// 1.  방향 구하기
-					Vector2 vDir = Vector2(vNextPos.x - vCurPos.x, vNextPos.y - vCurPos.y);
-					vDir.Normalized();
-
-
-
-					// 이동
-					GetAI()->GetCharacter()->SetPosition(GetAI()->GetCharacter()->GetPosition() + vDir * GetCharacter()->CharacterInfo().fMoveSpeed * 0.7f * DeltaTime);
-				}
-			}
+			GetAI()->Move(GetCharacter()->CharacterInfo().fMoveSpeed * 0.7f);
+			if (false == GetCharacter()->GetPathFinding()->IsArrivedDestination())
+				GetAI()->RotateBody();
 		}
-	}
-	else {
-		GetCharacter()->Wander();
 	}
 }
 

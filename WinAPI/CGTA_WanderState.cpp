@@ -28,79 +28,28 @@ CGTA_WanderState::~CGTA_WanderState()
 void CGTA_WanderState::Update()
 {
 	CTileMap* pTileMap = CSceneManager::GetInstance()->GetCurScene()->GetTileMap();
-
-	TTilePos startPos = pTileMap->VectorToTilePos(GetAI()->GetCharacter()->GetPosition());
+	TTilePos tStartPos = pTileMap->VectorToTilePos(GetCharacter()->GetPosition());
 
 	// input을 해야하는게 아니라 이제부터 랜덤값을 이용하여 
 	// 목적지를 못찾았으면
 	if (false == GetCharacter()->GetPathFinding()->IsFoundDestination()) {
 		TTilePos destPos = GetRandomDestinationPos(m_fMinSearchDistance, m_fMaxSearchDistance);
 		// 길을 찾는다.
-		m_bIsPathFind = GetCharacter()->GetPathFinding()->PathFind(startPos, destPos);
+		m_bIsPathFind = GetCharacter()->GetPathFinding()->FindPath(tStartPos, destPos);
 	}
 	else {
 		// 목적지를 찾았고 그 목적지에 도착한 상태면
 		if (true == GetCharacter()->GetPathFinding()->IsArrivedDestination()) {
-			TTilePos destPos = GetRandomDestinationPos(m_fMinSearchDistance, m_fMaxSearchDistance);
+			TTilePos tDestPos = GetRandomDestinationPos(m_fMinSearchDistance, m_fMaxSearchDistance);
 			// 다른 길을 찾는다.
-			m_bIsPathFind =GetCharacter()->GetPathFinding()->PathFind(startPos, destPos);
+			m_bIsPathFind =GetCharacter()->GetPathFinding()->FindPath(tStartPos, tDestPos);
 		}
 	}
-
-	// 경로 렌더링
-	if (m_bIsPathFind) {
-		HDC _hDC = CCore::GetInstance()->GetDC();
-		list<TTilePos>& path = GetAI()->GetCharacter()->GetPathFinding()->GetPath();
-
-		list<TTilePos>::iterator iter = path.begin();
-		if (GetAI()->GetCharacter()->GetPathFinding()->IsArrivedDestination())
-			return;
-		TTilePos prev = *iter;
-
-		++iter;
-		for (; iter != path.end(); ++iter) {
-			Vector2 vCurPos = MainCamera->GetRenderPosition(pTileMap->TilePosToVector(prev));
-			vCurPos += (TILE_SIZE * 0.5f);
-			Rectangle(_hDC, (int)vCurPos.x - 5, (int)vCurPos.y - 5, (int)vCurPos.x + 5, (int)vCurPos.y + 5);
-			MoveToEx(_hDC, (int)vCurPos.x, (int)vCurPos.y, nullptr);
-			Vector2 destPos = MainCamera->GetRenderPosition(pTileMap->TilePosToVector(*iter));
-
-			destPos += (TILE_SIZE * 0.5f);
-			LineTo(_hDC, destPos.x, destPos.y);
-			Ellipse(_hDC, destPos.x - 5, destPos.y - 5, destPos.x + 5, destPos.y + 5);
-			prev = *iter;
-		}
-	}
-
 	// 경로에 따라 이동한다.
 	if (m_bIsPathFind) {
-		list<TTilePos>& path = GetAI()->GetCharacter()->GetPathFinding()->GetPath();
-		// 목적지에 도착했는지 확인한다.
-		// 목적지에 도착했으면
-		if (GetAI()->GetCharacter()->GetPathFinding()->IsArrivedDestination()) {
-			return;
-		}
-		else { // 목적지에 도착하지 않았으면
-			// 다음에 가야 할 위치를 가져온다.
-			Vector2 vCurPos = GetAI()->GetCharacter()->GetPosition();
-
-			// 위치가 같다면
-			Vector2 vNextPos = pTileMap->TilePosToVector(path.front());
-			vNextPos += TILE_SIZE * 0.5f;
-
-			if (abs(vNextPos.x - vCurPos.x) < 15 && abs(vNextPos.y - vCurPos.y) < 15) {
-				path.pop_front(); // 팝해준다.
-			}
-			else { // 위치가 같지 않다면
-				// 그 위치로 이동한다.
-				// 1.  방향 구하기
-				Vector2 vDir = Vector2(vNextPos.x - vCurPos.x, vNextPos.y - vCurPos.y);
-				vDir.Normalized();
-
-				// 이동
-				GetAI()->GetCharacter()->SetPosition(GetAI()->GetCharacter()->GetPosition() + vDir * GetCharacter()->CharacterInfo().fWalkSpeed *DeltaTime);
-			}
-		}
+		GetAI()->Move(GetCharacter()->CharacterInfo().fWalkSpeed);
+		if (false == GetCharacter()->GetPathFinding()->IsArrivedDestination())
+			GetAI()->RotateBody();
 	}
 }
 

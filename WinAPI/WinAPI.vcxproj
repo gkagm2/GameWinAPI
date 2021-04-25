@@ -157,6 +157,7 @@
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CGTA_AI.h" />
     <ClInclude Include="CGTA_AIState.h" />
+    <ClInclude Include="CGTA_DeadState.h" />
     <ClInclude Include="CPathFinding.h" />
     <ClInclude Include="CGTA_Bullet.h" />
     <ClInclude Include="CGTA_CitizenCreator.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CGTA_AI.cpp" />
     <ClCompile Include="CGTA_AIState.cpp" />
+    <ClCompile Include="CGTA_DeadState.cpp" />
     <ClCompile Include="CPathFinding.cpp" />
     <ClCompile Include="CGTA_Bullet.cpp" />
     <ClCompile Include="CGTA_CitizenCreator.cpp" />

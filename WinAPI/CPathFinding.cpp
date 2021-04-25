@@ -102,7 +102,7 @@ void CPathFinding::TracePath(const vector<vector<Cell> >& cellDetails, const TTi
 
 // AStar 알고리즘을 이용한 길찾기
 // return : 길을 찾으면 true, 못찾으면 false 리턴
-bool CPathFinding::PathFind(const TTilePos& start, const TTilePos& dest)
+bool CPathFinding::FindPath(const TTilePos& start, const TTilePos& dest)
 {
 	m_bFoundDestination = false;
 	if (false == IsValid(start.x, start.y))

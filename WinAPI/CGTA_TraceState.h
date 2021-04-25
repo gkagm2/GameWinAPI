@@ -4,7 +4,12 @@ class CGTA_TraceState : public CGTA_AIState
 {
 private:
 	CObject* m_pTarget;
+	float m_fFistDistance;
 	float m_fDistance;
+	float m_fShootDistance;
+
+	bool m_bIsPathFind;
+	
 public:
 	virtual void Update() override;
 	virtual void LateUpdate() override;
@@ -14,6 +19,9 @@ public:
 
 public:
 	void SetTarget(CObject* _pTarget) { m_pTarget = _pTarget; }
+
+public:
+	CLONE(CGTA_TraceState);
 
 public:
 	CGTA_TraceState();

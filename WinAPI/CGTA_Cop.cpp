@@ -15,6 +15,8 @@
 #include "CGTA_IdleState.h"
 #include "CGTA_RunawayState.h"
 #include "CGTA_WanderState.h"
+#include "CGTA_TraceState.h"
+#include "CGTA_Bullet.h"
 CGTA_Cop::CGTA_Cop(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType)
 {
@@ -48,7 +50,7 @@ void CGTA_Cop::Init()
 	GetAnimator()->CreateAnimation(L"walk_gun", pTexture, Vector2(0, 40 * 10), Vector2(40, 40), 3, 0.07f);
 	GetAnimator()->CreateAnimation(L"punch", pTexture, Vector2(0, 40 * 11), Vector2(40, 40), 6, 0.07f);
 	GetAnimator()->CreateAnimation(L"run", pTexture, Vector2(0, 40 * 12), Vector2(40, 40), 8, 0.07f);
-	GetAnimator()->CreateAnimation(L"walk", pTexture, Vector2(0, 40 * 13), Vector2(40, 40), 4, 0.07f);
+	GetAnimator()->CreateAnimation(L"walk", pTexture, Vector2(0, 40 * 13), Vector2(40, 40), 4, 0.25f);
 
 	GetAnimator()->PlayAnimation(L"idle", E_AnimationPlayType::ONCE);
 
@@ -72,7 +74,9 @@ void CGTA_Cop::Init()
 	GetAI()->AddState(L"idle", new CGTA_IdleState);
 	GetAI()->AddState(L"runaway", new CGTA_RunawayState);
 	GetAI()->AddState(L"wander", new CGTA_WanderState);
-	GetAI()->ChangeState(L"wander");
+	GetAI()->AddState(L"trace", new CGTA_TraceState);
+
+	Wander();
 }
 
 void CGTA_Cop::PrevUpdate()
@@ -82,10 +86,14 @@ void CGTA_Cop::PrevUpdate()
 
 void CGTA_Cop::Update()
 {
+	GetAI()->Update();
+
+	State();
 }
 
 void CGTA_Cop::LateUpdate()
 {
+	GetAI()->LateUpdate();
 	__super::LateUpdate();
 }
 
@@ -96,6 +104,7 @@ void CGTA_Cop::Render(HDC _hDC)
 
 void CGTA_Cop::OnCollisionEnter(CObject* _pOther)
 {
+	CGTA_Character::OnCollisionEnter(_pOther);
 }
 
 void CGTA_Cop::OnCollisionStay(CObject* _pOther)
@@ -128,9 +137,9 @@ void CGTA_Cop::State()
 	case E_CharacterState::walk:
 		m_bIsMoved = true;
 		if (HaveGun())
-			GetAnimator()->PlayAnimation(L"walk", E_AnimationPlayType::LOOP);
-		else
 			GetAnimator()->PlayAnimation(L"walk_gun", E_AnimationPlayType::LOOP);
+		else
+			GetAnimator()->PlayAnimation(L"walk", E_AnimationPlayType::LOOP);
 		break;
 	case E_CharacterState::attack:
 		if (false == HaveGun()) {
@@ -196,4 +205,16 @@ void CGTA_Cop::GetInTheVehicle()
 
 void CGTA_Cop::GetOutTheVehicle()
 {
+}
+
+void CGTA_Cop::Wander()
+{
+	GetAI()->ChangeState(L"wander");
+	CGTA_Character::Wander();
+}
+
+void CGTA_Cop::Trace()
+{
+	GetAI()->ChangeState(L"trace");
+	CGTA_Character::Trace();
 }

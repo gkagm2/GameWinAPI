@@ -201,6 +201,38 @@ void CObject::RotateRP(float _fDegree)
 	SetRectPoint(2, dir[2] * rp2.GetDistance());
 }
 
+void CObject::RotateRP(Vector3 _vDir)
+{
+#pragma region direction Rendering (Test)
+	/*Vector3 rendPos = MainCamera->GetRenderPosition(GetCharacter()->GetPosition());
+	HDC hdc = CCore::GetInstance()->GetDC();
+	MoveToEx(hdc, rendPos.x, rendPos.y, nullptr);
+	LineTo(hdc, rendPos.x + vHeadDir.x * 70.f, rendPos.y + vHeadDir.y * 70.f);
+	MoveToEx(hdc, rendPos.x, rendPos.y, nullptr);
+	LineTo(hdc, rendPos.x + vNextPathDir.x * 100.f, rendPos.y + vNextPathDir.y * 100.f);*/
+#pragma endregion
+	Vector3 vHeadDir = GetUpVector();
+	_vDir.y *= -1.f;
+	vHeadDir.y *= -1.f;
+
+	float vDot = CMyMath::GetDot(_vDir, vHeadDir);
+	if (isnan(vDot))
+		return;
+	Vector3 vCross = CMyMath::GetCross(_vDir, vHeadDir);
+	if (vCross.z < 0) {
+		if (vCross.z > -0.1f)
+			RotateRP(100 * DeltaTime);
+		else
+			RotateRP(350 * DeltaTime);
+	}
+	else if (vCross.z > 0) {
+		if (vCross.z < 0.1f)
+			RotateRP(-100 * DeltaTime);
+		else
+			RotateRP(-350 * DeltaTime);
+	}
+}
+
 Vector3 CObject::GetMax()
 {
 	Vector3 maxVec = m_vPosition;

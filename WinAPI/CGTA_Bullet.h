@@ -6,6 +6,7 @@ private:
 	float m_fLifeCoolTime;
 	float m_fLifeMaxCoolTime;
 	float m_fSpeed;
+	float m_fDamage;
 
 	// TODO : 파티클 텍스쳐 넣기
 	// Particle (피 튕기기)
@@ -19,6 +20,9 @@ public:
 	virtual void OnCollisionEnter(CObject* _pOther) override;
 	virtual void OnCollisionStay(CObject* _pOther) override;
 	virtual void OnCollisionExit(CObject* _pOther) override;
+
+	void SetDamage(float _fDamage) { m_fDamage = _fDamage; }
+	float GetDamage() { return m_fDamage; }
 
 public:
 	CLONE(CGTA_Bullet);

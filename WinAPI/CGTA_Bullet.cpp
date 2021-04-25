@@ -19,7 +19,8 @@ CGTA_Bullet::CGTA_Bullet(E_GroupType e_GroupType) :
 	CObject(e_GroupType),
 	m_fLifeCoolTime(0.f),
 	m_fLifeMaxCoolTime(3.f),
-	m_fSpeed(1000.f)
+	m_fSpeed(1000.f),
+	m_fDamage(1.f)
 {
 }
 

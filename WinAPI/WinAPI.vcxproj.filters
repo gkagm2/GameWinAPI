@@ -269,6 +269,9 @@
     <Filter Include="Game\5. Object\Gta_PJ\Character\AITest">
       <UniqueIdentifier>{0f86fac4-0d49-4dc1-879a-c152b9657168}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citizen\AIState\Dead">
+      <UniqueIdentifier>{2942c057-81ab-4ec1-991d-44f6683025fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -515,6 +518,7 @@
     <ClInclude Include="CComponent.h">
       <Filter>Game\6. Component</Filter>
     </ClInclude>
+    <ClInclude Include="CGTA_DeadState.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -753,6 +757,7 @@
     <ClCompile Include="CComponent.cpp">
       <Filter>Game\6. Component</Filter>
     </ClCompile>
+    <ClCompile Include="CGTA_DeadState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">

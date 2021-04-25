@@ -100,6 +100,7 @@ struct TWeaponInfo {
 
 	TWeaponInfo();
 	TWeaponInfo(const TWeaponInfo& _other);
+	void InitWeapon(E_WeaponType _eWeaponType);
 };
 
 struct TTilePos {

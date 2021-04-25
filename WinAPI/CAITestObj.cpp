@@ -53,7 +53,7 @@ void CAITestObj::Update()
 	TTilePos destPos = pTileMap->VectorToTilePos(vClickedPos);
 
 	if (InputKeyPress(E_Key::Ctrl)) {
-		m_bIsPathFind = m_pPathFinding->PathFind(startPos, destPos);
+		m_bIsPathFind = m_pPathFinding->FindPath(startPos, destPos);
 	}
 	if (m_bIsPathFind) {
 		HDC _hDC = CCore::GetInstance()->GetDC();

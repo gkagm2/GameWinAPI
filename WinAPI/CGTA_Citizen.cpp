@@ -39,7 +39,7 @@ void CGTA_Citizen::Init()
 	GetAnimator()->CreateAnimation(L"stun", pTexture, Vector2(0, 40 * 1), Vector2(40, 40), 1, 1.f);
 	GetAnimator()->CreateAnimation(L"dead1", pTexture, Vector2(0, 40 * 2), Vector2(40, 40), 1, 1.f);
 	GetAnimator()->CreateAnimation(L"dead2", pTexture, Vector2(0, 40 * 3), Vector2(40, 40), 1, 1.f);
-	GetAnimator()->CreateAnimation(L"walk", pTexture, Vector2(0, 40 * 4), Vector2(40, 40), 4, 0.15f);
+	GetAnimator()->CreateAnimation(L"walk", pTexture, Vector2(0, 40 * 4), Vector2(40, 40), 4, 0.25f);
 	GetAnimator()->CreateAnimation(L"run", pTexture, Vector2(0, 40 * 5), Vector2(40, 40), 10, 0.05f);
 
 	GetAnimator()->PlayAnimation(L"walk", E_AnimationPlayType::LOOP);
@@ -76,6 +76,7 @@ void CGTA_Citizen::Init()
 void CGTA_Citizen::Update()
 {
 	GetAI()->Update();
+	State();
 }
 
 void CGTA_Citizen::LateUpdate()
@@ -91,9 +92,7 @@ void CGTA_Citizen::Render(HDC _hDC)
 
 void CGTA_Citizen::OnCollisionEnter(CObject* _pOther)
 {
-	CGTA_Bullet* pBullet = dynamic_cast<CGTA_Bullet*>(_pOther);
-	if (pBullet)
-		Runaway();
+	CGTA_Character::OnCollisionEnter(_pOther);
 }
 
 void CGTA_Citizen::OnCollisionStay(CObject* _pOther)
@@ -144,6 +143,35 @@ void CGTA_Citizen::Move()
 
 void CGTA_Citizen::Attack()
 {
+	TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
+	E_WeaponType eWeaponType = GetCurWeaponType();
+
+	// 주먹이면
+	if (E_WeaponType::FIST == eWeaponType) {
+		GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
+		// Punch 컬라이더가 생성된다
+	}
+	else {
+		// 총 타입에 따라 Shoot.
+
+		// 총알 오브젝트 생성.
+		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
+		pBullet->Init();
+		pBullet->SetUpVector(GetUpVector(), GetRPDir(), GetRectPoint()); // 방향 설정
+		pBullet->RotateRP(180);
+		pBullet->SetPosition(GetPosition() - GetNozzlePosition()); // 노즐 위치로 옮긴다.
+		CreateObject(pBullet);
+
+		if (false == tWeaponInfo.bIsInfinite) { // 무한이 아닐 경우
+			--tWeaponInfo.iBulletCnt;
+			if (tWeaponInfo.iBulletCnt <= 0) {
+				SetWeaponState(false, GetCurWeaponType());
+				ChangeNextWeapon();
+				return;
+			}
+		}
+	}
+	SetCharacterState(E_CharacterState::attack);
 }
 
 void CGTA_Citizen::Drive()

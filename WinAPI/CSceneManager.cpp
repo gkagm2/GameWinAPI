@@ -19,8 +19,8 @@ CSceneManager::~CSceneManager() {
 
 void CSceneManager::Init()
 {
-	m_arrScene[(UINT)E_SceneType::START] = new CScene_Start;
-	m_arrScene[(UINT)E_SceneType::STAGE01] = new CScene_Stage01;
+	//m_arrScene[(UINT)E_SceneType::START] = new CScene_Start;
+	//m_arrScene[(UINT)E_SceneType::STAGE01] = new CScene_Stage01;
 	m_arrScene[(UINT)E_SceneType::TOOL] = new CScene_Tool;
 	// m_arrScene[(UINT)E_SceneType::GTA_MAIN] = new CScene_GtaMain;
 	m_arrScene[(UINT)E_SceneType::GTA_IN] = new CScene_GtaInGame;

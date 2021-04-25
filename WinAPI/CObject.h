@@ -59,6 +59,7 @@ public:
 	void SetRectPoint(int _idx, Vector3 _vPoint) { m_vRectPoint[_idx] = _vPoint; }
 	// Rotate idx range : 0 ~ 2
 	void RotateRP(float _fDegree);
+	void RotateRP(Vector3 _vDir);
 
 	void SetPosition(Vector3 _vPos) { m_vPosition = _vPos; }
 	void SetPosition(Vector2 _vPos) { m_vPosition = _vPos; }

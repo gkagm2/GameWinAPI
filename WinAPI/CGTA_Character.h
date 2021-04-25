@@ -30,7 +30,7 @@ struct TCharacterInfo {
 	float fMoveSpeed;
 	float fWalkSpeed;
 
-	TCharacterInfo() : fHp(10.f), fArmor(0.f), fMoveSpeed(300.f), fWalkSpeed(100.f) {}
+	TCharacterInfo() : fHp(10.f), fArmor(0.f), fMoveSpeed(300.f), fWalkSpeed(60.f) {}
 	void Save(FILE* _pFile);
 	void Load(FILE* _pFile);
 };
@@ -58,7 +58,7 @@ protected:
 	float m_fDeadCoolTime;
 	float m_fDeadMaxCoolTime;
 
-	float m_fRunawayDistance; // 총을 쏠 경우 일정 영역안에 있으면 도망치는 용도로 사용
+	float m_fNoticeDistance; // 총을 쏠 경우 일정 영역안에 있으면 알아차리는 용도
 
 	CGTA_Vehicle* m_pVehicle;
 
@@ -90,6 +90,7 @@ public:
 	virtual void Stun();
 	virtual void Move() {}
 	virtual void Attack();
+	void Attack(Vector3 _TargetPos);
 	virtual void Drive() {}
 	virtual void Dead() {}
 	virtual void GetInTheVehicle() {}

@@ -12,10 +12,12 @@
 #include "CCamera.h"
 #include "CGTA_Character.h"
 #include "CGTA_Citizen.h"
+#include "CGTA_Cop.h"
 #include "CGTA_Bullet.h"
 #include "CRigidbody2D.h"
 #include "CGTA_Item.h"
 #include "CGTA_AI.h"
+
 #include "CDebug.h"
 
 
@@ -121,6 +123,7 @@ void CGTA_Player::Render(HDC _hDC)
 
 void CGTA_Player::OnCollisionEnter(CObject* _pOther)
 {
+	CGTA_Character::OnCollisionEnter(_pOther);
 }
 
 void CGTA_Player::OnCollisionStay(CObject* _pOther)
@@ -236,17 +239,22 @@ void CGTA_Player::Attack()
 		// 시민들 상태값 변환
 		vector<CObject*>& vecObjs = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::CITIZEN);
 		for (UINT i = 0; i < vecObjs.size(); ++i) {
-			CGTA_Citizen* pCitizen = dynamic_cast<CGTA_Citizen*>(vecObjs[i]);
-			if (pCitizen) {
-				// 범위 내에 있는 사람들은 
-				Vector3 vPosition = GetPosition();
-				Vector3 vCitizenPos = pCitizen->GetPosition();
-				float fDistance = (vPosition - vCitizenPos).GetDistance();
+			Vector3 vPosition = GetPosition();
+			Vector3 vTargetPos = vecObjs[i]->GetPosition();
+			float fDistance = (vPosition - vTargetPos).GetDistance();
 
-				if (fDistance <= m_fRunawayDistance) {
-					if (pCitizen)
-						pCitizen->Runaway();
+			if (fDistance <= m_fNoticeDistance) {
+				CGTA_Citizen* pCitizen = dynamic_cast<CGTA_Citizen*>(vecObjs[i]);
+				if (pCitizen) {
+					pCitizen->Runaway();
+					continue;
 				}
+				CGTA_Cop* pCop = dynamic_cast<CGTA_Cop*>(vecObjs[i]);
+				if (pCop) {
+					pCop->Trace();
+					continue;
+				}
+				
 			}
 		}
 	}
