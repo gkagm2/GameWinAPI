@@ -101,7 +101,7 @@ public:
 	void ChangeNextWeapon();
 	void GetItem(CGTA_Item* pItem);
 
-	void AutoTarget();
+	float AutoTargeting(const Vector3& _vUpDirVec, const Vector3& _vTargetDirVec);
 
 	// AI
 	void InitAI();

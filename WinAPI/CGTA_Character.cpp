@@ -246,6 +246,16 @@ void CGTA_Character::Attack(Vector3 _TargetPos)
 	Attack();
 }
 
+// TODO: 자동 타겟팅 구현하기
+float CGTA_Character::AutoTargeting(const Vector3& _vUpDirVec, const Vector3& _vTargetDirVec)
+{
+	// 공격 시 범위 내에 있으면 자동으로 타겟하기
+	float fDot = CMyMath::GetDot(_vUpDirVec, _vTargetDirVec);
+	float fDegree = acosf(fDot) * CMyMath::Rad2Deg();
+
+	return 0.f;
+}
+
 void CGTA_Character::Dead()
 {
 	SetCharacterState(E_CharacterState::dead);
@@ -314,11 +324,6 @@ void CGTA_Character::GetItem(CGTA_Item* pItem)
 			m_fAttackMaxCoolTime = tCurWeaponInfo.fShootCoolTime;
 		}
 	}
-}
-
-void CGTA_Character::AutoTarget()
-{
-	GetAngle 
 }
 
 void CGTA_Character::InitAI()
