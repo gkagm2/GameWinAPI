@@ -28,7 +28,8 @@ CObject::CObject(E_GroupType e_GroupType = E_GroupType::DEFAULT) :
 	m_strName(STR_OBJECT_DEFAULT_NAME),
 	m_bIsDead(false),
 	m_bIsRender(true),
-	m_bIsActive(true)
+	m_bIsActive(true),
+	m_fRotateAngle(0.f)
 {
 }
 CObject::CObject(const CObject& _origin) :
@@ -43,7 +44,8 @@ CObject::CObject(const CObject& _origin) :
 	m_strName(_origin.m_strName + L"_copy"),
 	m_bIsDead(_origin.m_bIsDead),
 	m_bIsRender(_origin.m_bIsRender),
-	m_bIsActive(_origin.m_bIsActive)
+	m_bIsActive(_origin.m_bIsActive),
+	m_fRotateAngle(0.f)
 {
 	for (int i = 0; i < 3; ++i) {
 		m_vRectPoint[i] = _origin.m_vRectPoint[i];
@@ -292,6 +294,26 @@ void CObject::SetActive(bool _bIsActive)
 		GetRigidbody()->SetActive(_bIsActive);
 }
 
+void CObject::LookAt(Vector3 _vTargetPos, float _fRotateSpeed)
+{
+	Vector3 vObjPos = GetPosition();
+	Vector3 vLookAtDir = { _vTargetPos.x - vObjPos.x, _vTargetPos.y - vObjPos.y };
+	vLookAtDir.Normalized();
+
+	Vector3 vHeadDir = GetUpVector();
+	//vLookAtDir.y *= -1.f;
+	//vHeadDir.y *= -1.f;
+
+	float vDot = CMyMath::GetDot(vLookAtDir, vHeadDir);
+	if (isnan(vDot))
+		assert(nullptr && L"float value is nan");
+	Vector3 vCross = CMyMath::GetCross(vLookAtDir, vHeadDir);
+	if (vCross.z < 0)
+		RotateRP(_fRotateSpeed);
+	else if (vCross.z > 0)
+		RotateRP(-_fRotateSpeed);
+}
+
 void CObject::Save(FILE* _pFile)
 {
 	fwrite(&m_vPosition, sizeof(Vector3), 1, _pFile);
@@ -305,6 +327,7 @@ void CObject::Save(FILE* _pFile)
 	fwrite(&m_bIsDead, sizeof(bool), 1, _pFile);
 	fwrite(&m_bIsRender, sizeof(bool), 1, _pFile);
 	fwrite(&m_bIsActive, sizeof(bool), 1, _pFile);
+	fwrite(&m_fRotateAngle, sizeof(float), 1, _pFile);
 }
 
 void CObject::Load(FILE* _pFile)
@@ -320,4 +343,5 @@ void CObject::Load(FILE* _pFile)
 	fread(&m_bIsDead, sizeof(bool), 1, _pFile);
 	fread(&m_bIsRender, sizeof(bool), 1, _pFile);
 	fread(&m_bIsActive, sizeof(bool), 1, _pFile);
+	fread(&m_fRotateAngle, sizeof(float), 1, _pFile);
 }

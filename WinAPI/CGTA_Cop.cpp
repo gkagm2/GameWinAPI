@@ -12,10 +12,7 @@
 #include "CGTA_AI.h"
 #include "CPathFinding.h"
 #include "CGTA_AIState.h"
-#include "CGTA_IdleState.h"
-#include "CGTA_RunawayState.h"
-#include "CGTA_WanderState.h"
-#include "CGTA_TraceState.h"
+
 #include "CGTA_Bullet.h"
 CGTA_Cop::CGTA_Cop(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType)
@@ -47,7 +44,7 @@ void CGTA_Cop::Init()
 
 	GetAnimator()->CreateAnimation(L"creash", pTexture, Vector2(0, 40 * 8), Vector2(40, 40), 2, 0.07f);
 	GetAnimator()->CreateAnimation(L"run_gun", pTexture, Vector2(0, 40 * 9), Vector2(40, 40), 8, 0.07f);
-	GetAnimator()->CreateAnimation(L"walk_gun", pTexture, Vector2(0, 40 * 10), Vector2(40, 40), 3, 0.07f);
+	GetAnimator()->CreateAnimation(L"walk_gun", pTexture, Vector2(0, 40 * 10), Vector2(40, 40), 3, 0.25f);
 	GetAnimator()->CreateAnimation(L"punch", pTexture, Vector2(0, 40 * 11), Vector2(40, 40), 6, 0.07f);
 	GetAnimator()->CreateAnimation(L"run", pTexture, Vector2(0, 40 * 12), Vector2(40, 40), 8, 0.07f);
 	GetAnimator()->CreateAnimation(L"walk", pTexture, Vector2(0, 40 * 13), Vector2(40, 40), 4, 0.25f);
@@ -66,17 +63,7 @@ void CGTA_Cop::Init()
 	GetRigidbody()->SetMass(9.0f);
 
 	// AI set
-	CreateAI();
-	CreatePathFinding();
-	m_pPathFinding->AddObstacleTile(E_TileType::Wall);
-	m_pPathFinding->AddObstacleTile(E_TileType::Water);
-
-	GetAI()->AddState(L"idle", new CGTA_IdleState);
-	GetAI()->AddState(L"runaway", new CGTA_RunawayState);
-	GetAI()->AddState(L"wander", new CGTA_WanderState);
-	GetAI()->AddState(L"trace", new CGTA_TraceState);
-
-	Wander();
+	InitAI();
 }
 
 void CGTA_Cop::PrevUpdate()
@@ -183,20 +170,14 @@ void CGTA_Cop::State()
 	}
 }
 
-void CGTA_Cop::Move()
-{
-}
-
-void CGTA_Cop::Attack()
-{
-}
-
 void CGTA_Cop::Drive()
 {
 }
 
 void CGTA_Cop::Dead()
 {
+	GetAI()->ChangeState(L"dead");
+	CGTA_Character::Dead();
 }
 
 void CGTA_Cop::GetInTheVehicle()

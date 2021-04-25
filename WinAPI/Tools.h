@@ -103,6 +103,7 @@ struct Vector3 : public Vector2 {
 	float z;
 
 	Vector3() : Vector2(), z(0.f) {}
+	Vector3(const Vector2& _vec) : Vector2(_vec.x, _vec.y), z(0.f) {}
 	Vector3(int _x, int _y) : Vector2(_x, _y), z(0.f) {}
 	Vector3(float _x, float _y) : Vector2(_x, _y), z(0.f) {}
 	Vector3(float _x, float _y, float _z) : Vector2(_x, _y), z(_z) {}

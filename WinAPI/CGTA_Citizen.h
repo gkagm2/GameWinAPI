@@ -16,13 +16,12 @@ public:
 
 public:
 	virtual void State() override;
-	virtual void Move() override;
 	virtual void Attack() override;
 	virtual void Drive() override;
-	virtual void Dead() override;
 	virtual void GetInTheVehicle() override;
 	virtual void GetOutTheVehicle() override;
 
+	virtual void Dead() override;
 	virtual void Wander() override;
 	virtual void Runaway() override;
 

@@ -466,6 +466,22 @@ void CObjTool::CreateWeaponItem(E_WeaponType _eWeaponType)
 	CreateObject(pItem);
 }
 
+void CObjTool::UpdateItemInfo()
+{
+	vector<CObject*>& vecObjs = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::ITEM);
+	for (UINT i = 0; i < vecObjs.size(); ++i) {
+		CGTA_Item* pItem = (CGTA_Item*)vecObjs[i];
+		if (pItem) {
+			if (pItem->GetItemType() == E_ItemType::WEAPON) {
+				E_WeaponType eWeaponType = pItem->GetWeaponType();
+				TWeaponInfo tWeaponInfo;
+				tWeaponInfo.InitWeapon(eWeaponType);
+				pItem->SetWeaponInfo(tWeaponInfo);
+			}
+		}
+	}
+}
+
 // Vehicle
 void CObjTool::InitVehicleTool()
 {

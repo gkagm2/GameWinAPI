@@ -28,6 +28,8 @@ private:
 	bool m_bIsRender;			// 렌더링 여부
 	bool m_bIsActive;			// 활성화 여부
 
+	float m_fRotateAngle;
+
 private:
 	void _SetIsDead(bool _bIsDead) { m_bIsDead = _bIsDead; }
 
@@ -73,7 +75,7 @@ public:
 	virtual Vector3 GetMin();
 	virtual Vector3 GetMax();
 
-	Vector3 GetUpVector() { return m_vUpVec; }
+	Vector3 GetUpVector() { return  m_vUpVec; }
 	void SetUpVector(const Vector3& _upVector, const Vector3 _vRPDir[3], const Vector3 _vRectPoint[3]);
 	Vector3 GetRightVector() { return Rotate(m_vUpVec, 90); }
 
@@ -111,6 +113,8 @@ public:
 	float ScaleX() const { return m_vScale.x; }
 	float ScaleY() const { return m_vScale.y; }
 	float ScaleZ() const { return m_vScale.z; }
+
+	void LookAt(Vector3 _vPosition, float _fRotateSpeed);
 
 public:
 	virtual void Save(FILE* _pFile);

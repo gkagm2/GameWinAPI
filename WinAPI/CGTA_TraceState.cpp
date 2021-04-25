@@ -17,7 +17,9 @@ CGTA_TraceState::CGTA_TraceState() :
 	m_fFistDistance(20.f),
 	m_fDistance(300.f),
 	m_fShootDistance(300.f),
-	m_bIsPathFind(false)
+	m_bIsPathFind(false),
+	m_fAttackCoolTime(0.f),
+	m_fAttackMaxCoolTime(1.f)
 
 {
 }
@@ -49,8 +51,16 @@ void CGTA_TraceState::Update()
 		}
 		else {
 			if (fDistance <= 20.f) {
+				m_fAttackCoolTime += DeltaTime;
+				Vector3 vDir = GetCharacter()->GetPosition() - m_pTarget->GetPosition();
+				vDir.Normalized();
+				vDir.y *= -1;
+				GetCharacter()->LookAt(vDir, 400 * DeltaTime);
+				if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
+					GetCharacter()->Attack(m_pTarget->GetPosition());
+					m_fAttackCoolTime = 0.f;
+				}
 				// 멈춰서 때린다.
-				GetCharacter()->Attack(m_pTarget->GetPosition());
 			}
 			else {
 				// 그냥 움직이기
@@ -68,11 +78,19 @@ void CGTA_TraceState::Update()
 				if (false == GetCharacter()->GetPathFinding()->IsArrivedDestination())
 					GetAI()->RotateBody();
 			}
-				
 		}
 		// 200미터 거리 안이면 총을 쏜다.
-		else
-			GetCharacter()->Attack(m_pTarget->GetPosition());
+		else {
+			m_fAttackCoolTime += DeltaTime;
+			Vector3 vDir = GetCharacter()->GetPosition() - m_pTarget->GetPosition();
+			vDir.Normalized();
+			vDir.y *= -1;
+			GetCharacter()->LookAt(vDir, 400 * DeltaTime);
+			if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
+				GetCharacter()->Attack(m_pTarget->GetPosition());
+				m_fAttackCoolTime = 0.f;
+			}
+		}
 	}
 }
 
@@ -84,6 +102,7 @@ void CGTA_TraceState::Start()
 {
 	if (nullptr == m_pTarget)
 		m_pTarget = CSceneManager::GetInstance()->GetCurScene()->FindObject(L"Player");
+	m_fAttackMaxCoolTime = GetCharacter()->GetAttackMaxCoolTime();
 }
 
 void CGTA_TraceState::End()

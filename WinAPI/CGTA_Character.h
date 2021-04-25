@@ -21,7 +21,8 @@ enum class ECopState {
 enum class E_AIState {
 	wander,
 	runAway,
-	trace
+	trace,
+	dead
 };
 
 struct TCharacterInfo {
@@ -92,7 +93,7 @@ public:
 	virtual void Attack();
 	void Attack(Vector3 _TargetPos);
 	virtual void Drive() {}
-	virtual void Dead() {}
+	virtual void Dead();
 	virtual void GetInTheVehicle() {}
 	virtual void GetOutTheVehicle() {}
 
@@ -101,6 +102,7 @@ public:
 	void GetItem(CGTA_Item* pItem);
 
 	// AI
+	void InitAI();
 	virtual void MoveAI() {}
 	virtual void Trace();
 	virtual void Wander();
@@ -109,6 +111,7 @@ public:
 	// AI
 	void CreateAI();
 	CGTA_AI* GetAI() { return m_pAI; } 
+	E_AIState GetCurAIState() { return m_eAIState; }
 
 	void CreatePathFinding();
 	CPathFinding* GetPathFinding() { return m_pPathFinding; }
@@ -122,6 +125,7 @@ public:
 	void SetWeaponState(bool _bAllow, E_WeaponType _eWeaponType) { m_vecWeapon[(UINT)_eWeaponType].first = _bAllow; }
 
 	void SetWeaponInfo(E_WeaponType _eWeaponType, const TWeaponInfo& _tWeaponInfo) { m_vecWeapon[(UINT)_eWeaponType].second = _tWeaponInfo; }
+	void SelectWeapon(E_WeaponType _eWeaponType);
 
 	void ActivePunchDetector(bool _bActive);
 
@@ -138,6 +142,8 @@ public:
 			return false;
 		return true;
 	}
+
+	float GetAttackMaxCoolTime() { return m_fAttackMaxCoolTime; }
 	
 
 	TCharacterInfo& CharacterInfo() { return m_tInfo; }

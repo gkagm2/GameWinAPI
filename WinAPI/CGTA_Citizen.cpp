@@ -15,6 +15,7 @@
 #include "CGTA_IdleState.h"
 #include "CGTA_RunawayState.h"
 #include "CGTA_WanderState.h"
+#include "CGTA_DeadState.h"
 #include "CGTA_Bullet.h"
 
 CGTA_Citizen::CGTA_Citizen(E_GroupType _eGroupType) :
@@ -61,16 +62,7 @@ void CGTA_Citizen::Init()
 	GetRigidbody()->SetMass(9.0f);
 
 	// AI set
-	CreateAI();
-	CreatePathFinding();
-	m_pPathFinding->AddObstacleTile(E_TileType::Wall);
-	m_pPathFinding->AddObstacleTile(E_TileType::Water);
-
-	GetAI()->AddState(L"idle", new CGTA_IdleState);
-	GetAI()->AddState(L"runaway", new CGTA_RunawayState);
-	GetAI()->AddState(L"wander", new CGTA_WanderState);
-
-	Wander();
+	InitAI();
 }
 
 void CGTA_Citizen::Update()
@@ -117,7 +109,6 @@ void CGTA_Citizen::State()
 		break;
 	case E_CharacterState::stun:
 		GetAnimator()->PlayAnimation(L"stun", E_AnimationPlayType::LOOP);
-		Stun();
 		break;
 	case E_CharacterState::dead:
 		wstring strDeadArr[] = { L"dead1", L"dead2" };
@@ -134,11 +125,6 @@ void CGTA_Citizen::State()
 		Dead();
 		break;
 	}
-}
-
-void CGTA_Citizen::Move()
-{
-
 }
 
 void CGTA_Citizen::Attack()
@@ -178,16 +164,18 @@ void CGTA_Citizen::Drive()
 {
 }
 
-void CGTA_Citizen::Dead()
-{
-}
-
 void CGTA_Citizen::GetInTheVehicle()
 {
 }
 
 void CGTA_Citizen::GetOutTheVehicle()
 {
+}
+
+void CGTA_Citizen::Dead()
+{
+	GetAI()->ChangeState(L"dead");
+	CGTA_Character::Dead();
 }
 
 void CGTA_Citizen::Wander()

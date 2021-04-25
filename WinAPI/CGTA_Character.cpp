@@ -20,6 +20,13 @@
 #include "CGTA_Bullet.h"
 #include "CGTA_Item.h"
 
+#include "CGTA_IdleState.h"
+#include "CGTA_RunawayState.h"
+#include "CGTA_WanderState.h"
+#include "CGTA_TraceState.h"
+#include "CGTA_DeadState.h"
+
+
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
 	m_tInfo{},
@@ -93,8 +100,7 @@ void CGTA_Character::Init()
 {
 	// Collider set
 	CColliderRect* pCollider = new CColliderRect(this);
-	//pCollider->SetScale(Vector3(15.f, 15.f, 0.f));
-	pCollider->SetScale(Vector3(30.f, 30.f, 0.f));
+	pCollider->SetScale(Vector3(18.f, 18.f, 0.f));
 
 	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
 	SetRigidbody(pRigidbody);
@@ -161,16 +167,17 @@ void CGTA_Character::OnCollisionEnter(CObject* _pOther)
 {
 	CGTA_Bullet* pBullet = dynamic_cast<CGTA_Bullet*>(_pOther);
 	if (pBullet) {
-		if (CharacterInfo().fArmor > 0.f) {
-			CharacterInfo().fArmor -= pBullet->GetDamage();
-			CharacterInfo().fArmor = min(CharacterInfo().fArmor, 0.f);
+		TCharacterInfo& tCharacterInfo = CharacterInfo();
+		if (tCharacterInfo.fArmor > 0.f) {
+			tCharacterInfo.fArmor -= pBullet->GetDamage();
+			tCharacterInfo.fArmor = max(tCharacterInfo.fArmor, 0.f);
 		}
 		else {
-			CharacterInfo().fHp -= pBullet->GetDamage();
-			CharacterInfo().fHp = min(CharacterInfo().fHp, 0.f);
+			tCharacterInfo.fHp -= pBullet->GetDamage();
+			tCharacterInfo.fHp = max(tCharacterInfo.fHp, 0.f);
 		}
-		if (CharacterInfo().fHp <= 0.f) {
-			SetCharacterState(E_CharacterState::dead);
+		if (tCharacterInfo.fHp <= 0.f) {
+			Dead();
 		}
 	}
 }
@@ -185,7 +192,6 @@ void CGTA_Character::OnCollisionExit(CObject* _pOther)
 
 void CGTA_Character::State()
 {
-
 }
 
 void CGTA_Character::Stun()
@@ -202,18 +208,18 @@ void CGTA_Character::Attack()
 	E_WeaponType ecurWeaponType = GetCurWeaponType();
 	TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
 
+		// 총 타입에 따라 Shoot.
+
+		// 총알 오브젝트 생성.
+		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
+		pBullet->Init();
 	// 주먹이면
 	if (E_WeaponType::FIST == ecurWeaponType) {
 		GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
 		// Punch 컬라이더가 생성된다
 	}
 	else {
-		// 총 타입에 따라 Shoot.
-
-		// 총알 오브젝트 생성.
-		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
-		pBullet->Init();
-		pBullet->SetDamage(GetWeaponInfo(ecurWeaponType).fDamage);
+		pBullet->SetDamage(tWeaponInfo.fDamage);
 		pBullet->SetUpVector(GetUpVector(), GetRPDir(), GetRectPoint()); // 방향 설정
 		pBullet->RotateRP(180);
 		pBullet->SetPosition(GetPosition() - GetNozzlePosition()); // 노즐 위치로 옮긴다.
@@ -233,24 +239,17 @@ void CGTA_Character::Attack()
 
 void CGTA_Character::Attack(Vector3 _TargetPos)
 {
-	TWeaponInfo& tWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
-	E_WeaponType eWeaponType = GetCurWeaponType();
-
-	// 캐릭터를 회전해야되는데.. 어떻게 해야될꼬.
 	Vector3 vDir = _TargetPos - GetPosition();
 	vDir.Normalized();
-	Vector3 vHeadDir = GetUpVector();
-
-	float fDegree = CMyMath::GetDot(vDir, vHeadDir);
-	Vector3 vCross = CMyMath::GetCross(vDir, vHeadDir);
-	if (vCross.z < 0) {
-		RotateRP(fDegree);
-	}
-	else if(vCross.z > 0) {
-		RotateRP(-fDegree);
-	}
-
+	//RotateRP(vDir); // 캐릭터를 회전
+	LookAt(_TargetPos, 100* DeltaTime);
 	Attack();
+}
+
+void CGTA_Character::Dead()
+{
+	SetCharacterState(E_CharacterState::dead);
+	SetAIState(E_AIState::dead);
 }
 
 void CGTA_Character::ChangePrevWeapon()
@@ -317,6 +316,21 @@ void CGTA_Character::GetItem(CGTA_Item* pItem)
 	}
 }
 
+void CGTA_Character::InitAI()
+{
+	CreateAI();
+	CreatePathFinding();
+	m_pPathFinding->AddObstacleTile(E_TileType::Wall);
+	m_pPathFinding->AddObstacleTile(E_TileType::Water);
+
+	GetAI()->AddState(L"idle", new CGTA_IdleState);
+	GetAI()->AddState(L"runaway", new CGTA_RunawayState);
+	GetAI()->AddState(L"wander", new CGTA_WanderState);
+	GetAI()->AddState(L"trace", new CGTA_TraceState);
+	GetAI()->AddState(L"dead", new CGTA_DeadState);
+	Wander();
+}
+
 void CGTA_Character::Trace()
 {
 	SetCharacterState(E_CharacterState::run);
@@ -349,6 +363,14 @@ void CGTA_Character::CreatePathFinding()
 		m_pPathFinding = new CPathFinding();
 		m_pPathFinding->Init();
 	}
+}
+
+void CGTA_Character::SelectWeapon(E_WeaponType _eWeaponType)
+{
+	if (false == IsWeaponExists(_eWeaponType))
+		return;
+	while (_eWeaponType != GetCurWeaponType())
+		ChangeNextWeapon();
 }
 
 void CGTA_Character::ActivePunchDetector(bool _bActive)
@@ -406,21 +428,26 @@ void TWeaponInfo::InitWeapon(E_WeaponType _eWeaponType)
 {
 	switch (_eWeaponType) {
 	case E_WeaponType::PISTOL:
+		fDamage = 3.0f;
 		strName = STR_NAME_Pistol;
 		fShootCoolTime = 0.6f;
 		iBulletCnt = 30;
+		
 		break;
 	case E_WeaponType::ROCKET_LAUNCHER:
+		fDamage = 100.f;
 		strName = STR_NAME_RocketLauncher;
 		fShootCoolTime = 1.0f;
 		iBulletCnt = 10;
 		break;
 	case E_WeaponType::SHOTGUN:
+		fDamage = 20.f;
 		strName = STR_NAME_Shotgun;
 		fShootCoolTime = 1.2f;
 		iBulletCnt = 20;
 		break;
 	case E_WeaponType::SUBMACHINE_GUN:
+		fDamage = 3.0f;
 		strName = STR_NAME_SubmachineGun;
 		fShootCoolTime = 0.13f;
 		iBulletCnt = 300;

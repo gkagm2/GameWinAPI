@@ -93,11 +93,6 @@ void CGTA_Player::Update()
 			m_fAttackCoolTime = 0.f;
 		}
 	}
-	if (InputKeyRelease(E_Key::Ctrl)) {
-		if (E_WeaponType::FIST == GetCurWeaponType()) {
-
-		}
-	}
 
 	if (InputKeyPress(E_Key::Z)) {
 		ChangePrevWeapon();
@@ -246,12 +241,14 @@ void CGTA_Player::Attack()
 			if (fDistance <= m_fNoticeDistance) {
 				CGTA_Citizen* pCitizen = dynamic_cast<CGTA_Citizen*>(vecObjs[i]);
 				if (pCitizen) {
-					pCitizen->Runaway();
+					if (E_AIState::dead != pCitizen->GetCurAIState())
+						pCitizen->Runaway();
 					continue;
 				}
 				CGTA_Cop* pCop = dynamic_cast<CGTA_Cop*>(vecObjs[i]);
 				if (pCop) {
-					pCop->Trace();
+					if (E_AIState::dead != pCop->GetCurAIState())
+						pCop->Trace();
 					continue;
 				}
 				
@@ -261,11 +258,12 @@ void CGTA_Player::Attack()
 	CGTA_Character::Attack();
 }
 
-void CGTA_Player::Drive()
+void CGTA_Player::Dead()
 {
+	CGTA_Character::Dead();
 }
 
-void CGTA_Player::Dead()
+void CGTA_Player::Drive()
 {
 }
 

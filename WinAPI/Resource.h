@@ -31,6 +31,8 @@
 #define IDC_Item_Button                 1014
 #define IDC_CREATE_ROCKETLAUNCHER_BUTTON 1014
 #define IDC_CREATE_SHOTGUN_BUTTON       1015
+#define IDC_BUTTON1                     1016
+#define IDC_INFO_UPDATE_BUTTON          1016
 #define IDC_CREATE_PISTOL_BUTTON        1017
 #define ID_TITL                         32771
 #define ID_TOOLS_TILE                   32772
@@ -75,7 +77,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        136
 #define _APS_NEXT_COMMAND_VALUE         32810
-#define _APS_NEXT_CONTROL_VALUE         1014
+#define _APS_NEXT_CONTROL_VALUE         1017
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif

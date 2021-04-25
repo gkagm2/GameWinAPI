@@ -38,7 +38,7 @@
 
 #include "CPathFinding.h"
 #include "CAITestObj.h"
-
+#include "CLookAtTestObj.h"
 
 CScene_Tool::CScene_Tool() :
 	m_hMenu(nullptr)
@@ -103,6 +103,12 @@ void CScene_Tool::Start()
 	pTestObj->Init();
 	pTestObj->SetPosition(TILE_SIZE* 5 , TILE_SIZE*5);
 	AddObject(pTestObj);
+
+	// Look At Test
+	CLookAtTestObj* pLookAtTestObj = new CLookAtTestObj(E_GroupType::DEFAULT);
+	pLookAtTestObj->Init();
+	pLookAtTestObj->SetPosition(700, 700);
+	AddObject(pLookAtTestObj);
 
 	// Select Controller에서는 오브젝트들을 드래그해서 선택할 수 있다.
 	// Tile setting 모드와
@@ -279,6 +285,10 @@ INT_PTR ItemTool(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		else if (LOWORD(wParam) == IDC_CREATE_SUBMACHINEGUN_BUTTON) {
 			pObjTool->CreateWeaponItem(E_WeaponType::SUBMACHINE_GUN);
+			return (INT_PTR)TRUE;
+		}
+		else if (LOWORD(wParam) == IDC_INFO_UPDATE_BUTTON) {
+			pObjTool->UpdateItemInfo();
 			return (INT_PTR)TRUE;
 		}
 		else if (LOWORD(wParam) == IDCANCEL) {

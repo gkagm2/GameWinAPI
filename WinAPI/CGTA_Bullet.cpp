@@ -47,7 +47,7 @@ void CGTA_Bullet::Init()
 
 	// 충돌 설정
 	CColliderRect* pCollider = new CColliderRect(this);
-	pCollider->SetScale(Vector3(20.f, 20.f, 0.f));
+	pCollider->SetScale(Vector3(10.f, 10.f, 0.f));
 	pCollider->SetTrigger(true);
 
 	// 크기 설정
@@ -96,17 +96,12 @@ void CGTA_Bullet::OnCollisionEnter(CObject* _pOther)
 			DestroyObject(this);
 		return;
 	}
-	auto pCitizen = dynamic_cast<CGTA_Citizen*>(_pOther);
-	if (pCitizen) {
+	auto pCharacter = dynamic_cast<CGTA_Character*>(_pOther);
+	if (pCharacter) {
 		DestroyObject(this);
 		return;
 	}
 
-	auto pPlayer = dynamic_cast<CGTA_Player*>(_pOther);
-	if (pPlayer) {
-		DestroyObject(this);
-		return;
-	}
 	auto pVehicle = dynamic_cast<CGTA_Vehicle*>(_pOther);
 	if (pVehicle) {
 		DestroyObject(this);

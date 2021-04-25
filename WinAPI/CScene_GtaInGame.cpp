@@ -68,28 +68,35 @@ void CScene_GtaInGame::Start()
 
 
 	// Citizen 매니저 추가
-	CGTA_CitizenCreator* pCitizenCreator = new CGTA_CitizenCreator(E_GroupType::DEFAULT);
+	/*CGTA_CitizenCreator* pCitizenCreator = new CGTA_CitizenCreator(E_GroupType::DEFAULT);
 	pCitizenCreator->Init();
 	pCitizenCreator->SetCamera(pCamera);
-	AddObject((CObject*)pCitizenCreator);
+	AddObject((CObject*)pCitizenCreator);*/
 
 	CGTA_Citizen* pCitizen = new CGTA_Citizen(E_GroupType::CITIZEN);
 	pCitizen->Init();
 	pCitizen->SetPosition(600, 600);
 	AddObject(pCitizen);
 
-	CGTA_Cop* pCop = new CGTA_Cop(E_GroupType::CITIZEN);
+	/*CGTA_Cop* pCop = new CGTA_Cop(E_GroupType::CITIZEN);
 	pCop->Init();
 	pCop->SetPosition(800, 600);
-	AddObject(pCop);
+	AddObject(pCop);*/
 
 	CGTA_Cop* pCop1 = new CGTA_Cop(E_GroupType::CITIZEN);
 	pCop1->Init();
 	TWeaponInfo tWeaponInfo;
 	tWeaponInfo.InitWeapon(E_WeaponType::PISTOL);
+	tWeaponInfo.bIsInfinite = true;
 	pCop1->SetWeaponInfo(E_WeaponType::PISTOL, tWeaponInfo);
+	pCop1->SetWeaponState(true, E_WeaponType::PISTOL);
+	pCop1->SelectWeapon(E_WeaponType::PISTOL);
+	E_WeaponType e = pCop1->GetCurWeaponType();
 	pCop1->SetPosition(800, 700);
 	AddObject(pCop1);
+
+	
+
 
 	CGTA_Citizen* pCitizen2 = pCitizen->Clone();
 	pCitizen2->SetPosition(600, 800);
@@ -111,7 +118,7 @@ void CScene_GtaInGame::Start()
 	// UI 추가
 
 	// Render X
-	//CCollider::SetRenderActive(false);
+	CCollider::SetRenderActive(false);
 
 	// 충돌영역 설정
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();

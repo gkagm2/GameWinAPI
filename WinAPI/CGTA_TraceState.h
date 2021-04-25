@@ -9,6 +9,9 @@ private:
 	float m_fShootDistance;
 
 	bool m_bIsPathFind;
+
+	float m_fAttackCoolTime;
+	float m_fAttackMaxCoolTime;
 	
 public:
 	virtual void Update() override;

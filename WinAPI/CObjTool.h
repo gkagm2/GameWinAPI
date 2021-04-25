@@ -69,6 +69,7 @@ public:
 	void InitItemTool();
 	void UpdateItemTool();
 	void CreateWeaponItem(E_WeaponType _eWeaponType);
+	void UpdateItemInfo();
 
 	// Vehicle
 	void InitVehicleTool();
