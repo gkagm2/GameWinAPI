@@ -34,8 +34,6 @@
 #define IDC_CREATE_SHOTGUN_BUTTON       1015
 #define IDC_INFO_UPDATE_BUTTON          1016
 #define IDC_CREATE_PISTOL_BUTTON        1017
-#define IDC_BUTTON1                     1017
-#define IDC_SAVE_PLAYER_POSITION_BUTTON1 1017
 #define IDC_SET_POSITION_TO_CENTER_BUTTON2 1018
 #define ID_TITL                         32771
 #define ID_TOOLS_TILE                   32772
@@ -82,7 +80,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        137
-#define _APS_NEXT_COMMAND_VALUE         32813
+#define _APS_NEXT_COMMAND_VALUE         32817
 #define _APS_NEXT_CONTROL_VALUE         1019
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
