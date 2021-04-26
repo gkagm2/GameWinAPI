@@ -57,6 +57,7 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_vecWeapon[(UINT)E_WeaponType::FIST].first = true;
 	m_vecWeapon[(UINT)E_WeaponType::FIST].second.bIsInfinite = true;
 	m_vecWeapon[(UINT)E_WeaponType::FIST].second.fShootCoolTime = 0.7f;
+	m_fAttackMaxCoolTime = m_vecWeapon[(UINT)E_WeaponType::FIST].second.fShootCoolTime;
 }
 
 CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :

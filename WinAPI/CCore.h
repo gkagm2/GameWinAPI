@@ -22,6 +22,7 @@ public:
 public:
 	HWND GetWndHandle() { return m_hMainWnd; }
 	HDC GetDC() { return m_hDC; }
+	CTexture* GetMemTexture() { return m_pMemTexture; }
 
 	const POINT& GetResolution() const { return m_ptResolution; }
 };

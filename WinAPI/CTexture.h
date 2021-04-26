@@ -17,6 +17,8 @@ public:
 	UINT GetWidth() { return m_tBitmap.bmWidth; }
 	UINT GetHeight() { return m_tBitmap.bmHeight; }
 
+	HBITMAP& GetBitMap() { return m_hBitmap; }
+
 public:
 	CTexture();
 	~CTexture();

@@ -11,8 +11,10 @@
 #include "CResourceManager.h"
 #include "CEventManager.h"
 #include "CUIManager.h"
+#include "CSoundManager.h"
 #include "CDebug.h"
 #include "CTexture.h"
+#include "CSound.h"
 
 #ifdef DYNAMIC_SINGLETON
 CCore* CCore::g_pCore = nullptr; // static이므로 초기화
@@ -45,10 +47,19 @@ int CCore::Init(HWND _hMainWnd, POINT _ptResolution)
 	CTimeManager::GetInstance()->Init();
 	CKeyManager::GetInstance()->Init();
 	CSceneManager::GetInstance()->Init();
+	CSoundManager::GetInstance()->Init();
 	//CCamera::GetInstance()->Init();
 
 	// Double buffering	(연결해줌)
 	m_pMemTexture = CResourceManager::GetInstance()->CreateTexture(STR_TABLE_MemoryTexture, m_ptResolution.x, m_ptResolution.y);
+
+	// Sound 로드 테스트
+	CResourceManager::GetInstance()->LoadSound(L"BGM_01", L"Sound\\DM.wav");
+	CSound* pNewSound = CResourceManager::GetInstance()->FindSound(L"BGM_01");
+
+	pNewSound->SetPosition(10.f); // 백분률, 소리 위치 설정
+	pNewSound->PlayToBGM(true);
+	pNewSound->SetVolume(60.f);
 
 	// TODO : Delete this
 	//HBITMAP hPrevBitmap = (HBITMAP)SelectObject(m_memDC, m_bitmap); // 출력 비트맵 할 곳을 설정

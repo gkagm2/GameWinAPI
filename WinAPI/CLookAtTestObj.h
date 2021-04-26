@@ -9,6 +9,12 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC _hDC) override;
 
+	void RotateSizingImage(HDC hdc, HBITMAP hBmp, RECT rt,
+		double dblAngle,
+		int ixRotateAxis, int iyRotateAxis,
+		int ixDisplay, int iyDisplay,
+		double dblSizeRatio,
+		HBITMAP hMaskBmp, int ixMask, int iyMask);
 public:
 	CLONE(CLookAtTestObj);
 public:

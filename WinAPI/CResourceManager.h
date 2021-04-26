@@ -18,5 +18,6 @@ public:
 	CTexture* CreateTexture(const wstring& _strKey, UINT _iWidth, UINT _iHeight);
 
 	CSound* LoadSound(const wstring& _strKey, const wstring& _strRelativePath);
+	CSound* FindSound(const wstring& _strKey);
 };
 

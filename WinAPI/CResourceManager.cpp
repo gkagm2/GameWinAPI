@@ -75,7 +75,35 @@ CTexture* CResourceManager::CreateTexture(const wstring& _strKey, UINT _iWidth, 
 
 CSound* CResourceManager::LoadSound(const wstring& _strKey, const wstring& _strRelativePath)
 {
-	umapSoundIter iter = m_umapSound.find(_strKey);
-	// TODO (Sagacity Jang)
-	return nullptr;
+	assert(nullptr == FindSound(_strKey));
+
+	CSound* pSound = new CSound;
+
+	wstring strFilePath = CPathManager::GetInstance()->GetContentPath();
+	strFilePath += _strRelativePath;
+	HRESULT hr = pSound->Load(strFilePath.c_str());
+
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr, STR_TABLE_FailSoundLoading, STR_TABLE_FailResourceLoading, MB_OK);
+		delete pSound;
+		return nullptr;
+	}
+
+	pSound->SetKey(_strKey);
+	pSound->SetRelativePath(_strRelativePath);
+
+	m_umapSound.insert(make_pair(_strKey, pSound)); // map ¿¡ µî·Ï
+
+	return pSound;
+}
+
+CSound* CResourceManager::FindSound(const wstring& _strKey)
+{
+	unordered_map<wstring, CSound*>::iterator iter = m_umapSound.find(_strKey);
+
+	if (iter == m_umapSound.end())
+		return nullptr;
+
+	return iter->second;
 }

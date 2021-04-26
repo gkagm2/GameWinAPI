@@ -287,6 +287,9 @@
     <Filter Include="Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Stun">
       <UniqueIdentifier>{e3ba087a-ae32-4c35-a4af-ec989f3fa5b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\0. Manager\SoundManager">
+      <UniqueIdentifier>{ed2cf845-c4bb-47fc-a594-f82c341c48cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -545,6 +548,7 @@
       <Filter>Game\5. Object\Gta_PJ\Character\PunchDetector</Filter>
     </ClInclude>
     <ClInclude Include="CGTA_StunState.h" />
+    <ClInclude Include="CSoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -795,6 +799,7 @@
       <Filter>Game\5. Object\Gta_PJ\Character\PunchDetector</Filter>
     </ClCompile>
     <ClCompile Include="CGTA_StunState.cpp" />
+    <ClCompile Include="CSoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">

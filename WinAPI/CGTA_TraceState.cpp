@@ -19,7 +19,7 @@ CGTA_TraceState::CGTA_TraceState() :
 	m_fShootDistance(300.f),
 	m_bIsPathFind(false),
 	m_fAttackCoolTime(0.f),
-	m_fAttackMaxCoolTime(1.f)
+	m_fAttackMaxCoolTime(1.5f)
 
 {
 }

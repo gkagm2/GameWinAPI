@@ -14,7 +14,7 @@
 #include "CTimeManager.h"
 
 #include "CGTA_Vehicle.h"
-
+#include "CCore.h"
 // Test
 #include "CKeyManager.h"
 

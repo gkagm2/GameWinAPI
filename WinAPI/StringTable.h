@@ -17,6 +17,12 @@
 #define STR_TABLE_FailCreateTexture L"텍스쳐 생성 실패"
 #define STR_TABLE_Fail L"실패"
 
+#define STR_TABLE_FailSoundLoading L"사운드 로딩 실패"
+
+
+#define STR_TABLE_FailCreateSoundDevice L"사운드 장치 생성 실패"
+#define STR_TABLE_FailSoundDeviceCooperativeLevelSetting L"사운드 장치 협조레벨 설정"
+
 
 #define STR_FILE_NAME_Monster L"Monster"
 #define STR_FILE_PATH_Monster L"Texture\\Monster.bmp"
@@ -75,6 +81,8 @@
 
 #define STR_FILE_NAME_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1.bmp"
 #define STR_FILE_PATH_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1.bmp"
+
+#define STR_FILE_PATH_Vehicle_car_alpha L"Texture\\GTA\\car1_a.bmp"
 
 #define STR_FILE_NAME_UI_GTA_BG L"Texture\\GTA\\ui_bg.bmp"
 #define STR_FILE_PATH_UI_GTA_BG L"Texture\\GTA\\ui_bg.bmp"

@@ -144,8 +144,6 @@ public:
 	}
 
 	float GetAttackMaxCoolTime() { return m_fAttackMaxCoolTime; }
-	
-
 	TCharacterInfo& CharacterInfo() { return m_tInfo; }
 
 public:
