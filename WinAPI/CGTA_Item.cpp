@@ -22,7 +22,8 @@ CGTA_Item::CGTA_Item(E_GroupType _eGroupType) :
 	m_fTime(0.f),
 	m_fRespawnCoolTime(0.f),
 	m_fMaxRespawnCoolTime(10.f),
-	m_eItemState(E_ItemState::ON)
+	m_eItemState(E_ItemState::ON),
+	m_bIsRespawnOnce(true)
 {
 }
 
@@ -122,11 +123,38 @@ void CGTA_Item::OnCollisionEnter(CObject* _pOther)
 	}
 }
 
+void CGTA_Item::InitWeapon(E_WeaponType _eWeaponType)
+{
+	switch (_eWeaponType) {
+	case E_WeaponType::PISTOL:
+		SetLT(Vector2(80, 0));
+		SetWeaponType(E_WeaponType::PISTOL);
+		SetObjectName(STR_NAME_Pistol);
+		break;
+	case E_WeaponType::ROCKET_LAUNCHER:
+		SetLT(Vector2(0, 0));
+		SetWeaponType(E_WeaponType::ROCKET_LAUNCHER);
+		SetObjectName(STR_NAME_RocketLauncher);
+		break;
+	case E_WeaponType::SHOTGUN:
+		SetLT(Vector2(40, 0));
+		SetWeaponType(E_WeaponType::SHOTGUN);
+		SetObjectName(STR_NAME_Shotgun);
+		break;
+	case E_WeaponType::SUBMACHINE_GUN:
+		SetLT(Vector2(120, 0));
+		SetWeaponType(E_WeaponType::SUBMACHINE_GUN);
+		SetObjectName(STR_NAME_SubmachineGun);
+		break;
+	}
+}
+
 void CGTA_Item::Save(FILE* _pFile)
 {
 	fwrite(&m_vLT, sizeof(Vector2), 1, _pFile);
 	fwrite(&m_eItemType, sizeof(E_ItemType), 1, _pFile);
 	fwrite(&m_eWeaponType, sizeof(E_WeaponType), 1, _pFile);
+	fwrite(&m_bIsRespawnOnce, sizeof(bool), 1, _pFile);
 	m_tWeaponInfo.Save(_pFile);
 
 	CObject::Save(_pFile);
@@ -137,6 +165,7 @@ void CGTA_Item::Load(FILE* _pFile)
 	fread(&m_vLT, sizeof(Vector2), 1, _pFile);
 	fread(&m_eItemType, sizeof(E_ItemType), 1, _pFile);
 	fread(&m_eWeaponType, sizeof(E_WeaponType), 1, _pFile);
+	fread(&m_bIsRespawnOnce, sizeof(bool), 1, _pFile);
 	m_tWeaponInfo.Load(_pFile);
 	CObject::Load(_pFile);
 }
@@ -154,6 +183,9 @@ void CGTA_Item::SetItemState(E_ItemState _eItemState)
 	}
 		
 	else if (E_ItemState::OFF == _eItemState) {
+		if (true == m_bIsRespawnOnce)
+			DestroyObject(this);
+
 		m_fRespawnCoolTime = 0.f;
 		GetCollider()->SetActive(false);
 	}

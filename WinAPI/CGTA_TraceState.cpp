@@ -48,6 +48,13 @@ void CGTA_TraceState::Update()
 				if (false == GetCharacter()->GetPathFinding()->IsArrivedDestination())
 					GetAI()->RotateBody();
 			}
+			else {
+				// 그냥 움직이기
+				Vector3 vDir = m_pTarget->GetPosition() - GetCharacter()->GetPosition();
+				vDir.Normalized();
+				GetCharacter()->SetPosition(GetCharacter()->GetPosition() + vDir * GetCharacter()->CharacterInfo().fMoveSpeed * 0.7f * DeltaTime);
+				GetCharacter()->SetCharacterState(E_CharacterState::run);
+			}
 		}
 		else {
 			if (fDistance <= 20.f) {

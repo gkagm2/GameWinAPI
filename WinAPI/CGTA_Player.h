@@ -28,6 +28,7 @@ public:
 	virtual void Drive() override;
 	virtual void GetInTheVehicle() override;
 	virtual void GetOutTheVehicle() override;
+	virtual void HitByFist() override;
 
 public:
 	CLONE(CGTA_Player);

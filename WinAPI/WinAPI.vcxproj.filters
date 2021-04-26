@@ -284,6 +284,9 @@
     <Filter Include="Game\5. Object\Gta_PJ\Test\LookAtTest">
       <UniqueIdentifier>{00c00bb4-4948-40f2-88f6-659e9a792e32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Stun">
+      <UniqueIdentifier>{e3ba087a-ae32-4c35-a4af-ec989f3fa5b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -538,7 +541,10 @@
     <ClInclude Include="CLookAtTestObj.h">
       <Filter>Game\5. Object\Gta_PJ\Test\LookAtTest</Filter>
     </ClInclude>
-    <ClInclude Include="CGTA_PunchDetector.h" />
+    <ClInclude Include="CGTA_PunchDetector.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\PunchDetector</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_StunState.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -785,7 +791,10 @@
     <ClCompile Include="CLookAtTestObj.cpp">
       <Filter>Game\5. Object\Gta_PJ\Test\LookAtTest</Filter>
     </ClCompile>
-    <ClCompile Include="CGTA_PunchDetector.cpp" />
+    <ClCompile Include="CGTA_PunchDetector.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character\PunchDetector</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_StunState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">

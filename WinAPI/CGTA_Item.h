@@ -20,6 +20,7 @@ private:
 	float m_fMaxRespawnCoolTime;
 
 	E_ItemState m_eItemState;
+	bool m_bIsRespawnOnce;
 	
 public:
 	virtual void Init() override;
@@ -29,6 +30,8 @@ public:
 	virtual void Render(HDC _hDC) override;
 
 	virtual void OnCollisionEnter(CObject* _pOther) override;
+
+	virtual void InitWeapon(E_WeaponType _eWeaponType);
 
 	virtual void Save(FILE* _pFile) override;
 	virtual void Load(FILE* _pFile) override;
@@ -50,7 +53,7 @@ public:
 
 	// In Game
 	void SetItemState(E_ItemState _eItemState);
-
+	void SetRespawnOnce(bool _bIsRespawnOnce) { m_bIsRespawnOnce = _bIsRespawnOnce; }
 
 public:
 	CLONE(CGTA_Item);

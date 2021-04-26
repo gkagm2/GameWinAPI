@@ -420,36 +420,11 @@ void CObjTool::CreateWeaponItem(E_WeaponType _eWeaponType)
 	pItem->SetWeaponType(_eWeaponType);
 
 	switch (pItem->GetItemType()) {
-
 	case E_ItemType::WEAPON:
 	{
 		TWeaponInfo tWeaponInfo;
-		switch (_eWeaponType) {
-		case E_WeaponType::PISTOL: {
-			pItem->SetLT(Vector2(80, 0));
-			pItem->SetWeaponType(E_WeaponType::PISTOL);
-			pItem->SetObjectName(STR_NAME_Pistol);
-			break;
-		}
-		case E_WeaponType::ROCKET_LAUNCHER: {
-			pItem->SetLT(Vector2(0, 0));
-			pItem->SetWeaponType(E_WeaponType::ROCKET_LAUNCHER);
-			pItem->SetObjectName(STR_NAME_RocketLauncher);
-			break;
-		}
-		case E_WeaponType::SHOTGUN: {
-			pItem->SetLT(Vector2(40, 0));
-			pItem->SetWeaponType(E_WeaponType::SHOTGUN);
-			pItem->SetObjectName(STR_NAME_Shotgun);
-			break;
-		}
-		case E_WeaponType::SUBMACHINE_GUN: {
-			pItem->SetLT(Vector2(120, 0));
-			pItem->SetWeaponType(E_WeaponType::SUBMACHINE_GUN);
-			pItem->SetObjectName(STR_NAME_SubmachineGun);
-			break;
-		}
-		}
+		pItem->InitWeapon(_eWeaponType);
+		pItem->SetRespawnOnce(false);
 		tWeaponInfo.InitWeapon(_eWeaponType);
 		pItem->SetWeaponInfo(tWeaponInfo);
 	}

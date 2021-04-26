@@ -80,16 +80,18 @@ void CGTA_Player::PrevUpdate()
 
 void CGTA_Player::Update()
 {
-	if (m_bIsDrive)
-		Drive();
-	else
-		Move();
+	if (GetCharacterState() != E_CharacterState::dead) {
+		if (m_bIsDrive)
+			Drive();
+		else
+			Move();
 
-	m_fAttackCoolTime += DeltaTime;
-	if (InputKeyHold(E_Key::Ctrl)) {
-		if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
-			Attack();
-			m_fAttackCoolTime = 0.f;
+		m_fAttackCoolTime += DeltaTime;
+		if (InputKeyHold(E_Key::Ctrl)) {
+			if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
+				Attack();
+				m_fAttackCoolTime = 0.f;
+			}
 		}
 	}
 
@@ -112,6 +114,20 @@ void CGTA_Player::LateUpdate()
 
 void CGTA_Player::Render(HDC _hDC)
 {
+	E_WeaponType eCurWeaponType = GetCurWeaponType();
+	// UI
+	TextOut(_hDC, 30, 30, GetWeaponInfo(eCurWeaponType).strName.c_str(), GetWeaponInfo(eCurWeaponType).strName.size());
+
+	wchar_t buff[255];
+	swprintf(buff, 255, L"ammo : %d", GetWeaponInfo(eCurWeaponType).iBulletCnt);
+	TextOut(_hDC, 30, 60, buff, wcslen(buff));
+
+	swprintf(buff, 255, L"armor : %.1f", CharacterInfo().fArmor);
+	TextOut(_hDC, 30, 90, buff, wcslen(buff));
+
+	swprintf(buff, 255, L"hp : %.1f", CharacterInfo().fHp);
+	TextOut(_hDC, 30, 120, buff, wcslen(buff));
+
 	CGTA_Character::Render(_hDC);
 }
 
@@ -184,6 +200,9 @@ void CGTA_Player::State()
 	case E_CharacterState::getOffTheCar:
 		break;
 	case E_CharacterState::hit:
+		break;
+	case E_CharacterState::stun:
+		GetAnimator()->PlayAnimation(L"stun", E_AnimationPlayType::ONCE);
 		break;
 	}
 }
@@ -258,6 +277,7 @@ void CGTA_Player::Attack()
 
 void CGTA_Player::Dead()
 {
+	GetCollider()->SetActive(false);
 	CGTA_Character::Dead();
 }
 
@@ -271,4 +291,12 @@ void CGTA_Player::GetInTheVehicle()
 
 void CGTA_Player::GetOutTheVehicle()
 {
+}
+
+void CGTA_Player::HitByFist()
+{
+	CharacterInfo().fHp -= 1.f;
+	CharacterInfo().fHp = max(CharacterInfo().fHp, 0);
+	if (CharacterInfo().fHp <= 0)
+		Dead();
 }

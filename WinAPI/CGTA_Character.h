@@ -22,7 +22,8 @@ enum class E_AIState {
 	wander,
 	runAway,
 	trace,
-	dead
+	dead,
+	stun	
 };
 
 struct TCharacterInfo {
@@ -89,6 +90,7 @@ public:
 	virtual void Move() {}
 	virtual void Attack();
 	void Attack(Vector3 _TargetPos);
+	virtual void HitByFist();
 	virtual void Drive() {}
 	virtual void Dead();
 	virtual void GetInTheVehicle() {}
@@ -115,7 +117,7 @@ public:
 	void CreatePathFinding();
 	CPathFinding* GetPathFinding() { return m_pPathFinding; }
 
-	Vector3 GetNozzlePosition() { return GetUpVector() * 17.0f; }
+	Vector3 GetNozzlePosition() { return GetUpVector() * 16.0f; }
 
 	// Weapon
 	bool IsWeaponExists(E_WeaponType _eWeaponType) { return m_vecWeapon[(UINT)_eWeaponType].first; }
@@ -125,6 +127,8 @@ public:
 
 	void SetWeaponInfo(E_WeaponType _eWeaponType, const TWeaponInfo& _tWeaponInfo) { m_vecWeapon[(UINT)_eWeaponType].second = _tWeaponInfo; }
 	void SelectWeapon(E_WeaponType _eWeaponType);
+	
+	void DropWeaponItem();
 
 	// Character, AI State
 	void SetCharacterState(E_CharacterState _eCharacterState) { m_eCharacterState = _eCharacterState; }

@@ -81,8 +81,8 @@ public:
 	void UpdateCitizenTool();
 
 	// Player
-	void InitPlayerTool();
-	void CreatePlayer();
+		void InitPlayerTool();
+		void CreatePlayer();
 	void UpdatePlayerTool();
 	void SetPositionToCenter();
 

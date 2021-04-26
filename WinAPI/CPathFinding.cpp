@@ -198,10 +198,6 @@ bool CPathFinding::FindPath(const TTilePos& start, const TTilePos& dest)
 	return false;
 }
 
-void CPathFinding::Draw(int curX, int curY)
-{
-}
-
 void CPathFinding::AddObstacleTile(E_TileType _eTileType)
 {
 	m_setObstacleTile.insert(_eTileType);

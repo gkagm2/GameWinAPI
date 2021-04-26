@@ -19,12 +19,16 @@
 #include "CPathFinding.h"
 #include "CGTA_Bullet.h"
 #include "CGTA_Item.h"
+#include "CGTA_PunchDetector.h"
+#include "CGTA_Citizen.h"
+#include "CGTA_Cop.h"
 
 #include "CGTA_IdleState.h"
 #include "CGTA_RunawayState.h"
 #include "CGTA_WanderState.h"
 #include "CGTA_TraceState.h"
 #include "CGTA_DeadState.h"
+#include "CGTA_StunState.h"
 
 
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
@@ -98,7 +102,7 @@ void CGTA_Character::Init()
 {
 	// Collider set
 	CColliderRect* pCollider = new CColliderRect(this);
-	pCollider->SetScale(Vector3(18.f, 18.f, 0.f));
+	pCollider->SetScale(Vector3(16.f, 16.f, 0.f));
 
 	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
 	SetRigidbody(pRigidbody);
@@ -177,6 +181,19 @@ void CGTA_Character::OnCollisionEnter(CObject* _pOther)
 		if (tCharacterInfo.fHp <= 0.f) {
 			Dead();
 		}
+		else {
+			CGTA_Citizen* pCitizen = dynamic_cast<CGTA_Citizen*>(this);
+			if (pCitizen) {
+				pCitizen->Runaway();
+				return;
+			}
+			CGTA_Cop* pCop = dynamic_cast<CGTA_Cop*>(this);
+			if (pCop) {
+				pCop->Trace();
+				return;
+			}
+
+		}
 	}
 }
 
@@ -194,11 +211,8 @@ void CGTA_Character::State()
 
 void CGTA_Character::Stun()
 {
-	m_fStunCoolTime += DeltaTime;
-	if (m_fStunCoolTime >= m_fStunMaxCoolTime) {
-		SetCharacterState(E_CharacterState::run);
-		m_fStunCoolTime =0.f;
-	}
+	SetCharacterState(E_CharacterState::stun);
+	GetAI()->ChangeState(L"stun");
 }
 
 void CGTA_Character::Attack()
@@ -210,6 +224,11 @@ void CGTA_Character::Attack()
 	if (E_WeaponType::FIST == ecurWeaponType) {
 		GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
 		// Punch 컬라이더가 생성된다
+		CGTA_PunchDetector* pPunchDetector = new CGTA_PunchDetector(E_GroupType::PUNCH, this);
+		pPunchDetector->Init();
+		pPunchDetector->SetRotateDegree(GetRotateDegree());
+		pPunchDetector->SetPosition(GetPosition());
+		CreateObject(pPunchDetector);
 	}
 	else {
 		// 총 타입에 따라 Shoot.
@@ -241,6 +260,12 @@ void CGTA_Character::Attack(Vector3 _TargetPos)
 	//RotateRP(vDir); // 캐릭터를 회전
 	LookAt(_TargetPos, 100* DeltaTime);
 	Attack();
+}
+
+void CGTA_Character::HitByFist()
+{
+	SetCharacterState(E_CharacterState::stun);
+	SetAIState(E_AIState::stun);
 }
 
 // TODO: 자동 타겟팅 구현하기
@@ -335,6 +360,7 @@ void CGTA_Character::InitAI()
 	GetAI()->AddState(L"wander", new CGTA_WanderState);
 	GetAI()->AddState(L"trace", new CGTA_TraceState);
 	GetAI()->AddState(L"dead", new CGTA_DeadState);
+	GetAI()->AddState(L"stun", new CGTA_StunState);
 	Wander();
 }
 
@@ -378,6 +404,21 @@ void CGTA_Character::SelectWeapon(E_WeaponType _eWeaponType)
 		return;
 	while (_eWeaponType != GetCurWeaponType())
 		ChangeNextWeapon();
+}
+
+void CGTA_Character::DropWeaponItem()
+{
+	// 현재 가지고 있는 아이템을 드랍한다.
+	if (E_WeaponType::FIST != GetCurWeaponType()) {
+		CGTA_Item* pItem = new CGTA_Item(E_GroupType::ITEM);
+		pItem->Init();
+		pItem->InitWeapon(GetCurWeaponType());
+		TWeaponInfo tWeaponInfo;
+		tWeaponInfo.InitWeapon(GetCurWeaponType());
+		pItem->SetWeaponInfo(tWeaponInfo);
+		pItem->SetPosition(GetPosition());
+		CreateObject(pItem);
+	}
 }
 
 void TWeaponInfo::Save(FILE* _pFile)
@@ -453,7 +494,6 @@ void TWeaponInfo::InitWeapon(E_WeaponType _eWeaponType)
 		iBulletCnt = 300;
 		break;
 	}
-	
 }
 
 void TCharacterInfo::Save(FILE* _pFile)

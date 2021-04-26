@@ -36,7 +36,6 @@ protected:
 public:
 	bool IsValid(int x, int y);
 	bool FindPath(const TTilePos& start, const TTilePos& dest);
-	void Draw(int curX, int curY);
 
 	list<TTilePos>& GetPath() { return m_stkPath; }
 	const TTilePos& GetNextPath() { return m_stkPath.front();}

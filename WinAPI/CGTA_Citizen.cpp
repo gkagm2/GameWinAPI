@@ -13,10 +13,8 @@
 #include "CPathFinding.h"
 #include "CGTA_AIState.h"
 #include "CGTA_IdleState.h"
-#include "CGTA_RunawayState.h"
-#include "CGTA_WanderState.h"
-#include "CGTA_DeadState.h"
 #include "CGTA_Bullet.h"
+
 
 CGTA_Citizen::CGTA_Citizen(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType)
@@ -171,6 +169,12 @@ void CGTA_Citizen::GetInTheVehicle()
 
 void CGTA_Citizen::GetOutTheVehicle()
 {
+}
+
+void CGTA_Citizen::HitByFist()
+{
+	GetAI()->ChangeState(L"stun");
+	CGTA_Character::HitByFist();
 }
 
 void CGTA_Citizen::Dead()

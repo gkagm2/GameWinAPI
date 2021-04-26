@@ -12,7 +12,7 @@
 #include "CGTA_AI.h"
 #include "CPathFinding.h"
 #include "CGTA_AIState.h"
-
+#include "CGTA_Item.h"
 #include "CGTA_Bullet.h"
 CGTA_Cop::CGTA_Cop(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType)
@@ -167,6 +167,9 @@ void CGTA_Cop::State()
 		break;
 	case E_CharacterState::hit:
 		break;
+	case E_CharacterState::stun:
+		GetAnimator()->PlayAnimation(L"stun", E_AnimationPlayType::ONCE);
+		break;
 	}
 }
 
@@ -174,8 +177,16 @@ void CGTA_Cop::Drive()
 {
 }
 
+void CGTA_Cop::HitByFist()
+{
+	GetAI()->ChangeState(L"stun");
+	CGTA_Character::HitByFist();
+}
+
 void CGTA_Cop::Dead()
 {
+	DropWeaponItem();
+	
 	GetAI()->ChangeState(L"dead");
 	CGTA_Character::Dead();
 }

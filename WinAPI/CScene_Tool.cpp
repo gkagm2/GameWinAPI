@@ -73,7 +73,7 @@ void CScene_Tool::Start()
 	//pPlayer->SetObjectName(L"Player");
 	//pPlayer->Init();
 	//pPlayer->SetPosition(800, 800, 0);
-	//AddObject(pPlayer);
+	//AddObject(pPlayer);	
 
 	// Vehicle
 	/*CGTA_PoliceCar* pPoliceCar = new CGTA_PoliceCar(E_GroupType::VEHICLE);
