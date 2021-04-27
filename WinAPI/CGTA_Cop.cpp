@@ -58,6 +58,8 @@ void CGTA_Cop::Init()
 
 	SetPosition(0, 0, 0);
 
+	CharacterInfo().fMoveSpeed *= 0.7f;
+
 	SetObjectName(L"Cop");
 	CGTA_Character::Init();
 	GetRigidbody()->SetMass(9.0f);
@@ -161,20 +163,28 @@ void CGTA_Cop::State()
 		}
 		break;
 	}
-	case E_CharacterState::getInTheCar:
-		break;
-	case E_CharacterState::getOffTheCar:
-		break;
 	case E_CharacterState::hit:
 		break;
 	case E_CharacterState::stun:
 		GetAnimator()->PlayAnimation(L"stun", E_AnimationPlayType::ONCE);
+		break;
+	case E_CharacterState::getInTheVehicle:
+		if (HaveGun())
+			GetAnimator()->PlayAnimation(L"run_gun", E_AnimationPlayType::LOOP);
+		else
+			GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
+		break;
+	case E_CharacterState::getOutTheVehicle:
+		break;
+	case E_CharacterState::drive:
 		break;
 	}
 }
 
 void CGTA_Cop::Drive()
 {
+	GetAI()->ChangeState(L"drive");
+	CGTA_Character::Drive();
 }
 
 void CGTA_Cop::HitByFist()
@@ -193,10 +203,13 @@ void CGTA_Cop::Dead()
 
 void CGTA_Cop::GetInTheVehicle()
 {
+	GetAI()->ChangeState(L"walkToVehicle");
+	CGTA_Character::GetInTheVehicle();
 }
 
 void CGTA_Cop::GetOutTheVehicle()
 {
+	CGTA_Character::GetOutTheVehicle();
 }
 
 void CGTA_Cop::Wander()

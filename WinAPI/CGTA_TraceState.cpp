@@ -44,7 +44,7 @@ void CGTA_TraceState::Update()
 		if (fDistance >= 40.f) { 
 			// 경로따라 움직이기
 			if (m_bIsPathFind) {
-				GetAI()->Move(GetCharacter()->CharacterInfo().fMoveSpeed * 0.7f);
+				GetAI()->Move(GetCharacter()->CharacterInfo().fMoveSpeed);
 				if (false == GetCharacter()->GetPathFinding()->IsArrivedDestination())
 					GetAI()->RotateBody();
 			}
@@ -52,8 +52,10 @@ void CGTA_TraceState::Update()
 				// 그냥 움직이기
 				Vector3 vDir = m_pTarget->GetPosition() - GetCharacter()->GetPosition();
 				vDir.Normalized();
-				GetCharacter()->SetPosition(GetCharacter()->GetPosition() + vDir * GetCharacter()->CharacterInfo().fMoveSpeed * 0.7f * DeltaTime);
+				GetCharacter()->SetPosition(GetCharacter()->GetPosition() + vDir * GetCharacter()->CharacterInfo().fMoveSpeed * DeltaTime);
 				GetCharacter()->SetCharacterState(E_CharacterState::run);
+				if (false == GetCharacter()->GetPathFinding()->IsArrivedDestination())
+					GetAI()->RotateBody();
 			}
 		}
 		else {
@@ -77,8 +79,10 @@ void CGTA_TraceState::Update()
 				// 그냥 움직이기
 				Vector3 vDir = m_pTarget->GetPosition() - GetCharacter()->GetPosition();
 				vDir.Normalized();
-				GetCharacter()->SetPosition(GetCharacter()->GetPosition() + vDir * GetCharacter()->CharacterInfo().fMoveSpeed* 0.7f * DeltaTime);
+				GetCharacter()->SetPosition(GetCharacter()->GetPosition() + vDir * GetCharacter()->CharacterInfo().fMoveSpeed * DeltaTime);
 				GetCharacter()->SetCharacterState(E_CharacterState::run);
+				if (false == GetCharacter()->GetPathFinding()->IsArrivedDestination())
+					GetAI()->RotateBody();
 			}
 		}
 	}
@@ -86,7 +90,7 @@ void CGTA_TraceState::Update()
 		// 200미터 거리 밖이면 추적한다.
 		if (fDistance >= m_fShootDistance) {
 			if (m_bIsPathFind) {
-				GetAI()->Move(GetCharacter()->CharacterInfo().fMoveSpeed * 0.7f);
+				GetAI()->Move(GetCharacter()->CharacterInfo().fMoveSpeed);
 				if (false == GetCharacter()->GetPathFinding()->IsArrivedDestination())
 					GetAI()->RotateBody();
 			}

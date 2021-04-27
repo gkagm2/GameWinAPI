@@ -7,10 +7,11 @@ enum class E_CharacterState {
 	hit,
 	run,
 	attack,
-	getInTheCar,
-	getOffTheCar,
 	dead,
 	stun,
+	drive,
+	getInTheVehicle,
+	getOutTheVehicle
 };
 
 enum class ECopState {
@@ -23,7 +24,9 @@ enum class E_AIState {
 	runAway,
 	trace,
 	dead,
-	stun	
+	stun,
+	walkToCar,
+	drive
 };
 
 struct TCharacterInfo {
@@ -37,7 +40,6 @@ struct TCharacterInfo {
 	void Load(FILE* _pFile);
 };
 
-
 class CGTA_Vehicle;
 class CGTA_AI;
 class CPathFinding;
@@ -47,7 +49,7 @@ class CGTA_Character : public CObject
 protected:
 	TCharacterInfo m_tInfo;
 
-	bool m_bIsDrive;
+	bool m_bDrive;
 	bool m_bIsMoved;
 
 	float m_fAttackCoolTime;
@@ -60,6 +62,8 @@ protected:
 	float m_fDeadMaxCoolTime;
 
 	float m_fNoticeDistance; // 총을 쏠 경우 일정 영역안에 있으면 알아차리는 용도
+
+	float m_fVehicleSearchDistance; // 차량을 찾는 최대 거리.
 
 	CGTA_Vehicle* m_pVehicle;
 
@@ -85,16 +89,19 @@ public:
 	virtual void OnCollisionExit(CObject* _pOther);
 
 public:
+
+	virtual void DriveUpdate();
+	virtual void MoveUpdate() {}
+
 	virtual void State();
 	virtual void Stun();
-	virtual void Move() {}
 	virtual void Attack();
 	void Attack(Vector3 _TargetPos);
 	virtual void HitByFist();
-	virtual void Drive() {}
+	virtual void Drive();
 	virtual void Dead();
-	virtual void GetInTheVehicle() {}
-	virtual void GetOutTheVehicle() {}
+	virtual void GetInTheVehicle();
+	virtual void GetOutTheVehicle();
 
 	void ChangePrevWeapon();
 	void ChangeNextWeapon();
@@ -103,11 +110,13 @@ public:
 	float AutoTargeting(const Vector3& _vUpDirVec, const Vector3& _vTargetDirVec);
 
 	// AI
-	void InitAI();
+	virtual void InitAI();
 	virtual void MoveAI() {}
 	virtual void Trace();
 	virtual void Wander();
 	virtual void Runaway();
+	
+	CGTA_Vehicle* FindNearbyVehicle(); // 못찾으면 nullptr 리턴
 
 	// AI
 	void CreateAI();
@@ -145,6 +154,12 @@ public:
 
 	float GetAttackMaxCoolTime() { return m_fAttackMaxCoolTime; }
 	TCharacterInfo& CharacterInfo() { return m_tInfo; }
+
+	void SetDrive(bool _bDrive) { m_bDrive = _bDrive; }
+	bool AreYouDrive() { return m_bDrive; }
+
+	/*CGTA_Vehicle* GetVehicle() { return m_pVehicle; }
+	void SetVehicle(CGTA_Vehicle* _pVehicle) { m_pVehicle = _pVehicle; }*/
 
 public:
 	CLONE(CGTA_Character);

@@ -79,7 +79,11 @@ void CScene_GtaInGame::Start()
 	
 	// 자동차나 
 	// 시민들을 자동생성을 관리해줄 매니저 오브젝트를 하나 생성하겠습니다.
-	
+	CGTA_PoliceCar* pPoliceCar = new CGTA_PoliceCar(E_GroupType::VEHICLE);
+	pPoliceCar->Init();
+	pPoliceCar->SetPosition(1200, 1200);
+	AddObject(pPoliceCar);
+
 	// Vehicle 매니저 추가
 	// CVehicleManager;
 

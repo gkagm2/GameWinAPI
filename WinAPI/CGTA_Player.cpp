@@ -17,12 +17,19 @@
 #include "CRigidbody2D.h"
 #include "CGTA_Item.h"
 #include "CGTA_AI.h"
+#include "CPathFinding.h"
+#include "CTileMap.h"
+#include "CGTA_Vehicle.h"
+
+#include "CGTA_AI.h"
+#include "CGTA_WalkToVehicleState.h"
 
 #include "CDebug.h"
 
 
 CGTA_Player::CGTA_Player(E_GroupType _eGroupType) :
-	CGTA_Character(_eGroupType)
+	CGTA_Character(_eGroupType),
+	m_bIsActiveAI(false)
 {
 }
 
@@ -37,7 +44,6 @@ void CGTA_Player::Init()
 	if (nullptr == pTexture)
 		pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_gta_player, STR_FILE_PATH_gta_player);
 	SetTexture(pTexture);
-
 
 	// Animator set
 	SetAnimator(new CAnimator(this));
@@ -71,6 +77,9 @@ void CGTA_Player::Init()
 	CGTA_Character::Init();
 
 	GetRigidbody()->SetMass(10.f);
+
+	// AI Init
+	InitAI();
 }
 
 void CGTA_Player::PrevUpdate()
@@ -80,19 +89,30 @@ void CGTA_Player::PrevUpdate()
 
 void CGTA_Player::Update()
 {
+	m_fAttackCoolTime += DeltaTime;
+	
 	if (GetCharacterState() != E_CharacterState::dead) {
-		if (m_bIsDrive)
-			Drive();
-		else
-			Move();
-
-		m_fAttackCoolTime += DeltaTime;
-		if (InputKeyHold(E_Key::Ctrl)) {
-			if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
-				Attack();
-				m_fAttackCoolTime = 0.f;
+		if (m_bDrive) {
+			DriveUpdate();
+			if (InputKeyPress(E_Key::Enter))
+				GetOutTheVehicle();
+		}
+		else {
+			MoveUpdate();
+			if (InputKeyPress(E_Key::Enter))
+				GetInTheVehicle();
+			
+			// Gun Fire
+			if (InputKeyHold(E_Key::Ctrl)) {
+				if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
+					Attack();
+					m_fAttackCoolTime = 0.f;
+				}
 			}
 		}
+
+		if (m_bIsActiveAI)
+			GetAI()->Update();
 	}
 
 	if (InputKeyPress(E_Key::Z)) {
@@ -144,11 +164,18 @@ void CGTA_Player::OnCollisionExit(CObject* _pOther)
 {
 }
 
+void CGTA_Player::DriveUpdate()
+{
+	SetRender(false);
+	m_pVehicle->DriveUpdate();
+}
+
 void CGTA_Player::State()
 {
 	// State
 	switch (m_eCharacterState) {
 	case E_CharacterState::idle: {
+		m_bIsMoved = false;
 		if (HaveGun())
 			GetAnimator()->PlayAnimation(L"idle_gun", E_AnimationPlayType::LOOP);
 		else
@@ -156,12 +183,14 @@ void CGTA_Player::State()
 	}
 		break;
 	case E_CharacterState::run:
+		m_bIsMoved = true;
 		if (HaveGun())
 			GetAnimator()->PlayAnimation(L"run_gun", E_AnimationPlayType::LOOP);
 		else
 			GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
 		break;
 	case E_CharacterState::walk:
+		m_bIsMoved = true;
 		break;
 	case E_CharacterState::attack:
 		if (false == HaveGun()) {
@@ -195,26 +224,34 @@ void CGTA_Player::State()
 		}
 	}
 		break;
-	case E_CharacterState::getInTheCar:
-		break;
-	case E_CharacterState::getOffTheCar:
-		break;
 	case E_CharacterState::hit:
 		break;
 	case E_CharacterState::stun:
 		GetAnimator()->PlayAnimation(L"stun", E_AnimationPlayType::ONCE);
 		break;
+	case E_CharacterState::getInTheVehicle:
+		if (HaveGun())
+			GetAnimator()->PlayAnimation(L"run_gun", E_AnimationPlayType::LOOP);
+		else
+			GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
+		break;
+	case E_CharacterState::getOutTheVehicle:
+		break;
+	case E_CharacterState::drive:
+		break;
 	}
 }
 
-void CGTA_Player::Move()
+void CGTA_Player::MoveUpdate()
 {
 	//RotateInfo().Update();
 	if (InputKeyHold(E_Key::LEFT)) {
 		RotateRP(-220 * DeltaTime);
+		m_bIsActiveAI = false;
 	}
 	if (InputKeyHold(E_Key::RIGHT)) {
 		RotateRP(220 * DeltaTime);
+		m_bIsActiveAI = false;
 	}
 
 	if (InputKeyRelease(E_Key::UP)) {
@@ -232,11 +269,13 @@ void CGTA_Player::Move()
 		float y = GetPosition().y - GetUpVector().y * CharacterInfo().fMoveSpeed * DeltaTime;
 		SetPosition(GetPosition().x - GetUpVector().x * CharacterInfo().fMoveSpeed * DeltaTime, GetPosition().y - GetUpVector().y * 300 * DeltaTime);
 		SetCharacterState(E_CharacterState::run);
+		m_bIsActiveAI = false;
 	}
 	if (InputKeyHold(E_Key::DOWN)) {
 		m_bIsMoved = true;
 		SetPosition(GetPosition().x + GetUpVector().x * CharacterInfo().fMoveSpeed * DeltaTime, GetPosition().y + GetUpVector().y * CharacterInfo().fMoveSpeed * DeltaTime);
 		SetCharacterState(E_CharacterState::run);
+		m_bIsActiveAI = false;
 	}
 }
 
@@ -283,14 +322,28 @@ void CGTA_Player::Dead()
 
 void CGTA_Player::Drive()
 {
+	SetActiveAI(false);
+	MainCamera->SetTargetObject((CObject*)m_pVehicle);
+	CGTA_Character::Drive();
 }
 
 void CGTA_Player::GetInTheVehicle()
 {
+	// 영역 안에 자동차가 있는지 확인한다.
+	m_pVehicle = FindNearbyVehicle();
+	if (nullptr == m_pVehicle)
+		return;
+
+	SetActiveAI(true);
+	GetAI()->ChangeState(L"walkToVehicle");
+	CGTA_Character::GetInTheVehicle();
 }
 
 void CGTA_Player::GetOutTheVehicle()
 {
+	SetRotateDegree(m_pVehicle->GetRotateDegree());
+	MainCamera->SetTargetObject((CObject*)this);
+	CGTA_Character::GetOutTheVehicle();
 }
 
 void CGTA_Player::HitByFist()
@@ -299,4 +352,15 @@ void CGTA_Player::HitByFist()
 	CharacterInfo().fHp = max(CharacterInfo().fHp, 0);
 	if (CharacterInfo().fHp <= 0)
 		Dead();
+}
+
+void CGTA_Player::InitAI()
+{
+	CreateAI();
+	CreatePathFinding();
+	m_pPathFinding->AddObstacleTile(E_TileType::Wall);
+	m_pPathFinding->AddObstacleTile(E_TileType::Water);
+
+	GetAI()->AddState(L"walkToVehicle", new CGTA_WalkToVehicleState);
+	Wander();
 }

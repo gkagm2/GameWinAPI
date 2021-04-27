@@ -8,7 +8,10 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CCore.h"
-
+#include "CRigidbody2D.h"
+#include "CGTA_Player.h"
+#include "CGTA_Vehicle.h"
+#include "CDebug.h"
 CCamera2D::CCamera2D(E_GroupType _eGroupType) :
 	CCamera(_eGroupType),
 	m_pVeil(nullptr),
@@ -31,7 +34,11 @@ void CCamera2D::Init()
 
 void CCamera2D::Update()
 {
-	Move();
+	if (dynamic_cast<CGTA_Player*>(m_pTargetObject))
+		Move();
+	else if (dynamic_cast<CGTA_Vehicle*>(m_pTargetObject))
+		MoveVehicle();
+	
 	UpdateEffect();
 	__super::Update();
 }
@@ -70,7 +77,6 @@ void CCamera2D::UpdateEffect()
 		return;
 	}
 
-
 	ptCamEffect->fCurTime += DeltaTime;
 	if (ptCamEffect->fCurTime > ptCamEffect->fEndTime) {
 		ptCamEffect->fCurTime = ptCamEffect->fEndTime;
@@ -92,6 +98,19 @@ void CCamera2D::Move()
 	Vector3 vPos = m_vLook;
 	Vector3 vTargetPos = m_pTargetObject->GetPosition();
 	vTargetPos = CMyMath::Lerp(vPos, vTargetPos, 5.f * DeltaTime);
+	m_vLook = vTargetPos;
+}
+
+void CCamera2D::MoveVehicle()
+{
+	// 속도에 따라 달라진다.
+	Vector3 vPos = m_vLook;
+	float fPower = m_pTargetObject->GetRigidbody()->GetVelocity().GetDistance() * 200.f;
+	float fMaxPower = 300.f;
+	fPower = min(fMaxPower, fPower);
+	Debug->Print(Vector2(40, 200), L"d", fPower);
+	Vector3 vTargetPos = m_pTargetObject->GetPosition() + (-m_pTargetObject->GetUpVector()) * fPower;
+	vTargetPos = CMyMath::Lerp(vPos, vTargetPos, 15 * DeltaTime);
 	m_vLook = vTargetPos;
 }
 

@@ -77,6 +77,7 @@ void CGTA_PoliceCar::Render(HDC _hDC)
 
 void CGTA_PoliceCar::OnCollisionEnter(CObject* _pOther)
 {
+	CGTA_Vehicle::OnCollisionEnter(_pOther);
 }
 
 void CGTA_PoliceCar::OnCollisionStay(CObject* _pOther)

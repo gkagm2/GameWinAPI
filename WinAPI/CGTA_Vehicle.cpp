@@ -12,14 +12,22 @@
 #include "CCollider.h"
 #include "CAnimator.h"
 #include "CRigidbody2D.h"
+#include "CGTA_Character.h"
+#include "CGTA_Player.h"
 
 CGTA_Vehicle::CGTA_Vehicle(E_GroupType _eGroupType) :
-	CObject(_eGroupType = E_GroupType::VEHICLE)
+	CObject(_eGroupType = E_GroupType::VEHICLE),
+	m_fPower(3000.f),
+	m_pDriver(nullptr),
+	m_bExplosion(false)
 {
 }
 
 CGTA_Vehicle::CGTA_Vehicle(const CGTA_Vehicle& _origin) :
-	CObject(_origin)
+	CObject(_origin),
+	m_fPower(_origin.m_fPower),
+	m_pDriver(nullptr),
+	m_bExplosion(_origin.m_bExplosion)
 {
 }
 
@@ -30,6 +38,8 @@ CGTA_Vehicle::~CGTA_Vehicle()
 void CGTA_Vehicle::Init()
 {
 	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
+	pRigidbody->SetMass(11.f);
+	pRigidbody->SetDrag(1.f);
 	CObject::Init();
 }
 
@@ -40,24 +50,8 @@ void CGTA_Vehicle::PrevUpdate()
 
 void CGTA_Vehicle::Update()
 {
-	// This is Get direction 
-	//RotateRP(0);
-
-	Vector3 vHeadDir = GetUpVector();
-	//RotateInfo().Update();
-	if (InputKeyHold(E_Key::LEFT)) {
-		RotateRP(-180 * DeltaTime);
-	}
-	if (InputKeyHold(E_Key::RIGHT)) {
-		RotateRP(180 * DeltaTime);
-	}
-
-	if (InputKeyHold(E_Key::UP)) {
-		SetPosition(GetPosition().x - GetUpVector().x * 300 * DeltaTime, GetPosition().y - GetUpVector().y * 300 * DeltaTime);
-	}
-	if (InputKeyHold(E_Key::DOWN)) {
-		SetPosition(GetPosition().x + GetUpVector().x * 300 * DeltaTime, GetPosition().y + GetUpVector().y * 300 * DeltaTime);
-	}
+	if (m_pDriver)
+		m_pDriver->SetPosition(GetPosition());
 }
 
 void CGTA_Vehicle::LateUpdate()
@@ -92,39 +86,52 @@ void CGTA_Vehicle::Render(HDC _hDC)
 		if (nullptr != GetAnimator())
 			GetAnimator()->Render(_hDC);
 		else {
-			//UINT iWidth = (UINT)ScaleX();
-			//UINT iHeight = (UINT)ScaleY();
-			//UINT iWidth1 = GetTexture()->GetWidth();
-			//UINT iHeight1 = GetTexture()->GetHeight();
-			//HDC hTextureDC = GetTexture()->GetDC();
-			//// 예외처리할 색상 RGB값을 처리하기 위해 BitBlt대신 TransparentBlt을 이용 (library 필요)
-			//TransparentBlt(
-			//	_hDC,
-			//	(int)(vRenderPosition.x - iWidth * 0.5f), (int)(vRenderPosition.y - iHeight * 0.5f),
-			//	iWidth, iHeight,
-			//	hTextureDC,
-			//	0, 0,
-			//	iWidth1, iHeight1,
-			//	(COLORREF)EXCEPTION_COLOR_RGB_BLACK); // 제거 할 색상
-			POINT rPNT[3];
-
-			Vector3 v1 = GetRectPoint(0);
-			Vector3 v2 = GetRectPoint(1);
-			Vector3 v3 = GetRectPoint(2);
-			rPNT[0].x = (int)(vRenderPosition.x + GetRectPoint(0).x);
-			rPNT[0].y = (int)(vRenderPosition.y + GetRectPoint(0).y);
-			rPNT[1].x = (int)(vRenderPosition.x + GetRectPoint(1).x);
-			rPNT[1].y = (int)(vRenderPosition.y + GetRectPoint(1).y);
-			rPNT[2].x = (int)(vRenderPosition.x + GetRectPoint(2).x);
-			rPNT[2].y = (int)(vRenderPosition.y + GetRectPoint(2).y);
-			
-			HBITMAP bitmap{};
-			PlgBlt(_hDC, rPNT, GetTexture()->GetDC(), 0, 0, GetTexture()->GetWidth(), GetTexture()->GetHeight(), bitmap, 8,5);
+			RenderRotatedTex(_hDC, vRenderPosition, GetTexture()->GetDC(), 0, 0, GetTexture()->GetWidth(), GetTexture()->GetHeight());
 		}
 	}
 	
 	if (nullptr != GetCollider()) {
 		if(GetCollider()->IsRender())
 			GetCollider()->Render(_hDC);
+	}
+}
+
+void CGTA_Vehicle::OnCollisionEnter(CObject* _pOther)
+{
+	CGTA_Character* pCharacter = dynamic_cast<CGTA_Character*>(_pOther);
+	if (pCharacter) {
+		// 차량을 타려고하는 캐릭터와 접촉 시 
+		if (E_CharacterState::getInTheVehicle == pCharacter->GetCharacterState()) {
+			// TODO : 차량의 속도에 따라 탈지 말지 결정하기
+			pCharacter->Drive();
+			pCharacter->SetDrive(true);
+			CGTA_Player* pPlayer = dynamic_cast<CGTA_Player*>(GetDriver());
+			if (pPlayer) { // 플레이어면
+				pPlayer->SetActiveAI(false); // AI를 끈다.
+			}
+			else {
+				// TODO : 운전한다.
+				// GetCharacter()->GetAI()->ChangeState(L"drive");
+			}
+		}
+	}
+}
+
+void CGTA_Vehicle::DriveUpdate()
+{
+	Vector3 vHeadDir = GetUpVector();
+	//RotateInfo().Update();
+	if (InputKeyHold(E_Key::LEFT)) {
+		RotateRP(-180 * DeltaTime);
+	}
+	if (InputKeyHold(E_Key::RIGHT)) {
+		RotateRP(180 * DeltaTime);
+	}
+
+	if (InputKeyHold(E_Key::UP)) {
+		GetRigidbody()->AddForce(-GetUpVector() * m_fPower * DeltaTime);
+	}
+	if (InputKeyHold(E_Key::DOWN)) {
+		GetRigidbody()->AddForce(GetUpVector() * m_fPower * DeltaTime);
 	}
 }

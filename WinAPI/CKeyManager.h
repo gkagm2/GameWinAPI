@@ -18,7 +18,7 @@ enum class E_Key {
 	LBUTTON,
 	RBUTTON,
 	MBUTTON,
-	
+	Enter,
 	LSHIFT,
 	F4,
 	F5,

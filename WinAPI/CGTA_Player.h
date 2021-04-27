@@ -8,7 +8,7 @@ class CGTA_Item;
 class CGTA_Player : public CGTA_Character
 {
 private:
-	
+	bool m_bIsActiveAI;
 public:
 	virtual void Init() override;
 	virtual void PrevUpdate() override;
@@ -21,14 +21,21 @@ public:
 	virtual void OnCollisionExit(CObject* _pOther);
 
 public:
+
+	virtual void DriveUpdate() override;
+
 	virtual void State() override;
-	virtual void Move() override;
+	virtual void MoveUpdate() override;
 	virtual void Attack() override;
 	virtual void Dead() override;
 	virtual void Drive() override;
 	virtual void GetInTheVehicle() override;
 	virtual void GetOutTheVehicle() override;
 	virtual void HitByFist() override;
+	virtual void InitAI() override;
+	
+	void SetActiveAI(bool _bIsActive) { m_bIsActiveAI = _bIsActive; }
+
 
 public:
 	CLONE(CGTA_Player);

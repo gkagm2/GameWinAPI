@@ -22,7 +22,7 @@ public:
 	void SetRender(bool _bIsRender) { m_bIsRender = _bIsRender; }
 	bool IsRender() { return m_bIsRender; }
 
-	bool SetActive(bool _bIsActive) { m_bIsActive = _bIsActive; }
+	void SetActive(bool _bIsActive) { m_bIsActive = _bIsActive; }
 	bool IsActive() { return m_bIsActive; }
 
 	void AddState(const wstring& _strKey, CGTA_AIState* _pState);
@@ -32,7 +32,6 @@ public:
 
 	virtual void Move(float _fSpeed);
 	virtual void RotateBody();
-
 
 public:
 	CLONE(CGTA_AI);

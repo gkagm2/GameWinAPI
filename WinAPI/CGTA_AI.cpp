@@ -14,7 +14,7 @@
 CGTA_AI::CGTA_AI() :
 	m_pCurState(nullptr),
 	m_pCharacter(nullptr),
-	m_bIsRender(false),
+	m_bIsRender(true),
 	m_bIsActive(true)
 {
 }
@@ -22,7 +22,7 @@ CGTA_AI::CGTA_AI() :
 CGTA_AI::CGTA_AI(const CGTA_AI& _origin) :
 	m_pCurState(nullptr),
 	m_pCharacter(nullptr),
-	m_bIsRender(false),
+	m_bIsRender(true),
 	m_bIsActive(true)
 {
 	unordered_map<wstring, CGTA_AIState*>::const_iterator iter = _origin.m_umapState.begin();

@@ -9,6 +9,9 @@ private:
 	float m_fDamage;
 
 	// TODO : 파티클 텍스쳐 넣기
+	CTexture* m_pBloodTex;
+	CTexture* m_pSparkTex;
+
 	// Particle (피 튕기기)
 	// Particle (벽, 차, 튕기기)
 
@@ -23,6 +26,9 @@ public:
 
 	void SetDamage(float _fDamage) { m_fDamage = _fDamage; }
 	float GetDamage() { return m_fDamage; }
+
+	void ChangeBloodTex();
+	void ChangeSparkTex();
 
 public:
 	CLONE(CGTA_Bullet);

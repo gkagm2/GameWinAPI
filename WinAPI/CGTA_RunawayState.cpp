@@ -92,7 +92,7 @@ void CGTA_RunawayState::Update()
 			
 		// 경로에 따라 이동한다.
 		if (m_bIsPathFind) {
-			GetAI()->Move(GetCharacter()->CharacterInfo().fMoveSpeed * 0.7f);
+			GetAI()->Move(GetCharacter()->CharacterInfo().fMoveSpeed);
 			if (false == GetCharacter()->GetPathFinding()->IsArrivedDestination())
 				GetAI()->RotateBody();
 		}

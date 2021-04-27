@@ -29,6 +29,7 @@ public:
 
 public:
 	void Move();
+	void MoveVehicle();
 
 	void UpdateEffect();
 	void AddEffect(E_CamEffect _eCamEffect, float _fEndTime);

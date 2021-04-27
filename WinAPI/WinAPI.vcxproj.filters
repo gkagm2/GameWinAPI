@@ -290,6 +290,9 @@
     <Filter Include="Game\0. Manager\SoundManager">
       <UniqueIdentifier>{ed2cf845-c4bb-47fc-a594-f82c341c48cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\walkToCar">
+      <UniqueIdentifier>{e87ea1e2-4a91-4482-8c0c-bf49853e1288}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -549,6 +552,7 @@
     </ClInclude>
     <ClInclude Include="CGTA_StunState.h" />
     <ClInclude Include="CSoundManager.h" />
+    <ClInclude Include="CGTA_WalkToVehicleState.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -800,6 +804,7 @@
     </ClCompile>
     <ClCompile Include="CGTA_StunState.cpp" />
     <ClCompile Include="CSoundManager.cpp" />
+    <ClCompile Include="CGTA_WalkToVehicleState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">

@@ -95,6 +95,8 @@
 
 #define STR_FILE_PATH_gta_Bullet L"Texture\\GTA\\Bullet.bmp"
 
+#define STR_FILE_PATH_gta_Spark L"Texture\\GTA\\Spark.bmp"
+#define STR_FILE_PATH_gta_Blood L"Texture\\GTA\\Blood.bmp"
 
 // weapon
 #define STR_NAME_Fist L"Punch"

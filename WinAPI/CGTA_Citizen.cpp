@@ -59,6 +59,8 @@ void CGTA_Citizen::Init()
 
 	GetRigidbody()->SetMass(9.0f);
 
+	CharacterInfo().fMoveSpeed *= 0.7f;
+
 	// AI set
 	InitAI();
 }
@@ -161,14 +163,19 @@ void CGTA_Citizen::Attack()
 
 void CGTA_Citizen::Drive()
 {
+	GetAI()->ChangeState(L"drive");
+	CGTA_Character::Drive();
 }
 
 void CGTA_Citizen::GetInTheVehicle()
 {
+	GetAI()->ChangeState(L"walkToVehicle");
+	CGTA_Character::GetInTheVehicle();
 }
 
 void CGTA_Citizen::GetOutTheVehicle()
 {
+	CGTA_Character::GetOutTheVehicle();
 }
 
 void CGTA_Citizen::HitByFist()

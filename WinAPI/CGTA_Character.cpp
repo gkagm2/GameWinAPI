@@ -22,6 +22,7 @@
 #include "CGTA_PunchDetector.h"
 #include "CGTA_Citizen.h"
 #include "CGTA_Cop.h"
+#include "CGTA_Vehicle.h"
 
 #include "CGTA_IdleState.h"
 #include "CGTA_RunawayState.h"
@@ -29,12 +30,13 @@
 #include "CGTA_TraceState.h"
 #include "CGTA_DeadState.h"
 #include "CGTA_StunState.h"
+#include "CGTA_WalkToVehicleState.h"
 
 
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
 	m_tInfo{},
-	m_bIsDrive(false),
+	m_bDrive(false),
 	m_bIsMoved(false),
 	m_fAttackCoolTime(0.f),
 	m_fAttackMaxCoolTime(0.f),
@@ -43,6 +45,7 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_fDeadCoolTime(0.f),
 	m_fDeadMaxCoolTime(20.f),
 	m_fNoticeDistance(500.f),
+	m_fVehicleSearchDistance(600.f),
 	m_pVehicle(nullptr),
 	m_eCurWeaponType(E_WeaponType::FIST),
 	m_eCharacterState(E_CharacterState::idle),
@@ -63,7 +66,7 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	CObject(_origin),
 	m_tInfo(_origin.m_tInfo),
-	m_bIsDrive(false),
+	m_bDrive(false),
 	m_bIsMoved(false),
 	m_fAttackCoolTime(0.f),
 	m_fAttackMaxCoolTime(0.f),
@@ -72,6 +75,7 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	m_fDeadCoolTime(0.f),
 	m_fDeadMaxCoolTime(20.f),
 	m_fNoticeDistance(_origin.m_fNoticeDistance),
+	m_fVehicleSearchDistance(_origin.m_fVehicleSearchDistance),
 	m_pVehicle(nullptr),
 	m_eCurWeaponType(_origin.m_eCurWeaponType),
 	m_eCharacterState(_origin.m_eCharacterState),
@@ -109,6 +113,23 @@ void CGTA_Character::Init()
 	SetRigidbody(pRigidbody);
 
 	CObject::Init();
+}
+
+void CGTA_Character::InitAI()
+{
+	CreateAI();
+	CreatePathFinding();
+	m_pPathFinding->AddObstacleTile(E_TileType::Wall);
+	m_pPathFinding->AddObstacleTile(E_TileType::Water);
+
+	GetAI()->AddState(L"idle", new CGTA_IdleState);
+	GetAI()->AddState(L"runaway", new CGTA_RunawayState);
+	GetAI()->AddState(L"wander", new CGTA_WanderState);
+	GetAI()->AddState(L"trace", new CGTA_TraceState);
+	GetAI()->AddState(L"dead", new CGTA_DeadState);
+	GetAI()->AddState(L"stun", new CGTA_StunState);
+	GetAI()->AddState(L"walkToVehicle", new CGTA_WalkToVehicleState);
+	Wander();
 }
 
 void CGTA_Character::PrevUpdate()
@@ -193,6 +214,10 @@ void CGTA_Character::OnCollisionExit(CObject* _pOther)
 {
 }
 
+void CGTA_Character::DriveUpdate()
+{
+}
+
 void CGTA_Character::State()
 {
 }
@@ -256,6 +281,15 @@ void CGTA_Character::HitByFist()
 	SetAIState(E_AIState::stun);
 }
 
+void CGTA_Character::Drive()
+{
+	SetRender(false);
+	GetCollider()->SetActive(false);
+	m_pVehicle->SetDriver(this);
+	SetCharacterState(E_CharacterState::drive);
+	SetAIState(E_AIState::drive);
+}
+
 // TODO: 자동 타겟팅 구현하기
 float CGTA_Character::AutoTargeting(const Vector3& _vUpDirVec, const Vector3& _vTargetDirVec)
 {
@@ -270,6 +304,22 @@ void CGTA_Character::Dead()
 {
 	SetCharacterState(E_CharacterState::dead);
 	SetAIState(E_AIState::dead);
+}
+
+void CGTA_Character::GetInTheVehicle()
+{
+	SetCharacterState(E_CharacterState::getInTheVehicle);
+	SetAIState(E_AIState::walkToCar);
+}
+
+void CGTA_Character::GetOutTheVehicle()
+{
+	SetRender(true);
+	GetCollider()->SetActive(true);
+	SetCharacterState(E_CharacterState::idle);
+	SetAIState(E_AIState::wander);
+	SetDrive(false);
+	m_pVehicle->SetDriver(nullptr);
 }
 
 void CGTA_Character::ChangePrevWeapon()
@@ -336,21 +386,7 @@ void CGTA_Character::GetItem(CGTA_Item* pItem)
 	}
 }
 
-void CGTA_Character::InitAI()
-{
-	CreateAI();
-	CreatePathFinding();
-	m_pPathFinding->AddObstacleTile(E_TileType::Wall);
-	m_pPathFinding->AddObstacleTile(E_TileType::Water);
 
-	GetAI()->AddState(L"idle", new CGTA_IdleState);
-	GetAI()->AddState(L"runaway", new CGTA_RunawayState);
-	GetAI()->AddState(L"wander", new CGTA_WanderState);
-	GetAI()->AddState(L"trace", new CGTA_TraceState);
-	GetAI()->AddState(L"dead", new CGTA_DeadState);
-	GetAI()->AddState(L"stun", new CGTA_StunState);
-	Wander();
-}
 
 void CGTA_Character::Trace()
 {
@@ -368,6 +404,28 @@ void CGTA_Character::Runaway()
 {
 	SetCharacterState(E_CharacterState::run);
 	SetAIState(E_AIState::runAway);
+}
+
+// 탈 수 있는 가까운 차량의 오브젝트를 리턴한다. 존재하지 않으면 nullptr 리턴
+CGTA_Vehicle* CGTA_Character::FindNearbyVehicle()
+{
+	vector<CObject*>& vecVehicles = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::VEHICLE);
+
+	CGTA_Vehicle* pVehicle = nullptr;
+	float fMinDistance = m_fVehicleSearchDistance;
+
+	for (UINT i = 0; i < vecVehicles.size(); ++i) {
+		float distance = CMyMath::GetDistance(GetPosition(), vecVehicles[i]->GetPosition());
+		if (distance < fMinDistance) {
+			CGTA_Vehicle* pTempVehicle = (CGTA_Vehicle*)vecVehicles[i];
+			if (false == pTempVehicle->DidExplode()) {
+				distance = fMinDistance;
+				pVehicle = pTempVehicle;
+			}
+		}
+	}
+
+	return pVehicle;
 }
 
 void CGTA_Character::CreateAI()

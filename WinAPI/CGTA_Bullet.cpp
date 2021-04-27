@@ -13,6 +13,8 @@
 #include "CGTA_Citizen.h"
 #include "CGTA_Player.h"
 #include "CGTA_Vehicle.h"
+#include "CResourceManager.h"
+#include "CResource.h"
 
 
 CGTA_Bullet::CGTA_Bullet(E_GroupType e_GroupType) :
@@ -20,7 +22,9 @@ CGTA_Bullet::CGTA_Bullet(E_GroupType e_GroupType) :
 	m_fLifeCoolTime(0.f),
 	m_fLifeMaxCoolTime(3.f),
 	m_fSpeed(1000.f),
-	m_fDamage(1.f)
+	m_fDamage(1.f),
+	m_pBloodTex(nullptr),
+	m_pSparkTex(nullptr)
 {
 }
 
@@ -29,7 +33,9 @@ CGTA_Bullet::CGTA_Bullet(const CGTA_Bullet& _origin) :
 	m_fLifeCoolTime(0.f),
 	m_fLifeMaxCoolTime(_origin.m_fLifeMaxCoolTime),
 	m_fSpeed(_origin.m_fSpeed),
-	m_fDamage(_origin.m_fDamage)
+	m_fDamage(_origin.m_fDamage),
+	m_pBloodTex(_origin.m_pBloodTex),
+	m_pSparkTex(_origin.m_pSparkTex)
 {
 }
 
@@ -116,4 +122,26 @@ void CGTA_Bullet::OnCollisionStay(CObject* _pOther)
 
 void CGTA_Bullet::OnCollisionExit(CObject* _pOther)
 {
+}
+
+void CGTA_Bullet::ChangeBloodTex()
+{
+	if (nullptr == m_pBloodTex) {
+		m_pBloodTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_gta_Blood);
+		if (nullptr == m_pBloodTex) {
+			m_pBloodTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_gta_Blood, STR_FILE_PATH_gta_Blood);
+		}
+	}
+	SetTexture(m_pBloodTex);
+}
+
+void CGTA_Bullet::ChangeSparkTex()
+{
+	if (nullptr == m_pBloodTex) {
+		m_pBloodTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_gta_Blood);
+		if (nullptr == m_pBloodTex) {
+			m_pBloodTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_gta_Blood, STR_FILE_PATH_gta_Blood);
+		}
+	}
+	SetTexture(m_pSparkTex);
 }
