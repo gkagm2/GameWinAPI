@@ -76,14 +76,6 @@ void CScene_GtaInGame::Start()
 	pCop1->SetPosition(800, 700);
 	AddObject(pCop1);
 
-	//CGTA_Citizen* pCitizen2 = pCitizen->Clone();
-	//pCitizen2->SetPosition(600, 800);
-	//AddObject(pCitizen2);
-
-	//CGTA_Citizen* pCitizen3 = pCitizen->Clone();
-	//pCitizen3->SetPosition(600, 900);
-	//AddObject(pCitizen3);
-
 	
 	// 자동차나 
 	// 시민들을 자동생성을 관리해줄 매니저 오브젝트를 하나 생성하겠습니다.
@@ -120,7 +112,7 @@ void CScene_GtaInGame::Start()
 	AddObject((CObject*)pCamera);
 
 	// Render X
-	CCollider::SetRenderActive(false);
+	//CCollider::SetRenderActive(false);
 
 	// 충돌영역 설정
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();

@@ -10,10 +10,12 @@ private:
 
 private:
 	virtual int Load(const wchar_t* _pFilePath) override;
+
+public:
 	void Create(UINT _iWidth, UINT _iHeight);
 
 public:
-	HDC GetDC() { return m_hDC; }
+	HDC& GetDC() { return m_hDC; }
 	UINT GetWidth() { return m_tBitmap.bmWidth; }
 	UINT GetHeight() { return m_tBitmap.bmHeight; }
 

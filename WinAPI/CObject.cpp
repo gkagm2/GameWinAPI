@@ -72,6 +72,66 @@ CObject::~CObject()
 		delete m_pRigidbody;
 }
 
+void CObject::RenderRotatedTex(HDC _hDC, const Vector3& _vRenderPos, HDC _TextureDC, int xSrc, int ySrc, int width, int height)
+{
+	POINT rPNT[3];
+	// 애니메이션 텍스쳐일경우.
+	Vector3 v4;
+	if (GetAnimator())
+		v4 = { (float)GetAnimator()->GetAnimTexWidth(), (float)GetAnimator()->GetAnimTexHeight(), 0.f };
+	else
+		v4 = { (float)GetTexture()->GetWidth() * 0.5f, (float)GetTexture()->GetHeight() * 0.5f, 0.f };
+	
+	v4.Normalized();
+	v4 = Rotate(v4, GetRotateDegree());
+	v4.x = v4.x * GetScale().x;
+	v4.y = v4.y * GetScale().y;
+	v4.z = v4.z * GetScale().z;
+
+	rPNT[0].x = (int)(GetRectPoint(0).x);
+	rPNT[0].y = (int)(GetRectPoint(0).y);
+	rPNT[1].x = (int)(GetRectPoint(1).x);
+	rPNT[1].y = (int)(GetRectPoint(1).y);
+	rPNT[2].x = (int)(GetRectPoint(2).x);
+	rPNT[2].y = (int)(GetRectPoint(2).y);
+
+	POINT rPNT4; // 네번째 꼭지점의 위치값
+	rPNT4.x = (int)(v4.x);
+	rPNT4.y = (int)(v4.y);
+
+	int minX = rPNT[0].x;
+	int minY = rPNT[0].y;
+	int maxX = rPNT[0].x;
+	int maxY = rPNT[0].y;
+	for (int i = 1; i < 3; ++i) {
+		minX = min(rPNT[i].x, minX);
+		minY = min(rPNT[i].y, minY);
+		maxX = max(rPNT[i].x, maxX);
+		maxY = max(rPNT[i].y, maxY);
+	}
+	minX = min(rPNT4.x, minX);
+	maxX = max(rPNT4.x, maxX);
+	minY = min(rPNT4.y, minY);
+	maxY = max(rPNT4.y, maxY);
+
+	CTexture* pNewTexture = new CTexture();
+	pNewTexture->Create(maxX - minX, maxY - minY);
+	Vector2 vCenter{ maxX + minX, maxY + minY };
+
+	HBITMAP bitmap{};
+	for (int i = 0; i < 3; ++i) {
+		rPNT[i].x += maxX;
+		rPNT[i].y += maxY;
+	}
+	// 회전
+	PlgBlt(pNewTexture->GetDC(), rPNT, _TextureDC, xSrc, ySrc, width, height, bitmap, 0, 0);
+	// 투명
+	TransparentBlt(_hDC, _vRenderPos.x + minX, _vRenderPos.y + minY, maxX - minX, maxY - minY, pNewTexture->GetDC(), 0, 0, maxX - minX, maxY - minY, EXCEPTION_COLOR_RGB_BLACK);
+
+	if (pNewTexture)
+		delete pNewTexture;
+}
+
 void CObject::Init()
 {
 	InitRectPoint();

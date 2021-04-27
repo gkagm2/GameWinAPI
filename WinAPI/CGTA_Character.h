@@ -117,7 +117,7 @@ public:
 	void CreatePathFinding();
 	CPathFinding* GetPathFinding() { return m_pPathFinding; }
 
-	Vector3 GetNozzlePosition() { return GetUpVector() * 16.0f; }
+	Vector3 GetNozzlePosition() { return GetUpVector() * 14.0f; }
 
 	// Weapon
 	bool IsWeaponExists(E_WeaponType _eWeaponType) { return m_vecWeapon[(UINT)_eWeaponType].first; }

@@ -103,7 +103,7 @@ void CScene_Tool::Start()
 
 	CLookAtTestObj* pLok = new CLookAtTestObj(E_GroupType::DEFAULT);
 	pLok->Init();
-	//pLok->SetPosition(500, 500);
+	pLok->SetPosition(500, 500);
 	AddObject(pLok);
 
 	// Select Controller에서는 오브젝트들을 드래그해서 선택할 수 있다.

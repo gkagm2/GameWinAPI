@@ -60,20 +60,14 @@ void CAnimation::Render(HDC _hDC)
 	Vector3 vPosition = m_pAnimator->GetOwnerObject()->GetPosition();
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(vPosition);
 
-	POINT rPNT[3];
-
-	Vector3 v1 = m_pAnimator->GetOwnerObject()->GetRectPoint(0);
-	Vector3 v2 = m_pAnimator->GetOwnerObject()->GetRectPoint(1);
-	Vector3 v3 = m_pAnimator->GetOwnerObject()->GetRectPoint(2);
-	rPNT[0].x = (int)(vRenderPosition.x + m_pAnimator->GetOwnerObject()->GetRectPoint(0).x);
-	rPNT[0].y = (int)(vRenderPosition.y + m_pAnimator->GetOwnerObject()->GetRectPoint(0).y);
-	rPNT[1].x = (int)(vRenderPosition.x + m_pAnimator->GetOwnerObject()->GetRectPoint(1).x);
-	rPNT[1].y = (int)(vRenderPosition.y + m_pAnimator->GetOwnerObject()->GetRectPoint(1).y);
-	rPNT[2].x = (int)(vRenderPosition.x + m_pAnimator->GetOwnerObject()->GetRectPoint(2).x);
-	rPNT[2].y = (int)(vRenderPosition.y + m_pAnimator->GetOwnerObject()->GetRectPoint(2).y);
-
-	HBITMAP bitmap{};
-	PlgBlt(_hDC, rPNT, m_pAnimator->GetOwnerObject()->GetTexture()->GetDC(), int(m_vecFrame[m_iCurFrameIdx].vLT.x), int(m_vecFrame[m_iCurFrameIdx].vLT.y), int(m_vecFrame[m_iCurFrameIdx].vSlice.x), int(m_vecFrame[m_iCurFrameIdx].vSlice.y), bitmap, 0, 0);
+	m_pAnimator->GetOwnerObject()->RenderRotatedTex(
+		_hDC, 
+		vRenderPosition, 
+		m_pAnimator->GetOwnerObject()->GetTexture()->GetDC(),
+		int(m_vecFrame[m_iCurFrameIdx].vLT.x),
+		int(m_vecFrame[m_iCurFrameIdx].vLT.y),
+		int(m_vecFrame[m_iCurFrameIdx].vSlice.x),
+		int(m_vecFrame[m_iCurFrameIdx].vSlice.y));
 
 	//UINT iWidth = (UINT)m_pAnimator->GetOwnerObject()->GetScale().x;
 	//UINT iHeight = (UINT)m_pAnimator->GetOwnerObject()->GetScale().y;

@@ -38,6 +38,11 @@ protected:
 	void SetGroupType(E_GroupType _eGroupType) { m_eGroupType = _eGroupType; }
 
 public:
+	// Rendering Type
+	// 회전된 텍스쳐 표현 시
+	void RenderRotatedTex(HDC _hDC, const Vector3& _vRenderPos, HDC _TextureDC, int xSrc, int ySrc, int width, int height);
+
+public:
 	virtual void Init();
 	virtual void PrevUpdate();
 	virtual void Update() = 0;

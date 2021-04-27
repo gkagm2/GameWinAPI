@@ -19,7 +19,7 @@ public:
 
 public:
 	
-	void ActiveRender(bool _bIsRender) { m_bIsRender = _bIsRender; }
+	void SetRender(bool _bIsRender) { m_bIsRender = _bIsRender; }
 	bool IsRender() { return m_bIsRender; }
 
 	bool SetActive(bool _bIsActive) { m_bIsActive = _bIsActive; }

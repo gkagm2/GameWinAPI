@@ -103,7 +103,7 @@ void CGTA_Character::Init()
 {
 	// Collider set
 	CColliderRect* pCollider = new CColliderRect(this);
-	pCollider->SetScale(Vector3(16.f, 16.f, 0.f));
+	pCollider->SetScale(Vector3(20.f, 20.f, 0.f));
 
 	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
 	SetRigidbody(pRigidbody);
@@ -137,20 +137,7 @@ void CGTA_Character::Render(HDC _hDC)
 		if (nullptr != GetAnimator())
 			GetAnimator()->Render(_hDC);
 		else {
-			POINT rPNT[3];
-
-			Vector3 v1 = GetRectPoint(0);
-			Vector3 v2 = GetRectPoint(1);
-			Vector3 v3 = GetRectPoint(2);
-			rPNT[0].x = (int)(vRenderPosition.x + GetRectPoint(0).x);
-			rPNT[0].y = (int)(vRenderPosition.y + GetRectPoint(0).y);
-			rPNT[1].x = (int)(vRenderPosition.x + GetRectPoint(1).x);
-			rPNT[1].y = (int)(vRenderPosition.y + GetRectPoint(1).y);
-			rPNT[2].x = (int)(vRenderPosition.x + GetRectPoint(2).x);
-			rPNT[2].y = (int)(vRenderPosition.y + GetRectPoint(2).y);
-
-			HBITMAP bitmap{};
-			PlgBlt(_hDC, rPNT, GetTexture()->GetDC(), 0, 0, GetTexture()->GetWidth(), GetTexture()->GetHeight(), bitmap, 8, 5);
+			RenderRotatedTex(_hDC, vRenderPosition, GetTexture()->GetDC(), 0, 0, GetTexture()->GetWidth(), GetTexture()->GetHeight());
 		}
 	}
 

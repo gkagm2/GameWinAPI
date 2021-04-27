@@ -104,6 +104,8 @@ void CGTA_AI::Render(HDC _hDC)
 {
 	if (false == IsActive())
 		return;
+	if (false == IsRender())
+		return;
 
 	CTileMap* pTileMap = CSceneManager::GetInstance()->GetCurScene()->GetTileMap();
 	list<TTilePos>& path = m_pCharacter->GetPathFinding()->GetPath();
