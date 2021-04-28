@@ -36,6 +36,8 @@ public:
 	
 	void SetActiveAI(bool _bIsActive) { m_bIsActiveAI = _bIsActive; }
 
+	virtual void ChangePrevWeapon() override;
+	virtual void ChangeNextWeapon() override;
 
 public:
 	CLONE(CGTA_Player);

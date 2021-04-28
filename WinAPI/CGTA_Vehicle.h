@@ -4,8 +4,7 @@
 enum class E_VehicleState {
     normal, // 멀쩡합니다.
     explode,// 터졌습니다.
-}
-
+};
 
 struct TVehicleInfo {
     float fHp;

@@ -50,6 +50,7 @@ enum class E_GroupType {
 	MONSTER_PROJECTILE,
 	PATH_FINDING,
 	PREV,
+	UI_CONTAINER,
 	UI =30,
 	MAIN_CAMERA = 31,
 	END = 32,

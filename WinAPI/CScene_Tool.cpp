@@ -6,7 +6,6 @@
 #include "CKeyManager.h"
 #include "CSceneManager.h"
 #include "CPathManager.h"
-#include "CUIManager.h"
 #include "CResourceManager.h"
 #include "CCollisionManager.h"
 

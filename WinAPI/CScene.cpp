@@ -4,6 +4,7 @@
 #include "CCore.h"
 #include <typeinfo>
 #include "CCollisionManager.h"
+#include "CUIManager.h"
 #include "CPathManager.h"
 
 #include "CObject.h"
@@ -50,6 +51,7 @@ void CScene::DeleteAllObjects()
 	for (UINT i = 0; i < (UINT)E_GroupType::END; ++i)
 		DeleteObjects((E_GroupType)i);
 	m_pTileMap = nullptr;
+	CUIManager::GetInstance()->Init();
 }
 
 CObject* CScene::FindObject(wstring _objectName)

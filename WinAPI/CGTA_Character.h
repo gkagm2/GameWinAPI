@@ -103,8 +103,8 @@ public:
 	virtual void GetInTheVehicle();
 	virtual void GetOutTheVehicle();
 
-	void ChangePrevWeapon();
-	void ChangeNextWeapon();
+	virtual void ChangePrevWeapon();
+	virtual void ChangeNextWeapon();
 	void GetItem(CGTA_Item* pItem);
 
 	float AutoTargeting(const Vector3& _vUpDirVec, const Vector3& _vTargetDirVec);

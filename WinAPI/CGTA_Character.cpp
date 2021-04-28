@@ -32,7 +32,6 @@
 #include "CGTA_StunState.h"
 #include "CGTA_WalkToVehicleState.h"
 
-
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
 	m_tInfo{},
@@ -385,8 +384,6 @@ void CGTA_Character::GetItem(CGTA_Item* pItem)
 		}
 	}
 }
-
-
 
 void CGTA_Character::Trace()
 {

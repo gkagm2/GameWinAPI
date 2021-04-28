@@ -26,7 +26,7 @@ protected:
 	Vector3 m_vFinalPosition;
 	
 public:
-	virtual void Init() {};
+	virtual void Init() override {};
 	virtual void Update() override;
 	virtual void LateUpdate() override;
 	virtual void Render(HDC _hDC) override;

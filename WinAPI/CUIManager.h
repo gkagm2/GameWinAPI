@@ -9,6 +9,7 @@ class CUIManager
 
 public:
 	void Update();
+	void Init() { m_pCurFocusedUI = nullptr, m_pPointDownUI = nullptr; }
 
 public:
 	void SetCurFocusedUI(CUI* _pCurFocusedUI) { m_pCurFocusedUI = _pCurFocusedUI; }

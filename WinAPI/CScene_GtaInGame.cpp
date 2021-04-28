@@ -28,6 +28,8 @@
 #include "CGTA_Item.h"
 #include "CGTA_Bullet.h"
 
+#include "CGTA_UIContainer.h"
+#include "CGTA_WeaponUI.h"
 
 CScene_GtaInGame::CScene_GtaInGame()
 {
@@ -49,6 +51,13 @@ void CScene_GtaInGame::Start()
 	pPlayer->Init();
 	pPlayer->SetPosition(800, 800, 0);
 	AddObject(pPlayer);*/
+
+
+	// UI Container를 하나 만들어서
+	// 모든 UI들을 관리하게 한다.
+	CGTA_UIContainer* pUIContainer = new CGTA_UIContainer(E_GroupType::UI_CONTAINER);
+	pUIContainer->Init();
+	AddObject(pUIContainer);
 
 	LoadAll();
 
@@ -102,9 +111,6 @@ void CScene_GtaInGame::Start()
 
 	// 수배 시스템
 	
-	// UI 추가
-	
-
 	////// Camera 추가
 	CGTA_Player* pPlayer = (CGTA_Player*)CSceneManager::GetInstance()->GetCurScene()->FindObject(L"Player");
 	CCamera2D* pCamera = new CCamera2D(E_GroupType::MAIN_CAMERA);

@@ -4,6 +4,7 @@
 #define STR_FILE_PATH_Content L"\\bin\\content\\"
 
 #define STR_OBJECT_DEFAULT_NAME L"Empty Object"
+#define STR_OBJECT_NAME_UIContainer L"UIContainer"
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -59,6 +60,9 @@
 
 // GTA Game //
 
+#define STR_FILE_PATH_GTA_Texture L"Texture\\GTA\\"
+#define STR_FILE_PATH_GTA_Sound L"Sound\\GTA\\"
+
 // Data
 #define STR_FILE_PATH_GTA_PlayerAnim_Save L"Data\\AnimFile\\Player.anim"
 #define STR_FILE_PATH_GTA_Tile_Save L"Data\\TileFile\\Tile.tile"
@@ -86,6 +90,12 @@
 
 #define STR_FILE_NAME_UI_GTA_BG L"Texture\\GTA\\ui_bg.bmp"
 #define STR_FILE_PATH_UI_GTA_BG L"Texture\\GTA\\ui_bg.bmp"
+
+#define STR_FILE_PATH_UI_GTA_Pistol L"Texture\\GTA\\pistol.bmp"
+#define STR_FILE_PATH_UI_GTA_RocketLaunchar L"Texture\\GTA\\rocketLauncher.bmp"
+#define STR_FILE_PATH_UI_GTA_Shotgun L"Texture\\GTA\\shotgun.bmp"
+#define STR_FILE_PATH_UI_GTA_SubmahineGun L"Texture\\GTA\\Submachine Gun.bmp"
+
 
 #define STR_FILE_NAME_UI_TileRoad L"Texture\\GTA\\RoadTile.bmp"
 #define STR_FILE_PATH_UI_TileRoad L"Texture\\GTA\\RoadTile.bmp"

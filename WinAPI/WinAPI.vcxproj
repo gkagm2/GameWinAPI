@@ -160,7 +160,9 @@
     <ClInclude Include="CGTA_DeadState.h" />
     <ClInclude Include="CGTA_PunchDetector.h" />
     <ClInclude Include="CGTA_StunState.h" />
+    <ClInclude Include="CGTA_UIContainer.h" />
     <ClInclude Include="CGTA_WalkToVehicleState.h" />
+    <ClInclude Include="CGTA_WeaponUI.h" />
     <ClInclude Include="CLookAtTestObj.h" />
     <ClInclude Include="CPathFinding.h" />
     <ClInclude Include="CGTA_Bullet.h" />
@@ -250,7 +252,9 @@
     <ClCompile Include="CGTA_DeadState.cpp" />
     <ClCompile Include="CGTA_PunchDetector.cpp" />
     <ClCompile Include="CGTA_StunState.cpp" />
+    <ClCompile Include="CGTA_UIContainer.cpp" />
     <ClCompile Include="CGTA_WalkToVehicleState.cpp" />
+    <ClCompile Include="CGTA_WeaponUI.cpp" />
     <ClCompile Include="CLookAtTestObj.cpp" />
     <ClCompile Include="CPathFinding.cpp" />
     <ClCompile Include="CGTA_Bullet.cpp" />

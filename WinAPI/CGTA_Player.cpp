@@ -24,6 +24,9 @@
 #include "CGTA_AI.h"
 #include "CGTA_WalkToVehicleState.h"
 
+#include "CGTA_UIContainer.h"
+#include "CGTA_WeaponUI.h"
+
 #include "CDebug.h"
 
 
@@ -129,6 +132,7 @@ void CGTA_Player::Update()
 
 void CGTA_Player::LateUpdate()
 {
+	Debug->Print(Vector3(70, 60), L"s", GetObjectName());
 	__super::LateUpdate();
 }
 
@@ -363,4 +367,22 @@ void CGTA_Player::InitAI()
 
 	GetAI()->AddState(L"walkToVehicle", new CGTA_WalkToVehicleState);
 	Wander();
+}
+
+void CGTA_Player::ChangePrevWeapon()
+{
+	CGTA_Character::ChangePrevWeapon();
+	// UI Set
+	CGTA_UIContainer* pUIContainer = (CGTA_UIContainer*)CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_UIContainer);
+	assert(pUIContainer);
+	pUIContainer->GetWeaponUI()->ChangeWeaponUI(GetWeaponInfo(GetCurWeaponType()));
+}
+
+void CGTA_Player::ChangeNextWeapon()
+{
+	CGTA_Character::ChangeNextWeapon();
+	// UI Set
+	CGTA_UIContainer* pUIContainer = (CGTA_UIContainer*)CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_UIContainer);
+	assert(pUIContainer);
+	pUIContainer->GetWeaponUI()->ChangeWeaponUI(GetWeaponInfo(GetCurWeaponType()));
 }
