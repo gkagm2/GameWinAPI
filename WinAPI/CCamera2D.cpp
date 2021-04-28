@@ -65,7 +65,6 @@ void CCamera2D::Render(HDC _hDC)
 		tBlendFunc);
 }
 
-
 void CCamera2D::UpdateEffect()
 {
 	if (m_queEffect.empty())
@@ -105,12 +104,16 @@ void CCamera2D::MoveVehicle()
 {
 	// 속도에 따라 달라진다.
 	Vector3 vPos = m_vLook;
-	float fPower = m_pTargetObject->GetRigidbody()->GetVelocity().GetDistance() * 200.f;
-	float fMaxPower = 300.f;
-	fPower = min(fMaxPower, fPower);
-	Debug->Print(Vector2(40, 200), L"d", fPower);
-	Vector3 vTargetPos = m_pTargetObject->GetPosition() + (-m_pTargetObject->GetUpVector()) * fPower;
-	vTargetPos = CMyMath::Lerp(vPos, vTargetPos, 15 * DeltaTime);
+	float fSpeed = m_pTargetObject->GetRigidbody()->GetSpeed();
+	float fMaxPower = 20.f;
+	fSpeed = min(fMaxPower, fSpeed);
+	Debug->Print(Vector2(40, 200), L"d", fSpeed);
+
+	Vector3 vTargetPos = m_pTargetObject->GetPosition();
+	if (fSpeed > 15) {
+		vTargetPos += (-m_pTargetObject->GetUpVector()) * fSpeed * 14.f;
+	}
+	vTargetPos = CMyMath::Lerp(vPos, vTargetPos, 6.f * DeltaTime);
 	m_vLook = vTargetPos;
 }
 

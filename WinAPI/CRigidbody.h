@@ -43,6 +43,7 @@ public:
 	Vector3 GetVelocity() const { return m_vVelocity; }
 	void SetDrag(float _fDrag) { m_fDrag = max(_fDrag, 0.0f); } // 공기 저항 (0 ~ alpha)
 	float GetDrag(float _fDrag) const { return m_fDrag; }
+	float GetSpeed() { return m_fSpeed; }
 	// inline void SetAngularDrag(float _fAngularDrag); // 회전값에 대한 저항
 	void UseGravity(bool _bUseGravity) { m_bUseGravity = _bUseGravity; } // 중력 사용 여부 설정
 	bool IsOnGracity() const { return m_bUseGravity; }

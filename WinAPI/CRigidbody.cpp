@@ -92,15 +92,15 @@ void CRigidbody::LateUpdate()
 	vDragDir.Normalized();
 	Vector3 vDragVec = -vDragDir * m_fDrag * DeltaTime;
 	float fDragSpeed = vDragVec.GetDistance();
-	float fSpeed = m_vVelocity.GetDistance();
-	if (fDragSpeed > fSpeed)
+	m_fSpeed = m_vVelocity.GetDistance();
+	if (fDragSpeed > m_fSpeed)
 		m_vVelocity.Set(0.0f, 0.0f, 0.0f);
 	else
 		m_vVelocity += vDragVec;
 
 	// 최대 속도 제한
-	fSpeed = m_vVelocity.GetDistance();
-	if (fSpeed > m_fMaxSpeed * DeltaTime) {
+	m_fSpeed = m_vVelocity.GetDistance();
+	if (m_fSpeed > m_fMaxSpeed * DeltaTime) {
 		m_vVelocity.Normalized();
 		m_vVelocity = m_vVelocity * m_fMaxSpeed * DeltaTime;
 	}

@@ -45,8 +45,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     
     int x = (UINT)GetSystemMetrics(SM_CXSCREEN);
     int y = (UINT)GetSystemMetrics(SM_CYSCREEN);
-    /*Vector2 vResolution = ResizeScaleMaintainRatio((float)x, (float)y, (float)1280, (float)768);*/
-    Vector2 vResolution = Vector2(1280.f, 900.f);
+    int iScreenSize = x > y ? y : x;
+    //Vector2 vResolution = ResizeScaleMaintainRatio((float)x, (float)y, (float)1280, (float)768);
+    Vector2 vResolution = Vector2(1280, 900);
 
     CCore::GetInstance()->Init(g_hWnd, POINT{ LONG(vResolution.x), LONG(vResolution.y) });
     //CCore::GetInstance()->Init(g_hWnd, POINT{ 1280, 768 });

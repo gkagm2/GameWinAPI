@@ -101,6 +101,7 @@ void CGTA_PoliceCar::OnCollisionStay(CObject* _pOther)
 		DeleteObject(myBrush);
 		DeleteObject(hPen);
 	}
+	CGTA_Vehicle::OnCollisionStay(_pOther);
 }
 
 void CGTA_PoliceCar::OnCollisionExit(CObject* _pOther)
