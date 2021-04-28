@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CUI.h"
 #include "CPanelUI.h"
-#include "CImageUI.h"
+#include "CTileUI.h"
 #include "CResourceManager.h"
 #include "CTexture.h"
 
@@ -116,7 +116,7 @@ void CPanelUI::SetGridUI(int _iColCnt = 1, int _iRowCnt = 1, float _fLeftPadding
 		startPosx = GetFinalPosition().x + m_fLeftPadding;
 		for (int j = 0; j < m_iColCnt; ++j) {
 			// 이미지 생성
-			CImageUI* pChildImageUI = new CImageUI(E_GroupType::UI);
+			CTileUI* pChildImageUI = new CTileUI(E_GroupType::UI);
 			//pChildImageUI->SetTexture(pTileTexture);
 			pChildImageUI->SetPosition(startPosx, startPosy, 0.0f);
 			pChildImageUI->SetScale(fCellWidth, fCellHeight);

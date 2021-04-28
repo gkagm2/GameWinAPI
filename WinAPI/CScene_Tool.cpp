@@ -20,7 +20,7 @@
 
 #include "CUI.h"
 #include "CPanelUI.h"
-#include "CImageUI.h"
+#include "CTileUI.h"
 #include "CTileToolPanelUI.h"
 #include "CCamera_Tool.h"
 

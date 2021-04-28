@@ -29,7 +29,7 @@
 #include "CGTA_Bullet.h"
 
 #include "CGTA_UIContainer.h"
-#include "CGTA_WeaponUI.h"
+#include "CGTA_PlayerUI.h"
 
 CScene_GtaInGame::CScene_GtaInGame()
 {

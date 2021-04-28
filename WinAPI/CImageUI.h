@@ -1,19 +1,20 @@
 #pragma once
 #include "CUI.h"
 
-class CTexture;
-class CTile;
-class CImageUI : public CUI // Tile Image로 사용한다
+enum class E_RenderType {
+	transparentBlt,
+	bitBlt,
+	// plgBlt,
+};
+class CImageUI : public CUI
 {
 private:
-	const static int g_iTileSize;
-
-private:
 	Vector2 m_vLT; // image's left top position
-	int m_iTileIdx;
-	E_TileType m_eTileType;
-	wstring m_strTexturePath;
-	
+	Vector2 m_vRB; // image's right bottom position
+
+	COLORREF m_iExceptionColor;
+	E_RenderType m_eRenderType;
+
 public:
 	virtual void Init() override;
 	virtual void Update() override;
@@ -23,18 +24,20 @@ public:
 public:
 	//virtual void OnPointerDown() override;
 	//virtual void OnPointerUp() override;
-	virtual void OnPointerClick() override;
+	//virtual void OnPointerClick() override;
 
 public:
-	void SetLT(Vector2 _vLeftTopPos) { m_vLT = _vLeftTopPos; }
-	Vector2 GetLT() { return m_vLT;	}
+	void SetImageTransPaBlt(const Vector2& _vLT, const Vector2& _vRT, COLORREF _exceptionColor); // TransparentBlt 용도
+	void SetImageBitBlt(const Vector2& _vLT, const Vector2& _vRT); //BitBlt 용도
 
-	void SetTileIdx(int _iTileIdx){ m_iTileIdx = _iTileIdx;}
-	int GetTileIdx() { return m_iTileIdx; }
-	void SetTileType(E_TileType _eTileType) { m_eTileType = _eTileType; }
-	E_TileType GetTileType() { return m_eTileType; }
-	void SetTexturePath(const wstring& _strTexturePath) { m_strTexturePath = _strTexturePath; }
-	const wstring& GetTexturePath() { return m_strTexturePath; }
+	void SetLT(Vector2 _vLeftTopPos) { m_vLT = _vLeftTopPos; }
+	Vector2 GetLT() { return m_vLT; }
+	void SetRB(Vector2 _vRightBottomPos) { m_vRB = _vRightBottomPos; }
+	Vector2 GetRB() { return m_vRB; }
+
+	void SetExceptionColor(COLORREF _exceptionColor) { m_iExceptionColor = _exceptionColor; }
+
+	E_RenderType GetCurRenderType() { return m_eRenderType; }
 
 public:
 	CLONE(CImageUI);

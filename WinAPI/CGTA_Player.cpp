@@ -25,7 +25,7 @@
 #include "CGTA_WalkToVehicleState.h"
 
 #include "CGTA_UIContainer.h"
-#include "CGTA_WeaponUI.h"
+#include "CGTA_PlayerUI.h"
 
 #include "CDebug.h"
 
@@ -375,7 +375,7 @@ void CGTA_Player::ChangePrevWeapon()
 	// UI Set
 	CGTA_UIContainer* pUIContainer = (CGTA_UIContainer*)CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_UIContainer);
 	assert(pUIContainer);
-	pUIContainer->GetWeaponUI()->ChangeWeaponUI(GetWeaponInfo(GetCurWeaponType()));
+	pUIContainer->GetPlayerUI()->ChangeWeaponUI(GetWeaponInfo(GetCurWeaponType()));
 }
 
 void CGTA_Player::ChangeNextWeapon()
@@ -384,5 +384,5 @@ void CGTA_Player::ChangeNextWeapon()
 	// UI Set
 	CGTA_UIContainer* pUIContainer = (CGTA_UIContainer*)CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_UIContainer);
 	assert(pUIContainer);
-	pUIContainer->GetWeaponUI()->ChangeWeaponUI(GetWeaponInfo(GetCurWeaponType()));
+	pUIContainer->GetPlayerUI()->ChangeWeaponUI(GetWeaponInfo(GetCurWeaponType()));
 }

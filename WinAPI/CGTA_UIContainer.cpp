@@ -2,7 +2,7 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CGTA_UIContainer.h"
-#include "CGTA_WeaponUI.h"
+#include "CGTA_PlayerUI.h"
 
 CGTA_UIContainer::CGTA_UIContainer(E_GroupType _eGroupType) :
 	CUI(_eGroupType),
@@ -18,7 +18,7 @@ CGTA_UIContainer::~CGTA_UIContainer()
 void CGTA_UIContainer::Init()
 {
 	SetObjectName(STR_OBJECT_NAME_UIContainer);
-	m_pWeaponUI = new CGTA_WeaponUI(E_GroupType::UI);
+	m_pWeaponUI = new CGTA_PlayerUI(E_GroupType::UI);
 	m_pWeaponUI->Init();
 	CSceneManager::GetInstance()->GetCurScene()->AddObject(m_pWeaponUI);
 }

@@ -8,7 +8,7 @@
 #include "CScene.h"
 
 #include "CTexture.h"
-#include "CImageUI.h"
+#include "CTileUI.h"
 
 #include "CObjTool.h"
 #include "CDragScreen.h"
@@ -181,7 +181,7 @@ void CObjTool::InitMapTool()
 		vector<CUI*>& vecChildUI = m_pGroundTileToolUI->GetChildsUI();
 		for (UINT i = 0; i < vecChildUI.size(); ++i) {
 
-			CImageUI* pImgUI = dynamic_cast<CImageUI*>(vecChildUI[i]);
+			CTileUI* pImgUI = dynamic_cast<CTileUI*>(vecChildUI[i]);
 			// 텍스쳐 설정
 			pImgUI->SetTexture(pTileGroundTex);
 			pImgUI->SetLT(Vector2(TILE_SIZE * (int)(i % iCol), TILE_SIZE * (int)(i / iRow)));
@@ -208,7 +208,7 @@ void CObjTool::InitMapTool()
 		vector<CUI*>& vecChildUI = m_pWallTileToolUI->GetChildsUI();
 		for (UINT i = 0; i < vecChildUI.size(); ++i) {
 
-			CImageUI* pImgUI = dynamic_cast<CImageUI*>(vecChildUI[i]);
+			CTileUI* pImgUI = dynamic_cast<CTileUI*>(vecChildUI[i]);
 			// 텍스쳐 설정
 			pImgUI->SetTexture(pTileWallTex);
 			pImgUI->SetLT(Vector2(TILE_SIZE * (int)(i % iCol), TILE_SIZE * (int)(i / iRow)));

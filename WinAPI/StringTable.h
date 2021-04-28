@@ -96,6 +96,8 @@
 #define STR_FILE_PATH_UI_GTA_Shotgun L"Texture\\GTA\\shotgun.bmp"
 #define STR_FILE_PATH_UI_GTA_SubmahineGun L"Texture\\GTA\\Submachine Gun.bmp"
 
+#define STR_FILE_PATH_UI_GTA_Life L"Texture\\GTA\\LifeUI.bmp"
+
 
 #define STR_FILE_NAME_UI_TileRoad L"Texture\\GTA\\RoadTile.bmp"
 #define STR_FILE_PATH_UI_TileRoad L"Texture\\GTA\\RoadTile.bmp"

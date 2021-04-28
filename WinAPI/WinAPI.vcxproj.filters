@@ -137,9 +137,6 @@
     <Filter Include="Game\5. Object\TileMap">
       <UniqueIdentifier>{1c6b6a54-4cab-4705-944c-53470ac4e7c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\5. Object\Tile">
-      <UniqueIdentifier>{b216cafa-70c3-4eee-9909-ca56982be4f5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\5. Object\UI">
       <UniqueIdentifier>{305d8c27-98ad-4016-a7e9-2485d3e0ad59}</UniqueIdentifier>
     </Filter>
@@ -245,9 +242,6 @@
     <Filter Include="Game\5. Object\Gta_PJ\AI\PathFinding">
       <UniqueIdentifier>{47b3f1d7-26d5-452b-b542-e4bf2378ad35}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\5. Object\Test">
-      <UniqueIdentifier>{de9996ef-2e9c-4356-b524-44dc65eb6063}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\5. Object\Gta_PJ\Character\Citi_Citizen">
       <UniqueIdentifier>{51844bb3-b649-4948-aa1d-f965a4de6c5a}</UniqueIdentifier>
     </Filter>
@@ -295,6 +289,12 @@
     </Filter>
     <Filter Include="Game\5. Object\Gta_PJ\UI">
       <UniqueIdentifier>{57591a4e-3ba4-42ac-a2f9-60b947ce9e15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\UI\TileUI">
+      <UniqueIdentifier>{3a31acb8-f917-4e14-b5bf-8fbe0584a73c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\UI\PlayerUI">
+      <UniqueIdentifier>{6247d2c2-59f6-4fcc-b341-9f28f2ca0b5a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -439,9 +439,6 @@
     <ClInclude Include="CPanelUI.h">
       <Filter>Game\5. Object\UI\PanelUI</Filter>
     </ClInclude>
-    <ClInclude Include="CImageUI.h">
-      <Filter>Game\5. Object\UI\ImageUI</Filter>
-    </ClInclude>
     <ClInclude Include="CCar.h">
       <Filter>Game\5. Object\Gta_PJ\Gta_Car</Filter>
     </ClInclude>
@@ -553,11 +550,27 @@
     <ClInclude Include="CGTA_PunchDetector.h">
       <Filter>Game\5. Object\Gta_PJ\Character\PunchDetector</Filter>
     </ClInclude>
-    <ClInclude Include="CGTA_StunState.h" />
-    <ClInclude Include="CSoundManager.h" />
-    <ClInclude Include="CGTA_WalkToVehicleState.h" />
-    <ClInclude Include="CGTA_WeaponUI.h" />
-    <ClInclude Include="CGTA_UIContainer.h" />
+    <ClInclude Include="CTileUI.h">
+      <Filter>Game\5. Object\UI\TileUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CImageUI.h">
+      <Filter>Game\5. Object\UI\ImageUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_WalkToVehicleState.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\walkToCar</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_StunState.h">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Stun</Filter>
+    </ClInclude>
+    <ClInclude Include="CSoundManager.h">
+      <Filter>Game\0. Manager\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_UIContainer.h">
+      <Filter>Game\5. Object\Gta_PJ\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_PlayerUI.h">
+      <Filter>Game\5. Object\Gta_PJ\UI\PlayerUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -693,9 +706,6 @@
     <ClCompile Include="CPanelUI.cpp">
       <Filter>Game\5. Object\UI\PanelUI</Filter>
     </ClCompile>
-    <ClCompile Include="CImageUI.cpp">
-      <Filter>Game\5. Object\UI\ImageUI</Filter>
-    </ClCompile>
     <ClCompile Include="CCar.cpp">
       <Filter>Game\5. Object\Gta_PJ\Gta_Car</Filter>
     </ClCompile>
@@ -807,11 +817,27 @@
     <ClCompile Include="CGTA_PunchDetector.cpp">
       <Filter>Game\5. Object\Gta_PJ\Character\PunchDetector</Filter>
     </ClCompile>
-    <ClCompile Include="CGTA_StunState.cpp" />
-    <ClCompile Include="CSoundManager.cpp" />
-    <ClCompile Include="CGTA_WalkToVehicleState.cpp" />
-    <ClCompile Include="CGTA_WeaponUI.cpp" />
-    <ClCompile Include="CGTA_UIContainer.cpp" />
+    <ClCompile Include="CTileUI.cpp">
+      <Filter>Game\5. Object\UI\TileUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CImageUI.cpp">
+      <Filter>Game\5. Object\UI\ImageUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_WalkToVehicleState.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\walkToCar</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_StunState.cpp">
+      <Filter>Game\5. Object\Gta_PJ\Character\Citi_Citizen\AIState\Stun</Filter>
+    </ClCompile>
+    <ClCompile Include="CSoundManager.cpp">
+      <Filter>Game\0. Manager\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_UIContainer.cpp">
+      <Filter>Game\5. Object\Gta_PJ\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_PlayerUI.cpp">
+      <Filter>Game\5. Object\Gta_PJ\UI\PlayerUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">
