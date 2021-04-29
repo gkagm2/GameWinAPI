@@ -133,16 +133,17 @@ void CGTA_Cop::State()
 	case E_CharacterState::attack:
 		if (false == HaveGun()) {
 			if (true == GetAnimator()->GetAnimation(L"punch")->IsFinish()) {
-				// 현재 상태가 Move에서 true가 되었을 경우
 				if (m_bIsMoved)
-					SetCharacterState(E_CharacterState::run);
+					SetCharacterState(E_CharacterState::walk);
 				else
 					SetCharacterState(E_CharacterState::idle);
 			}
-			else {
-				GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
-				int iCurFrame = GetAnimator()->GetAnimation(L"punch")->GetCurFrame();
-			}
+		}
+		else {
+			if (m_bIsMoved)
+				SetCharacterState(E_CharacterState::run);
+			else
+				SetCharacterState(E_CharacterState::idle);
 		}
 		break;
 	case E_CharacterState::dead: {

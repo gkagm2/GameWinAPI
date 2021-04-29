@@ -4,7 +4,7 @@ class CGTA_PlayerUI;
 class CGTA_UIContainer : public CUI
 {
 private:
-	CGTA_PlayerUI* m_pWeaponUI;
+	CGTA_PlayerUI* m_pPlayerUI;
 
 public:
 	virtual void Init() override;
@@ -12,7 +12,7 @@ public:
 	virtual void Render(HDC _hDC) override;
 
 public:
-	CGTA_PlayerUI* GetPlayerUI() { return m_pWeaponUI; }
+	CGTA_PlayerUI* GetPlayerUI() { return m_pPlayerUI; }
 
 public:
 	CLONE_DISABLE(CGTA_UIContainer);

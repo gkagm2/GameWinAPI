@@ -27,8 +27,8 @@ public:
 	//virtual void OnPointerClick() override;
 
 public:
-	void SetImageTransPaBlt(const Vector2& _vLT, const Vector2& _vRT, COLORREF _exceptionColor); // TransparentBlt 용도
-	void SetImageBitBlt(const Vector2& _vLT, const Vector2& _vRT); //BitBlt 용도
+	void SetImageTransPaBlt(const Vector2& _vTexLT, const Vector2& _vTexRT, const Vector3& _vScale, COLORREF _exceptionColor = EXCEPTION_COLOR_RGB_BLACK); // TransparentBlt 용도
+	void SetImageBitBlt(const Vector2& _vTexLT, const Vector2& _vTexRT); //BitBlt 용도
 
 	void SetLT(Vector2 _vLeftTopPos) { m_vLT = _vLeftTopPos; }
 	Vector2 GetLT() { return m_vLT; }

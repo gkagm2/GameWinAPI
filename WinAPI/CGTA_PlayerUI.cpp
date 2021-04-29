@@ -9,7 +9,6 @@
 CGTA_PlayerUI::CGTA_PlayerUI(E_GroupType _eGroupType) :
 	CUI(_eGroupType),
 	m_pWeaponImage(nullptr),
-	m_pLifeImage(nullptr),
 	m_fLife(0.f)
 {
 }
@@ -28,7 +27,7 @@ void CGTA_PlayerUI::Init()
 	m_pWeaponImage->Init();
 	CreateObject(m_pWeaponImage);
 
-
+	// Life Image Setting
 	for (int i = 0; i < 5; ++i) {
 		// Life Image Setting
 		CImageUI* pLifeImage = new CImageUI(E_GroupType::UI);
@@ -40,8 +39,11 @@ void CGTA_PlayerUI::Init()
 			assert(pLifeTex);
 		}
 		pLifeImage->SetTexture(pLifeTex);
-		pLifeImage->SetImageTransPaBlt(Vector2{ 0,0 }, Vector2{ pLifeTex->GetWidth(), pLifeTex->GetHeight() }, EXCEPTION_COLOR_RGB_BLACK);
+		pLifeImage->SetImageTransPaBlt(Vector2{ 0,0 }, Vector2{ pLifeTex->GetWidth(), pLifeTex->GetHeight() }, Vector3{ 30,30,0 }, EXCEPTION_COLOR_RGB_BLACK);
+		Vector3 vPosition = {(float)(i * pLifeImage->ScaleX()), 0.f, 0.f };
+		pLifeImage->SetPosition(vPosition);
 		CreateObject(pLifeImage);
+		m_vecLifeImages.push_back(pLifeImage);
 	}
 }
 
@@ -69,7 +71,7 @@ void CGTA_PlayerUI::Render(HDC _hDC)
 	
 	CUI::Render(_hDC);
 }
-
+	
 void CGTA_PlayerUI::SetLifeUI(float _fHP)
 {
 	// 체력2일경우 하트가 한개임
@@ -90,5 +92,5 @@ void CGTA_PlayerUI::ChangeWeaponUI(const TWeaponInfo& _tWeaponInfo)
 		assert(pWeaponTex);
 	}
 	m_pWeaponImage->SetTexture(pWeaponTex);
-	m_pWeaponImage->SetImageTransPaBlt(Vector2{ 0,0 }, Vector2{ pWeaponTex->GetWidth(), pWeaponTex->GetHeight() }, EXCEPTION_COLOR_RGB_BLACK);
+	m_pWeaponImage->SetImageTransPaBlt(Vector2{ 0,0 }, Vector2{ pWeaponTex->GetWidth(), pWeaponTex->GetHeight() }, m_pWeaponImage->GetScale(), EXCEPTION_COLOR_RGB_BLACK);
 }

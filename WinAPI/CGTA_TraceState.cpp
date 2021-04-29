@@ -67,13 +67,18 @@ void CGTA_TraceState::Update()
 				}
 				//CGTA_Vehicle* pVehicle = dynamic_cast<CGTA_Vehicle>*(m_pTarget);
 				// 사정거리 내로 왔으면
-				m_fAttackCoolTime += DeltaTime;
-				GetCharacter()->LookAt(m_pTarget->GetPosition(), 400 * DeltaTime);
-				if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
+				if (E_WeaponType::FIST == GetCharacter()->GetCurWeaponType()) {
 					GetCharacter()->Attack(m_pTarget->GetPosition());
-					m_fAttackCoolTime = 0.f;
 				}
-				GetCharacter()->SetCharacterState(E_CharacterState::idle);
+				else {
+					m_fAttackCoolTime += DeltaTime;
+					GetCharacter()->LookAt(m_pTarget->GetPosition(), 400 * DeltaTime);
+					if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
+						GetCharacter()->Attack(m_pTarget->GetPosition());
+						m_fAttackCoolTime = 0.f;
+					}
+					GetCharacter()->SetCharacterState(E_CharacterState::idle);
+				}
 			}
 			else {
 				// 그냥 움직이기

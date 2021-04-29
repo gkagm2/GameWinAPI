@@ -234,13 +234,27 @@ void CGTA_Character::Attack()
 
 	// 주먹이면
 	if (E_WeaponType::FIST == ecurWeaponType) {
-		GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
-		// Punch 컬라이더가 생성된다
-		CGTA_PunchDetector* pPunchDetector = new CGTA_PunchDetector(E_GroupType::PUNCH, this);
-		pPunchDetector->Init();
-		pPunchDetector->SetRotateDegree(GetRotateDegree());
-		pPunchDetector->SetPosition(GetPosition());
-		CreateObject(pPunchDetector);
+		bool bDoPunch = false;
+		wstring name = GetAnimator()->GetCurAnimation()->GetName();
+		if (L"punch" != GetAnimator()->GetCurAnimation()->GetName()) {
+			GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
+			GetAnimator()->GetCurAnimation()->Reset();
+			bDoPunch = true;
+		}
+		else { // already set punch
+			if (GetAnimator()->GetCurAnimation()->IsFinish()) { // end of animation
+				GetAnimator()->GetCurAnimation()->Reset();
+				bDoPunch = true;
+			}
+		}
+		if (bDoPunch) {
+			// Punch 컬라이더가 생성된다
+			CGTA_PunchDetector* pPunchDetector = new CGTA_PunchDetector(E_GroupType::PUNCH, this);
+			pPunchDetector->Init();
+			pPunchDetector->SetRotateDegree(GetRotateDegree());
+			pPunchDetector->SetPosition(GetPosition());
+			CreateObject(pPunchDetector);
+		}
 	}
 	else {
 		// 총 타입에 따라 Shoot.

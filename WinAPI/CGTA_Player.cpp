@@ -107,10 +107,15 @@ void CGTA_Player::Update()
 			
 			// Gun Fire
 			if (InputKeyHold(E_Key::Ctrl)) {
-				if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
+				if (E_WeaponType::FIST == GetCurWeaponType())
 					Attack();
-					m_fAttackCoolTime = 0.f;
+				else {
+					if (m_fAttackCoolTime >= m_fAttackMaxCoolTime) {
+						Attack();
+						m_fAttackCoolTime = 0.f;
+					}
 				}
+				
 			}
 		}
 
@@ -190,8 +195,15 @@ void CGTA_Player::State()
 		m_bIsMoved = true;
 		if (HaveGun())
 			GetAnimator()->PlayAnimation(L"run_gun", E_AnimationPlayType::LOOP);
-		else
-			GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
+		else {
+			wstring name = GetAnimator()->GetCurAnimation()->GetName();
+			if (0 == GetAnimator()->GetCurAnimation()->GetName().compare(L"punch")) {
+				if (true == GetAnimator()->GetAnimation(L"punch")->IsFinish())
+					GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
+			}
+			else
+				GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
+		}
 		break;
 	case E_CharacterState::walk:
 		m_bIsMoved = true;
@@ -204,10 +216,12 @@ void CGTA_Player::State()
 				else
 					SetCharacterState(E_CharacterState::idle);
 			}
-			else {
-				GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
-				int iCurFrame = GetAnimator()->GetAnimation(L"punch")->GetCurFrame();
-			}
+		}
+		else {
+			if (m_bIsMoved)
+				SetCharacterState(E_CharacterState::run);
+			else
+				SetCharacterState(E_CharacterState::idle);
 		}
 		break;
 	case E_CharacterState::dead: {

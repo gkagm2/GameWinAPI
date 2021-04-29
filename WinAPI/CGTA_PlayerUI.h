@@ -17,9 +17,8 @@ public:
 	virtual void Render(HDC _hDC) override;
 
 public:
-
 	CImageUI* GetWeaponImage() { return m_pWeaponImage; }
-	CImageUI* GetLifeImage() { return m_pLifeImage; }
+	vector<CImageUI*>& GetLifeImage() { return m_vecLifeImages; }
 
 	void SetLifeUI(float _fHP);
 	void ChangeWeaponUI(const TWeaponInfo& _tWeaponInfo);

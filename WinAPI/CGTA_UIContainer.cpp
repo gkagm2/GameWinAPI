@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "stdafx.h"	
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CGTA_UIContainer.h"
@@ -6,21 +6,21 @@
 
 CGTA_UIContainer::CGTA_UIContainer(E_GroupType _eGroupType) :
 	CUI(_eGroupType),
-	m_pWeaponUI(nullptr)
+	m_pPlayerUI(nullptr)
 {
 }
 
 CGTA_UIContainer::~CGTA_UIContainer()
 {
-	m_pWeaponUI = nullptr;
+	m_pPlayerUI = nullptr;
 }
 
 void CGTA_UIContainer::Init()
 {
 	SetObjectName(STR_OBJECT_NAME_UIContainer);
-	m_pWeaponUI = new CGTA_PlayerUI(E_GroupType::UI);
-	m_pWeaponUI->Init();
-	CSceneManager::GetInstance()->GetCurScene()->AddObject(m_pWeaponUI);
+	m_pPlayerUI = new CGTA_PlayerUI(E_GroupType::UI);
+	m_pPlayerUI->Init();
+	CSceneManager::GetInstance()->GetCurScene()->AddObject(m_pPlayerUI);
 }
 
 void CGTA_UIContainer::Update()
