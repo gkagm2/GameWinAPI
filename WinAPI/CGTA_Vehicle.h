@@ -25,6 +25,8 @@ private:
     CObject* m_pDriver;
     bool m_bExplosion; // 폭발 여부
     E_VehicleState m_eVehicleState;
+
+    bool m_bReverse; // 후진 여부
     
 
 public:
@@ -61,6 +63,7 @@ public:
     void SetVehicleState(E_VehicleState _eVehicleState) { m_eVehicleState = _eVehicleState; }
 
     bool DidExploded() { return m_bExplosion; }
+    bool IsReverse() { return m_bReverse; } // 후진하고있는가?
 
 public:
     CLONE(CGTA_Vehicle);

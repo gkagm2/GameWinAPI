@@ -76,7 +76,7 @@ void CGTA_Player::Init()
 
 	SetPosition(0, 0, 0);
 
-	SetObjectName(L"Player");
+	SetObjectName(STR_OBJECT_NAME_Player);
 	CGTA_Character::Init();
 
 	GetRigidbody()->SetMass(10.f);

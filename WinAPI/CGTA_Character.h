@@ -35,7 +35,8 @@ struct TCharacterInfo {
 	float fMoveSpeed;
 	float fWalkSpeed;
 
-	TCharacterInfo() : fHp(10.f), fArmor(0.f), fMoveSpeed(300.f), fWalkSpeed(60.f) {}
+	const float fMaxHp;
+	TCharacterInfo() : fHp(10.f), fArmor(0.f), fMoveSpeed(300.f), fWalkSpeed(60.f) , fMaxHp(10.f) {}
 	void Save(FILE* _pFile);
 	void Load(FILE* _pFile);
 };

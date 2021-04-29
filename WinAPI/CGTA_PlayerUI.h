@@ -1,16 +1,19 @@
 #pragma once
 #include "CUI.h"
 class CImageUI;
+class CGTA_Player;
+class CTextUI;
 class CGTA_PlayerUI : public CUI
 {
 private:
-	TWeaponInfo m_tWeaponInfo;
-	Vector3 m_vWeaponPos;
-
 	CImageUI* m_pWeaponImage;
 	vector<CImageUI*> m_vecLifeImages;
 	float m_fLife;
 
+	CTextUI* m_pAmmoTextUI;
+	CTextUI* m_pMoneyTextUI;
+
+	CGTA_Player* m_pPlayer;
 public:
 	virtual void Init() override;
 	virtual void Update() override;

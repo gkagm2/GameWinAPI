@@ -112,7 +112,7 @@ void CScene_GtaInGame::Start()
 	// 수배 시스템
 	
 	////// Camera 추가
-	CGTA_Player* pPlayer = (CGTA_Player*)CSceneManager::GetInstance()->GetCurScene()->FindObject(L"Player");
+	CGTA_Player* pPlayer = (CGTA_Player*)CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_Player);
 	CCamera2D* pCamera = new CCamera2D(E_GroupType::MAIN_CAMERA);
 	pCamera->Init();
 	pCamera->SetMainCamera();

@@ -46,7 +46,7 @@ void CScene_Start::Start()
 	
 	// 플레이어 오브젝트 생성
 	CPlayer* pPlayer = new CPlayer(E_GroupType::PLAYER);
-	pPlayer->SetObjectName(L"Player");
+	pPlayer->SetObjectName(STR_OBJECT_NAME_Player);
 	pPlayer->SetPosition(Vector3{ ptResolution.x * 0.5f, ptResolution.y - 200.0f, .0f });
 	pPlayer->SetTexture(pPlayerTexture2); // 텍스쳐 설정
 

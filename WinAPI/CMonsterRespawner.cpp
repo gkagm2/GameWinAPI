@@ -136,7 +136,7 @@ void CMonsterRespawner::CreateSmallMonster()
 	pMonster->SetTexture(pMonsterTexture);
 
 	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
-	CObject* pPlayerObj = pCurScene->FindObject(L"Player");
+	CObject* pPlayerObj = pCurScene->FindObject(STR_OBJECT_NAME_Player);
 	assert(nullptr != pPlayerObj);
 	pMonster->SetTargetObj(pPlayerObj);
 	pMonster->SetStartPosition(pMonster->GetPosition());
@@ -169,7 +169,7 @@ void CMonsterRespawner::CreateMonster()
 	pMonster->SetPosition(Vector2(ptResolution.x * 0.5f, 100.0f));
 
 	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
-	CObject* pPlayerObj = pCurScene->FindObject(L"Player");
+	CObject* pPlayerObj = pCurScene->FindObject(STR_OBJECT_NAME_Player);
 	pMonster->SetTargetObj(pPlayerObj);
 	pMonster->SetStartPosition(pMonster->GetPosition());
 

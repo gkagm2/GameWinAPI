@@ -44,7 +44,7 @@ void CTraceState::Start()
 	if (nullptr == m_pTarget) {
 		CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
 		if (pCurScene)
-			m_pTarget = pCurScene->FindObject(L"Player");
+			m_pTarget = pCurScene->FindObject(STR_OBJECT_NAME_Player);
 	}
 }
 

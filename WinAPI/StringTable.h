@@ -1,10 +1,13 @@
 #pragma once
 
+
+
 // PATH
 #define STR_FILE_PATH_Content L"\\bin\\content\\"
 
 #define STR_OBJECT_DEFAULT_NAME L"Empty Object"
 #define STR_OBJECT_NAME_UIContainer L"UIContainer"
+#define STR_OBJECT_NAME_Player L"Player"
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -62,6 +65,9 @@
 
 #define STR_FILE_PATH_GTA_Texture L"Texture\\GTA\\"
 #define STR_FILE_PATH_GTA_Sound L"Sound\\GTA\\"
+
+// Font
+#define STR_FILE_PATH_GTA_Font L"Texture\\GTA\\font.bmp"
 
 // Data
 #define STR_FILE_PATH_GTA_PlayerAnim_Save L"Data\\AnimFile\\Player.anim"

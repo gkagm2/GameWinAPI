@@ -1,15 +1,22 @@
 #include "stdafx.h"
 #include "CGTA_PlayerUI.h"
 #include "CCore.h"
+#include "CScene.h"
+#include "CSceneManager.h"
 #include "CResource.h"
 #include "CResourceManager.h"
 #include "CImageUI.h"
+#include "CTextUI.h"
 #include "CTexture.h"
+#include "CGTA_Player.h"
 
 CGTA_PlayerUI::CGTA_PlayerUI(E_GroupType _eGroupType) :
 	CUI(_eGroupType),
 	m_pWeaponImage(nullptr),
-	m_fLife(0.f)
+	m_fLife(0.f),
+	m_pAmmoTextUI(nullptr),
+	m_pMoneyTextUI(nullptr),
+	m_pPlayer(nullptr)
 {
 }
 
@@ -19,12 +26,14 @@ CGTA_PlayerUI::~CGTA_PlayerUI()
 
 void CGTA_PlayerUI::Init()
 {
-	POINT rect = CCore::GetInstance()->GetResolution();
-	SetPosition(rect.x - 300, 0);
+	POINT tResolution = CCore::GetInstance()->GetResolution();
+	SetPosition(0, 0);
 	
-	// Weapon Image Setting
+	//// Weapon Image Setting
 	m_pWeaponImage = new CImageUI(E_GroupType::UI);
 	m_pWeaponImage->Init();
+	m_pWeaponImage->SetPosition(tResolution.x - 250 , 60, 0);
+	m_pWeaponImage->SetScale(150, 150, 0);
 	CreateObject(m_pWeaponImage);
 
 	// Life Image Setting
@@ -40,36 +49,63 @@ void CGTA_PlayerUI::Init()
 		}
 		pLifeImage->SetTexture(pLifeTex);
 		pLifeImage->SetImageTransPaBlt(Vector2{ 0,0 }, Vector2{ pLifeTex->GetWidth(), pLifeTex->GetHeight() }, Vector3{ 30,30,0 }, EXCEPTION_COLOR_RGB_BLACK);
-		Vector3 vPosition = {(float)(i * pLifeImage->ScaleX()), 0.f, 0.f };
+		Vector3 vPosition = {(float)(tResolution.x -250 +  i * pLifeImage->ScaleX() + 10), 20.f, 0.f };
 		pLifeImage->SetPosition(vPosition);
 		CreateObject(pLifeImage);
 		m_vecLifeImages.push_back(pLifeImage);
 	}
+
+	// Ammo Text Setting
+	m_pAmmoTextUI = new CTextUI(E_GroupType::UI);
+	m_pAmmoTextUI->SetPosition(tResolution.x * 0.5f, tResolution.y * 0.5f);
+	m_pAmmoTextUI->SetScale(40, 40, 0);
+	CreateObject(m_pAmmoTextUI);
+
+	// Money Text Setting
+	/*m_pMoneyTextUI = new CTextUI(E_GroupType::UI);
+	m_pMoneyTextUI->SetPosition(50, tResolution.y * 0.5f + 30.f);
+	m_pMoneyTextUI->SetScale(40, 40, 0);*/
+
+	CreateObject(m_pMoneyTextUI);
 }
 
 void CGTA_PlayerUI::Update()
 {
+	// Display Player info
 	CUI::Update();
 }
 
 void CGTA_PlayerUI::Render(HDC _hDC)
 {
-	if (nullptr == GetTexture())
-		return;
+	if (nullptr == m_pPlayer) {
+		m_pPlayer = (CGTA_Player*)CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_Player);
+		assert(m_pPlayer);
+	}
 
 	Vector3 vFinalPos = GetFinalPosition();
 	Vector3 vScale = GetScale();
 
+	// Render Weapon name
 	wchar_t buff[255];
-	TextOut(_hDC, vFinalPos.x, vFinalPos.y + 150, m_tWeaponInfo.strName.c_str(), wcslen(m_tWeaponInfo.strName.c_str()));
+	TextOut(_hDC, vFinalPos.x, vFinalPos.y + 150, m_pPlayer->GetWeaponInfo(m_pPlayer->GetCurWeaponType()).strName.c_str(), wcslen(m_pPlayer->GetWeaponInfo(m_pPlayer->GetCurWeaponType()).strName.c_str()));
 
-	swprintf(buff, 255, L"Ammo : %d", m_tWeaponInfo.iBulletCnt);
-	TextOut(_hDC, vFinalPos.x, vFinalPos.y + 180, buff, wcslen(buff));
+	// Render Weapon ammo
+	m_pAmmoTextUI->SetText(m_pPlayer->GetWeaponInfo(m_pPlayer->GetCurWeaponType()).iBulletCnt);
 
-	// Weapon Texture 
-	//TransparentBlt(_hDC, (int)vFinalPos.x, (int)vFinalPos.y, (int)GetScale().x, (int)GetScale().y, m_pWeaponTexture->GetDC(), 0, 0, m_pWeaponTexture->GetWidth(), m_pWeaponTexture->GetHeight(), 0);
-	
-	CUI::Render(_hDC);
+	// Render Player HP
+	float fHp = m_pPlayer->CharacterInfo().fHp;
+	float fMaxHp = m_pPlayer->CharacterInfo().fMaxHp;
+	float fOneLifeImg = fMaxHp / m_vecLifeImages.size();
+	float fLifeImgCnt = fHp / fOneLifeImg;
+	for (int i = 0; i < m_vecLifeImages.size(); ++i) {
+		if (i < fLifeImgCnt)
+			m_vecLifeImages[i]->SetRender(true);
+		else
+			m_vecLifeImages[i]->SetRender(false);
+	}
+
+	// None
+	//CUI::Render(_hDC);
 }
 	
 void CGTA_PlayerUI::SetLifeUI(float _fHP)
@@ -80,17 +116,17 @@ void CGTA_PlayerUI::SetLifeUI(float _fHP)
 
 void CGTA_PlayerUI::ChangeWeaponUI(const TWeaponInfo& _tWeaponInfo)
 {
-	m_tWeaponInfo = _tWeaponInfo;
-	if (m_tWeaponInfo.strName.compare(STR_NAME_Fist) == 0) {
+	if (_tWeaponInfo.strName.compare(STR_NAME_Fist) == 0) {
 		m_pWeaponImage->SetTexture(nullptr);
 		return;
 	}
-	wstring strPath = STR_FILE_PATH_GTA_Texture + m_tWeaponInfo.strName + L".bmp";
+	wstring strPath = STR_FILE_PATH_GTA_Texture + _tWeaponInfo.strName + L".bmp";
 	CTexture* pWeaponTex = CResourceManager::GetInstance()->FindTexture(strPath);
 	if (nullptr == pWeaponTex) {
 		pWeaponTex = CResourceManager::GetInstance()->LoadTexture(strPath, strPath);
 		assert(pWeaponTex);
 	}
+	Vector3 vScale = m_pWeaponImage->GetScale();
 	m_pWeaponImage->SetTexture(pWeaponTex);
 	m_pWeaponImage->SetImageTransPaBlt(Vector2{ 0,0 }, Vector2{ pWeaponTex->GetWidth(), pWeaponTex->GetHeight() }, m_pWeaponImage->GetScale(), EXCEPTION_COLOR_RGB_BLACK);
 }

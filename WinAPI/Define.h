@@ -146,6 +146,7 @@ struct TTilePosComparae {
 
 #define TILE_SIZE 64
 #define TILE_SIZE_ITEM 40
+#define FONT_SIZE 10
 
 // Math
 #define PI 3.14159265f

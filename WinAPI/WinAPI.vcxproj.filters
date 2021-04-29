@@ -296,6 +296,9 @@
     <Filter Include="Game\5. Object\Gta_PJ\UI\PlayerUI">
       <UniqueIdentifier>{6247d2c2-59f6-4fcc-b341-9f28f2ca0b5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\UI\TextUI">
+      <UniqueIdentifier>{ecb17842-4d84-456e-aabb-573bc2c4931c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -571,6 +574,7 @@
     <ClInclude Include="CGTA_PlayerUI.h">
       <Filter>Game\5. Object\Gta_PJ\UI\PlayerUI</Filter>
     </ClInclude>
+    <ClInclude Include="CTextUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -838,6 +842,7 @@
     <ClCompile Include="CGTA_PlayerUI.cpp">
       <Filter>Game\5. Object\Gta_PJ\UI\PlayerUI</Filter>
     </ClCompile>
+    <ClCompile Include="CTextUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">

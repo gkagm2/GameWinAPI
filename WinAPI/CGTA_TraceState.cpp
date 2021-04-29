@@ -126,7 +126,7 @@ void CGTA_TraceState::LateUpdate()
 void CGTA_TraceState::Start()
 {
 	if (nullptr == m_pTarget)
-		m_pTarget = CSceneManager::GetInstance()->GetCurScene()->FindObject(L"Player");
+		m_pTarget = CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_Player);
 	m_fAttackMaxCoolTime = GetCharacter()->GetAttackMaxCoolTime();
 }
 

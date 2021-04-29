@@ -106,7 +106,7 @@ void CGTA_RunawayState::LateUpdate()
 void CGTA_RunawayState::Start()
 {
 	if (m_pTarget == nullptr) {
-		m_pTarget = CSceneManager::GetInstance()->GetCurScene()->FindObject(L"Player");
+		m_pTarget = CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_Player);
 	}
 }
 

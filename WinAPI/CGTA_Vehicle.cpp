@@ -19,14 +19,16 @@
 CGTA_Vehicle::CGTA_Vehicle(E_GroupType _eGroupType) :
 	CObject(_eGroupType = E_GroupType::VEHICLE),
 	m_pDriver(nullptr),
-	m_bExplosion(false)
+	m_bExplosion(false),
+	m_bReverse(false)
 {
 }
 
 CGTA_Vehicle::CGTA_Vehicle(const CGTA_Vehicle& _origin) :
 	CObject(_origin),
 	m_pDriver(nullptr),
-	m_bExplosion(_origin.m_bExplosion)
+	m_bExplosion(_origin.m_bExplosion),
+	m_bReverse(_origin.m_bReverse)
 {
 }
 
@@ -51,8 +53,6 @@ void CGTA_Vehicle::Update()
 {
 	if (m_pDriver)
 		m_pDriver->SetPosition(GetPosition());
-
-
 }
 
 void CGTA_Vehicle::LateUpdate()
@@ -159,9 +159,11 @@ void CGTA_Vehicle::DriveUpdate()
 
 	if (InputKeyHold(E_Key::UP)) {
 		GetRigidbody()->AddForce(-GetUpVector() * VehicleInfo().fPower * DeltaTime);
+		m_bReverse = false;
 	}
 	if (InputKeyHold(E_Key::DOWN)) {
 		GetRigidbody()->AddForce(GetUpVector() * VehicleInfo().fPower * DeltaTime);
+		m_bReverse = true;
 	}
 }
 

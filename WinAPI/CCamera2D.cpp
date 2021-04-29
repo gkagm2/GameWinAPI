@@ -110,8 +110,10 @@ void CCamera2D::MoveVehicle()
 	Debug->Print(Vector2(40, 200), L"d", fSpeed);
 
 	Vector3 vTargetPos = m_pTargetObject->GetPosition();
-	if (fSpeed > 15) {
-		vTargetPos += (-m_pTargetObject->GetUpVector()) * fSpeed * 14.f;
+	if (fSpeed > 3) {
+		CGTA_Vehicle* pVehicle = (CGTA_Vehicle*)m_pTargetObject;
+		if(false == pVehicle->IsReverse())
+			vTargetPos += (-m_pTargetObject->GetUpVector()) * fSpeed * 55.f;
 	}
 	vTargetPos = CMyMath::Lerp(vPos, vTargetPos, 6.f * DeltaTime);
 	m_vLook = vTargetPos;

@@ -188,6 +188,7 @@
     <ClInclude Include="CGTA_TraceState.h" />
     <ClInclude Include="CGTA_WanderState.h" />
     <ClInclude Include="CIdleState.h" />
+    <ClInclude Include="CTextUI.h" />
     <ClInclude Include="CTileUI.h" />
     <ClInclude Include="CItemToolPanelUI.h" />
     <ClInclude Include="CKeyManager.h" />
@@ -281,6 +282,7 @@
     <ClCompile Include="CGTA_TraceState.cpp" />
     <ClCompile Include="CGTA_WanderState.cpp" />
     <ClCompile Include="CIdleState.cpp" />
+    <ClCompile Include="CTextUI.cpp" />
     <ClCompile Include="CTileUI.cpp" />
     <ClCompile Include="CItemToolPanelUI.cpp" />
     <ClCompile Include="CKeyManager.cpp" />

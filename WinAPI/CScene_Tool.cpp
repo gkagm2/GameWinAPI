@@ -69,7 +69,7 @@ void CScene_Tool::Start()
 	// Character ¸ðÀ½
 	// Player
 	//CGTA_Player* pPlayer = new CGTA_Player(E_GroupType::PLAYER);
-	//pPlayer->SetObjectName(L"Player");
+	//pPlayer->SetObjectName(STR_OBJECT_NAME_Player);
 	//pPlayer->Init();
 	//pPlayer->SetPosition(800, 800, 0);
 	//AddObject(pPlayer);	
