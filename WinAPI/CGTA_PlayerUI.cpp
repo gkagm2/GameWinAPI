@@ -12,6 +12,7 @@
 
 CGTA_PlayerUI::CGTA_PlayerUI(E_GroupType _eGroupType) :
 	CUI(_eGroupType),
+	m_vLifeScale{30.f, 30.f, 0.f},
 	m_pWeaponImage(nullptr),
 	m_fLife(0.f),
 	m_pAmmoTextUI(nullptr),
@@ -48,7 +49,7 @@ void CGTA_PlayerUI::Init()
 			assert(pLifeTex);
 		}
 		pLifeImage->SetTexture(pLifeTex);
-		pLifeImage->SetImageTransPaBlt(Vector2{ 0,0 }, Vector2{ pLifeTex->GetWidth(), pLifeTex->GetHeight() }, Vector3{ 30,30,0 }, EXCEPTION_COLOR_RGB_BLACK);
+		pLifeImage->SetImageTransPaBlt(Vector2{ 0,0 }, Vector2{ pLifeTex->GetWidth(), pLifeTex->GetHeight() }, m_vLifeScale, EXCEPTION_COLOR_RGB_BLACK);
 		Vector3 vPosition = {(float)(tResolution.x -250 +  i * pLifeImage->ScaleX() + 10), 20.f, 0.f };
 		pLifeImage->SetPosition(vPosition);
 		CreateObject(pLifeImage);
@@ -57,16 +58,15 @@ void CGTA_PlayerUI::Init()
 
 	// Ammo Text Setting
 	m_pAmmoTextUI = new CTextUI(E_GroupType::UI);
-	m_pAmmoTextUI->SetPosition(tResolution.x * 0.5f, tResolution.y * 0.5f);
+	m_pAmmoTextUI->SetPosition(tResolution.x - 220, 180.f);
 	m_pAmmoTextUI->SetScale(40, 40, 0);
 	CreateObject(m_pAmmoTextUI);
 
 	// Money Text Setting
 	/*m_pMoneyTextUI = new CTextUI(E_GroupType::UI);
 	m_pMoneyTextUI->SetPosition(50, tResolution.y * 0.5f + 30.f);
-	m_pMoneyTextUI->SetScale(40, 40, 0);*/
-
-	CreateObject(m_pMoneyTextUI);
+	m_pMoneyTextUI->SetScale(40, 40, 0);
+	CreateObject(m_pMoneyTextUI);*/
 }
 
 void CGTA_PlayerUI::Update()
@@ -85,12 +85,14 @@ void CGTA_PlayerUI::Render(HDC _hDC)
 	Vector3 vFinalPos = GetFinalPosition();
 	Vector3 vScale = GetScale();
 
-	// Render Weapon name
-	wchar_t buff[255];
-	TextOut(_hDC, vFinalPos.x, vFinalPos.y + 150, m_pPlayer->GetWeaponInfo(m_pPlayer->GetCurWeaponType()).strName.c_str(), wcslen(m_pPlayer->GetWeaponInfo(m_pPlayer->GetCurWeaponType()).strName.c_str()));
-
 	// Render Weapon ammo
-	m_pAmmoTextUI->SetText(m_pPlayer->GetWeaponInfo(m_pPlayer->GetCurWeaponType()).iBulletCnt);
+	if (E_WeaponType::FIST == m_pPlayer->GetCurWeaponType())
+		m_pAmmoTextUI->SetRender(false);
+	else {
+		m_pAmmoTextUI->SetRender(true);
+		m_pAmmoTextUI->SetText(m_pPlayer->GetWeaponInfo(m_pPlayer->GetCurWeaponType()).iBulletCnt);
+	}
+	
 
 	// Render Player HP
 	float fHp = m_pPlayer->CharacterInfo().fHp;

@@ -85,6 +85,10 @@ void CScene_GtaInGame::Start()
 	pCop1->SetPosition(800, 700);
 	AddObject(pCop1);
 
+	for (int i = 0; i < 10; ++i) {
+		AddObject(pCop->Clone());
+	}
+
 	
 	// 자동차나 
 	// 시민들을 자동생성을 관리해줄 매니저 오브젝트를 하나 생성하겠습니다.
@@ -95,8 +99,6 @@ void CScene_GtaInGame::Start()
 
 	// Vehicle 매니저 추가
 	// CVehicleManager;
-
-
 
 	// Citizen 매니저 추가
 	/*CGTA_CitizenCreator* pCitizenCreator = new CGTA_CitizenCreator(E_GroupType::DEFAULT);

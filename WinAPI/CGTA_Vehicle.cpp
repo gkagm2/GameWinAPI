@@ -20,7 +20,8 @@ CGTA_Vehicle::CGTA_Vehicle(E_GroupType _eGroupType) :
 	CObject(_eGroupType = E_GroupType::VEHICLE),
 	m_pDriver(nullptr),
 	m_bExplosion(false),
-	m_bReverse(false)
+	m_bReverse(false),
+	m_eVehicleState(E_VehicleState::normal)
 {
 }
 
@@ -28,7 +29,8 @@ CGTA_Vehicle::CGTA_Vehicle(const CGTA_Vehicle& _origin) :
 	CObject(_origin),
 	m_pDriver(nullptr),
 	m_bExplosion(_origin.m_bExplosion),
-	m_bReverse(_origin.m_bReverse)
+	m_bReverse(_origin.m_bReverse),
+	m_eVehicleState(_origin.m_eVehicleState)
 {
 }
 

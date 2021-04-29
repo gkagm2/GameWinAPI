@@ -27,6 +27,8 @@
 #include "CGTA_UIContainer.h"
 #include "CGTA_PlayerUI.h"
 
+#include "CGTA_PunchDetector.h"
+
 #include "CDebug.h"
 
 
@@ -80,6 +82,10 @@ void CGTA_Player::Init()
 	CGTA_Character::Init();
 
 	GetRigidbody()->SetMass(10.f);
+
+
+	// Test
+	CharacterInfo().fHp = 100.f;
 
 	// AI Init
 	InitAI();
@@ -143,20 +149,6 @@ void CGTA_Player::LateUpdate()
 
 void CGTA_Player::Render(HDC _hDC)
 {
-	E_WeaponType eCurWeaponType = GetCurWeaponType();
-	// UI
-	TextOut(_hDC, 30, 30, GetWeaponInfo(eCurWeaponType).strName.c_str(), GetWeaponInfo(eCurWeaponType).strName.size());
-
-	wchar_t buff[255];
-	swprintf(buff, 255, L"ammo : %d", GetWeaponInfo(eCurWeaponType).iBulletCnt);
-	TextOut(_hDC, 30, 60, buff, wcslen(buff));
-
-	swprintf(buff, 255, L"armor : %.1f", CharacterInfo().fArmor);
-	TextOut(_hDC, 30, 90, buff, wcslen(buff));
-
-	swprintf(buff, 255, L"hp : %.1f", CharacterInfo().fHp);
-	TextOut(_hDC, 30, 120, buff, wcslen(buff));
-
 	CGTA_Character::Render(_hDC);
 }
 
@@ -329,7 +321,88 @@ void CGTA_Player::Attack()
 			}
 		}
 	}
-	CGTA_Character::Attack();
+
+	// 주먹이면
+	if (E_WeaponType::FIST == eWeaponType) {
+		bool bDoPunch = false;
+		wstring name = GetAnimator()->GetCurAnimation()->GetName();
+		if (L"punch" != GetAnimator()->GetCurAnimation()->GetName()) {
+			GetAnimator()->PlayAnimation(L"punch", E_AnimationPlayType::ONCE);
+			GetAnimator()->GetCurAnimation()->Reset();
+			bDoPunch = true;
+		}
+		else { // already set punch
+			if (GetAnimator()->GetCurAnimation()->IsFinish()) { // end of animation
+				GetAnimator()->GetCurAnimation()->Reset();
+				bDoPunch = true;
+			}
+		}
+		if (bDoPunch) {
+			// Punch 컬라이더가 생성된다
+			CGTA_PunchDetector* pPunchDetector = new CGTA_PunchDetector(E_GroupType::PUNCH, this);
+			pPunchDetector->Init();
+			pPunchDetector->SetRotateDegree(GetRotateDegree());
+			pPunchDetector->SetPosition(GetPosition());
+			CreateObject(pPunchDetector);
+		}
+	}
+	else {
+		// 총 타입에 따라 Shoot.
+		// 총알 오브젝트 생성.
+		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
+		pBullet->Init();
+		pBullet->SetDamage(tWeaponInfo.fDamage);
+
+		pBullet->SetPosition(GetPosition() - GetNozzlePosition()); // 노즐 위치로 옮긴다.
+		CreateObject(pBullet);
+
+		bool bFindObj = false; // 시야각 내에 있는지 여부
+		vector<CObject*>& vecObj = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::CITIZEN);
+
+		Vector3 forwardVec = -(GetUpVector()); // 총을쏘는 캐릭터가 바라보고 있는 방향을 구한다.
+		float fFieldOfViewAngle = 20.f; // 시야각
+		float fMinDistance = 600.f;
+
+		Vector3 vNearestObjPos;
+		for (UINT i = 0; i < vecObj.size(); ++i) {
+			CGTA_Citizen* pCitizen = (CGTA_Citizen*)vecObj[i];
+			if (E_CharacterState::dead == pCitizen->GetCharacterState())
+				continue;
+			// 시야각 안에 들어오는지 확인한다.
+			Vector3 vDirToTarget = vecObj[i]->GetPosition() - GetPosition();
+			vDirToTarget.Normalized();
+			float fDot = CMyMath::GetDot(-forwardVec, -vDirToTarget);
+			float fAngle = acosf(fDot) * CMyMath::Rad2Deg();
+			if (fAngle < fFieldOfViewAngle * 0.5f) { // 시야각 내에 있다는 것임
+				float fDistance = CMyMath::GetDistance(GetPosition(), vecObj[i]->GetPosition());
+				if (fDistance <= fMinDistance) {// 가장 가까이에 있는 오브젝트의 위치를 얻는다.
+					bFindObj = true;
+					fMinDistance = fDistance;
+					vNearestObjPos = vecObj[i]->GetPosition();
+				}
+			}
+		}
+
+		if (bFindObj) { // 시야각 내에 오브젝트가 있으면
+			pBullet->LookAt(vNearestObjPos, 400.f);
+			float fDegree = pBullet->GetRotateDegree();
+			pBullet->SetRotateDegree(fDegree - 180); // 방향 설정
+		}
+		else {
+			float fDegree = GetRotateDegree();
+			pBullet->SetRotateDegree(fDegree - 180); // 방향 설정
+		}
+
+		if (false == tWeaponInfo.bIsInfinite) { // 무한이 아닐 경우
+			--tWeaponInfo.iBulletCnt;
+			if (tWeaponInfo.iBulletCnt <= 0) {
+				SetWeaponState(false, GetCurWeaponType());
+				ChangeNextWeapon();
+				return;
+			}
+		}
+	}
+	SetCharacterState(E_CharacterState::attack);
 }
 
 void CGTA_Player::Dead()

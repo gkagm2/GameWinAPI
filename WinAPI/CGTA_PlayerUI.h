@@ -6,6 +6,8 @@ class CTextUI;
 class CGTA_PlayerUI : public CUI
 {
 private:
+	Vector3 m_vLifeScale;
+private:
 	CImageUI* m_pWeaponImage;
 	vector<CImageUI*> m_vecLifeImages;
 	float m_fLife;

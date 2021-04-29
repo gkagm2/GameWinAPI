@@ -32,6 +32,10 @@
 #include "CGTA_StunState.h"
 #include "CGTA_WalkToVehicleState.h"
 
+// TEST
+#include "CCore.h"
+#include "CDebug.h"
+
 CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
 	m_tInfo{},
@@ -92,6 +96,8 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 		
 	if (nullptr != _origin.m_pPathFinding)
 		m_pPathFinding = _origin.m_pPathFinding->Clone();
+	m_vecWeapon.resize(_origin.m_vecWeapon.size());
+	m_vecWeapon.assign(_origin.m_vecWeapon.begin(), _origin.m_vecWeapon.end());
 }
 
 CGTA_Character::~CGTA_Character()
@@ -150,6 +156,22 @@ void CGTA_Character::Render(HDC _hDC)
 {
 	if (false == IsRender())
 		return;
+
+	//
+	bool bFindObj = false; // 시야각 내에 있는지 여부
+	Vector3 forwardVec = -(GetUpVector()); // 총을쏘는 캐릭터가 바라보고 있는 방향을 구한다.
+	Vector3 renderPos = MainCamera->GetRenderPosition(GetPosition());
+	float fFieldOfViewAngle = 20.f; // 시야각
+
+	Vector3 vLeftFieldOfViewDir = Rotate(forwardVec, -fFieldOfViewAngle * 0.5f);
+	Vector3 vRightFieldOfViewDir = Rotate(forwardVec, fFieldOfViewAngle * 0.5f);
+
+	MoveToEx(_hDC, renderPos.x, renderPos.y, nullptr);
+	LineTo(_hDC, renderPos.x + vRightFieldOfViewDir.x * 400.f, renderPos.y + vRightFieldOfViewDir.y * 400.f);
+
+	MoveToEx(_hDC, renderPos.x, renderPos.y, nullptr);
+	LineTo(_hDC, renderPos.x + vLeftFieldOfViewDir.x * 400.f, renderPos.y + vLeftFieldOfViewDir.y * 400.f);
+	//
 
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(GetPosition());
 

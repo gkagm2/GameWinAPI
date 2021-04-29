@@ -330,6 +330,7 @@ void CObjTool::MouseClick()
 			for (int iRow = startDragIdxY; iRow <= iClickedRow; ++iRow) {
 				for (int iCol = startDragIdxX; iCol <= iClickedCol; ++iCol) {
 					int iClickedIdx = iRow * pTileMap->GetCol() + iCol;
+					iClickedIdx = min(pTileMap->GetCol() * pTileMap->GetRow() - 1, iClickedIdx);
 					CTile* pTile = dynamic_cast<CTile*>(pTiles[iClickedIdx]);
 					if (pTile)
 						pTile->SetTile(iSelectedTileIdx, eTileType, pTileTexture);
