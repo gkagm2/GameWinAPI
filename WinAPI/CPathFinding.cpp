@@ -223,7 +223,8 @@ bool CPathFinding::IsObstacle(int _iCol, int _iRow)
 {
 	vector<CObject*>& vecTiles = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::TILE);
 	for (auto iter = m_setObstacleTile.begin(); iter != m_setObstacleTile.end(); ++iter) {
-		CTile* pTile = (CTile*)vecTiles[_iRow * m_pTileMap->GetCol() + _iCol];
+		int idx = min(_iRow * (int)m_pTileMap->GetCol() + _iCol, (int)m_pTileMap->GetCol() * (int)m_pTileMap->GetRow() - 1);
+		CTile* pTile = (CTile*)vecTiles[idx];
 		if (pTile) {
 			if (pTile->GetTileType() == *iter) {
 				return true;

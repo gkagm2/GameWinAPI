@@ -1,11 +1,11 @@
 #pragma once
-class CAI;
+class C_AI;
 class CMonster;
 class CAIState
 {
 private:
 	wstring m_strName;
-	CAI* m_pAI;
+	C_AI* m_pAI;
 
 public:
 	virtual void Update() = 0;
@@ -26,5 +26,5 @@ public:
 	CAIState();
 	virtual ~CAIState();
 
-	friend class CAI;
+	friend class C_AI;
 };

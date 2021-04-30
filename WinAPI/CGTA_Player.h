@@ -9,6 +9,9 @@ class CGTA_Player : public CGTA_Character
 {
 private:
 	bool m_bIsActiveAI;
+
+	float m_fFootStepCoolTime;
+	float m_fFootStepMaxCoolTime;
 public:
 	virtual void Init() override;
 	virtual void PrevUpdate() override;

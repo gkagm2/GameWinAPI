@@ -142,7 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CAI.h" />
+    <ClInclude Include="C_AI.h" />
     <ClInclude Include="CAIState.h" />
     <ClInclude Include="CAITestObj.h" />
     <ClInclude Include="CAnimation.h" />
@@ -236,7 +236,7 @@
     <ClInclude Include="WinAPI.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CAI.cpp" />
+    <ClCompile Include="C_AI.cpp" />
     <ClCompile Include="CAIState.cpp" />
     <ClCompile Include="CAITestObj.cpp" />
     <ClCompile Include="CAnimation.cpp" />

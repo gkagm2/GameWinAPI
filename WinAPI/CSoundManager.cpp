@@ -6,9 +6,7 @@
 CSoundManager::CSoundManager() :
     m_pSound(nullptr),
     m_pBGM(nullptr)
-
 {
-
 }
 
 CSoundManager::~CSoundManager() {

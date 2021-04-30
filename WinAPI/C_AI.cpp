@@ -1,40 +1,40 @@
 #include "stdafx.h"
-#include "CAI.h"
+#include "C_AI.h"
 #include "CAIState.h"
 
-CAI::CAI() :
+C_AI::C_AI() :
 	m_pCurState(nullptr),
 	m_pMonster(nullptr)
 {
 }
 
-CAI::~CAI()
+C_AI::~C_AI()
 {
 	unordered_map<wstring, CAIState*>::iterator iter = m_umapState.begin();
 	for (; iter != m_umapState.end(); ++iter)
 		delete iter->second;
 }
 
-void CAI::Update()
+void C_AI::Update()
 {
 	if (nullptr != m_pCurState)
 		m_pCurState->Update();
 }
 
-void CAI::LateUpdate()
+void C_AI::LateUpdate()
 {
 	if (nullptr != m_pCurState)
 		m_pCurState->LateUpdate();
 }
 
-void CAI::AddState(const wstring& _strKey, CAIState* _pState)
+void C_AI::AddState(const wstring& _strKey, CAIState* _pState)
 {
 	_pState->m_pAI = this;
 	_pState->SetName(_strKey);
 	m_umapState.insert(make_pair(_strKey, _pState));
 }
 
-void CAI::ChangeState(const wstring& _strKey)
+void C_AI::ChangeState(const wstring& _strKey)
 {
 	if (nullptr != m_pCurState)
 		m_pCurState->End();

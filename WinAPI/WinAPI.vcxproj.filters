@@ -451,7 +451,7 @@
     <ClInclude Include="CScene_GtaInGame.h">
       <Filter>Game\2. Scene\Gta_PJ\Scene_InGame</Filter>
     </ClInclude>
-    <ClInclude Include="CAI.h">
+    <ClInclude Include="C_AI.h">
       <Filter>Game\6. Component\AI</Filter>
     </ClInclude>
     <ClInclude Include="CAIState.h">
@@ -719,7 +719,7 @@
     <ClCompile Include="CScene_GtaInGame.cpp">
       <Filter>Game\2. Scene\Gta_PJ\Scene_InGame</Filter>
     </ClCompile>
-    <ClCompile Include="CAI.cpp">
+    <ClCompile Include="C_AI.cpp">
       <Filter>Game\6. Component\AI</Filter>
     </ClCompile>
     <ClCompile Include="CAIState.cpp">

@@ -5,7 +5,7 @@
 #include "CScene.h"
 #include "CObject.h"
 #include "CCollider.h"
-#include "CAI.h"
+#include "C_AI.h"
 
 CEventManager::CEventManager() {
 
@@ -61,7 +61,7 @@ void CEventManager::Execute(const tEvent& _event)
 	{
 		E_EventType type = _event.eType;
 		wstring* pStrKey= (wstring*)_event.lParam;
-		CAI* pAI = (CAI*)_event.wParam;
+		C_AI* pAI = (C_AI*)_event.wParam;
 		pAI->ChangeState(*pStrKey);
 		delete pStrKey;
 	}

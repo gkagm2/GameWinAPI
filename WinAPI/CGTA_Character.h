@@ -80,16 +80,14 @@ protected:
 	CGTA_AI* m_pAI; // AI
 	CPathFinding* m_pPathFinding;
 
-
 	// --- Resource ---
 	CTexture* m_pNozzleTexture;
+
+	// TODO : Delete
 	// Sound
 	CSound* pHasGotaGunSound[Sound_HasGotaGunSound_Len];
 	CSound* pHelpSound[Sound_Help_Len];
 	CSound* pOMGSound[Sound_OMG_Len];
-	CSound* pScreamSound[Sound_Scream_Len];
-	CSound* pFreezeSound[Sound_Freeze_Len];
-	CSound* pFootsepConcrete[Sound_Concreate_Len];
 
 protected:
 	virtual void InitSound();

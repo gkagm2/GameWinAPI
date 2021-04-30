@@ -8,6 +8,7 @@
 #include "CSceneManager.h"
 
 #include "CTexture.h"
+#include "CSound.h"
 
 #include "CGTA_Vehicle.h"
 #include "CCar.h"
@@ -40,6 +41,12 @@ CScene_GtaInGame::~CScene_GtaInGame()
 
 void CScene_GtaInGame::Start()
 {
+	// Sound 로드 테스트
+	CSound* pNewSound = CResourceManager::GetInstance()->GetSound(STR_FILE_PATH_GTA_Sound_OutdoorNoise_Sound, STR_FILE_PATH_GTA_Sound_OutdoorNoise_Sound);
+	pNewSound->SetPosition(0.f); // 백분률, 소리 위치 설정
+	pNewSound->PlayToBGM(true);
+	pNewSound->SetVolume(60.f);
+
 	// 타일맵 Load
 	m_pTileMap = new CTileMap(E_GroupType::TILEMAP);
 	LoadTile(STR_FILE_PATH_GTA_TILES_Save);

@@ -61,10 +61,7 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	// Sound
 	pHasGotaGunSound{ nullptr, },
 	pHelpSound{ nullptr, },
-	pOMGSound{ nullptr, },
-	pScreamSound{ nullptr, },
-	pFreezeSound{ nullptr, },
-	pFootsepConcrete{ nullptr, }
+	pOMGSound{ nullptr, }
 {
 	// weapon system
 	int iSize = (int)E_WeaponType::END;
@@ -74,7 +71,7 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_vecWeapon[(UINT)E_WeaponType::FIST].second.bIsInfinite = true;
 	m_vecWeapon[(UINT)E_WeaponType::FIST].second.fShootCoolTime = 0.7f;
 	m_fAttackMaxCoolTime = m_vecWeapon[(UINT)E_WeaponType::FIST].second.fShootCoolTime;
-	m_vecWeapon[(UINT)E_WeaponType::FIST].second.strSound = STR_FILE_PATH_GTA_Sound_PunchHit;
+	m_vecWeapon[(UINT)E_WeaponType::FIST].second.strBulletSound = STR_FILE_PATH_GTA_Sound_PunchHit;
 	InitSound();
 }
 
@@ -101,10 +98,7 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	//Sound
 	pHasGotaGunSound{ nullptr, },
 	pHelpSound{ nullptr, },
-	pOMGSound{ nullptr, },
-	pScreamSound{ nullptr, },
-	pFreezeSound{ nullptr, },
-	pFootsepConcrete{ nullptr, }
+	pOMGSound{ nullptr, }
 {
 	if (nullptr != _origin.m_pAI) {
 		m_pAI = _origin.m_pAI->Clone();
@@ -156,33 +150,6 @@ void CGTA_Character::InitSound()
 		if (nullptr == pOMGSound[i]) {
 			pOMGSound[i] = CResourceManager::GetInstance()->LoadSound(strPath, strPath);
 			assert(pOMGSound[i]);
-		}
-	}
-
-	for (int i = 0; i < Sound_Scream_Len; ++i) {
-		wstring strPath = Sound_Scream + std::to_wstring(i + 1) + Sound_WAV;
-		pScreamSound[i] = CResourceManager::GetInstance()->FindSound(strPath);
-		if (nullptr == pScreamSound[i]) {
-			pScreamSound[i] = CResourceManager::GetInstance()->LoadSound(strPath, strPath);
-			assert(pScreamSound[i]);
-		}
-	}
-	
-	for (int i = 0; i < Sound_Freeze_Len; ++i) {
-		wstring strPath = Sound_Scream + std::to_wstring(i + 1) + Sound_WAV;
-		pFreezeSound[i] = CResourceManager::GetInstance()->FindSound(strPath);
-		if (nullptr == pFreezeSound[i]) {
-			pFreezeSound[i] = CResourceManager::GetInstance()->LoadSound(strPath, strPath);
-			assert(pFreezeSound[i]);
-		}
-	}
-
-	for (int i = 0; i < Sound_Concreate_Len; ++i) {
-		wstring strPath = Sound_Scream + std::to_wstring(i + 1) + Sound_WAV;
-		pFootsepConcrete[i] = CResourceManager::GetInstance()->FindSound(strPath);
-		if (nullptr == pFootsepConcrete[i]) {
-			pFootsepConcrete[i] = CResourceManager::GetInstance()->LoadSound(strPath, strPath);
-			assert(pFootsepConcrete[i]);
 		}
 	}
 }
@@ -276,6 +243,14 @@ void CGTA_Character::Render(HDC _hDC)
 
 void CGTA_Character::OnCollisionEnter(CObject* _pOther)
 {
+	CGTA_Character* pCharacter = dynamic_cast<CGTA_Character*>(_pOther);
+	if (pCharacter) {
+		if (E_AIState::stun == pCharacter->GetAIState()) // 총알은 통하게 해야되고 밀어내는건 없애야 하는데...
+			pCharacter->GetCollider()->SetTrigger(true);
+		return;
+	}
+
+
 	CGTA_Bullet* pBullet = dynamic_cast<CGTA_Bullet*>(_pOther);
 	if (pBullet) {
 		TCharacterInfo& tCharacterInfo = CharacterInfo();
@@ -302,15 +277,37 @@ void CGTA_Character::OnCollisionEnter(CObject* _pOther)
 				return;
 			}
 		}
+		return;
 	}
+	
 }
 
 void CGTA_Character::OnCollisionStay(CObject* _pOther)
 {
+	CGTA_Character* pCharacter = dynamic_cast<CGTA_Character*>(_pOther);
+	if (pCharacter) {
+		if (E_AIState::stun == pCharacter->GetAIState() &&
+			false == pCharacter->GetCollider()->IsTrigger()) {
+			pCharacter->GetCollider()->SetTrigger(true);
+		}
+		return;
+	}
 }
 
 void CGTA_Character::OnCollisionExit(CObject* _pOther)
 {
+	CGTA_Character* pCharacter = dynamic_cast<CGTA_Character*>(_pOther);
+	if (pCharacter) {
+		if (E_AIState::stun != pCharacter->GetAIState() &&
+			pCharacter->GetCollider()->IsTrigger()) {
+			pCharacter->GetCollider()->SetTrigger(false);
+		}
+		else if (E_AIState::stun == pCharacter->GetAIState()) {
+			if (pCharacter->GetCollider()->IsTrigger())
+				pCharacter->GetCollider()->SetTrigger(false);
+		}
+		return;
+	}
 }
 
 void CGTA_Character::DriveUpdate()
@@ -354,9 +351,6 @@ void CGTA_Character::Attack()
 			pPunchDetector->SetRotateDegree(GetRotateDegree());
 			pPunchDetector->SetPosition(GetPosition());
 			CreateObject(pPunchDetector);
-
-			CSound* pSound = CResourceManager::GetInstance()->GetSound(tWeaponInfo.strSound, tWeaponInfo.strSound);
-			pSound->Play(false);
 		}
 	}
 	else {
@@ -378,8 +372,10 @@ void CGTA_Character::Attack()
 				return;
 			}
 		}
-		// 타입별 사운드 재생
-		//tWeaponInfo.strName
+
+		CSound* pSound = CResourceManager::GetInstance()->GetSound(tWeaponInfo.strBulletSound, tWeaponInfo.strBulletSound);
+		pSound->Stop(true);
+		pSound->Play();
 	}
 	SetCharacterState(E_CharacterState::attack);
 }
@@ -420,6 +416,10 @@ float CGTA_Character::AutoTargeting(const Vector3& _vUpDirVec, const Vector3& _v
 
 void CGTA_Character::Dead()
 {
+	wstring strScreamSoundPath = Sound_Scream + std::to_wstring((rand() % Sound_Scream_Len) + 1);
+	CSound* pSound = CResourceManager::GetInstance()->GetSound(strScreamSoundPath, strScreamSoundPath);
+	pSound->Play();
+
 	SetCharacterState(E_CharacterState::dead);
 	SetAIState(E_AIState::dead);
 }
@@ -501,6 +501,9 @@ void CGTA_Character::GetItem(CGTA_Item* pItem)
 			const TWeaponInfo& tCurWeaponInfo = m_vecWeapon[(UINT)m_eCurWeaponType].second;
 			m_fAttackMaxCoolTime = tCurWeaponInfo.fShootCoolTime;
 		}
+
+		CSound* pSound =CResourceManager::GetInstance()->GetSound(tWeaponInfo.strVoiceSound, tWeaponInfo.strVoiceSound);
+		pSound->Play();
 	}
 }
 
@@ -592,7 +595,8 @@ void TWeaponInfo::Save(FILE* _pFile)
 	fwrite(&bSplashDamage, sizeof(bool), 1, _pFile);
 	fwrite(&bIsInfinite, sizeof(bool), 1, _pFile);
 	fwrite(&fShootCoolTime, sizeof(float), 1, _pFile);
-	SaveWString(strSound, _pFile);
+	SaveWString(strBulletSound, _pFile);
+	SaveWString(strVoiceSound, _pFile);
 }
 
 void TWeaponInfo::Load(FILE* _pFile)
@@ -604,7 +608,8 @@ void TWeaponInfo::Load(FILE* _pFile)
 	fread(&bSplashDamage, sizeof(bool), 1, _pFile);
 	fread(&bIsInfinite, sizeof(bool), 1, _pFile);
 	fread(&fShootCoolTime, sizeof(float), 1, _pFile);
-	LoadWString(strSound, _pFile);
+	LoadWString(strBulletSound, _pFile);
+	LoadWString(strVoiceSound, _pFile);
 }
 
 TWeaponInfo::TWeaponInfo() : 
@@ -615,7 +620,8 @@ TWeaponInfo::TWeaponInfo() :
 	bSplashDamage(false), 
 	bIsInfinite(false), 
 	fShootCoolTime(1.f),
-	strSound(L"")
+	strBulletSound(L""),
+	strVoiceSound(L"")
 {
 }
 
@@ -627,7 +633,8 @@ TWeaponInfo::TWeaponInfo(const TWeaponInfo& _other) :
 	bSplashDamage(_other.bSplashDamage),
 	bIsInfinite(_other.bIsInfinite),
 	fShootCoolTime(_other.fShootCoolTime),
-	strSound(_other.strSound)
+	strBulletSound(_other.strBulletSound),
+	strVoiceSound(_other.strVoiceSound)
 {
 }
 
@@ -635,32 +642,36 @@ void TWeaponInfo::InitWeapon(E_WeaponType _eWeaponType)
 {
 	switch (_eWeaponType) {
 	case E_WeaponType::PISTOL:
-		fDamage = 3.0f;
+		fDamage = 5.0f;
 		strName = STR_NAME_Pistol;
 		fShootCoolTime = 0.6f;
 		iBulletCnt = 30;
-		strSound = STR_FILE_PATH_GTA_Sound_Pistol;
+		strBulletSound = STR_FILE_PATH_GTA_Sound_Pistol;
+		strVoiceSound = STR_FILE_PATH_GTA_Sound_Voice_Pistol;
 		break;
 	case E_WeaponType::ROCKET_LAUNCHER:
 		fDamage = 100.f;
 		strName = STR_NAME_RocketLauncher;
 		fShootCoolTime = 1.0f;
 		iBulletCnt = 10;
-		strSound = STR_FILE_PATH_GTA_Sound_RocketLauncher;
+		strBulletSound = STR_FILE_PATH_GTA_Sound_RocketLauncher;
+		strVoiceSound = STR_FILE_PATH_GTA_Sound_Voice_RocketLauncher;
 		break;
 	case E_WeaponType::SHOTGUN:
 		fDamage = 20.f;
 		strName = STR_NAME_Shotgun;
 		fShootCoolTime = 1.2f;
 		iBulletCnt = 20;
-		strSound = STR_FILE_PATH_GTA_Sound_Shotgun;
+		strBulletSound = STR_FILE_PATH_GTA_Sound_Shotgun;
+		strVoiceSound = STR_FILE_PATH_GTA_Sound_Voice_Shotgun;
 		break;
 	case E_WeaponType::SUBMACHINE_GUN:
-		fDamage = 3.0f;
+		fDamage = 2.0f;
 		strName = STR_NAME_SubmachineGun;
-		fShootCoolTime = 0.13f;
+		fShootCoolTime = 0.1f;
 		iBulletCnt = 300;
-		strSound = STR_FILE_PATH_GTA_Sound_SubmachineGun;
+		strBulletSound = STR_FILE_PATH_GTA_Sound_SubmachineGun;
+		strVoiceSound = STR_FILE_PATH_GTA_Sound_Voice_SubmachineGun;
 		break;
 	}
 }

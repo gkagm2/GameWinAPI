@@ -12,6 +12,9 @@ private:
 
 	float m_fAttackCoolTime;
 	float m_fAttackMaxCoolTime;
+
+	float m_fISaidFreezeCoolTime;
+	float m_fISaidFreezeMaxCoolTime;
 	
 public:
 	virtual void Update() override;

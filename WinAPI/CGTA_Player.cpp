@@ -3,6 +3,7 @@
 #include "CGTA_Player.h"
 #include "CColliderRect.h"
 #include "CTexture.h"
+#include "CSound.h"
 #include "CAnimator.h"
 #include "CAnimation.h"
 #include "CKeyManager.h"
@@ -34,7 +35,9 @@
 
 CGTA_Player::CGTA_Player(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType),
-	m_bIsActiveAI(false)
+	m_bIsActiveAI(false),
+	m_fFootStepCoolTime(0.f),
+	m_fFootStepMaxCoolTime(0.1f)
 {
 }
 
@@ -119,7 +122,6 @@ void CGTA_Player::Update()
 						m_fAttackCoolTime = 0.f;
 					}
 				}
-				
 			}
 		}
 
@@ -133,7 +135,6 @@ void CGTA_Player::Update()
 	if (InputKeyPress(E_Key::X)) {
 		ChangeNextWeapon();
 	}
-
 	
 	Debug->Print(Vector2(30, 80), L"s", GetWeaponInfo(GetCurWeaponType()).strName.c_str());
 	State();
@@ -157,10 +158,12 @@ void CGTA_Player::OnCollisionEnter(CObject* _pOther)
 
 void CGTA_Player::OnCollisionStay(CObject* _pOther)
 {
+	CGTA_Character::OnCollisionStay(_pOther);
 }
 
 void CGTA_Player::OnCollisionExit(CObject* _pOther)
 {
+	CGTA_Character::OnCollisionExit(_pOther);
 }
 
 void CGTA_Player::DriveUpdate()
@@ -252,6 +255,8 @@ void CGTA_Player::State()
 
 void CGTA_Player::MoveUpdate()
 {
+	m_fFootStepCoolTime += DeltaTime;
+
 	//RotateInfo().Update();
 	if (InputKeyHold(E_Key::LEFT)) {
 		RotateRP(-220 * DeltaTime);
@@ -278,12 +283,28 @@ void CGTA_Player::MoveUpdate()
 		SetPosition(GetPosition().x - GetUpVector().x * CharacterInfo().fMoveSpeed * DeltaTime, GetPosition().y - GetUpVector().y * 300 * DeltaTime);
 		SetCharacterState(E_CharacterState::run);
 		m_bIsActiveAI = false;
+
+		if (m_fFootStepCoolTime > m_fFootStepMaxCoolTime) {
+			wstring strFootSoundPath = Sound_ConcreateFootSep + std::to_wstring(3);
+			CSound* pSound = CResourceManager::GetInstance()->GetSound(strFootSoundPath, strFootSoundPath);
+			pSound->SetVolume(30.f);
+			pSound->Play();
+			m_fFootStepCoolTime = 0.f;
+		}
 	}
 	if (InputKeyHold(E_Key::DOWN)) {
 		m_bIsMoved = true;
 		SetPosition(GetPosition().x + GetUpVector().x * CharacterInfo().fMoveSpeed * DeltaTime, GetPosition().y + GetUpVector().y * CharacterInfo().fMoveSpeed * DeltaTime);
 		SetCharacterState(E_CharacterState::run);
 		m_bIsActiveAI = false;
+
+		if (m_fFootStepCoolTime > m_fFootStepMaxCoolTime) {
+			wstring strFootSoundPath = Sound_ConcreateFootSep + std::to_wstring(3);
+			CSound* pSound = CResourceManager::GetInstance()->GetSound(strFootSoundPath, strFootSoundPath);
+			pSound->SetVolume(30.f);
+			pSound->Play();
+			m_fFootStepCoolTime = 0.f;
+		}
 	}
 }
 
@@ -306,13 +327,26 @@ void CGTA_Player::Attack()
 				CGTA_Citizen* pCitizen = dynamic_cast<CGTA_Citizen*>(vecObjs[i]);
 				if (pCitizen) {
 					if (E_AIState::dead != pCitizen->GetCurAIState())
-						pCitizen->Runaway();
+						if (E_AIState::runAway != pCitizen->GetAIState()) {
+							wstring strHasGunSoundPath = Sound_HasGotaGunSound + std::to_wstring((rand() % Sound_HasGotaGunSound_Len) + 1);
+							CSound* pSound = CResourceManager::GetInstance()->GetSound(strHasGunSoundPath, strHasGunSoundPath);
+							pSound->Play();
+							
+							pCitizen->Runaway();
+						}
 					continue;
 				}
 				CGTA_Cop* pCop = dynamic_cast<CGTA_Cop*>(vecObjs[i]);
 				if (pCop) {
-					if (E_AIState::dead != pCop->GetCurAIState())
-						pCop->Trace();
+					if (E_AIState::dead != pCop->GetCurAIState()) {
+						if (E_AIState::trace != pCop->GetAIState()) {
+							int iRandom = (rand() % Sound_Freeze_Len) + 1;
+							wstring strPath = Sound_Freeze + std::to_wstring(iRandom);
+							CSound* pFreezeSoun = CResourceManager::GetInstance()->GetSound(strPath, strPath);
+							pFreezeSoun->Play();
+							pCop->Trace();
+						}
+					}
 					continue;
 				}
 				
@@ -399,6 +433,9 @@ void CGTA_Player::Attack()
 				return;
 			}
 		}
+		CSound* pSound = CResourceManager::GetInstance()->GetSound(tWeaponInfo.strBulletSound, tWeaponInfo.strBulletSound);
+		pSound->Stop(true);
+		pSound->Play();
 	}
 	SetCharacterState(E_CharacterState::attack);
 }

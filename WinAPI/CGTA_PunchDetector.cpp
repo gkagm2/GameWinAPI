@@ -4,6 +4,8 @@
 #include "CGTA_Character.h"
 #include "CGTA_Cop.h"
 #include "CTimeManager.h"
+#include "CResourceManager.h"
+#include "CSound.h"
 
 CGTA_PunchDetector::CGTA_PunchDetector(E_GroupType _eGroupType, CObject* _OwnerObj) :
 	CObject(_eGroupType),
@@ -68,7 +70,11 @@ void CGTA_PunchDetector::OnCollisionEnter(CObject* _pOther)
 		}
 
 		if (m_pOwnerObj != (CObject*)pCharacter) {
-			pCharacter->HitByFist();
+			if (E_AIState::stun != pCharacter->GetAIState()) {
+				pCharacter->HitByFist();
+				CSound* pSound = CResourceManager::GetInstance()->GetSound(STR_FILE_PATH_GTA_Sound_PunchHit, STR_FILE_PATH_GTA_Sound_PunchHit);
+				pSound->Play(false);
+			}
 		}
 	}
 }

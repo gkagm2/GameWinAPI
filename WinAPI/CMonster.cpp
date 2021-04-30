@@ -10,7 +10,7 @@
 #include "CCamera.h"
 #include "CAnimator.h"
 #include "CTexture.h"
-#include "CAI.h"
+#include "C_AI.h"
 
 enum class E_MissileType;
 
@@ -293,6 +293,6 @@ void CMonster::Move(int _iType = 0)
 
 void CMonster::CreateAI()
 {
-	m_pAI = new CAI;
+	m_pAI = new C_AI;
 	m_pAI->m_pMonster = this;
 }

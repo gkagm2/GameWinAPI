@@ -96,10 +96,12 @@ void CGTA_Cop::OnCollisionEnter(CObject* _pOther)
 
 void CGTA_Cop::OnCollisionStay(CObject* _pOther)
 {
+	CGTA_Character::OnCollisionStay(_pOther);
 }
 
 void CGTA_Cop::OnCollisionExit(CObject* _pOther)
 {
+	CGTA_Character::OnCollisionExit(_pOther);
 }
 
 void CGTA_Cop::State()

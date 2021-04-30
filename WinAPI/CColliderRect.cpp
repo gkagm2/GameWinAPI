@@ -138,9 +138,7 @@ void CColliderRect::OnCollisionStay(CCollider* _pOther)
             }
             else if(nullptr != pOtherRigidbody)
                 CCollisionManager::GetInstance()->SetNotIntersection(pOtherColRect, this);
-        
         }
     }
-
     CCollider::OnCollisionStay(_pOther);
 }

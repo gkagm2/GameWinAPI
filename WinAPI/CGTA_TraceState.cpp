@@ -11,6 +11,7 @@
 #include "CPathFinding.h"
 #include "CTileMap.h"
 #include "CGtA_AI.h"
+#include "CSound.h"
 
 CGTA_TraceState::CGTA_TraceState() :
 	m_pTarget(nullptr),
@@ -19,8 +20,9 @@ CGTA_TraceState::CGTA_TraceState() :
 	m_fShootDistance(300.f),
 	m_bIsPathFind(false),
 	m_fAttackCoolTime(0.f),
-	m_fAttackMaxCoolTime(1.5f)
-
+	m_fAttackMaxCoolTime(1.5f),
+	m_fISaidFreezeCoolTime(0.f),
+	m_fISaidFreezeMaxCoolTime(5.f)
 {
 }
 
@@ -117,6 +119,13 @@ void CGTA_TraceState::Update()
 			GetCharacter()->SetCharacterState(E_CharacterState::idle);
 		}
 	}
+	m_fISaidFreezeCoolTime += DeltaTime;
+	if (m_fISaidFreezeCoolTime > m_fISaidFreezeMaxCoolTime) {
+		wstring strISaidFreezeSoundPath = Sound_ISaidFreeze + std::to_wstring((rand() % Sound_ISaidFreeze_Len) + 1);
+		CSound* pSound = CResourceManager::GetInstance()->GetSound(strISaidFreezeSoundPath, strISaidFreezeSoundPath);
+		pSound->Play();
+		m_fISaidFreezeCoolTime = 0.f;
+	}
 }
 
 void CGTA_TraceState::LateUpdate()
@@ -128,6 +137,9 @@ void CGTA_TraceState::Start()
 	if (nullptr == m_pTarget)
 		m_pTarget = CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_Player);
 	m_fAttackMaxCoolTime = GetCharacter()->GetAttackMaxCoolTime();
+
+	m_fISaidFreezeCoolTime = 0.f;
+	m_fISaidFreezeMaxCoolTime = (float)((rand() % 30) + 5);
 }
 
 void CGTA_TraceState::End()

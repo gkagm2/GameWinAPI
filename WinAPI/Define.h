@@ -94,7 +94,8 @@ struct TWeaponInfo {
 	bool bSplashDamage;
 	bool bIsInfinite;
 	float fShootCoolTime;
-	wstring strSound;
+	wstring strBulletSound;
+	wstring strVoiceSound;
 
 	void Save(FILE* _pFile);
 	void Load(FILE* _pFile);

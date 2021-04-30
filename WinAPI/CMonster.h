@@ -3,7 +3,7 @@
 #include "CMissile.h"
 enum class E_MissileType;
 
-class CAI;
+class C_AI;
 class CMonster : public CObject
 {
 protected:
@@ -15,7 +15,7 @@ protected:
 	float m_fRatioY;
 	CObject* m_pTargetObj; // target to attack
 
-	CAI* m_pAI;
+	C_AI* m_pAI;
 
 	enum class E_UpgradeLevelType {
 		LEVEL1,
@@ -55,7 +55,7 @@ public:
 	void FireMissile();
 	void Move(int _type);
 
-	CAI* GetAI() { return m_pAI; }
+	C_AI* GetAI() { return m_pAI; }
 	void CreateAI();
 
 public:

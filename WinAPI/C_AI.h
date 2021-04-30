@@ -3,7 +3,7 @@
 // FSM(Finite State Machine), 유한 상태 기계ㅋ	
 class CAIState;
 class CMonster;
-class CAI
+class C_AI
 {
 private:
 	unordered_map<wstring, CAIState*> m_umapState;
@@ -21,11 +21,11 @@ public:
 	CAIState* GetCurState() { return m_pCurState; }
 
 public:
-	CLONE(CAI);	
+	CLONE(C_AI);	
 
 public:
-	CAI();
-	virtual ~CAI() final;
+	C_AI();
+	virtual ~C_AI() final;
 	
 	friend class CMonster;
 };

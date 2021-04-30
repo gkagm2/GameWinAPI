@@ -4,7 +4,7 @@
 
 #include "CAIState.h"
 #include "CMonster.h"
-#include "CAI.h"
+#include "C_AI.h"
 
 CAIState::CAIState() :
 	m_pAI(nullptr)

@@ -4,7 +4,7 @@
 #include "CSceneManager.h"
 
 #include "CMonster_AI.h"
-#include "CAI.h"
+#include "C_AI.h"
 #include "CAIState.h"
 #include "CIdleState.h"
 #include "CTraceState.h"

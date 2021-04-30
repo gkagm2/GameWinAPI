@@ -122,8 +122,9 @@ CSound* CResourceManager::GetSound(const wstring& _strKey, const wstring& _strRe
 {
 	CSound* pSound = CResourceManager::GetInstance()->FindSound(_strKey);
 	if (nullptr == pSound) {
-		pSound = CResourceManager::GetInstance()->LoadSound(_strKey, _strRelativePath);
+		wstring strRelativePath = _strRelativePath + Sound_WAV;
+		pSound = CResourceManager::GetInstance()->LoadSound(_strKey, strRelativePath);
 		assert(pSound);
 	}
-	return nullptr;
+	return pSound;
 }

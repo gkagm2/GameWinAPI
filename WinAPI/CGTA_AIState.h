@@ -35,5 +35,5 @@ public:
 	CGTA_AIState();
 	virtual ~CGTA_AIState();
 
-	friend class CAI;
+	friend class C_AI;
 };

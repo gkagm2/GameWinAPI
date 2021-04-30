@@ -87,10 +87,12 @@ void CGTA_Citizen::OnCollisionEnter(CObject* _pOther)
 
 void CGTA_Citizen::OnCollisionStay(CObject* _pOther)
 {
+	CGTA_Character::OnCollisionStay(_pOther);
 }
 
 void CGTA_Citizen::OnCollisionExit(CObject* _pOther)
 {
+	CGTA_Character::OnCollisionExit(_pOther);
 }
 
 void CGTA_Citizen::State()
@@ -120,7 +122,6 @@ void CGTA_Citizen::State()
 		if (false == bIsDeadAnim) {
 			GetAnimator()->PlayAnimation(strDeadArr[rand() % 2].c_str(), E_AnimationPlayType::LOOP);
 		}
-		Dead();
 		break;
 	}
 }
