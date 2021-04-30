@@ -82,18 +82,17 @@ protected:
 
 
 	// --- Resource ---
-	CTexture* pNozzleTexture;
+	CTexture* m_pNozzleTexture;
 	// Sound
-	CSound* pHasGotaGunSound[4];
-	CSound* pHelpSound[5];
-	CSound* pOMGSound[3];
-	CSound* pScreamSound[5];
-	CSound* pGruntSound;
-	CSound* pFreezeSound[4];
-	CSound* pFootsepConcrete[4];
-	CSound* pFootsepGrass[4];
+	CSound* pHasGotaGunSound[Sound_HasGotaGunSound_Len];
+	CSound* pHelpSound[Sound_Help_Len];
+	CSound* pOMGSound[Sound_OMG_Len];
+	CSound* pScreamSound[Sound_Scream_Len];
+	CSound* pFreezeSound[Sound_Freeze_Len];
+	CSound* pFootsepConcrete[Sound_Concreate_Len];
 
-
+protected:
+	virtual void InitSound();
 
 public:
 	virtual void Init() override;

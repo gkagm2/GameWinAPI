@@ -40,9 +40,7 @@ void CScene_Start::Start()
 	//AddObject(pBackgroundCtr);
 
 	// 플레이어 텍스쳐 로딩
-	CTexture* pPlayerTexture2 = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_PlayerAnim);
-	if (nullptr == pPlayerTexture2)
-		pPlayerTexture2 = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_PlayerAnim, STR_FILE_PATH_PlayerAnim);
+	CTexture* pPlayerTexture2 = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_PlayerAnim, STR_FILE_PATH_PlayerAnim);
 	
 	// 플레이어 오브젝트 생성
 	CPlayer* pPlayer = new CPlayer(E_GroupType::PLAYER);
@@ -92,10 +90,7 @@ void CScene_Start::Start()
 	CMonster_AI* pMonsterAI = new CMonster_AI(E_GroupType::MONSTER);
 	pMonsterAI->SetPosition(Vector3{ ptResolution.x * 0.5f, ptResolution.y + -600.0f, .0f });
 	
-	CTexture* pMonsterTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_MonsterAlpha);
-	if (nullptr == pMonsterTex) {
-		pMonsterTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_MonsterAlpha, STR_FILE_PATH_MonsterAlpha);
-	}
+	CTexture* pMonsterTex = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_MonsterAlpha, STR_FILE_PATH_MonsterAlpha);
 	pMonsterAI->SetTexture(pMonsterTex);
 	AddObject(pMonsterAI);
 	

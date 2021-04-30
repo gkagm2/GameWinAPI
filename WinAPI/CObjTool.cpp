@@ -12,7 +12,7 @@
 
 #include "CObjTool.h"
 #include "CDragScreen.h"
-#include "CTileToolPanelUI.h";
+#include "CTileToolPanelUI.h"
 #include "CTextUI.h"
 
 #include "CUIManager.h"
@@ -172,9 +172,7 @@ void CObjTool::InitMapTool()
 	float fPadding[4]{ 20.f, 120.f, 20.f, 20.f }; // l, t, r, b
 	m_pGroundTileToolUI->SetGridUI(5, 5, fPadding[0], fPadding[1], fPadding[2], fPadding[3], 5.f, 5.f);
 	{
-		CTexture* pTileGroundTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_UI_TileRoad);
-		if (nullptr == pTileGroundTex)
-			pTileGroundTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_UI_TileRoad, STR_FILE_PATH_UI_TileRoad);
+		CTexture* pTileGroundTex = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_UI_TileRoad, STR_FILE_PATH_UI_TileRoad);
 
 		int iCol = pTileGroundTex->GetWidth() / TILE_SIZE;
 		int iRow = pTileGroundTex->GetHeight() / TILE_SIZE;
@@ -205,9 +203,7 @@ void CObjTool::InitMapTool()
 	m_pWallTileToolUI->SetPosition(vResolution.x - m_pGroundTileToolUI->ScaleX() - m_pGroundTileToolUI->ScaleX(), 0.f, 0.f);
 	m_pWallTileToolUI->SetObjectName(L"WallTileToolUI");
 	{
-		CTexture* pTileWallTex = CResourceManager::GetInstance()->FindTexture(STR_FIlE_NAME_UI_TileWall);
-		if (nullptr == pTileWallTex)
-			pTileWallTex = CResourceManager::GetInstance()->LoadTexture(STR_FIlE_NAME_UI_TileWall, STR_FILE_PATH_UI_TileWall);
+		CTexture* pTileWallTex = CResourceManager::GetInstance()->GetTexture(STR_FIlE_NAME_UI_TileWall, STR_FILE_PATH_UI_TileWall);
 
 		int iCol = pTileWallTex->GetWidth() / TILE_SIZE;
 		int iRow = pTileWallTex->GetHeight() / TILE_SIZE;
@@ -344,7 +340,7 @@ void CObjTool::MouseClick()
 			for (int iRow = startDragIdxY; iRow <= iClickedRow; ++iRow) {
 				for (int iCol = startDragIdxX; iCol <= iClickedCol; ++iCol) {
 					int iClickedIdx = iRow * pTileMap->GetCol() + iCol;
-					iClickedIdx = min(pTileMap->GetCol() * pTileMap->GetRow() - 1, iClickedIdx);
+					iClickedIdx = min(int(pTileMap->GetCol() * pTileMap->GetRow()) - 1, iClickedIdx);
 					CTile* pTile = dynamic_cast<CTile*>(pTiles[iClickedIdx]);
 					if (pTile)
 						pTile->SetTile(iSelectedTileIdx, eTileType, pTileTexture);
@@ -358,9 +354,7 @@ void CObjTool::MouseClick()
 // Citizen
 void CObjTool::InitCitizenTool()
 {
-	CTexture* pCitizenTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_gta_citizen);
-	if (nullptr == pCitizenTex)
-		pCitizenTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_gta_citizen, STR_FILE_PATH_gta_citizen);
+	CTexture* pCitizenTex = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_gta_citizen, STR_FILE_PATH_gta_citizen);
 	// TODO : Citizen은 여기서 해야되나..? 수정할게 뭐가있지?
 }
 void CObjTool::UpdateCitizenTool()
@@ -370,9 +364,7 @@ void CObjTool::UpdateCitizenTool()
 // Item
 void CObjTool::InitItemTool()
 {
-	CTexture* pItemTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_gta_item);
-	if (nullptr == pItemTex)
-		pItemTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_gta_item, STR_FILE_PATH_gta_item);
+	CTexture* pItemTex = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_gta_item, STR_FILE_PATH_gta_item);
 
 }
 

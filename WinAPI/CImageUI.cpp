@@ -35,13 +35,13 @@ void CImageUI::Render(HDC _hDC)
 	if (nullptr == GetTexture())
 		return;
 
-	int iWidth = m_vRB.x - m_vLT.x;
-	int iHeight = m_vRB.y - m_vLT.y;
+	int iWidth = (int)(m_vRB.x - m_vLT.x);
+	int iHeight = (int)(m_vRB.y - m_vLT.y);
 	if (E_RenderType::bitBlt == m_eRenderType) {
-		BitBlt(_hDC, GetFinalPosition().x, GetFinalPosition().y, GetScale().x, GetScale().y, GetTexture()->GetDC(), m_vLT.x, m_vLT.y, SRCCOPY);
+		BitBlt(_hDC, (int)GetFinalPosition().x, (int)GetFinalPosition().y, (int)GetScale().x, (int)GetScale().y, GetTexture()->GetDC(), (int)m_vLT.x, (int)m_vLT.y, SRCCOPY);
 	}
 	else if (E_RenderType::transparentBlt == m_eRenderType) {
-		TransparentBlt(_hDC, GetFinalPosition().x, GetFinalPosition().y, GetScale().x, GetScale().y, GetTexture()->GetDC(), m_vLT.x, m_vLT.y, m_vRB.x, m_vRB.y, m_iExceptionColor);
+		TransparentBlt(_hDC, (int)GetFinalPosition().x, (int)GetFinalPosition().y, (int)GetScale().x, (int)GetScale().y, GetTexture()->GetDC(), (int)m_vLT.x, (int)m_vLT.y, (int)m_vRB.x, (int)m_vRB.y, m_iExceptionColor);
 	}
 }
 

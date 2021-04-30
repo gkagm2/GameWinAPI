@@ -65,6 +65,7 @@
 
 #define STR_FILE_PATH_GTA_Texture L"Texture\\GTA\\"
 #define STR_FILE_PATH_GTA_Sound L"Sound\\GTA\\"
+#define Sound_WAV L".wav"
 
 // Font
 #define STR_FILE_PATH_GTA_Font L"Texture\\GTA\\font.bmp"
@@ -122,3 +123,42 @@
 #define STR_NAME_Pistol L"Pistol"
 #define STR_NAME_Shotgun L"Shotgun"
 #define STR_NAME_SubmachineGun L"Submachine Gun"
+
+
+// sound
+
+#define STR_FILE_PATH_GTA_Sound_Pistol STR_FILE_PATH_GTA_Sound L"SFX_PISTOL_SHOT" Sound_WAV
+#define STR_FILE_PATH_GTA_Sound_SubmachineGun STR_FILE_PATH_GTA_Sound L"SFX_MACHINE_GUN" Sound_WAV
+#define STR_FILE_PATH_GTA_Sound_RocketLauncher STR_FILE_PATH_GTA_Sound L"SFX_ROCKET_LAUNCHER" Sound_WAV
+#define STR_FILE_PATH_GTA_Sound_Shotgun STR_FILE_PATH_GTA_Sound L"SFX_PISTOL_SHOT" Sound_WAV
+#define STR_FILE_PATH_GTA_Sound_PunchHit STR_FILE_PATH_GTA_Sound L"SFX_PUNCH_HIT" Sound_WAV
+
+#define Sound_HasGotaGunSound STR_FILE_PATH_GTA_Sound L"SFX_HES_GOT_A_GUN_"
+#define Sound_HasGotaGunSound_Len 4
+
+#define Sound_Help STR_FILE_PATH_GTA_Sound L"SFX_VOICE_HELP_"
+#define Sound_Help_Len 5
+
+#define Sound_OMG STR_FILE_PATH_GTA_Sound L"SFX_OMG_"
+#define Sound_OMG_Len 3
+
+#define Sound_Scream STR_FILE_PATH_GTA_Sound L"SFX_VOICE_SCREAM_"
+#define Sound_Scream_Len 10
+
+#define Sound_Freeze STR_FILE_PATH_GTA_Sound L"SFX_COP_FREEZE_"
+#define Sound_Freeze_Len 4
+
+#define Sound_Concreate STR_FILE_PATH_GTA_Sound L"SFX_FOOTSEP_CONCRETE_"
+#define Sound_Concreate_Len 4
+
+#define Sound_BulletWall STR_FILE_PATH_GTA_Sound L"SFX_BULLET_WALL_"
+#define Sound_BulletWall_Len 3
+
+#define Sound_BulletCar STR_FILE_PATH_GTA_Sound L"SFX_BULLET_CAR_"
+#define Sound_BulletCar_Len 3
+
+#define Sound_CarDoorClose STR_FILE_PATH_GTA_Sound L"SFX_CAR_DOOR_CLOSE_1"
+#define Sound_CarDoorOpen STR_FILE_PATH_GTA_Sound L"SFX_CAR_DOOR_OPEN_1"
+
+#define Sound_Collision_CarPedBounce STR_FILE_PATH_GTA_Sound L"SFX_COLLISION_CAR_PED_BOUNCE"
+#define Sound_Collision_CarPedSquash STR_FILE_PATH_GTA_Sound L"SFX_COLLISION_CAR_PED_SQUASH"

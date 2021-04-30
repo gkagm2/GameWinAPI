@@ -32,9 +32,7 @@ CGTA_PoliceCar::~CGTA_PoliceCar()
 
 void CGTA_PoliceCar::Init()
 {
-	CTexture* pVehicleTexAnim = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Vehicle_car_Cops1Anim);
-	if (nullptr == pVehicleTexAnim)
-		pVehicleTexAnim = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Vehicle_car_Cops1Anim, STR_FILE_PATH_Vehicle_car_Cops1Anim);
+	CTexture* pVehicleTexAnim = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_Vehicle_car_Cops1Anim, STR_FILE_PATH_Vehicle_car_Cops1Anim);
 	SetTexture(pVehicleTexAnim);
 
 	/*CAnimator* pAnimator = new CAnimator(this);

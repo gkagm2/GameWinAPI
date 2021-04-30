@@ -29,9 +29,7 @@ CPanelUI::~CPanelUI()
 
 void CPanelUI::Init()
 {
-	CTexture* pTileTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_UI_GTA_BG);
-	if (nullptr == pTileTexture)
-		pTileTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_UI_GTA_BG, STR_FILE_PATH_UI_GTA_BG);
+	CTexture* pTileTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_UI_GTA_BG, STR_FILE_PATH_UI_GTA_BG);
 	SetTexture(pTileTexture);
 }
 
@@ -108,9 +106,7 @@ void CPanelUI::SetGridUI(int _iColCnt = 1, int _iRowCnt = 1, float _fLeftPadding
 	float startPosy = GetPosition().y + m_fTopPadding;
 
 	// TODO : »èÁ¦
-	/*CTexture* pTileTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Tile);
-	if (nullptr == pTileTexture)
-		pTileTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Tile, STR_FILE_PATH_Tile);*/
+	/*CTexture* pTileTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_Tile, STR_FILE_PATH_Tile);*/
 
 	for (int i = 0; i < m_iRowCnt; ++i) {
 		startPosx = GetFinalPosition().x + m_fLeftPadding;

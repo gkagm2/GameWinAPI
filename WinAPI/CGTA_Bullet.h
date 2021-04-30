@@ -17,9 +17,11 @@ private:
 	// Particle (ÇÇ Æ¨±â±â)
 	// Particle (º®, Â÷, Æ¨±â±â)
 
-	CSound* pBulletCarSound[3];
+	CSound* pBulletWallSound[Sound_BulletWall_Len];
+	CSound* pBulletCarSound[Sound_BulletCar_Len];
 
-
+protected:
+	void InitSound();
 public:
 	virtual void Init() override;
 	virtual void Update() override;

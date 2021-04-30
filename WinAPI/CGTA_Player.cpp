@@ -45,9 +45,7 @@ CGTA_Player::~CGTA_Player()
 void CGTA_Player::Init()
 {
 	// Texture  set
-	CTexture* pTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_gta_player);
-	if (nullptr == pTexture)
-		pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_gta_player, STR_FILE_PATH_gta_player);
+	CTexture* pTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_gta_player, STR_FILE_PATH_gta_player);
 	SetTexture(pTexture);
 
 	// Animator set

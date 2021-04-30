@@ -27,9 +27,7 @@ CGTA_Citizen::~CGTA_Citizen()
 
 void CGTA_Citizen::Init()
 {
-	CTexture* pTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_gta_citizen);
-	if (nullptr == pTexture)
-		pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_gta_citizen, STR_FILE_PATH_gta_citizen);
+	CTexture* pTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_gta_citizen, STR_FILE_PATH_gta_citizen);
 	SetTexture(pTexture);
 
 	// Animator set

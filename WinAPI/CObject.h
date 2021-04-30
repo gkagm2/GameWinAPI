@@ -60,7 +60,7 @@ public:
 
 	// Rotate
 	void InitRectPoint();
-	const Vector3& GetRectPoint(int _idx);
+	const Vector3 GetRectPoint(int _idx);
 	void SetRectPoint(int _idx, Vector3 _vPoint) { m_vRectPoint[_idx] = _vPoint; }
 	// Rotate idx range : 0 ~ 2
 	void RotateRP(float _fDegree);

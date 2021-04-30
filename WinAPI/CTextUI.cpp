@@ -8,11 +8,7 @@ CTextUI::CTextUI(E_GroupType _eGroupType) :
 	CUI(_eGroupType),
 	m_strText(L"")
 {
-	CTexture* pFontTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_GTA_Font);
-	if (nullptr == pFontTex) {
-		pFontTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_GTA_Font, STR_FILE_PATH_GTA_Font);
-		assert(pFontTex);
-	}
+	CTexture* pFontTex = CResourceManager::GetInstance()->GetTexture(STR_FILE_PATH_GTA_Font, STR_FILE_PATH_GTA_Font);
 	SetTexture(pFontTex);
 }
 
@@ -50,8 +46,7 @@ void CTextUI::Render(HDC _hDC)
 		else
 			c = c - L'!';
 		int a = c;
-		// 맵핑을 하게되면?
-		TransparentBlt(_hDC, vCursorPos.x, vCursorPos.y, GetScale().x, GetScale().y, GetTexture()->GetDC(), c * FONT_SIZE, 0, FONT_SIZE, FONT_SIZE, EXCEPTION_COLOR_RGB_BLACK);
+		TransparentBlt(_hDC, (int)vCursorPos.x, (int)vCursorPos.y, (int)GetScale().x, (int)GetScale().y, GetTexture()->GetDC(), c * FONT_SIZE, 0, FONT_SIZE, FONT_SIZE, EXCEPTION_COLOR_RGB_BLACK);
 		vCursorPos.x += GetScale().x -10;
 	}
 }

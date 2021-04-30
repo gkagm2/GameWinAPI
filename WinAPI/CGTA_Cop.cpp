@@ -25,9 +25,7 @@ CGTA_Cop::~CGTA_Cop()
 
 void CGTA_Cop::Init()
 {
-	CTexture* pTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_gta_cops);
-	if (nullptr == pTexture)
-		pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_gta_cops, STR_FILE_PATH_gta_cops);
+	CTexture* pTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_PATH_gta_cops, STR_FILE_PATH_gta_cops);
 	SetTexture(pTexture);
 
 	// Animator set

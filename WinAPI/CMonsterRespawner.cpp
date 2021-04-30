@@ -126,10 +126,7 @@ bool CMonsterRespawner::IsAllDeadMonster()
 void CMonsterRespawner::CreateSmallMonster()
 {
 	// 몬스터 텍스쳐 로딩
-	CTexture* pMonsterTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_MonsterAlpha);
-	if (nullptr == pMonsterTexture) {
-		CTexture* pMonsterTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_MonsterAlpha, STR_FILE_PATH_MonsterAlpha);
-	}
+	CTexture* pMonsterTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_MonsterAlpha, STR_FILE_PATH_MonsterAlpha);
 
 	CMonster_Small* pMonster = new CMonster_Small(E_GroupType::MONSTER);
 	pMonster->SetObjectName(L"Monster");
@@ -155,10 +152,7 @@ void CMonsterRespawner::CreateSmallMonster()
 
 void CMonsterRespawner::CreateMonster()
 {
-	CTexture* pMonsterTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_MonsterAlpha);
-	if (nullptr == pMonsterTexture) {
-		CTexture* pMonsterTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_MonsterAlpha, STR_FILE_PATH_MonsterAlpha);
-	}
+	CTexture* pMonsterTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_MonsterAlpha, STR_FILE_PATH_MonsterAlpha);
 
 	Vector3 ptResolution = CCore::GetInstance()->GetResolution();
 

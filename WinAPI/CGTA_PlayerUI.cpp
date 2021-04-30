@@ -33,7 +33,7 @@ void CGTA_PlayerUI::Init()
 	//// Weapon Image Setting
 	m_pWeaponImage = new CImageUI(E_GroupType::UI);
 	m_pWeaponImage->Init();
-	m_pWeaponImage->SetPosition(tResolution.x - 250 , 60, 0);
+	m_pWeaponImage->SetPosition((float)(tResolution.x - 250.f) , 60.f, 0.f);
 	m_pWeaponImage->SetScale(150, 150, 0);
 	CreateObject(m_pWeaponImage);
 
@@ -43,11 +43,7 @@ void CGTA_PlayerUI::Init()
 		CImageUI* pLifeImage = new CImageUI(E_GroupType::UI);
 		pLifeImage->Init();
 
-		CTexture* pLifeTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_UI_GTA_Life);
-		if (nullptr == pLifeTex) {
-			pLifeTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_UI_GTA_Life, STR_FILE_PATH_UI_GTA_Life);
-			assert(pLifeTex);
-		}
+		CTexture* pLifeTex = CResourceManager::GetInstance()->GetTexture(STR_FILE_PATH_UI_GTA_Life, STR_FILE_PATH_UI_GTA_Life);
 		pLifeImage->SetTexture(pLifeTex);
 		pLifeImage->SetImageTransPaBlt(Vector2{ 0,0 }, Vector2{ pLifeTex->GetWidth(), pLifeTex->GetHeight() }, m_vLifeScale, EXCEPTION_COLOR_RGB_BLACK);
 		Vector3 vPosition = {(float)(tResolution.x -250 +  i * pLifeImage->ScaleX() + 10), 20.f, 0.f };
@@ -58,7 +54,7 @@ void CGTA_PlayerUI::Init()
 
 	// Ammo Text Setting
 	m_pAmmoTextUI = new CTextUI(E_GroupType::UI);
-	m_pAmmoTextUI->SetPosition(tResolution.x - 220, 180.f);
+	m_pAmmoTextUI->SetPosition((float)tResolution.x - 220.f, 180.f);
 	m_pAmmoTextUI->SetScale(40, 40, 0);
 	CreateObject(m_pAmmoTextUI);
 
@@ -122,12 +118,9 @@ void CGTA_PlayerUI::ChangeWeaponUI(const TWeaponInfo& _tWeaponInfo)
 		m_pWeaponImage->SetTexture(nullptr);
 		return;
 	}
+	// TODO : .bmp를 string table에 넣기
 	wstring strPath = STR_FILE_PATH_GTA_Texture + _tWeaponInfo.strName + L".bmp";
-	CTexture* pWeaponTex = CResourceManager::GetInstance()->FindTexture(strPath);
-	if (nullptr == pWeaponTex) {
-		pWeaponTex = CResourceManager::GetInstance()->LoadTexture(strPath, strPath);
-		assert(pWeaponTex);
-	}
+	CTexture* pWeaponTex = CResourceManager::GetInstance()->GetTexture(strPath, strPath);
 	Vector3 vScale = m_pWeaponImage->GetScale();
 	m_pWeaponImage->SetTexture(pWeaponTex);
 	m_pWeaponImage->SetImageTransPaBlt(Vector2{ 0,0 }, Vector2{ pWeaponTex->GetWidth(), pWeaponTex->GetHeight() }, m_pWeaponImage->GetScale(), EXCEPTION_COLOR_RGB_BLACK);

@@ -24,8 +24,12 @@ CGTA_Bullet::CGTA_Bullet(E_GroupType e_GroupType) :
 	m_fSpeed(1000.f),
 	m_fDamage(1.f),
 	m_pBloodTex(nullptr),
-	m_pSparkTex(nullptr)
-{
+	m_pSparkTex(nullptr),
+	// Sound
+	pBulletWallSound{ nullptr, },
+	pBulletCarSound{ nullptr, }
+{ 
+	InitSound();
 }
 
 CGTA_Bullet::CGTA_Bullet(const CGTA_Bullet& _origin) :
@@ -35,21 +39,43 @@ CGTA_Bullet::CGTA_Bullet(const CGTA_Bullet& _origin) :
 	m_fSpeed(_origin.m_fSpeed),
 	m_fDamage(_origin.m_fDamage),
 	m_pBloodTex(_origin.m_pBloodTex),
-	m_pSparkTex(_origin.m_pSparkTex)
+	m_pSparkTex(_origin.m_pSparkTex),
+	// Sound
+	pBulletWallSound{ nullptr, },
+	pBulletCarSound{ nullptr, }
 {
+	InitSound();
 }
 
 CGTA_Bullet::~CGTA_Bullet()
 {
 }
 
+void CGTA_Bullet::InitSound()
+{
+	for (int i = 0; i < Sound_BulletWall_Len; ++i) {
+		wstring strPath = Sound_BulletWall + std::to_wstring(i + 1) + Sound_WAV;
+		pBulletWallSound[i] = CResourceManager::GetInstance()->FindSound(strPath);
+		if (nullptr == pBulletWallSound[i]) {
+			pBulletWallSound[i] = CResourceManager::GetInstance()->LoadSound(strPath, strPath);
+			assert(pBulletWallSound[i]);
+		}
+	}
+
+	for (int i = 0; i < Sound_BulletCar_Len; ++i) {
+		wstring strPath = Sound_BulletCar + std::to_wstring(i + 1) + Sound_WAV;
+		pBulletCarSound[i] = CResourceManager::GetInstance()->FindSound(strPath);
+		if (nullptr == pBulletCarSound[i]) {
+			pBulletCarSound[i] = CResourceManager::GetInstance()->LoadSound(strPath, strPath);
+			assert(pBulletCarSound[i]);
+		}
+	}
+}
+
 void CGTA_Bullet::Init()
 {
 	// 텍스쳐 설정
-	CTexture* pTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_gta_Bullet);
-	if (nullptr == pTexture) {
-		pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_gta_Bullet, STR_FILE_PATH_gta_Bullet);
-	}
+	CTexture* pTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_PATH_gta_Bullet, STR_FILE_PATH_gta_Bullet);
 	SetTexture(pTexture);
 
 	// 충돌 설정
@@ -126,22 +152,12 @@ void CGTA_Bullet::OnCollisionExit(CObject* _pOther)
 
 void CGTA_Bullet::ChangeBloodTex()
 {
-	if (nullptr == m_pBloodTex) {
-		m_pBloodTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_gta_Blood);
-		if (nullptr == m_pBloodTex) {
-			m_pBloodTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_gta_Blood, STR_FILE_PATH_gta_Blood);
-		}
-	}
+		m_pBloodTex = CResourceManager::GetInstance()->GetTexture(STR_FILE_PATH_gta_Blood, STR_FILE_PATH_gta_Blood);
 	SetTexture(m_pBloodTex);
 }
 
 void CGTA_Bullet::ChangeSparkTex()
 {
-	if (nullptr == m_pBloodTex) {
-		m_pBloodTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_gta_Blood);
-		if (nullptr == m_pBloodTex) {
-			m_pBloodTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_gta_Blood, STR_FILE_PATH_gta_Blood);
-		}
-	}
+		m_pBloodTex = CResourceManager::GetInstance()->GetTexture(STR_FILE_PATH_gta_Blood, STR_FILE_PATH_gta_Blood);
 	SetTexture(m_pSparkTex);
 }

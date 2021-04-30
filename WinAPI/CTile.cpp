@@ -17,11 +17,7 @@ CTile::CTile(E_GroupType _eGroupType) :
 	m_iMaxRow(0),
 	m_eTileType(E_TileType::None)
 {
-	/*CTexture* pTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Tile);
-	if (nullptr == pTexture) {
-		pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Tile, STR_FILE_PATH_Tile);
-	}
-	assert(pTexture);
+	/*CTexture* pTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_Tile, STR_FILE_PATH_Tile);
 	SetTexture(pTexture);
 
 	m_iMaxCol = pTexture->GetWidth() / g_iTileSize;
@@ -115,29 +111,17 @@ void CTile::Load(FILE* _pFile)
 	case E_TileType::Water:
 		break;
 	case E_TileType::Road: {
-		pTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_UI_TileRoad);
-		if (nullptr == pTexture) {
-			pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_UI_TileRoad, STR_FILE_PATH_UI_TileRoad);
-			assert(pTexture);
-		}
+		pTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_PATH_UI_TileRoad, STR_FILE_PATH_UI_TileRoad);
 	}
 		break;
 	case E_TileType::Sidewalk:
 		break;
 	case E_TileType::Wall: {
-		pTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_UI_TileWall);
-		if (nullptr == pTexture) {
-			pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_UI_TileWall, STR_FILE_PATH_UI_TileWall);
-
-			assert(pTexture);
-		}
-		
+		pTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_PATH_UI_TileWall, STR_FILE_PATH_UI_TileWall);
 		break;
 	}
 	}
-	if (nullptr != pTexture) {
-		SetTexture(pTexture);
-		m_iMaxCol = GetTexture()->GetWidth() / g_iTileSize;
-		m_iMaxRow = GetTexture()->GetHeight() / g_iTileSize;
-	}
+	SetTexture(pTexture);
+	m_iMaxCol = GetTexture()->GetWidth() / g_iTileSize;
+	m_iMaxRow = GetTexture()->GetHeight() / g_iTileSize;
 }

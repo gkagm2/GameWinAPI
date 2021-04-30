@@ -126,8 +126,8 @@ void CGTA_AI::Render(HDC _hDC)
 		Vector2 destPos = MainCamera->GetRenderPosition(pTileMap->TilePosToVector(*iter));
 
 		destPos += (TILE_SIZE * 0.5f);
-		LineTo(_hDC, destPos.x, destPos.y);
-		Ellipse(_hDC, destPos.x - 5, destPos.y - 5, destPos.x + 5, destPos.y + 5);
+		LineTo(_hDC, (int)destPos.x, (int)destPos.y);
+		Ellipse(_hDC, (int)destPos.x - 5, (int)destPos.y - 5, (int)destPos.x + 5, (int)destPos.y + 5);
 		prev = *iter;
 	}
 }

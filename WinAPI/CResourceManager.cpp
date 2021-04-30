@@ -73,6 +73,16 @@ CTexture* CResourceManager::CreateTexture(const wstring& _strKey, UINT _iWidth, 
 	return (CTexture*)pTexture;
 }
 
+CTexture* CResourceManager::GetTexture(const wstring& _strKey, const wstring& _strRelativePath)
+{
+	CTexture* pTexture = FindTexture(_strKey);
+	if (nullptr == pTexture) {
+		pTexture = LoadTexture(_strKey, _strRelativePath);
+		assert(pTexture);
+	}
+	return pTexture;
+}
+
 CSound* CResourceManager::LoadSound(const wstring& _strKey, const wstring& _strRelativePath)
 {
 	assert(nullptr == FindSound(_strKey));
@@ -106,4 +116,14 @@ CSound* CResourceManager::FindSound(const wstring& _strKey)
 		return nullptr;
 
 	return iter->second;
+}
+
+CSound* CResourceManager::GetSound(const wstring& _strKey, const wstring& _strRelativePath)
+{
+	CSound* pSound = CResourceManager::GetInstance()->FindSound(_strKey);
+	if (nullptr == pSound) {
+		pSound = CResourceManager::GetInstance()->LoadSound(_strKey, _strRelativePath);
+		assert(pSound);
+	}
+	return nullptr;
 }

@@ -103,9 +103,7 @@ void CBackgroundController::Init()
 	SetScale(vResolution);
 
 	// Textrue load
-	CTexture* pBGTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Background);
-	if(nullptr == pBGTexture)
-		pBGTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Background, STR_FILE_PATH_Background);
+	CTexture* pBGTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_Background, STR_FILE_PATH_Background);
 	m_pBackgroundTextrue = pBGTexture;
 
 	// Create Background Object
@@ -122,11 +120,11 @@ void CBackgroundController::Init()
 	m_vecBackground[0]->SetPosition(middlePos.x, middlePos.y - vResolution.y);
 	m_vecBackground[1]->SetPosition(middlePos);
 
-	CTexture* pBGTexture1 = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Background1, STR_FILE_PATH_Background1);
+	CTexture* pBGTexture1 = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_Background1, STR_FILE_PATH_Background1);
 	m_pBackgroundTextrueF1 = pBGTexture1;
-	CTexture* pBGTexture2 = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Background2, STR_FILE_PATH_Background2);
+	CTexture* pBGTexture2 = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_Background2, STR_FILE_PATH_Background2);
 	m_pBackgroundTextrueF2 = pBGTexture2;
-	CTexture* pBGTexture3 = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Background3, STR_FILE_PATH_Background3);
+	CTexture* pBGTexture3 = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_Background3, STR_FILE_PATH_Background3);
 	m_pBackgroundTextrueF3 = pBGTexture3;
 
 	for (int i = 0; i < 3; ++i) {

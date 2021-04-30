@@ -126,7 +126,7 @@ void CObject::RenderRotatedTex(HDC _hDC, const Vector3& _vRenderPos, HDC _Textur
 	// 회전
 	PlgBlt(pNewTexture->GetDC(), rPNT, _TextureDC, xSrc, ySrc, width, height, bitmap, 0, 0);
 	// 투명
-	TransparentBlt(_hDC, _vRenderPos.x + minX, _vRenderPos.y + minY, maxX - minX, maxY - minY, pNewTexture->GetDC(), 0, 0, maxX - minX, maxY - minY, EXCEPTION_COLOR_RGB_BLACK);
+	TransparentBlt(_hDC, (int)_vRenderPos.x + minX, (int)_vRenderPos.y + minY, maxX - minX, maxY - minY, pNewTexture->GetDC(), 0, 0, maxX - minX, maxY - minY, EXCEPTION_COLOR_RGB_BLACK);
 
 	if (pNewTexture)
 		delete pNewTexture;
@@ -225,7 +225,7 @@ void CObject::InitRectPoint()
 	SetRectPoint(2, vLeftBottom);
 }
 
-const Vector3& CObject::GetRectPoint(int _idx)
+const Vector3 CObject::GetRectPoint(int _idx)
 {
 	Vector3 dir;
 	dir = m_vRectPoint[_idx];

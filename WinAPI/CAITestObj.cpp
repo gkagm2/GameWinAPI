@@ -38,9 +38,7 @@ CAITestObj::~CAITestObj()
 
 void CAITestObj::Init()
 {
-	CTexture* pTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_NAME_Monster);
-	if (nullptr == pTexture)
-		pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_NAME_Monster, STR_FILE_PATH_Monster);
+	CTexture* pTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_NAME_Monster, STR_FILE_PATH_Monster);
 	SetTexture(pTexture);
 }
 
@@ -68,13 +66,13 @@ void CAITestObj::Update()
 		for (; iter != path.end(); ++iter) {
 			Vector2 vCurPos = MainCamera->GetRenderPosition(pTileMap->TilePosToVector(prev));
 			vCurPos += (TILE_SIZE * 0.5f);
-			Rectangle(_hDC, vCurPos.x - 5, vCurPos.y - 5, vCurPos.x + 5, vCurPos.y + 5);
-			MoveToEx(_hDC, vCurPos.x, vCurPos.y, nullptr);
+			Rectangle(_hDC, (int)vCurPos.x - 5, (int)vCurPos.y - 5, (int)vCurPos.x + 5, (int)vCurPos.y + 5);
+			MoveToEx(_hDC, (int)vCurPos.x, (int)vCurPos.y, nullptr);
 			Vector2 destPos = MainCamera->GetRenderPosition(pTileMap->TilePosToVector(*iter));
 
 			destPos += (TILE_SIZE * 0.5f);
-			LineTo(_hDC, destPos.x, destPos.y);
-			Ellipse(_hDC, destPos.x - 5, destPos.y - 5, destPos.x + 5, destPos.y + 5);
+			LineTo(_hDC, (int)destPos.x, (int)destPos.y);
+			Ellipse(_hDC, (int)destPos.x - 5, (int)destPos.y - 5, (int)destPos.x + 5, (int)destPos.y + 5);
 			prev = *iter;
 		}
 	}

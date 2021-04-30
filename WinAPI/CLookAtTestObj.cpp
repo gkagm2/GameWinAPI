@@ -24,10 +24,7 @@ CLookAtTestObj::~CLookAtTestObj()
 
 void CLookAtTestObj::Init()
 {
-	CTexture* pTex = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_Vehicle_car_alpha);
-	if (nullptr == pTex) {
-		pTex = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_Vehicle_car_alpha, STR_FILE_PATH_Vehicle_car_alpha);
-	}
+	CTexture* pTex = CResourceManager::GetInstance()->GetTexture(STR_FILE_PATH_Vehicle_car_alpha, STR_FILE_PATH_Vehicle_car_alpha);
 	SetTexture(pTex);
 	CObject::Init();
 }
@@ -49,11 +46,11 @@ void CLookAtTestObj::Update()
 	SetRotateDegree(angle);
 
 	HDC dc = CCore::GetInstance()->GetDC();
-	MoveToEx(dc, GetPosition().x, GetPosition().y, nullptr);
-	LineTo(dc, GetPosition().x + upVec.x * 200.f, GetPosition().y + upVec.y * 200.f);
+	MoveToEx(dc, (int)GetPosition().x, (int)GetPosition().y, nullptr);
+	LineTo(dc, int(GetPosition().x + upVec.x * 200.f), int(GetPosition().y + upVec.y * 200.f));
 
-	MoveToEx(dc, GetPosition().x, GetPosition().y, nullptr);
-	LineTo(dc, GetPosition().x + rightVec.x * 180.f, GetPosition().y + rightVec.y * 180.f);
+	MoveToEx(dc, (int)GetPosition().x, (int)GetPosition().y, nullptr);
+	LineTo(dc, int(GetPosition().x + rightVec.x * 180.f), int(GetPosition().y + rightVec.y * 180.f));
 
 	//LookAt(Vector3 { vMousePos }, 1000 * DeltaTime);
 }

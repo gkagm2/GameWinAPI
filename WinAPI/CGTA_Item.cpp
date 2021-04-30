@@ -34,10 +34,7 @@ CGTA_Item::~CGTA_Item()
 void CGTA_Item::Init()
 {
 	// Set Texture
-	CTexture* pTexture = CResourceManager::GetInstance()->FindTexture(STR_FILE_PATH_gta_item);
-	if (nullptr == pTexture) {
-		pTexture = CResourceManager::GetInstance()->LoadTexture(STR_FILE_PATH_gta_item, STR_FILE_PATH_gta_item);
-	}
+	CTexture* pTexture = CResourceManager::GetInstance()->GetTexture(STR_FILE_PATH_gta_item, STR_FILE_PATH_gta_item);
 	SetTexture(pTexture);
 	SetScale(60.f, 60.f, 0.f);
 	m_vFixedScale = GetScale();

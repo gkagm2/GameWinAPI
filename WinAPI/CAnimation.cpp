@@ -139,9 +139,7 @@ void CAnimation::Load(FILE* _pFile)
 	LoadWString(strKey, _pFile);
 	LoadWString(strRelativePath, _pFile);
 
-	m_pTexture = CResourceManager::GetInstance()->FindTexture(strKey);
-	if (nullptr == m_pTexture)
-		m_pTexture = CResourceManager::GetInstance()->LoadTexture(strKey, strRelativePath);
+	m_pTexture = CResourceManager::GetInstance()->GetTexture(strKey, strRelativePath);
 
 	// 각 프레임 데이터
 	int iFrameCount = 0;
