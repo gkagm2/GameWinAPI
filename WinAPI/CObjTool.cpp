@@ -13,6 +13,7 @@
 #include "CObjTool.h"
 #include "CDragScreen.h"
 #include "CTileToolPanelUI.h";
+#include "CTextUI.h"
 
 #include "CUIManager.h"
 #include "CTileMap.h"
@@ -27,6 +28,7 @@
 #include "CGTA_Character.h"
 
 #include "CGTA_Player.h"
+
 
 CObjTool::CObjTool(E_GroupType _eGroupType) :
 	CObject(_eGroupType),
@@ -114,7 +116,6 @@ void CObjTool::OnCollisionExit(CObject* _pOther)
 {
 }
 
-
 void CObjTool::OpenMapTool()
 {
 	m_eToolMode = E_ToolMode::MAP;
@@ -180,16 +181,22 @@ void CObjTool::InitMapTool()
 
 		vector<CUI*>& vecChildUI = m_pGroundTileToolUI->GetChildsUI();
 		for (UINT i = 0; i < vecChildUI.size(); ++i) {
-
 			CTileUI* pImgUI = dynamic_cast<CTileUI*>(vecChildUI[i]);
-			// 텍스쳐 설정
-			pImgUI->SetTexture(pTileGroundTex);
-			pImgUI->SetLT(Vector2(TILE_SIZE * (int)(i % iCol), TILE_SIZE * (int)(i / iRow)));
-			pImgUI->SetTileIdx(i);
-			pImgUI->SetTileType(E_TileType::Road);
-			pImgUI->SetTexturePath(STR_FILE_PATH_UI_TileRoad);
+			if (pImgUI) {
+				// 텍스쳐 설정
+				pImgUI->SetTexture(pTileGroundTex);
+				pImgUI->SetLT(Vector2(TILE_SIZE * (int)(i % iCol), TILE_SIZE * (int)(i / iRow)));
+				pImgUI->SetTileIdx(i);
+				pImgUI->SetTileType(E_TileType::Road);
+				pImgUI->SetTexturePath(STR_FILE_PATH_UI_TileRoad);
+			}
 		}
 	}
+	CTextUI* pRoadTitleTextUI = new CTextUI(E_GroupType::UI);
+	pRoadTitleTextUI->SetText(L"road");
+	m_pGroundTileToolUI->AddChildUI(pRoadTitleTextUI);
+	pRoadTitleTextUI->SetPosition(100, 15, 0);
+	pRoadTitleTextUI->SetScale(40, 40, 0);
 	CreateObject(m_pGroundTileToolUI);
 
 	// Wall Tile Tool UI 생성
@@ -209,14 +216,21 @@ void CObjTool::InitMapTool()
 		for (UINT i = 0; i < vecChildUI.size(); ++i) {
 
 			CTileUI* pImgUI = dynamic_cast<CTileUI*>(vecChildUI[i]);
-			// 텍스쳐 설정
-			pImgUI->SetTexture(pTileWallTex);
-			pImgUI->SetLT(Vector2(TILE_SIZE * (int)(i % iCol), TILE_SIZE * (int)(i / iRow)));
-			pImgUI->SetTileIdx(i);
-			pImgUI->SetTileType(E_TileType::Wall);
-			pImgUI->SetTexturePath(STR_FILE_PATH_UI_TileWall);
+			if (pImgUI) {
+				// 텍스쳐 설정
+				pImgUI->SetTexture(pTileWallTex);
+				pImgUI->SetLT(Vector2(TILE_SIZE * (int)(i % iCol), TILE_SIZE * (int)(i / iRow)));
+				pImgUI->SetTileIdx(i);
+				pImgUI->SetTileType(E_TileType::Wall);
+				pImgUI->SetTexturePath(STR_FILE_PATH_UI_TileWall);
+			}
 		}
 	}
+	CTextUI* pWallTitleTextUI = new CTextUI(E_GroupType::UI);
+	m_pWallTileToolUI->AddChildUI(pWallTitleTextUI);
+	pWallTitleTextUI->SetText(L"wall");
+	pWallTitleTextUI->SetPosition(100, 15, 0);
+	pWallTitleTextUI->SetScale(40, 40, 0);
 	CreateObject(m_pWallTileToolUI);
 }
 void CObjTool::UpdateMapTool()

@@ -65,21 +65,6 @@ void CScene_Tool::Start()
 	ptResolution.x /= 2;
 	ptResolution.y /= 2;
 
-
-	// Character 모음
-	// Player
-	//CGTA_Player* pPlayer = new CGTA_Player(E_GroupType::PLAYER);
-	//pPlayer->SetObjectName(STR_OBJECT_NAME_Player);
-	//pPlayer->Init();
-	//pPlayer->SetPosition(800, 800, 0);
-	//AddObject(pPlayer);	
-
-	// Vehicle
-	/*CGTA_PoliceCar* pPoliceCar = new CGTA_PoliceCar(E_GroupType::VEHICLE);
-	pPoliceCar->SetObjectName(L"Police Car");
-	pPoliceCar->Init();
-	AddObject(pPoliceCar);*/
-
 	// 툴 전용 카메라 생성
 	CCamera_Tool* pCamera = new CCamera_Tool(E_GroupType::MAIN_CAMERA);
 	pCamera->SetMainCamera();
@@ -98,12 +83,6 @@ void CScene_Tool::Start()
 	AddObject(pObjTool);
 
 	LoadAll();
-
-
-	CLookAtTestObj* pLok = new CLookAtTestObj(E_GroupType::DEFAULT);
-	pLok->Init();
-	pLok->SetPosition(500, 500);
-	AddObject(pLok);
 
 	// Select Controller에서는 오브젝트들을 드래그해서 선택할 수 있다.
 	// Tile setting 모드와

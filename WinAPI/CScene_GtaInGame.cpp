@@ -16,7 +16,6 @@
 #include "CObject.h"
 #include "CTileMap.h"
 
-
 #include "CAnimator.h"
 #include "CColliderRect.h"
 #include "CGTA_PoliceCar.h"
@@ -51,7 +50,6 @@ void CScene_GtaInGame::Start()
 	pPlayer->Init();
 	pPlayer->SetPosition(800, 800, 0);
 	AddObject(pPlayer);*/
-
 
 	// UI Container를 하나 만들어서
 	// 모든 UI들을 관리하게 한다.

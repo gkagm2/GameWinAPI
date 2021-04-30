@@ -1,5 +1,7 @@
 #pragma once
 #include "CObject.h"
+
+class CSound;
 class CGTA_Bullet : public CObject
 {
 private:
@@ -14,6 +16,9 @@ private:
 
 	// Particle (ÇÇ Æ¨±â±â)
 	// Particle (º®, Â÷, Æ¨±â±â)
+
+	CSound* pBulletCarSound[3];
+
 
 public:
 	virtual void Init() override;

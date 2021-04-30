@@ -222,7 +222,6 @@ void CGTA_Character::OnCollisionEnter(CObject* _pOther)
 				pCop->Trace();
 				return;
 			}
-
 		}
 	}
 }

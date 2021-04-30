@@ -22,6 +22,7 @@ CTextUI::~CTextUI()
 
 void CTextUI::Update()
 {
+	CUI::Update();
 }
 
 void CTextUI::Render(HDC _hDC)
@@ -29,7 +30,7 @@ void CTextUI::Render(HDC _hDC)
 	if (nullptr == GetTexture())
 		return;
 
-	Vector3 vCursorPos = GetPosition();
+	Vector3 vCursorPos = GetFinalPosition();
 	for (UINT i = 0; i < m_strText.size(); ++i) {
 		wchar_t c = m_strText[i];
 		if (L'a' <= m_strText[i] && L'z' >= m_strText[i]) {

@@ -64,7 +64,7 @@ public:
 	void UpdateMapTool();
 	bool IsTileClicked(const Vector2& _vClickPos);
 	void MouseClick();
-	bool CheckUICollider();
+	//bool CheckUICollider();
 
 	// Item
 	void InitItemTool();

@@ -45,6 +45,8 @@ class CGTA_Vehicle;
 class CGTA_AI;
 class CPathFinding;
 class CGTA_Item;
+class CTexture;
+class CSound;
 class CGTA_Character : public CObject
 {
 protected:
@@ -77,6 +79,21 @@ protected:
 	// Component 
 	CGTA_AI* m_pAI; // AI
 	CPathFinding* m_pPathFinding;
+
+
+	// --- Resource ---
+	CTexture* pNozzleTexture;
+	// Sound
+	CSound* pHasGotaGunSound[4];
+	CSound* pHelpSound[5];
+	CSound* pOMGSound[3];
+	CSound* pScreamSound[5];
+	CSound* pGruntSound;
+	CSound* pFreezeSound[4];
+	CSound* pFootsepConcrete[4];
+	CSound* pFootsepGrass[4];
+
+
 
 public:
 	virtual void Init() override;

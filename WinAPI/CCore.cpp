@@ -54,10 +54,10 @@ int CCore::Init(HWND _hMainWnd, POINT _ptResolution)
 	m_pMemTexture = CResourceManager::GetInstance()->CreateTexture(STR_TABLE_MemoryTexture, m_ptResolution.x, m_ptResolution.y);
 
 	// Sound 로드 테스트
-	CResourceManager::GetInstance()->LoadSound(L"BGM_01", L"Sound\\DM.wav");
+	CResourceManager::GetInstance()->LoadSound(L"BGM_01", L"Sound\\SFX_CROWD_2.wav");
 	CSound* pNewSound = CResourceManager::GetInstance()->FindSound(L"BGM_01");
 
-	pNewSound->SetPosition(10.f); // 백분률, 소리 위치 설정
+	pNewSound->SetPosition(0.f); // 백분률, 소리 위치 설정
 	pNewSound->PlayToBGM(true);
 	pNewSound->SetVolume(60.f);
 

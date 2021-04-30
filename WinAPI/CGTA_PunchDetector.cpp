@@ -2,6 +2,7 @@
 #include "CGTA_PunchDetector.h"
 #include "CColliderRect.h"
 #include "CGTA_Character.h"
+#include "CGTA_Cop.h"
 #include "CTimeManager.h"
 
 CGTA_PunchDetector::CGTA_PunchDetector(E_GroupType _eGroupType, CObject* _OwnerObj) :
@@ -60,6 +61,12 @@ void CGTA_PunchDetector::OnCollisionEnter(CObject* _pOther)
 {
 	CGTA_Character* pCharacter = dynamic_cast<CGTA_Character*>(_pOther);
 	if (pCharacter) {
+		CGTA_Cop* pOtherCop = dynamic_cast<CGTA_Cop*>(_pOther);
+		CGTA_Cop* pCop = dynamic_cast<CGTA_Cop*>(m_pOwnerObj);
+		if (pOtherCop && pCop) {
+			return;
+		}
+
 		if (m_pOwnerObj != (CObject*)pCharacter) {
 			pCharacter->HitByFist();
 		}
