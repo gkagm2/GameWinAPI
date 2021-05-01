@@ -113,7 +113,7 @@ void CCamera2D::MoveVehicle()
 	if (fSpeed > 3) {
 		CGTA_Vehicle* pVehicle = (CGTA_Vehicle*)m_pTargetObject;
 		if(false == pVehicle->IsReverse())
-			vTargetPos += (-m_pTargetObject->GetUpVector()) * fSpeed * 55.f;
+			vTargetPos += (-m_pTargetObject->GetUpVector()) * fSpeed * 35.f;
 	}
 	vTargetPos = CMyMath::Lerp(vPos, vTargetPos, 6.f * DeltaTime);
 	m_vLook = vTargetPos;

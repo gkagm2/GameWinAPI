@@ -343,7 +343,6 @@ void CGTA_Player::Attack()
 					}
 					continue;
 				}
-				
 			}
 		}
 	}

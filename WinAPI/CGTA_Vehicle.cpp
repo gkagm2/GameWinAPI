@@ -18,6 +18,7 @@
 #include "CSoundManager.h"
 #include "CSound.h"
 #include "CGTA_Citizen.h"
+#include "CGTA_Cop.h"
 #include "CTile.h"
 #include "CDebug.h"
 
@@ -59,7 +60,7 @@ void CGTA_Vehicle::Init()
 {
 	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
 	pRigidbody->SetMass(11.f);
-	pRigidbody->SetDrag(8.5f);
+	pRigidbody->SetDrag(9.5f);
 
 	// 상속받은 클래스의 init함수 내에서 설정해줘야 함.
 	assert(m_pEngineSound);
@@ -127,36 +128,6 @@ void CGTA_Vehicle::Render(HDC _hDC)
 
 void CGTA_Vehicle::OnCollisionEnter(CObject* _pOther)
 {
-	CGTA_Character* pCharacter = dynamic_cast<CGTA_Character*>(_pOther);
-	if (pCharacter) {
-		// 차량을 타려고하는 캐릭터와 접촉 시 
-		if (E_CharacterState::getInTheVehicle == pCharacter->GetCharacterState()) {
-			// TODO : 차량의 속도에 따라 탈지 말지 결정하기
-			pCharacter->Drive();
-			CGTA_Player* pPlayer = dynamic_cast<CGTA_Player*>(GetDriver());
-			if (pPlayer) { // 플레이어면
-				pPlayer->SetActiveAI(false); // AI를 끈다.
-			}
-			else {
-				// TODO : 운전한다.
-				// GetCharacter()->GetAI()->ChangeState(L"drive");
-			}
-		}
-		else { // 캐릭터와 접촉했지만 속도가 미미할때
-			if (GetRigidbody()->GetSpeed() * 2.f < 5.f) {
-				if (E_CharacterState::getInTheVehicle != pCharacter->GetCharacterState()) {
-					CGTA_Citizen* pCitizen = dynamic_cast<CGTA_Citizen*>(_pOther);
-					if (pCitizen) {
-						wstring strWatchItBuddy = Sound_WatchItBuddy + std::to_wstring((rand() % Sound_WatchItBuddy_Len) + 1);
-						CSound* pSound = CResourceManager::GetInstance()->GetSound(strWatchItBuddy, strWatchItBuddy);
-						pSound->Play();
-					}
-				}
-			}
-		}
-		return;
-	}
-
 	CGTA_Bullet* pBullet = dynamic_cast<CGTA_Bullet*>(_pOther);
 	if (pBullet) {
 		if (false == m_bExplosion) {
@@ -208,14 +179,74 @@ void CGTA_Vehicle::OnCollisionStay(CObject* _pOther)
 {
 	CGTA_Character* pCharacter = dynamic_cast<CGTA_Character*>(_pOther);
 	if (pCharacter) {
+		// 차량을 타려고하는 캐릭터와 접촉 시 
+		if (E_CharacterState::getInTheVehicle == pCharacter->GetCharacterState()) {
+			// TODO : 차량의 속도에 따라 탈지 말지 결정하기
+			pCharacter->Drive();
+			CGTA_Player* pPlayer = dynamic_cast<CGTA_Player*>(GetDriver());
+			if (pPlayer) { // 플레이어면
+				pPlayer->SetActiveAI(false); // AI를 끈다.
+			}
+			else {
+				// TODO : 운전한다.
+				// GetCharacter()->GetAI()->ChangeState(L"drive");
+			}
+		}
 		// 지나가다 접촉할 경우
-		if (E_CharacterState::getInTheVehicle != pCharacter->GetCharacterState()) {
+		else {
 			float fSpeed = GetRigidbody()->GetSpeed() * 2.f;
-			if (fSpeed >= 5.f) {
+			// 캐릭터와 접촉했지만 속도가 미미할때
+			if (fSpeed < 7.f) {
+				if (E_CharacterState::getInTheVehicle != pCharacter->GetCharacterState()) {
+					CGTA_Citizen* pCitizen = dynamic_cast<CGTA_Citizen*>(_pOther);
+					if (pCitizen) {
+						wstring strWatchItBuddy = Sound_WatchItBuddy + std::to_wstring((rand() % Sound_WatchItBuddy_Len) + 1);
+						CSound* pSound = CResourceManager::GetInstance()->GetSound(strWatchItBuddy, strWatchItBuddy);
+						pSound->Play();
+					}
+				}
+			}
+			// 속도가 빠른 상태로 접촉했을 경우
+			else {
 				pCharacter->CharacterInfo().fHp = 0.f;
 				CSound* pSound = CResourceManager::GetInstance()->GetSound(Sound_Collision_CarPedSquash, Sound_Collision_CarPedSquash);
 				pSound->Play();
 				pCharacter->Dead();
+
+				// 시민들 상태값 변환
+				vector<CObject*>& vecObjs = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::CITIZEN);
+				for (UINT i = 0; i < vecObjs.size(); ++i) {
+					Vector3 vPosition = GetPosition();
+					Vector3 vTargetPos = vecObjs[i]->GetPosition();
+					float fDistance = (vPosition - vTargetPos).GetDistance();
+					CGTA_Character* pCharacter = dynamic_cast<CGTA_Character*>(vecObjs[i]);
+					if (fDistance <= pCharacter->GetNoticeDistance()) {
+						CGTA_Citizen* pCitizen = dynamic_cast<CGTA_Citizen*>(vecObjs[i]);
+						if (pCitizen) {
+							if (E_AIState::dead != pCitizen->GetCurAIState())
+								if (E_AIState::runAway != pCitizen->GetAIState()) {
+									wstring strHasGunSoundPath = Sound_OMG + std::to_wstring((rand() % Sound_OMG_Len) + 1);
+									CSound* pSound = CResourceManager::GetInstance()->GetSound(strHasGunSoundPath, strHasGunSoundPath);
+									pSound->Play();
+									pCitizen->Runaway();
+								}
+							continue;
+						}
+						CGTA_Cop* pCop = dynamic_cast<CGTA_Cop*>(vecObjs[i]);
+						if (pCop) {
+							if (E_AIState::dead != pCop->GetCurAIState()) {
+								if (E_AIState::trace != pCop->GetAIState()) {
+									int iRandom = (rand() % Sound_HoldIt_Len) + 1;
+									wstring strPath = Sound_HoldIt + std::to_wstring(iRandom);
+									CSound* pFreezeSoun = CResourceManager::GetInstance()->GetSound(strPath, strPath);
+									pFreezeSoun->Play();
+									pCop->Trace();
+								}
+							}
+							continue;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -252,6 +283,7 @@ void CGTA_Vehicle::Explosion()
 {
 	CSound* pSound = CResourceManager::GetInstance()->GetSound(Sound_Explosion, Sound_Explosion);
 	pSound->Stop(true);
+	pSound->SetVolume(100.f);
 	pSound->Play();
 	SetTexture(m_pExplosionTex);
 	m_bExplosion = true;

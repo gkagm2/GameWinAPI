@@ -193,3 +193,6 @@
 
 #define Sound_WatchItBuddy L"Sound\\GTA\\SFX_WATCH_IT_BUDDY_"
 #define Sound_WatchItBuddy_Len 3
+
+#define Sound_HoldIt L"Sound\\GTA\\SFX_COP_HOLD_IT_"
+#define Sound_HoldIt_Len 3

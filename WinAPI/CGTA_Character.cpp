@@ -452,6 +452,13 @@ void CGTA_Character::GetOutTheVehicle()
 	pSound->Play();
 	SetRender(true);
 	GetCollider()->SetActive(true);
+	Vector3 vLeftVec = m_pVehicle->GetRightVector();
+	CColliderRect* pColliderRect = dynamic_cast<CColliderRect*>(GetCollider());
+	CColliderRect* pCarColliderRect = dynamic_cast<CColliderRect*>(m_pVehicle->GetCollider());
+	if (pColliderRect && pCarColliderRect) {
+		Vector3 newPos = GetPosition() + vLeftVec * (pColliderRect->GetScale().x * 0.5f + pCarColliderRect->GetScale().x * 0.5f);
+		SetPosition(newPos);
+	}
 	SetCharacterState(E_CharacterState::idle);
 	SetAIState(E_AIState::wander);
 	SetDrive(false);

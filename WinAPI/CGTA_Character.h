@@ -182,6 +182,8 @@ public:
 
 	void SetMoveFlag(bool _bIsMove) { m_bIsMoved = _bIsMove; }
 
+	float GetNoticeDistance() { return m_fNoticeDistance; }
+
 public:
 	CLONE(CGTA_Character);
 
