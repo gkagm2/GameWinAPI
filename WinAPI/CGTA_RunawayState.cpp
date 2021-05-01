@@ -12,13 +12,17 @@
 #include "CCamera.h"
 #include "CCore.h"
 #include "CGTA_AI.h"
+#include "CResourceManager.h"
+#include "CSound.h"
 
 CGTA_RunawayState::CGTA_RunawayState() :
 	m_pTarget(nullptr),
 	m_fMaxRunDistance(800.f),
 	m_bIsPathFind(false),
 	m_fPathFindCoolTime(0.7f),
-	m_fPathFindMaxCoolTime(0.3f)
+	m_fPathFindMaxCoolTime(0.3f),
+	m_fHelpSoundCoolTime(0.f),
+	m_fHelpSoundMaxCoolTime(10.f)
 {
 }
 
@@ -97,6 +101,15 @@ void CGTA_RunawayState::Update()
 				GetAI()->RotateBody();
 		}
 	}
+
+	m_fHelpSoundCoolTime += DeltaTime;
+	if (m_fHelpSoundCoolTime > m_fHelpSoundMaxCoolTime) {
+		wstring strHelpSoundPath = Sound_Help + std::to_wstring((rand() % Sound_Help_Len) + 1);
+		CSound* pSound = CResourceManager::GetInstance()->GetSound(strHelpSoundPath, strHelpSoundPath);
+		pSound->Play();
+		m_fHelpSoundMaxCoolTime = rand() % 15 + 7;
+		m_fHelpSoundCoolTime = 0;
+	}
 }
 
 void CGTA_RunawayState::LateUpdate()
@@ -108,6 +121,9 @@ void CGTA_RunawayState::Start()
 	if (m_pTarget == nullptr) {
 		m_pTarget = CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_Player);
 	}
+
+	m_fHelpSoundCoolTime = 0;
+	m_fHelpSoundMaxCoolTime = rand() % 15 + 5;
 }
 
 void CGTA_RunawayState::End()

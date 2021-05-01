@@ -174,6 +174,7 @@ void CScene_GtaInGame::LateUpdate()
 void CScene_GtaInGame::End()
 {
 	DeleteAllObjects();
+	CResourceManager::GetInstance()->InitAllSounds();
 }
 
 void CScene_GtaInGame::Render(HDC _hDC)

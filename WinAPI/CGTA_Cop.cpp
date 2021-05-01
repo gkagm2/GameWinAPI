@@ -170,10 +170,18 @@ void CGTA_Cop::State()
 		GetAnimator()->PlayAnimation(L"stun", E_AnimationPlayType::ONCE);
 		break;
 	case E_CharacterState::getInTheVehicle:
-		if (HaveGun())
-			GetAnimator()->PlayAnimation(L"run_gun", E_AnimationPlayType::LOOP);
-		else
-			GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
+		if (HaveGun()) {
+			if (m_bIsMoved)
+				GetAnimator()->PlayAnimation(L"run_gun", E_AnimationPlayType::LOOP);
+			else
+				GetAnimator()->PlayAnimation(L"idle_gun", E_AnimationPlayType::LOOP);
+		}
+		else {
+			if (m_bIsMoved)
+				GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
+			else
+				GetAnimator()->PlayAnimation(L"idle", E_AnimationPlayType::LOOP);
+		}
 		break;
 	case E_CharacterState::getOutTheVehicle:
 		break;

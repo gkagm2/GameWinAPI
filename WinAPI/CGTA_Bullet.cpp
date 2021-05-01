@@ -15,6 +15,7 @@
 #include "CGTA_Vehicle.h"
 #include "CResourceManager.h"
 #include "CResource.h"
+#include "CSound.h"
 
 
 CGTA_Bullet::CGTA_Bullet(E_GroupType e_GroupType) :
@@ -125,9 +126,17 @@ void CGTA_Bullet::OnCollisionEnter(CObject* _pOther)
 {
 	auto pTile = dynamic_cast<CTile*>(_pOther);
 	if (pTile) {
-		if (E_TileType::Wall == pTile->GetTileType())
+		if (E_TileType::Wall == pTile->GetTileType()) {
+			wstring strBulletSound = Sound_BulletWall + std::to_wstring(rand() % Sound_BulletWall_Len + 1);
+			CSound* pSound = CResourceManager::GetInstance()->GetSound(strBulletSound, strBulletSound);
+			pSound->Stop(true);
+			pSound->SetVolume(25.f);
+			pSound->Play();
+
 			DestroyObject(this);
-		return;
+			return;
+		}
+		
 	}
 	auto pCharacter = dynamic_cast<CGTA_Character*>(_pOther);
 	if (pCharacter) {
@@ -137,6 +146,12 @@ void CGTA_Bullet::OnCollisionEnter(CObject* _pOther)
 
 	auto pVehicle = dynamic_cast<CGTA_Vehicle*>(_pOther);
 	if (pVehicle) {
+		wstring strBulletSound = Sound_BulletCar + std::to_wstring(rand() % Sound_BulletCar_Len + 1);
+		CSound* pSound = CResourceManager::GetInstance()->GetSound(strBulletSound, strBulletSound);
+		pSound->Stop(true);
+		pSound->SetVolume(25.f);
+		pSound->Play();
+
 		DestroyObject(this);
 		return;
 	}

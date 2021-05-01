@@ -12,13 +12,7 @@ CResourceManager::CResourceManager()
 }
 
 CResourceManager::~CResourceManager() {
-	umapTextureIter textureIter = m_umapTexture.begin();
-	for (; textureIter!= m_umapTexture.end(); ++textureIter)
-		delete textureIter->second;
-
-	umapSoundIter soundIter = m_umapSound.begin();
-	for (; soundIter != m_umapSound.end(); ++soundIter)
-		delete soundIter->second;
+	DeleteAllResources();
 }
 
 CTexture* CResourceManager::LoadTexture(const wstring& _strKey, const wstring& _strRelativePath)
@@ -127,4 +121,22 @@ CSound* CResourceManager::GetSound(const wstring& _strKey, const wstring& _strRe
 		assert(pSound);
 	}
 	return pSound;
+}
+
+void CResourceManager::DeleteAllResources()
+{
+	umapTextureIter textureIter = m_umapTexture.begin();
+	for (; textureIter != m_umapTexture.end(); ++textureIter)
+		delete textureIter->second;
+
+	umapSoundIter soundIter = m_umapSound.begin();
+	for (; soundIter != m_umapSound.end(); ++soundIter)
+		delete soundIter->second;
+}
+
+void CResourceManager::InitAllSounds()
+{
+	umapSoundIter soundIter = m_umapSound.begin();
+	for (; soundIter != m_umapSound.end(); ++soundIter)
+		soundIter->second->Stop(true);
 }

@@ -68,6 +68,9 @@ protected:
 
 	float m_fVehicleSearchDistance; // 차량을 찾는 최대 거리.
 
+	float m_fFootStepSoundCoolTime;
+	float m_fFootStepSoundMaxCoolTime;
+
 	CGTA_Vehicle* m_pVehicle;
 
 	E_WeaponType m_eCurWeaponType;
@@ -91,6 +94,7 @@ protected:
 
 protected:
 	virtual void InitSound();
+	void PlayFootStepSound();
 
 public:
 	virtual void Init() override;
@@ -176,6 +180,8 @@ public:
 	/*CGTA_Vehicle* GetVehicle() { return m_pVehicle; }
 	void SetVehicle(CGTA_Vehicle* _pVehicle) { m_pVehicle = _pVehicle; }*/
 
+	void SetMoveFlag(bool _bIsMove) { m_bIsMoved = _bIsMove; }
+
 public:
 	CLONE(CGTA_Character);
 
@@ -184,4 +190,6 @@ public:
 	CGTA_Character() = delete;
 	CGTA_Character(E_GroupType _eGroupType);
 	virtual ~CGTA_Character() override;
+
+	friend class CGTA_AI;
 };

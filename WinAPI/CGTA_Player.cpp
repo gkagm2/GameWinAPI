@@ -35,9 +35,7 @@
 
 CGTA_Player::CGTA_Player(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType),
-	m_bIsActiveAI(false),
-	m_fFootStepCoolTime(0.f),
-	m_fFootStepMaxCoolTime(0.1f)
+	m_bIsActiveAI(false)
 {
 }
 
@@ -83,13 +81,14 @@ void CGTA_Player::Init()
 	CGTA_Character::Init();
 
 	GetRigidbody()->SetMass(10.f);
-
-
+	
 	// Test
 	CharacterInfo().fHp = 100.f;
 
 	// AI Init
 	InitAI();
+
+	SetCharacterState(E_CharacterState::idle);
 }
 
 void CGTA_Player::PrevUpdate()
@@ -241,30 +240,42 @@ void CGTA_Player::State()
 		GetAnimator()->PlayAnimation(L"stun", E_AnimationPlayType::ONCE);
 		break;
 	case E_CharacterState::getInTheVehicle:
-		if (HaveGun())
-			GetAnimator()->PlayAnimation(L"run_gun", E_AnimationPlayType::LOOP);
-		else
-			GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
+		if (HaveGun()) {
+			if (m_bIsMoved)
+				GetAnimator()->PlayAnimation(L"run_gun", E_AnimationPlayType::LOOP);
+			else
+				GetAnimator()->PlayAnimation(L"idle_gun", E_AnimationPlayType::LOOP);
+		}
+		else {
+			if (m_bIsMoved)
+				GetAnimator()->PlayAnimation(L"run", E_AnimationPlayType::LOOP);
+			else
+				GetAnimator()->PlayAnimation(L"idle", E_AnimationPlayType::LOOP);
+		}
+			
 		break;
 	case E_CharacterState::getOutTheVehicle:
 		break;
 	case E_CharacterState::drive:
 		break;
 	}
+
+	if(m_bIsMoved)
+		PlayFootStepSound();
 }
 
 void CGTA_Player::MoveUpdate()
 {
-	m_fFootStepCoolTime += DeltaTime;
-
 	//RotateInfo().Update();
 	if (InputKeyHold(E_Key::LEFT)) {
 		RotateRP(-220 * DeltaTime);
 		m_bIsActiveAI = false;
+		m_bIsMoved = false;
 	}
 	if (InputKeyHold(E_Key::RIGHT)) {
 		RotateRP(220 * DeltaTime);
 		m_bIsActiveAI = false;
+		m_bIsMoved = false;
 	}
 
 	if (InputKeyRelease(E_Key::UP)) {
@@ -283,28 +294,12 @@ void CGTA_Player::MoveUpdate()
 		SetPosition(GetPosition().x - GetUpVector().x * CharacterInfo().fMoveSpeed * DeltaTime, GetPosition().y - GetUpVector().y * 300 * DeltaTime);
 		SetCharacterState(E_CharacterState::run);
 		m_bIsActiveAI = false;
-
-		if (m_fFootStepCoolTime > m_fFootStepMaxCoolTime) {
-			wstring strFootSoundPath = Sound_ConcreateFootSep + std::to_wstring(3);
-			CSound* pSound = CResourceManager::GetInstance()->GetSound(strFootSoundPath, strFootSoundPath);
-			pSound->SetVolume(30.f);
-			pSound->Play();
-			m_fFootStepCoolTime = 0.f;
-		}
 	}
 	if (InputKeyHold(E_Key::DOWN)) {
 		m_bIsMoved = true;
 		SetPosition(GetPosition().x + GetUpVector().x * CharacterInfo().fMoveSpeed * DeltaTime, GetPosition().y + GetUpVector().y * CharacterInfo().fMoveSpeed * DeltaTime);
 		SetCharacterState(E_CharacterState::run);
 		m_bIsActiveAI = false;
-
-		if (m_fFootStepCoolTime > m_fFootStepMaxCoolTime) {
-			wstring strFootSoundPath = Sound_ConcreateFootSep + std::to_wstring(3);
-			CSound* pSound = CResourceManager::GetInstance()->GetSound(strFootSoundPath, strFootSoundPath);
-			pSound->SetVolume(30.f);
-			pSound->Play();
-			m_fFootStepCoolTime = 0.f;
-		}
 	}
 }
 
@@ -331,7 +326,6 @@ void CGTA_Player::Attack()
 							wstring strHasGunSoundPath = Sound_HasGotaGunSound + std::to_wstring((rand() % Sound_HasGotaGunSound_Len) + 1);
 							CSound* pSound = CResourceManager::GetInstance()->GetSound(strHasGunSoundPath, strHasGunSoundPath);
 							pSound->Play();
-							
 							pCitizen->Runaway();
 						}
 					continue;

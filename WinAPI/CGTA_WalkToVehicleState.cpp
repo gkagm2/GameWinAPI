@@ -47,6 +47,7 @@ void CGTA_WalkToVehicleState::Update()
 
 	// 자동차가 있다면
 	if (m_pVehicle) {
+		GetCharacter()->SetMoveFlag(true);
 		if (m_bIsFindPath) {
 			GetAI()->Move(GetCharacter()->CharacterInfo().fMoveSpeed); // 찾았으면 걸어간다.
 
@@ -70,7 +71,6 @@ void CGTA_WalkToVehicleState::Update()
 
 void CGTA_WalkToVehicleState::Start()
 {
-	
 }
 
 void CGTA_WalkToVehicleState::End()

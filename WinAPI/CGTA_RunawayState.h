@@ -10,6 +10,8 @@ private:
 	float m_fPathFindMaxCoolTime;
 
 	bool m_bIsPathFind;
+	float m_fHelpSoundCoolTime;
+	float m_fHelpSoundMaxCoolTime;
 
 public:
 	virtual void Update() override;

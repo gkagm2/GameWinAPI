@@ -52,6 +52,8 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_fNoticeDistance(500.f),
 	m_fVehicleSearchDistance(600.f),
 	m_pVehicle(nullptr),
+	m_fFootStepSoundCoolTime(0.f),
+	m_fFootStepSoundMaxCoolTime(0.1f),
 	m_eCurWeaponType(E_WeaponType::FIST),
 	m_eCharacterState(E_CharacterState::idle),
 	m_eAIState(E_AIState::wander),
@@ -151,6 +153,18 @@ void CGTA_Character::InitSound()
 			pOMGSound[i] = CResourceManager::GetInstance()->LoadSound(strPath, strPath);
 			assert(pOMGSound[i]);
 		}
+	}
+}
+
+void CGTA_Character::PlayFootStepSound()
+{
+	m_fFootStepSoundCoolTime += DeltaTime;
+	if (m_fFootStepSoundCoolTime > m_fFootStepSoundMaxCoolTime) {
+		wstring strFootSoundPath = Sound_ConcreateFootSep + std::to_wstring(3);
+		CSound* pSound = CResourceManager::GetInstance()->GetSound(strFootSoundPath, strFootSoundPath);
+		pSound->SetVolume(30.f);
+		pSound->Play();
+		m_fFootStepSoundCoolTime = 0.f;
 	}
 }
 
@@ -279,7 +293,6 @@ void CGTA_Character::OnCollisionEnter(CObject* _pOther)
 		}
 		return;
 	}
-	
 }
 
 void CGTA_Character::OnCollisionStay(CObject* _pOther)
@@ -397,9 +410,13 @@ void CGTA_Character::HitByFist()
 
 void CGTA_Character::Drive()
 {
+	CSound* pSound = CResourceManager::GetInstance()->GetSound(Sound_CarDoorOpen, Sound_CarDoorOpen);
+	pSound->Play();
+	SetDrive(true);
 	SetRender(false);
 	GetCollider()->SetActive(false);
 	m_pVehicle->SetDriver(this);
+	m_bIsMoved = false;
 	SetCharacterState(E_CharacterState::drive);
 	SetAIState(E_AIState::drive);
 }
@@ -432,6 +449,8 @@ void CGTA_Character::GetInTheVehicle()
 
 void CGTA_Character::GetOutTheVehicle()
 {
+	CSound* pSound = CResourceManager::GetInstance()->GetSound(Sound_CarDoorOpen, Sound_CarDoorOpen);
+	pSound->Play();
 	SetRender(true);
 	GetCollider()->SetActive(true);
 	SetCharacterState(E_CharacterState::idle);

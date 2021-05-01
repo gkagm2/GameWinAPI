@@ -10,6 +10,7 @@
 #include "CCamera.h"
 #include "CSceneManager.h"
 #include "CScene.h"
+#include "CSound.h"
 
 // Test
 #include "CCore.h"
@@ -48,6 +49,14 @@ void CGTA_PoliceCar::Init()
 
 	CColliderRect* pColRect = new CColliderRect(this);
 	pColRect->SetScale(Vector3(GetScale().x , GetScale().y, 0.f));
+
+	InitEngineSound(Sound_Car_Standard_engine);
+
+	int iRadioTypeIdx = rand() % Sound_CarRadio_Len;
+	InitRadio(iRadioTypeIdx);
+
+	SetExplosionTex(STR_FILE_PATH_gta_CarExplosion);
+
 	__super::Init();
 }
 

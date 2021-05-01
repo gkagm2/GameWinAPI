@@ -15,14 +15,27 @@
 #include "CGTA_Character.h"
 #include "CGTA_Player.h"
 #include "CGTA_Bullet.h"
+#include "CSoundManager.h"
+#include "CSound.h"
+#include "CGTA_Citizen.h"
+#include "CTile.h"
+#include "CDebug.h"
 
 CGTA_Vehicle::CGTA_Vehicle(E_GroupType _eGroupType) :
 	CObject(_eGroupType = E_GroupType::VEHICLE),
 	m_pDriver(nullptr),
 	m_bExplosion(false),
 	m_bReverse(false),
-	m_eVehicleState(E_VehicleState::normal)
+	m_eVehicleState(E_VehicleState::normal),
+	m_pEngineSound(nullptr),
+	m_pRadio(nullptr),
+	m_pExplosionTex(nullptr)
 {
+}
+
+void CGTA_Vehicle::SetExplosionTex(const wstring& _strTexureKey)
+{
+	m_pExplosionTex = CResourceManager::GetInstance()->GetTexture(_strTexureKey, _strTexureKey);
 }
 
 CGTA_Vehicle::CGTA_Vehicle(const CGTA_Vehicle& _origin) :
@@ -30,8 +43,12 @@ CGTA_Vehicle::CGTA_Vehicle(const CGTA_Vehicle& _origin) :
 	m_pDriver(nullptr),
 	m_bExplosion(_origin.m_bExplosion),
 	m_bReverse(_origin.m_bReverse),
-	m_eVehicleState(_origin.m_eVehicleState)
+	m_eVehicleState(_origin.m_eVehicleState),
+	m_pEngineSound(_origin.m_pEngineSound),
+	m_pRadio(nullptr),
+	m_pExplosionTex(_origin.m_pExplosionTex)
 {
+	InitRadio(rand() % Sound_CarRadio_Len);
 }
 
 CGTA_Vehicle::~CGTA_Vehicle()
@@ -42,7 +59,13 @@ void CGTA_Vehicle::Init()
 {
 	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
 	pRigidbody->SetMass(11.f);
-	pRigidbody->SetDrag(1.f);
+	pRigidbody->SetDrag(8.5f);
+
+	// 상속받은 클래스의 init함수 내에서 설정해줘야 함.
+	assert(m_pEngineSound);
+	assert(m_pRadio);
+	assert(m_pExplosionTex);
+
 	CObject::Init();
 }
 
@@ -65,6 +88,9 @@ void CGTA_Vehicle::LateUpdate()
 void CGTA_Vehicle::Render(HDC _hDC)
 {
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(GetPosition());
+
+	Debug->Print(Vector2(10, 200), L"d", VehicleInfo().fHp);
+	Debug->Print(Vector2(10, 250), L"d", m_bExplosion);
 
 	if (nullptr == GetTexture()) {
 		Rectangle(_hDC,
@@ -107,7 +133,6 @@ void CGTA_Vehicle::OnCollisionEnter(CObject* _pOther)
 		if (E_CharacterState::getInTheVehicle == pCharacter->GetCharacterState()) {
 			// TODO : 차량의 속도에 따라 탈지 말지 결정하기
 			pCharacter->Drive();
-			pCharacter->SetDrive(true);
 			CGTA_Player* pPlayer = dynamic_cast<CGTA_Player*>(GetDriver());
 			if (pPlayer) { // 플레이어면
 				pPlayer->SetActiveAI(false); // AI를 끈다.
@@ -117,15 +142,48 @@ void CGTA_Vehicle::OnCollisionEnter(CObject* _pOther)
 				// GetCharacter()->GetAI()->ChangeState(L"drive");
 			}
 		}
+		else { // 캐릭터와 접촉했지만 속도가 미미할때
+			if (GetRigidbody()->GetSpeed() * 2.f < 5.f) {
+				if (E_CharacterState::getInTheVehicle != pCharacter->GetCharacterState()) {
+					CGTA_Citizen* pCitizen = dynamic_cast<CGTA_Citizen*>(_pOther);
+					if (pCitizen) {
+						wstring strWatchItBuddy = Sound_WatchItBuddy + std::to_wstring((rand() % Sound_WatchItBuddy_Len) + 1);
+						CSound* pSound = CResourceManager::GetInstance()->GetSound(strWatchItBuddy, strWatchItBuddy);
+						pSound->Play();
+					}
+				}
+			}
+		}
 		return;
 	}
 
 	CGTA_Bullet* pBullet = dynamic_cast<CGTA_Bullet*>(_pOther);
 	if (pBullet) {
-		VehicleInfo().fHp -= pBullet->GetDamage();
-		VehicleInfo().fHp = VehicleInfo().fHp < 0.f ? 0.f : VehicleInfo().fHp;
-		if(0.f == VehicleInfo().fHp)
-			Explosion();
+		if (false == m_bExplosion) {
+			VehicleInfo().fHp -= pBullet->GetDamage();
+			VehicleInfo().fHp = VehicleInfo().fHp < 0.f ? 0.f : VehicleInfo().fHp;
+			if (0.f == VehicleInfo().fHp)
+				Explosion();
+		}
+		return;
+	}
+
+	CTile* pTile = dynamic_cast<CTile*>(_pOther);
+	if (pTile) {
+		if (E_TileType::Wall == pTile->GetTileType()) {
+			if (m_bExplosion)
+				return;
+			if (GetRigidbody()->GetSpeed() * 2.f > 2.5f) {
+				VehicleInfo().fHp -= 1.f;
+				VehicleInfo().fHp = VehicleInfo().fHp < 0.f ? 0.f : VehicleInfo().fHp;
+				if (0.f == VehicleInfo().fHp) {
+					Explosion();
+				}
+				CSound* pSound = CResourceManager::GetInstance()->GetSound(Sound_Collision_CarPedBounce, Sound_Collision_CarPedBounce);
+				//pSound->Stop(true);
+				pSound->Play();
+			}
+		}
 	}
 }
 
@@ -138,6 +196,8 @@ void CGTA_Vehicle::OnCollisionStay(CObject* _pOther)
 			float fSpeed = GetRigidbody()->GetSpeed() * 2.f;
 			if (fSpeed >= 5.f) {
 				pCharacter->CharacterInfo().fHp = 0.f;
+				CSound* pSound = CResourceManager::GetInstance()->GetSound(Sound_Collision_CarPedSquash, Sound_Collision_CarPedSquash);
+				pSound->Play();
 				pCharacter->Dead();
 			}
 		}
@@ -167,10 +227,16 @@ void CGTA_Vehicle::DriveUpdate()
 		GetRigidbody()->AddForce(GetUpVector() * VehicleInfo().fPower * DeltaTime);
 		m_bReverse = true;
 	}
+
+	State();
 }
 
 void CGTA_Vehicle::Explosion()
 {
+	CSound* pSound = CResourceManager::GetInstance()->GetSound(Sound_Explosion, Sound_Explosion);
+	pSound->Stop(true);
+	pSound->Play();
+	SetTexture(m_pExplosionTex);
 	m_bExplosion = true;
 	SetVehicleState(E_VehicleState::explode);
 }
@@ -179,12 +245,50 @@ void CGTA_Vehicle::State()
 {
 	switch (m_eVehicleState) {
 	case E_VehicleState::normal:
+		m_pEngineSound->SetVolume(GetRigidbody()->GetSpeed() * 0.01f + 20.f);
+
 		break;
 	case E_VehicleState::explode:
+		m_pEngineSound->Stop();
 		// 애니메이션 후 -> 아예 타버린 모양으로 하기
 		// TODO : 이미지 텍스쳐 변경
 		break;
 	}
+}
+
+void CGTA_Vehicle::InitEngineSound(const wstring& _strSoundKey)
+{
+	m_pEngineSound = CResourceManager::GetInstance()->GetSound(_strSoundKey, _strSoundKey);
+}
+
+void CGTA_Vehicle::InitRadio(int _iTypeIdx)
+{
+	_iTypeIdx = max(0, _iTypeIdx);
+	_iTypeIdx = min(Sound_CarRadio_Len - 1, _iTypeIdx);
+	wstring type[] = { Sound_CarRadio_1 ,Sound_CarRadio_2,Sound_CarRadio_3,Sound_CarRadio_4 };
+	wstring strRadio = Sound_CarRadio + type[_iTypeIdx];
+	m_pRadio = CResourceManager::GetInstance()->GetSound(strRadio, strRadio);
+}
+
+void CGTA_Vehicle::SetDriver(CObject* _pDriver)
+{
+	m_pDriver = _pDriver;
+
+	if (nullptr != m_pDriver) {
+		m_pEngineSound->Play(true);
+		m_pEngineSound->SetVolume(20.f);
+		CSound* pOutDoorSound = CResourceManager::GetInstance()->GetSound(STR_FILE_PATH_GTA_Sound_OutdoorNoise_Sound, STR_FILE_PATH_GTA_Sound_OutdoorNoise_Sound);
+		pOutDoorSound->Stop();
+		m_pRadio->SetVolume(20.f);
+		m_pRadio->Play(true);
+	}
+	else {
+		m_pEngineSound->Stop();
+		CSound* pOutDoorSound = CResourceManager::GetInstance()->GetSound(STR_FILE_PATH_GTA_Sound_OutdoorNoise_Sound, STR_FILE_PATH_GTA_Sound_OutdoorNoise_Sound);
+		pOutDoorSound->PlayToBGM(true);
+		m_pRadio->Stop();
+	}
+		
 }
 
 void TVehicleInfo::Save(FILE* _pFile)

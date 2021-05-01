@@ -116,6 +116,7 @@ void CScene_Tool::End()
 	CCore::GetInstance()->ResizeWindowScreen(CCore::GetInstance()->GetResolution(), false);
 
 	DeleteAllObjects();
+	CResourceManager::GetInstance()->InitAllSounds();
 }
 
 void CScene_Tool::LoadAll()

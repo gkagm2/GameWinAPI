@@ -11,12 +11,13 @@ struct TVehicleInfo {
     float fMoveSpeed;
     float fPower;
 
-    TVehicleInfo() : fHp(10.f), fMoveSpeed(60.f), fPower(3000.F){}
+    TVehicleInfo() : fHp(150.f), fMoveSpeed(60.f), fPower(12000.F){}
     void Save(FILE* _pFile);
     void Load(FILE* _pFile);
 };
 
 class CGTA_Character;
+class CSound;
 class CGTA_Vehicle : public CObject
 {
 private:
@@ -27,7 +28,10 @@ private:
     E_VehicleState m_eVehicleState;
 
     bool m_bReverse; // 후진 여부
-    
+    CSound* m_pEngineSound;
+
+    CSound* m_pRadio;
+    CTexture* m_pExplosionTex;
 
 public:
     virtual void Init() override;
@@ -50,12 +54,13 @@ public:
     virtual void Explosion();
 
     virtual void State();
+    void InitEngineSound(const wstring& _strSoundKey);
+    void InitRadio(int _iTypeIdx);
 
     bool DidExplode() { return m_bExplosion; }
-
 public:
     CObject* GetDriver() { return m_pDriver; }
-    void SetDriver(CObject* _pDriver) { m_pDriver = _pDriver; }
+    void SetDriver(CObject* _pDriver);
 
     TVehicleInfo& VehicleInfo() { return m_tVehicleInfo; }
 
@@ -64,6 +69,15 @@ public:
 
     bool DidExploded() { return m_bExplosion; }
     bool IsReverse() { return m_bReverse; } // 후진하고있는가?
+
+    void SetEngineSound(CSound* _pEngineSound) { m_pEngineSound = _pEngineSound; }
+    CSound* GetEngineSound() { return m_pEngineSound; }
+
+    void SetRadio(CSound* _pRadio) { m_pRadio = _pRadio; }
+    CSound* GetRadio() { return m_pRadio; }
+
+    void SetExplosionTex(const wstring& _strTexureKey);
+    CTexture* GetExplosionTex() { return m_pExplosionTex; }
 
 public:
     CLONE(CGTA_Vehicle);

@@ -16,6 +16,7 @@
 #include "CGTA_Item.h"
 #include "CGTA_Player.h"
 
+#include "CResourceManager.h"
 
 CScene::CScene() :
 	m_pTileMap(nullptr),

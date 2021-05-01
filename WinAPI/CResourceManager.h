@@ -21,4 +21,8 @@ public:
 	CSound* LoadSound(const wstring& _strKey, const wstring& _strRelativePath);
 	CSound* FindSound(const wstring& _strKey);
 	CSound* GetSound(const wstring& _strKey, const wstring& _strRelativePath);
+
+public:
+	void DeleteAllResources();
+	void InitAllSounds();
 };

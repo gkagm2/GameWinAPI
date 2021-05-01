@@ -117,6 +117,8 @@
 #define STR_FILE_PATH_gta_Spark L"Texture\\GTA\\Spark.bmp"
 #define STR_FILE_PATH_gta_Blood L"Texture\\GTA\\Blood.bmp"
 
+#define STR_FILE_PATH_gta_CarExplosion L"Texture\\GTA\\ExplosionCar.bmp"
+
 // weapon
 #define STR_NAME_Fist L"Punch"
 #define STR_NAME_RocketLauncher L"Rocket Launchar"
@@ -176,3 +178,18 @@
 
 #define Sound_Collision_CarPedBounce L"Sound\\GTA\\SFX_COLLISION_CAR_PED_BOUNCE"
 #define Sound_Collision_CarPedSquash L"Sound\\GTA\\SFX_COLLISION_CAR_PED_SQUASH"
+
+#define Sound_Car_Standard_engine L"Sound\\GTA\\SFX_STANDARD_SALOON_ENGINE"
+#define Sound_Car_Sport_engine L"SFX_SPORTS_SALOON_ENGINE"
+
+#define Sound_Explosion L"Sound\\GTA\\SFX_SML_EXPLOSION"	
+
+#define Sound_CarRadio L"Sound\\GTA\\Radio\\"
+#define Sound_CarRadio_1 L"Anna - Do It On Your Own"
+#define Sound_CarRadio_2 L"Apostles of Funk - Yellow Butter"
+#define Sound_CarRadio_3 L"Bert Reid's Guitar Trio - A Cool Day in Downtown"
+#define Sound_CarRadio_4 L"Bulamatar - Taxi Drivers Must Die"
+#define Sound_CarRadio_Len 4
+
+#define Sound_WatchItBuddy L"Sound\\GTA\\SFX_WATCH_IT_BUDDY_"
+#define Sound_WatchItBuddy_Len 3
