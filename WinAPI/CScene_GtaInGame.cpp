@@ -30,6 +30,7 @@
 
 #include "CGTA_UIContainer.h"
 #include "CGTA_PlayerUI.h"
+#include "CGTA_SuspectSearchSystem.h"
 
 CScene_GtaInGame::CScene_GtaInGame()
 {
@@ -63,7 +64,6 @@ void CScene_GtaInGame::Start()
 	CGTA_UIContainer* pUIContainer = new CGTA_UIContainer(E_GroupType::UI_CONTAINER);
 	pUIContainer->Init();
 	AddObject(pUIContainer);
-
 	LoadAll();
 
 
@@ -102,8 +102,17 @@ void CScene_GtaInGame::Start()
 	pPoliceCar->SetPosition(1200, 1200);
 	AddObject(pPoliceCar);
 
+	CGTA_PoliceCar* pPol2 = pPoliceCar->Clone();
+	pPol2->SetPosition(1200, 1500);
+	AddObject(pPol2);
+
 	// Vehicle 매니저 추가
 	// CVehicleManager;
+
+	// 용의자 찾기 시스템
+	CGTA_SuspectSearchSystem* pSusSearchSystem = new CGTA_SuspectSearchSystem(E_GroupType::DEFAULT);
+	AddObject(pSusSearchSystem);
+
 
 	// Citizen 매니저 추가
 	/*CGTA_CitizenCreator* pCitizenCreator = new CGTA_CitizenCreator(E_GroupType::DEFAULT);
@@ -149,6 +158,7 @@ void CScene_GtaInGame::Start()
 
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::PROJECTILE, true);
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::TILE, true);
+	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::VEHICLE, E_GroupType::VEHICLE, true);
 
 	CCollisionManager::GetInstance()->SetOnOffCollisionGroup(E_GroupType::TILE, E_GroupType::PROJECTILE, true);
 }

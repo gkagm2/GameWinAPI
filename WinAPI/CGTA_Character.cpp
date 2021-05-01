@@ -264,7 +264,6 @@ void CGTA_Character::OnCollisionEnter(CObject* _pOther)
 		return;
 	}
 
-
 	CGTA_Bullet* pBullet = dynamic_cast<CGTA_Bullet*>(_pOther);
 	if (pBullet) {
 		TCharacterInfo& tCharacterInfo = CharacterInfo();
@@ -553,11 +552,12 @@ CGTA_Vehicle* CGTA_Character::FindNearbyVehicle()
 	float fMinDistance = m_fVehicleSearchDistance;
 
 	for (UINT i = 0; i < vecVehicles.size(); ++i) {
+
 		float distance = CMyMath::GetDistance(GetPosition(), vecVehicles[i]->GetPosition());
 		if (distance < fMinDistance) {
 			CGTA_Vehicle* pTempVehicle = (CGTA_Vehicle*)vecVehicles[i];
 			if (false == pTempVehicle->DidExplode()) {
-				distance = fMinDistance;
+				fMinDistance = distance;
 				pVehicle = pTempVehicle;
 			}
 		}

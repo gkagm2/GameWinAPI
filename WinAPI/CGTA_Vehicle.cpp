@@ -185,6 +185,23 @@ void CGTA_Vehicle::OnCollisionEnter(CObject* _pOther)
 			}
 		}
 	}
+
+	CGTA_Vehicle* pVehicle = dynamic_cast<CGTA_Vehicle*>(_pOther);
+	if (pVehicle) {
+		if (m_bExplosion)
+			return;
+
+		if (GetRigidbody()->GetSpeed() * 2.f > 2.5f) {
+			VehicleInfo().fHp -= 1.f;
+			VehicleInfo().fHp = VehicleInfo().fHp < 0.f ? 0.f : VehicleInfo().fHp;
+			if (0.f == VehicleInfo().fHp) {
+				Explosion();
+			}
+			CSound* pSound = CResourceManager::GetInstance()->GetSound(Sound_Collision_CarPedBounce, Sound_Collision_CarPedBounce);
+			//pSound->Stop(true);
+			pSound->Play();
+		}
+	}
 }
 
 void CGTA_Vehicle::OnCollisionStay(CObject* _pOther)

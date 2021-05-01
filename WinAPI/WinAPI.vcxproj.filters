@@ -299,6 +299,9 @@
     <Filter Include="Game\5. Object\UI\TextUI">
       <UniqueIdentifier>{ecb17842-4d84-456e-aabb-573bc2c4931c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\SuspectSearchSystem">
+      <UniqueIdentifier>{92eb6b24-99ab-4555-9291-26e0332f609d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -574,7 +577,12 @@
     <ClInclude Include="CGTA_PlayerUI.h">
       <Filter>Game\5. Object\Gta_PJ\UI\PlayerUI</Filter>
     </ClInclude>
-    <ClInclude Include="CTextUI.h" />
+    <ClInclude Include="CTextUI.h">
+      <Filter>Game\5. Object\UI\TextUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_SuspectSearchSystem.h">
+      <Filter>Game\5. Object\Gta_PJ\SuspectSearchSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -842,7 +850,12 @@
     <ClCompile Include="CGTA_PlayerUI.cpp">
       <Filter>Game\5. Object\Gta_PJ\UI\PlayerUI</Filter>
     </ClCompile>
-    <ClCompile Include="CTextUI.cpp" />
+    <ClCompile Include="CTextUI.cpp">
+      <Filter>Game\5. Object\UI\TextUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_SuspectSearchSystem.cpp">
+      <Filter>Game\5. Object\Gta_PJ\SuspectSearchSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">
