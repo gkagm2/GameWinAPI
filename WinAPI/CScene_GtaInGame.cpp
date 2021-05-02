@@ -2,6 +2,7 @@
 #include "CScene_GtaInGame.h"
 
 #include "CResourceManager.h"
+#include "CResource.h"
 #include "CCollisionManager.h"
 #include "CKeyManager.h"
 #include "CScene.h"
@@ -66,6 +67,10 @@ void CScene_GtaInGame::Start()
 	AddObject(pUIContainer);
 	LoadAll();
 
+	CGTA_Citizen* m_pCitizen = new CGTA_Citizen(E_GroupType::CITIZEN);
+	m_pCitizen->Init();
+	m_pCitizen->SetPosition(610, 610);
+	CreateObject(m_pCitizen);
 
 	/*CGTA_Citizen* pCitizen = new CGTA_Citizen(E_GroupType::CITIZEN);
 	pCitizen->Init();

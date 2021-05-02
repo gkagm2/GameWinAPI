@@ -141,14 +141,13 @@ void CGTA_CitizenCreator::Update()
 			if (E_TileType::Road == pTile->GetTileType() || E_TileType::Sidewalk == pTile->GetTileType()) {
 				// 시민을 생성.
 				CGTA_Citizen* m_pCitizen = new CGTA_Citizen(E_GroupType::CITIZEN);
-				m_pCitizen->SetObjectName(L"Citizen");
 				m_pCitizen->Init();
 				m_pCitizen->SetPosition(pTileMap->TilePosToVector(tRespawnPos));
 				CreateObject(m_pCitizen);
 				++m_iCurCitizenCnt;
 			}
 		}
-
+		
 		// 경찰 생성
 		for (int i = 0; i < 2; ++i) { // 10번 시도한다.
 			Vector3 vRespawnPos;
@@ -195,7 +194,7 @@ void CGTA_CitizenCreator::Update()
 				++m_iCurCitizenCnt;
 			}
 		}
-
+		
 		// 총든 경찰 생성
 		for (int i = 0; i < 1; ++i) { // 10번 시도한다.
 			Vector3 vRespawnPos;
@@ -247,6 +246,7 @@ void CGTA_CitizenCreator::Update()
 				++m_iCurCitizenCnt;
 			}
 		}
+		
 		m_fCreateCoolTime = 0.f;
 	}
 	Debug->Print(Vector2(200, 50), L"i", m_iCurCitizenCnt);
@@ -254,35 +254,4 @@ void CGTA_CitizenCreator::Update()
 }
 void CGTA_CitizenCreator::Render(HDC _hDC)
 {
-}
-
-// TODO : 삭제 예정 함수
-void CGTA_CitizenCreator::GetEnableCreateArea(int& _iLTCol, int& _iLTRow, int& _iRBCol, int& _iRBRow)
-{
-	CTileMap* pTileMap = CSceneManager::GetInstance()->GetCurScene()->GetTileMap();
-
-	// 카메라 바깥의 영역을 가져온다.
-	POINT iResolution = CCore::GetInstance()->GetResolution();
-	Vector3 vLeftTopWorldPos = m_pCamera->GetScreenToWorldPosition(Vector3(0.f, 0.f, 0.f));
-	Vector3 vRightBottomWorldPos = m_pCamera->GetScreenToWorldPosition(Vector3((float)iResolution.x, (float)iResolution.y, 0));
-
-
-	int iLTCol = int(vLeftTopWorldPos.x / TILE_SIZE);
-	int iLTRow = int(vLeftTopWorldPos.y / TILE_SIZE);
-	iLTCol -= m_iCreateMargin;
-	iLTRow -= m_iCreateMargin;
-	iLTCol = max(0, iLTCol);
-	iLTRow = max(0, iLTRow);
-
-	int iRBCol = (int)(vRightBottomWorldPos.x / TILE_SIZE);
-	int iRBRow = (int)(vRightBottomWorldPos.y / TILE_SIZE);
-	iRBCol += m_iCreateMargin;
-	iRBRow += m_iCreateMargin;
-	iRBCol = min((int)pTileMap->GetCol(), iRBCol);
-	iRBRow = min((int)pTileMap->GetRow(), iRBRow);
-
-	_iLTCol = iLTCol;
-	_iLTRow = iLTRow;
-	_iRBCol = iRBCol;
-	_iRBRow = iRBRow;
 }

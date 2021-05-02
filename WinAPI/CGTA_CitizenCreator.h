@@ -33,10 +33,6 @@ public:
 	CCamera2D* GetCamera() { return m_pCamera; }
 
 public:
-	// TODO : 삭제예정 함수
-	void GetEnableCreateArea(int& _iLTCol, int& _iLTRow, int& _iRBCol, int& _iRBRow);
-
-public:
 	CLONE(CGTA_CitizenCreator);
 
 public:

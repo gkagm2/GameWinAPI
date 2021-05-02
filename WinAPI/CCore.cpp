@@ -45,8 +45,8 @@ int CCore::Init(HWND _hMainWnd, POINT _ptResolution)
 	CPathManager::GetInstance()->Init();
 	CTimeManager::GetInstance()->Init();
 	CKeyManager::GetInstance()->Init();
-	CSceneManager::GetInstance()->Init();
 	CSoundManager::GetInstance()->Init();
+	CSceneManager::GetInstance()->Init();
 	//CCamera::GetInstance()->Init();
 
 	// Double buffering	(ø¨∞·«ÿ¡‹)

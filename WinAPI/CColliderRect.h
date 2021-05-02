@@ -25,7 +25,7 @@ public:
 	virtual void OnCollisionStay(CCollider* _pOther);
 
 public:
-	virtual CLONE(CColliderRect); // override
+	virtual CLONE(CColliderRect);
 
 public:
 	CColliderRect(const CColliderRect& _origin);

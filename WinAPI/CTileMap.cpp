@@ -150,6 +150,7 @@ void CTileMap::OptimizationTileCollider()
 
 		CTile* pTile = dynamic_cast<CTile*>(vecTileObj[tRect.top* m_iCol + tRect.left]);
 		if (pTile) {
+			pTile->SetObjectName(STR_OBJECT_NAME_TILE);
 			CColliderRect* pColRect = new CColliderRect(pTile);
 
 			float scaleX = (float)TILE_SIZE * (tRect.right + 1 - tRect.left);

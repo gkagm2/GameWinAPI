@@ -6,7 +6,6 @@
 #include "CAnimation.h"
 #include "CObject.h"
 #include "CGTA_Character.h"
-#include "CColliderRect.h"
 #include "CGTA_Player.h"
 #include "CRigidbody2D.h"
 #include "CGTA_AI.h"
@@ -45,10 +44,6 @@ void CGTA_Citizen::Init()
 	float fAnimTextureHeight = GetAnimator()->GetAnimTexHeight();
 	Vector2 vScale{ fAnimTextureWidth, fAnimTextureHeight };
 	SetScale(Vector3(vScale.x, vScale.y, 0.f));
-
-	// Collider set
-	CColliderRect* pCollider = new CColliderRect(this);
-	pCollider->SetScale(Vector3(20.f, 20.f, 0.f));
 
 	SetObjectName(L"Citizen");
 

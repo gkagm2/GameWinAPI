@@ -16,8 +16,9 @@ CColliderRect::CColliderRect(CObject* _pOwnerObject) :
     CCollider(_pOwnerObject),
     m_vOffsetMinPosition{},
     m_vOffsetMaxPosition{},
-    m_vScale{ _pOwnerObject->GetScale() }
+    m_vScale{}
 {
+    m_vScale = _pOwnerObject->GetScale();
     if (nullptr != _pOwnerObject) {
         if (nullptr != _pOwnerObject->GetTexture()) {
             if (nullptr != _pOwnerObject->GetAnimator()) {

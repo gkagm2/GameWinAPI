@@ -8,6 +8,7 @@
 #define STR_OBJECT_DEFAULT_NAME L"Empty Object"
 #define STR_OBJECT_NAME_UIContainer L"UIContainer"
 #define STR_OBJECT_NAME_Player L"Player"
+#define STR_OBJECT_NAME_TILE L"Tile Object"
 
 //////////////////////////////////////////////////////////////////////////////
 

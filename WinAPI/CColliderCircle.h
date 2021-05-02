@@ -14,7 +14,7 @@ public:
     float GetRadius() const { return m_fRadius; }
     
 public:
-    virtual CLONE(CColliderCircle); // override
+    virtual CLONE(CColliderCircle) ; // override
 
 public:
     CColliderCircle(const CColliderCircle& _origin);

@@ -92,6 +92,7 @@ void CScene::Update()
 		}
 
 		for (UINT j = 0; j < m_vecObj[i].size(); ++j) {
+			assert(m_vecObj[i][j]);
 			if (!m_vecObj[i][j]->IsActive())
 				continue;
 			if (!m_vecObj[i][j]->IsDead())

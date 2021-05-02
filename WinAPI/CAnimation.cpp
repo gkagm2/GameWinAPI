@@ -61,7 +61,7 @@ void CAnimation::Render(HDC _hDC)
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(vPosition);
 
 	m_pAnimator->GetOwnerObject()->RenderRotatedTex(
-		_hDC, 
+		_hDC,
 		vRenderPosition, 
 		m_pAnimator->GetOwnerObject()->GetTexture()->GetDC(),
 		int(m_vecFrame[m_iCurFrameIdx].vLT.x),

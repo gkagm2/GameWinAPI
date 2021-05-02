@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "CGTA_ExplosionEffect.h"
 #include "CResourceManager.h"
 #include "CResource.h"
