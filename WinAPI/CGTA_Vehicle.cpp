@@ -21,6 +21,7 @@
 #include "CGTA_Cop.h"
 #include "CTile.h"
 #include "CGTA_EffectUI.h"
+#include "CGTA_ExplosionEffect.h"
 #include "CDebug.h"
 
 CGTA_Vehicle::CGTA_Vehicle(E_GroupType _eGroupType) :
@@ -131,8 +132,19 @@ void CGTA_Vehicle::OnCollisionEnter(CObject* _pOther)
 		if (false == m_bExplosion) {
 			VehicleInfo().fHp -= pBullet->GetDamage();
 			VehicleInfo().fHp = VehicleInfo().fHp < 0.f ? 0.f : VehicleInfo().fHp;
-			if (0.f == VehicleInfo().fHp)
+			if (0.f == VehicleInfo().fHp) {
+				if (dynamic_cast<CGTA_Player*>(pBullet->GetOwnerObj())) {
+					CGTA_EffectUI* pEffect = new CGTA_EffectUI(E_GroupType::UI);
+					pEffect->Init();
+					pEffect->SetText(L"500");
+					pEffect->SetEffectPos(GetPosition());
+					CGTA_Player* pPlayer = (CGTA_Player*)pBullet->GetOwnerObj();
+					pPlayer->AddMoney(500);
+					CreateObject(pEffect);
+				}
 				Explosion();
+			}
+				
 		}
 		return;
 	}
@@ -301,6 +313,20 @@ void CGTA_Vehicle::Explosion()
 	pSound->Play();
 	SetTexture(m_pExplosionTex);
 	m_bExplosion = true;
+
+	// Æø¹ß ÀÌÆåÆ® Ãß°¡
+	CGTA_ExplosionEffect* pExplosionEffect = new CGTA_ExplosionEffect(E_GroupType::EFFECT);
+	pExplosionEffect->Init();
+	pExplosionEffect->SetPosition(GetPosition());
+	CreateObject(pExplosionEffect);
+
+	if (nullptr != m_pDriver) {
+		if (dynamic_cast<CGTA_Character*>(m_pDriver)) {
+			CGTA_Character* pCharacter = (CGTA_Character*)m_pDriver;
+			pCharacter->Dead();
+		}
+	}
+	
 	SetVehicleState(E_VehicleState::explode);
 }
 

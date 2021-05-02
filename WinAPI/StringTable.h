@@ -119,6 +119,7 @@
 #define STR_FILE_PATH_gta_Blood L"Texture\\GTA\\Blood.bmp"
 
 #define STR_FILE_PATH_gta_CarExplosion L"Texture\\GTA\\ExplosionCar.bmp"
+#define STR_FILE_PATH_gta_ExplosionEffect L"Texture\\GTA\\Explosion.bmp"
 
 // weapon
 #define STR_NAME_Fist L"Punch"

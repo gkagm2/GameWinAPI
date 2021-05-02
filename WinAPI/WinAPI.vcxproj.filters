@@ -305,6 +305,9 @@
     <Filter Include="Game\5. Object\Gta_PJ\UI\DeadEffectUI">
       <UniqueIdentifier>{69702465-dc49-456f-89ff-f74228ef8cd7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\Effect">
+      <UniqueIdentifier>{20242de3-3013-48df-b033-9b7bf6ceb647}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -586,7 +589,10 @@
     <ClInclude Include="CGTA_SuspectSearchSystem.h">
       <Filter>Game\5. Object\Gta_PJ\SuspectSearchSystem</Filter>
     </ClInclude>
-    <ClInclude Include="CGTA_EffectUI.h" />
+    <ClInclude Include="CGTA_EffectUI.h">
+      <Filter>Game\5. Object\Gta_PJ\UI\DeadEffectUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CGTA_ExplosionEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -860,7 +866,10 @@
     <ClCompile Include="CGTA_SuspectSearchSystem.cpp">
       <Filter>Game\5. Object\Gta_PJ\SuspectSearchSystem</Filter>
     </ClCompile>
-    <ClCompile Include="CGTA_EffectUI.cpp" />
+    <ClCompile Include="CGTA_EffectUI.cpp">
+      <Filter>Game\5. Object\Gta_PJ\UI\DeadEffectUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CGTA_ExplosionEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">
