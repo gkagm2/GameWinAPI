@@ -31,7 +31,7 @@
 #include "CGTA_UIContainer.h"
 #include "CGTA_PlayerUI.h"
 #include "CGTA_SuspectSearchSystem.h"
-
+#include "CDebug.h"
 CScene_GtaInGame::CScene_GtaInGame()
 {
 }
@@ -67,14 +67,13 @@ void CScene_GtaInGame::Start()
 	LoadAll();
 
 
-	CGTA_Citizen* pCitizen = new CGTA_Citizen(E_GroupType::CITIZEN);
+	/*CGTA_Citizen* pCitizen = new CGTA_Citizen(E_GroupType::CITIZEN);
 	pCitizen->Init();
 	pCitizen->SetPosition(600, 600);
 	AddObject(pCitizen);
 
 	CGTA_Cop* pCop = new CGTA_Cop(E_GroupType::CITIZEN);
 	pCop->Init();
-	E_WeaponType eWeap = pCop->GetCurWeaponType();
 	pCop->SetPosition(800, 600);
 	AddObject(pCop);
 
@@ -92,8 +91,7 @@ void CScene_GtaInGame::Start()
 
 	for (int i = 0; i < 10; ++i) {
 		AddObject(pCop->Clone());
-	}
-
+	}*/
 	
 	// 자동차나 
 	// 시민들을 자동생성을 관리해줄 매니저 오브젝트를 하나 생성하겠습니다.
@@ -113,14 +111,6 @@ void CScene_GtaInGame::Start()
 	CGTA_SuspectSearchSystem* pSusSearchSystem = new CGTA_SuspectSearchSystem(E_GroupType::DEFAULT);
 	AddObject(pSusSearchSystem);
 
-
-	// Citizen 매니저 추가
-	/*CGTA_CitizenCreator* pCitizenCreator = new CGTA_CitizenCreator(E_GroupType::DEFAULT);
-	pCitizenCreator->Init();
-	pCitizenCreator->SetCamera(pCamera);
-	AddObject((CObject*)pCitizenCreator);*/
-
-
 	// TODO : Item 구현, Item 매니저 구현
 	// Item 설정.
 	// item 정보 save, load 만들기
@@ -137,8 +127,15 @@ void CScene_GtaInGame::Start()
 	pCamera->AddEffect(E_CamEffect::FADE_IN, 3.f);
 	AddObject((CObject*)pCamera);
 
+
+	// Citizen 매니저 추가
+	CGTA_CitizenCreator* pCitizenCreator = new CGTA_CitizenCreator(E_GroupType::DEFAULT);
+	pCitizenCreator->Init();
+	pCitizenCreator->SetCamera(pCamera);
+	AddObject((CObject*)pCitizenCreator);
+
 	// Render X
-	//CCollider::SetRenderActive(false);
+	CCollider::SetRenderActive(false);
 
 	// 충돌영역 설정
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();
@@ -174,6 +171,11 @@ void CScene_GtaInGame::Update()
 
 	if (InputKeyPress(E_Key::F4))
 		CSceneManager::GetInstance()->ChangeScene(E_SceneType::TOOL);
+
+	if (Debug->IsShow())
+		CCollider::SetRenderActive(true);
+	else
+		CCollider::SetRenderActive(false);
 }
 
 void CScene_GtaInGame::LateUpdate()

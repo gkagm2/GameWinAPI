@@ -18,6 +18,8 @@ public:
 	void Print(const wchar_t* types, ...);
 	void Print(Vector2 _worldPos, const wchar_t* types, ...);
 
+	bool IsShow() { return m_bIsShow; }
+
 protected:
 	friend class CCore;
 };

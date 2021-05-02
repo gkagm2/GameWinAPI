@@ -5,6 +5,8 @@ class CSound;
 class CGTA_Bullet : public CObject
 {
 private:
+	CObject* m_pOwner; // ÃÑÀ» ½ð ÁÖÀÎ
+
 	float m_fLifeCoolTime;
 	float m_fLifeMaxCoolTime;
 	float m_fSpeed;
@@ -17,13 +19,8 @@ private:
 	// Particle (ÇÇ Æ¨±â±â)
 	// Particle (º®, Â÷, Æ¨±â±â)
 
-	CSound* pBulletWallSound[Sound_BulletWall_Len];
-	CSound* pBulletCarSound[Sound_BulletCar_Len];
-
-protected:
-	void InitSound();
 public:
-	virtual void Init() override;
+	virtual void Init();
 	virtual void Update() override;
 	virtual void Render(HDC _hDC) override;
 
@@ -37,12 +34,15 @@ public:
 	void ChangeBloodTex();
 	void ChangeSparkTex();
 
+	void SetOwnerObj(CObject* _pOwner) { m_pOwner = _pOwner; }
+	CObject* GetOwnerObj() { return m_pOwner; }
+
 public:
 	CLONE(CGTA_Bullet);
 
 	CGTA_Bullet(const CGTA_Bullet& _origin);
 public:
 	CGTA_Bullet() = delete;
-	CGTA_Bullet(E_GroupType e_GroupType);
+	CGTA_Bullet(E_GroupType e_GroupType, CObject* _pOwner);
 	virtual ~CGTA_Bullet();
 };

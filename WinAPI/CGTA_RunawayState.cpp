@@ -107,8 +107,8 @@ void CGTA_RunawayState::Update()
 		wstring strHelpSoundPath = Sound_Help + std::to_wstring((rand() % Sound_Help_Len) + 1);
 		CSound* pSound = CResourceManager::GetInstance()->GetSound(strHelpSoundPath, strHelpSoundPath);
 		pSound->Play();
-		m_fHelpSoundMaxCoolTime = rand() % 10 + 3;
-		m_fHelpSoundCoolTime = 0;
+		m_fHelpSoundMaxCoolTime = (float)(rand() % 10 + 3);
+		m_fHelpSoundCoolTime = 0.f;
 	}
 }
 
@@ -123,7 +123,7 @@ void CGTA_RunawayState::Start()
 	}
 
 	m_fHelpSoundCoolTime = 0;
-	m_fHelpSoundMaxCoolTime = rand() % 10 + 3;
+	m_fHelpSoundMaxCoolTime = float(rand() % 10 + 3);
 }
 
 void CGTA_RunawayState::End()

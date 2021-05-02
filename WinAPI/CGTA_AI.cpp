@@ -10,11 +10,13 @@
 #include "CTimeManager.h"
 #include "CCamera.h"
 
+#include "CKeyManager.h"
+#include "CDebug.h"
 
 CGTA_AI::CGTA_AI() :
 	m_pCurState(nullptr),
 	m_pCharacter(nullptr),
-	m_bIsRender(true),
+	m_bIsRender(false),
 	m_bIsActive(true)
 {
 }
@@ -22,7 +24,7 @@ CGTA_AI::CGTA_AI() :
 CGTA_AI::CGTA_AI(const CGTA_AI& _origin) :
 	m_pCurState(nullptr),
 	m_pCharacter(nullptr),
-	m_bIsRender(true),
+	m_bIsRender(false),
 	m_bIsActive(true)
 {
 	unordered_map<wstring, CGTA_AIState*>::const_iterator iter = _origin.m_umapState.begin();
@@ -142,6 +144,13 @@ void CGTA_AI::Update()
 {
 	if (false == IsActive())
 		return;
+
+#pragma region TEST_CODE
+	if (Debug->IsShow())
+		SetRender(true);
+	else
+		SetRender(false);
+#pragma endregion
 
 	if (nullptr != m_pCurState)
 		m_pCurState->Update();

@@ -20,6 +20,7 @@
 #include "CGTA_Citizen.h"
 #include "CGTA_Cop.h"
 #include "CTile.h"
+#include "CGTA_EffectUI.h"
 #include "CDebug.h"
 
 CGTA_Vehicle::CGTA_Vehicle(E_GroupType _eGroupType) :
@@ -60,7 +61,7 @@ void CGTA_Vehicle::Init()
 {
 	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
 	pRigidbody->SetMass(11.f);
-	pRigidbody->SetDrag(9.5f);
+	pRigidbody->SetDrag(8.5f);
 
 	// 상속받은 클래스의 init함수 내에서 설정해줘야 함.
 	assert(m_pEngineSound);
@@ -89,9 +90,6 @@ void CGTA_Vehicle::LateUpdate()
 void CGTA_Vehicle::Render(HDC _hDC)
 {
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(GetPosition());
-
-	Debug->Print(Vector2(10, 200), L"d", VehicleInfo().fHp);
-	Debug->Print(Vector2(10, 250), L"d", m_bExplosion);
 
 	if (nullptr == GetTexture()) {
 		Rectangle(_hDC,
@@ -200,9 +198,11 @@ void CGTA_Vehicle::OnCollisionStay(CObject* _pOther)
 				if (E_CharacterState::getInTheVehicle != pCharacter->GetCharacterState()) {
 					CGTA_Citizen* pCitizen = dynamic_cast<CGTA_Citizen*>(_pOther);
 					if (pCitizen) {
-						wstring strWatchItBuddy = Sound_WatchItBuddy + std::to_wstring((rand() % Sound_WatchItBuddy_Len) + 1);
-						CSound* pSound = CResourceManager::GetInstance()->GetSound(strWatchItBuddy, strWatchItBuddy);
-						pSound->Play();
+						if (fSpeed > 0.f) {
+							wstring strWatchItBuddy = Sound_WatchItBuddy + std::to_wstring((rand() % Sound_WatchItBuddy_Len) + 1);
+							CSound* pSound = CResourceManager::GetInstance()->GetSound(strWatchItBuddy, strWatchItBuddy);
+							pSound->Play();
+						}
 					}
 				}
 			}
@@ -211,6 +211,15 @@ void CGTA_Vehicle::OnCollisionStay(CObject* _pOther)
 				pCharacter->CharacterInfo().fHp = 0.f;
 				CSound* pSound = CResourceManager::GetInstance()->GetSound(Sound_Collision_CarPedSquash, Sound_Collision_CarPedSquash);
 				pSound->Play();
+				CGTA_Player* pPlayer = dynamic_cast<CGTA_Player*>(m_pDriver);
+				if (pPlayer) {
+					CGTA_EffectUI* pEffectUI = new CGTA_EffectUI(E_GroupType::UI);
+					pEffectUI->Init();
+					pEffectUI->SetEffectPos(GetPosition());
+					pEffectUI->SetText(L"300");
+					CreateObject(pEffectUI);
+					pPlayer->AddMoney(300);
+				}
 				pCharacter->Dead();
 
 				// 시민들 상태값 변환
@@ -268,10 +277,15 @@ void CGTA_Vehicle::DriveUpdate()
 	}
 
 	if (InputKeyHold(E_Key::UP)) {
+		Debug->Print(Vector2(10, 300), L"ddd", -GetUpVector().x, -GetUpVector().y, -GetUpVector().z);
+		Debug->Print(Vector2(10, 350), L"d", VehicleInfo().fPower);
+
 		GetRigidbody()->AddForce(-GetUpVector() * VehicleInfo().fPower * DeltaTime);
 		m_bReverse = false;
 	}
 	if (InputKeyHold(E_Key::DOWN)) {
+		Debug->Print(Vector2(70, 300), L"ddd", GetUpVector().x, GetUpVector().y, GetUpVector().z);
+		Debug->Print(Vector2(70, 350), L"d", VehicleInfo().fPower);
 		GetRigidbody()->AddForce(GetUpVector() * VehicleInfo().fPower * DeltaTime);
 		m_bReverse = true;
 	}

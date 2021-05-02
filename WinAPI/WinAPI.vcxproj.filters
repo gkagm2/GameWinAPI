@@ -302,6 +302,9 @@
     <Filter Include="Game\5. Object\Gta_PJ\SuspectSearchSystem">
       <UniqueIdentifier>{92eb6b24-99ab-4555-9291-26e0332f609d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\Gta_PJ\UI\DeadEffectUI">
+      <UniqueIdentifier>{69702465-dc49-456f-89ff-f74228ef8cd7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -583,6 +586,7 @@
     <ClInclude Include="CGTA_SuspectSearchSystem.h">
       <Filter>Game\5. Object\Gta_PJ\SuspectSearchSystem</Filter>
     </ClInclude>
+    <ClInclude Include="CGTA_EffectUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -856,6 +860,7 @@
     <ClCompile Include="CGTA_SuspectSearchSystem.cpp">
       <Filter>Game\5. Object\Gta_PJ\SuspectSearchSystem</Filter>
     </ClCompile>
+    <ClCompile Include="CGTA_EffectUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">

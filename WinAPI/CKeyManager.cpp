@@ -24,6 +24,7 @@ int g_arrVK[(int)E_Key::END] = {
 	VK_LSHIFT,
 	VK_F4,
 	VK_F5,
+	VK_F8
 };
 
 CKeyManager::CKeyManager() :

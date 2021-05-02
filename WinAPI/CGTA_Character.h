@@ -46,7 +46,6 @@ class CGTA_AI;
 class CPathFinding;
 class CGTA_Item;
 class CTexture;
-class CSound;
 class CGTA_Character : public CObject
 {
 protected:
@@ -83,17 +82,7 @@ protected:
 	CGTA_AI* m_pAI; // AI
 	CPathFinding* m_pPathFinding;
 
-	// --- Resource ---
-	CTexture* m_pNozzleTexture;
-
-	// TODO : Delete
-	// Sound
-	CSound* pHasGotaGunSound[Sound_HasGotaGunSound_Len];
-	CSound* pHelpSound[Sound_Help_Len];
-	CSound* pOMGSound[Sound_OMG_Len];
-
 protected:
-	virtual void InitSound();
 	void PlayFootStepSound();
 
 public:
@@ -109,10 +98,10 @@ public:
 
 public:
 
-	virtual void DriveUpdate();
+	virtual void DriveUpdate() {};
 	virtual void MoveUpdate() {}
 
-	virtual void State();
+	virtual void State() {};
 	virtual void Stun();
 	virtual void Attack();
 	void Attack(Vector3 _TargetPos);
@@ -125,8 +114,6 @@ public:
 	virtual void ChangePrevWeapon();
 	virtual void ChangeNextWeapon();
 	void GetItem(CGTA_Item* pItem);
-
-	float AutoTargeting(const Vector3& _vUpDirVec, const Vector3& _vTargetDirVec);
 
 	// AI
 	virtual void InitAI();

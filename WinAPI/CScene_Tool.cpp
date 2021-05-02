@@ -38,6 +38,7 @@
 #include "CPathFinding.h"
 #include "CAITestObj.h"
 #include "CLookAtTestObj.h"
+#include "CGTA_EffectUI.h"
 
 CScene_Tool::CScene_Tool() :
 	m_hMenu(nullptr)
@@ -83,6 +84,12 @@ void CScene_Tool::Start()
 	AddObject(pObjTool);
 
 	LoadAll();
+
+	CGTA_EffectUI* ppp = new CGTA_EffectUI(E_GroupType::UI);
+	ppp->SetScale(30.f, 30.f);
+	ppp->SetPosition(600, 600);
+	ppp->SetText(L"2asd00");
+	AddObject(ppp);
 
 	// Select Controller에서는 오브젝트들을 드래그해서 선택할 수 있다.
 	// Tile setting 모드와

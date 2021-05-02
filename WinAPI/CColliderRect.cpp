@@ -52,11 +52,6 @@ void CColliderRect::Render(HDC _hDC)
     // viewport coordinate
     Vector3 vMin = MainCamera->GetRenderPosition(GetMinPos());
     Vector3 vMax = MainCamera->GetRenderPosition(GetMaxPos());
-    wstring objName = GetOwnerObject()->GetObjectName();
-
-    if (objName.compare(L"Citizen_copy") == 0) {
-        int a = 3;
-    }
 
     HPEN hPen = nullptr;
     if (IsHit())

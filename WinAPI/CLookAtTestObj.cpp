@@ -38,7 +38,6 @@ void CLookAtTestObj::Update()
 
 	angle = atan2f(targetDir.y, targetDir.x) * CMyMath::Rad2Deg(); // 타겟 방향으로 회전 한 각 구하기
 	
-	Debug->Print(Vector2{ 10, 90 }, L"d", angle);
 	Vector3 upVec{ 0, -1, 0 };
 	upVec = Rotate(upVec, angle + 90);
 	Vector3 rightVec = Rotate(upVec, 90);

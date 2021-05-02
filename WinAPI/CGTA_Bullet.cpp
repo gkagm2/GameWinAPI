@@ -17,60 +17,33 @@
 #include "CResource.h"
 #include "CSound.h"
 
-
-CGTA_Bullet::CGTA_Bullet(E_GroupType e_GroupType) :
+CGTA_Bullet::CGTA_Bullet(E_GroupType e_GroupType, CObject* _pOwner) :
 	CObject(e_GroupType),
+	m_pOwner(_pOwner),
 	m_fLifeCoolTime(0.f),
 	m_fLifeMaxCoolTime(3.f),
 	m_fSpeed(1000.f),
 	m_fDamage(1.f),
 	m_pBloodTex(nullptr),
-	m_pSparkTex(nullptr),
-	// Sound
-	pBulletWallSound{ nullptr, },
-	pBulletCarSound{ nullptr, }
-{ 
-	InitSound();
+	m_pSparkTex(nullptr)
+{
 }
 
 CGTA_Bullet::CGTA_Bullet(const CGTA_Bullet& _origin) :
 	CObject(_origin),
+	m_pOwner(_origin.m_pOwner),
 	m_fLifeCoolTime(0.f),
 	m_fLifeMaxCoolTime(_origin.m_fLifeMaxCoolTime),
 	m_fSpeed(_origin.m_fSpeed),
 	m_fDamage(_origin.m_fDamage),
 	m_pBloodTex(_origin.m_pBloodTex),
-	m_pSparkTex(_origin.m_pSparkTex),
-	// Sound
-	pBulletWallSound{ nullptr, },
-	pBulletCarSound{ nullptr, }
+	m_pSparkTex(_origin.m_pSparkTex)
 {
-	InitSound();
+	assert(m_pOwner); // Init 전 Owner를 설정해주기
 }
 
 CGTA_Bullet::~CGTA_Bullet()
 {
-}
-
-void CGTA_Bullet::InitSound()
-{
-	for (int i = 0; i < Sound_BulletWall_Len; ++i) {
-		wstring strPath = Sound_BulletWall + std::to_wstring(i + 1) + Sound_WAV;
-		pBulletWallSound[i] = CResourceManager::GetInstance()->FindSound(strPath);
-		if (nullptr == pBulletWallSound[i]) {
-			pBulletWallSound[i] = CResourceManager::GetInstance()->LoadSound(strPath, strPath);
-			assert(pBulletWallSound[i]);
-		}
-	}
-
-	for (int i = 0; i < Sound_BulletCar_Len; ++i) {
-		wstring strPath = Sound_BulletCar + std::to_wstring(i + 1) + Sound_WAV;
-		pBulletCarSound[i] = CResourceManager::GetInstance()->FindSound(strPath);
-		if (nullptr == pBulletCarSound[i]) {
-			pBulletCarSound[i] = CResourceManager::GetInstance()->LoadSound(strPath, strPath);
-			assert(pBulletCarSound[i]);
-		}
-	}
 }
 
 void CGTA_Bullet::Init()
@@ -86,7 +59,6 @@ void CGTA_Bullet::Init()
 
 	// 크기 설정
 	SetScale(Vector3(30.f, 30.f, 0.f));
-
 	CObject::Init();
 }
 

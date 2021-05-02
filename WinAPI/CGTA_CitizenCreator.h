@@ -7,7 +7,6 @@ class CGTA_CitizenCreator : public CObject
 private:
 	int m_iCreateMargin; // 생성 영역 여백
 
-	CGTA_Citizen* m_pCitizenObjPrefab;
 	CCamera2D* m_pCamera;
 
 	int m_iCurCitizenCnt; // 현재 생성된 시민 개수
@@ -17,6 +16,12 @@ private:
 	float m_fMaxCreateCoolTime;
 	float m_fDeleteCoolTime;
 	float m_fMaxDeleteCoolTime;
+
+	float m_fDeleteDistance; // 삭제할 거리
+	float m_fCreatableMinDistance; // 생성할 최대 거리
+	float m_fCreatableMaxDistance; // 삭제할 최대 거리
+
+	CObject* m_pPlayer;
 	
 public:
 	virtual void Init() override;
@@ -28,6 +33,7 @@ public:
 	CCamera2D* GetCamera() { return m_pCamera; }
 
 public:
+	// TODO : 삭제예정 함수
 	void GetEnableCreateArea(int& _iLTCol, int& _iLTRow, int& _iRBCol, int& _iRBRow);
 
 public:

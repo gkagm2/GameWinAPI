@@ -140,7 +140,8 @@ void CGTA_Citizen::Attack()
 		// 총 타입에 따라 Shoot.
 
 		// 총알 오브젝트 생성.
-		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
+		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE, this);
+		pBullet->SetOwnerObj(this);
 		pBullet->Init();
 		float fDegree = GetRotateDegree();
 		pBullet->SetRotateDegree(fDegree); // 방향 설정

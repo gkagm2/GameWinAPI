@@ -128,7 +128,8 @@ void CScene::Render(HDC _hDC)
 		vector<CObject*>::iterator iter = m_vecObj[i].begin();
 		while (iter != m_vecObj[i].end()) {
 			if (nullptr == (*iter)) {
-				iter = m_vecObj[i].erase(iter);
+				++iter;
+				//iter = m_vecObj[i].erase(iter);
 				continue;
 			}
 			if ((*iter)->IsDead())

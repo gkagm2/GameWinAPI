@@ -35,7 +35,8 @@
 
 CGTA_Player::CGTA_Player(E_GroupType _eGroupType) :
 	CGTA_Character(_eGroupType),
-	m_bIsActiveAI(false)
+	m_bIsActiveAI(false),
+	m_iMoney(0)
 {
 }
 
@@ -134,14 +135,11 @@ void CGTA_Player::Update()
 	if (InputKeyPress(E_Key::X)) {
 		ChangeNextWeapon();
 	}
-	
-	Debug->Print(Vector2(30, 80), L"s", GetWeaponInfo(GetCurWeaponType()).strName.c_str());
 	State();
 }
 
 void CGTA_Player::LateUpdate()
 {
-	Debug->Print(Vector3(70, 60), L"s", GetObjectName());
 	__super::LateUpdate();
 }
 
@@ -374,7 +372,7 @@ void CGTA_Player::Attack()
 	else {
 		// 총 타입에 따라 Shoot.
 		// 총알 오브젝트 생성.
-		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
+		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE, this);
 		pBullet->Init();
 		pBullet->SetDamage(tWeaponInfo.fDamage);
 

@@ -9,6 +9,8 @@ class CGTA_Player : public CGTA_Character
 {
 private:
 	bool m_bIsActiveAI;
+
+	int m_iMoney;
 public:
 	virtual void Init() override;
 	virtual void PrevUpdate() override;
@@ -38,6 +40,9 @@ public:
 
 	virtual void ChangePrevWeapon() override;
 	virtual void ChangeNextWeapon() override;
+
+	void AddMoney(int _iMoney) { m_iMoney += _iMoney; }
+	int GetMoney() { return m_iMoney; }
 
 public:
 	CLONE(CGTA_Player);

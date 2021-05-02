@@ -22,6 +22,7 @@ enum class E_Key {
 	LSHIFT,
 	F4,
 	F5,
+	F8,
 
 	END,
 };

@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CGTA_EffectUI.h" />
     <ClInclude Include="CGTA_SuspectSearchSystem.h" />
     <ClInclude Include="C_AI.h" />
     <ClInclude Include="CAIState.h" />
@@ -237,6 +238,7 @@
     <ClInclude Include="WinAPI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CGTA_EffectUI.cpp" />
     <ClCompile Include="CGTA_SuspectSearchSystem.cpp" />
     <ClCompile Include="C_AI.cpp" />
     <ClCompile Include="CAIState.cpp" />

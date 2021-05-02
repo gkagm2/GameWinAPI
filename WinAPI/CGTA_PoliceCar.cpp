@@ -45,7 +45,7 @@ void CGTA_PoliceCar::Init()
 	pAnimator->PlayAnimation(L"idle", E_AnimationPlayType::LOOP);*/
 
 	SetPosition(0, 0, 0);
-	SetScale(Vector3(GetScale().x * 0.5f, GetScale().y * 0.5f, 0.0f));
+	SetScale(Vector3(GetScale().x * 0.6f, GetScale().y * 0.6f, 0.0f));
 
 	CColliderRect* pColRect = new CColliderRect(this);
 	pColRect->SetScale(Vector3(GetScale().x , GetScale().y, 0.f));
@@ -89,24 +89,26 @@ void CGTA_PoliceCar::OnCollisionEnter(CObject* _pOther)
 
 void CGTA_PoliceCar::OnCollisionStay(CObject* _pOther)
 {
-	CColliderRect* pColRect = dynamic_cast<CColliderRect*>(_pOther->GetCollider());
-	if (nullptr != pColRect) {
-		CTile* pTile = dynamic_cast<CTile*>(_pOther);
-		
-		HPEN hPen = CreatePen(PS_SOLID, 1, RGB(0, 255, 0)); // Green color
-		HPEN hOldPen = (HPEN)SelectObject(CCore::GetInstance()->GetDC(), hPen);
+	if (Debug->IsShow()) {
+		CColliderRect* pColRect = dynamic_cast<CColliderRect*>(_pOther->GetCollider());
+		if (nullptr != pColRect) {
+			CTile* pTile = dynamic_cast<CTile*>(_pOther);
 
-		HBRUSH myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
-		HBRUSH oldBrush = (HBRUSH)SelectObject(CCore::GetInstance()->GetDC(), myBrush);
-		Vector3 vOther = MainCamera->GetRenderPosition(_pOther->GetPosition() + pColRect->GetOffsetPosition());
-		Vector3 vThis = MainCamera->GetRenderPosition(GetPosition());
-		MoveToEx(CCore::GetInstance()->GetDC(), (int)vOther.x, (int)vOther.y, nullptr);
-		LineTo(CCore::GetInstance()->GetDC(), (int)vThis.x, (int)vThis.y);
+			HPEN hPen = CreatePen(PS_SOLID, 1, RGB(0, 255, 0)); // Green color
+			HPEN hOldPen = (HPEN)SelectObject(CCore::GetInstance()->GetDC(), hPen);
 
-		SelectObject(CCore::GetInstance()->GetDC(), oldBrush);
-		SelectObject(CCore::GetInstance()->GetDC(), hOldPen);
-		DeleteObject(myBrush);
-		DeleteObject(hPen);
+			HBRUSH myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+			HBRUSH oldBrush = (HBRUSH)SelectObject(CCore::GetInstance()->GetDC(), myBrush);
+			Vector3 vOther = MainCamera->GetRenderPosition(_pOther->GetPosition() + pColRect->GetOffsetPosition());
+			Vector3 vThis = MainCamera->GetRenderPosition(GetPosition());
+			MoveToEx(CCore::GetInstance()->GetDC(), (int)vOther.x, (int)vOther.y, nullptr);
+			LineTo(CCore::GetInstance()->GetDC(), (int)vThis.x, (int)vThis.y);
+
+			SelectObject(CCore::GetInstance()->GetDC(), oldBrush);
+			SelectObject(CCore::GetInstance()->GetDC(), hOldPen);
+			DeleteObject(myBrush);
+			DeleteObject(hPen);
+		}
 	}
 	CGTA_Vehicle::OnCollisionStay(_pOther);
 }

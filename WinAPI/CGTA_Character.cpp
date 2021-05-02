@@ -31,6 +31,7 @@
 #include "CGTA_DeadState.h"
 #include "CGTA_StunState.h"
 #include "CGTA_WalkToVehicleState.h"
+#include "CGTA_EffectUI.h"
 
 #include "CSound.h"
 
@@ -53,17 +54,12 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_fVehicleSearchDistance(600.f),
 	m_pVehicle(nullptr),
 	m_fFootStepSoundCoolTime(0.f),
-	m_fFootStepSoundMaxCoolTime(0.1f),
+	m_fFootStepSoundMaxCoolTime(0.15f),
 	m_eCurWeaponType(E_WeaponType::FIST),
 	m_eCharacterState(E_CharacterState::idle),
 	m_eAIState(E_AIState::wander),
 	m_pAI(nullptr),
-	m_pPathFinding(nullptr),
-	m_pNozzleTexture(nullptr),
-	// Sound
-	pHasGotaGunSound{ nullptr, },
-	pHelpSound{ nullptr, },
-	pOMGSound{ nullptr, }
+	m_pPathFinding(nullptr)
 {
 	// weapon system
 	int iSize = (int)E_WeaponType::END;
@@ -74,7 +70,6 @@ CGTA_Character::CGTA_Character(E_GroupType _eGroupType) :
 	m_vecWeapon[(UINT)E_WeaponType::FIST].second.fShootCoolTime = 0.7f;
 	m_fAttackMaxCoolTime = m_vecWeapon[(UINT)E_WeaponType::FIST].second.fShootCoolTime;
 	m_vecWeapon[(UINT)E_WeaponType::FIST].second.strBulletSound = STR_FILE_PATH_GTA_Sound_PunchHit;
-	InitSound();
 }
 
 CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
@@ -91,16 +86,13 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 	m_fNoticeDistance(_origin.m_fNoticeDistance),
 	m_fVehicleSearchDistance(_origin.m_fVehicleSearchDistance),
 	m_pVehicle(nullptr),
+	m_fFootStepSoundCoolTime(_origin.m_fFootStepSoundCoolTime),
+	m_fFootStepSoundMaxCoolTime(_origin.m_fFootStepSoundMaxCoolTime),
 	m_eCurWeaponType(_origin.m_eCurWeaponType),
 	m_eCharacterState(_origin.m_eCharacterState),
 	m_eAIState(_origin.m_eAIState),
 	m_pAI(nullptr),
-	m_pPathFinding(nullptr),
-	m_pNozzleTexture(_origin.m_pNozzleTexture),
-	//Sound
-	pHasGotaGunSound{ nullptr, },
-	pHelpSound{ nullptr, },
-	pOMGSound{ nullptr, }
+	m_pPathFinding(nullptr)
 {
 	if (nullptr != _origin.m_pAI) {
 		m_pAI = _origin.m_pAI->Clone();
@@ -114,8 +106,6 @@ CGTA_Character::CGTA_Character(const CGTA_Character& _origin) :
 		m_pPathFinding = _origin.m_pPathFinding->Clone();
 	m_vecWeapon.resize(_origin.m_vecWeapon.size());
 	m_vecWeapon.assign(_origin.m_vecWeapon.begin(), _origin.m_vecWeapon.end());
-
-	InitSound();
 }
 
 CGTA_Character::~CGTA_Character()
@@ -124,36 +114,6 @@ CGTA_Character::~CGTA_Character()
 		delete m_pAI;
 	if (nullptr != m_pPathFinding)
 		delete m_pPathFinding;
-}
-		
-void CGTA_Character::InitSound()
-{
-	for (int i = 0; i < Sound_HasGotaGunSound_Len; ++i) {
-		wstring strPath = Sound_HasGotaGunSound + std::to_wstring(i + 1) + Sound_WAV;
-		pHasGotaGunSound[i] = CResourceManager::GetInstance()->FindSound(strPath);
-		if (nullptr == pHasGotaGunSound[i]) {
-			pHasGotaGunSound[i] = CResourceManager::GetInstance()->LoadSound(strPath, strPath);
-			assert(pHasGotaGunSound[i]);
-		}
-	}
-
-	for (int i = 0; i < Sound_Help_Len; ++i) {
-		wstring strPath = Sound_Help + std::to_wstring(i+1) + Sound_WAV;
-		pHelpSound[i] = CResourceManager::GetInstance()->FindSound(strPath);
-		if (nullptr == pHelpSound[i]) {
-			pHelpSound[i] = CResourceManager::GetInstance()->LoadSound(strPath, strPath);
-			assert(pHelpSound[i]);
-		}
-	}
-
-	for (int i = 0; i < Sound_OMG_Len; ++i) {
-		wstring strPath = Sound_OMG + std::to_wstring(i + 1) + Sound_WAV;
-		pOMGSound[i] = CResourceManager::GetInstance()->FindSound(strPath);
-		if (nullptr == pOMGSound[i]) {
-			pOMGSound[i] = CResourceManager::GetInstance()->LoadSound(strPath, strPath);
-			assert(pOMGSound[i]);
-		}
-	}
 }
 
 void CGTA_Character::PlayFootStepSound()
@@ -217,21 +177,23 @@ void CGTA_Character::Render(HDC _hDC)
 	if (false == IsRender())
 		return;
 
-	//
-	bool bFindObj = false; // 시야각 내에 있는지 여부
-	Vector3 forwardVec = -(GetUpVector()); // 총을쏘는 캐릭터가 바라보고 있는 방향을 구한다.
-	Vector3 renderPos = MainCamera->GetRenderPosition(GetPosition());
-	float fFieldOfViewAngle = 20.f; // 시야각
+#pragma region TEST_CODE
+	if (Debug->IsShow()) {
+		bool bFindObj = false; // 시야각 내에 있는지 여부
+		Vector3 forwardVec = -(GetUpVector()); // 총을쏘는 캐릭터가 바라보고 있는 방향을 구한다.
+		Vector3 renderPos = MainCamera->GetRenderPosition(GetPosition());
+		float fFieldOfViewAngle = 20.f; // 시야각
 
-	Vector3 vLeftFieldOfViewDir = Rotate(forwardVec, -fFieldOfViewAngle * 0.5f);
-	Vector3 vRightFieldOfViewDir = Rotate(forwardVec, fFieldOfViewAngle * 0.5f);
+		Vector3 vLeftFieldOfViewDir = Rotate(forwardVec, -fFieldOfViewAngle * 0.5f);
+		Vector3 vRightFieldOfViewDir = Rotate(forwardVec, fFieldOfViewAngle * 0.5f);
 
-	MoveToEx(_hDC, (int)renderPos.x, (int)renderPos.y, nullptr);
-	LineTo(_hDC, int(renderPos.x + vRightFieldOfViewDir.x * 400.f), int(renderPos.y + vRightFieldOfViewDir.y * 400.f));
+		MoveToEx(_hDC, (int)renderPos.x, (int)renderPos.y, nullptr);
+		LineTo(_hDC, int(renderPos.x + vRightFieldOfViewDir.x * 400.f), int(renderPos.y + vRightFieldOfViewDir.y * 400.f));
 
-	MoveToEx(_hDC, (int)renderPos.x, (int)renderPos.y, nullptr);
-	LineTo(_hDC, int(renderPos.x + vLeftFieldOfViewDir.x * 400.f), int(renderPos.y + vLeftFieldOfViewDir.y * 400.f));
-	//
+		MoveToEx(_hDC, (int)renderPos.x, (int)renderPos.y, nullptr);
+		LineTo(_hDC, int(renderPos.x + vLeftFieldOfViewDir.x * 400.f), int(renderPos.y + vLeftFieldOfViewDir.y * 400.f));
+	}
+#pragma endregion
 
 	Vector3 vRenderPosition = MainCamera->GetRenderPosition(GetPosition());
 
@@ -259,7 +221,8 @@ void CGTA_Character::OnCollisionEnter(CObject* _pOther)
 {
 	CGTA_Character* pCharacter = dynamic_cast<CGTA_Character*>(_pOther);
 	if (pCharacter) {
-		if (E_AIState::stun == pCharacter->GetAIState()) // 총알은 통하게 해야되고 밀어내는건 없애야 하는데...
+		// 기절 상태면 통과
+		if (E_AIState::stun == pCharacter->GetAIState())
 			pCharacter->GetCollider()->SetTrigger(true);
 		return;
 	}
@@ -276,6 +239,15 @@ void CGTA_Character::OnCollisionEnter(CObject* _pOther)
 			tCharacterInfo.fHp = max(tCharacterInfo.fHp, 0.f);
 		}
 		if (tCharacterInfo.fHp <= 0.f) {
+			CGTA_Player* pPlayer = dynamic_cast<CGTA_Player*>(pBullet->GetOwnerObj());
+			if (pPlayer) {
+				CGTA_EffectUI* pEffectUI = new CGTA_EffectUI(E_GroupType::UI);
+				pEffectUI->Init();
+				pEffectUI->SetEffectPos(GetPosition());
+				pEffectUI->SetText(L"200"); // TODO : 플레이어 머니 올리기
+				CreateObject(pEffectUI);
+				pPlayer->AddMoney(200);
+			}
 			Dead();
 		}
 		else {
@@ -322,14 +294,6 @@ void CGTA_Character::OnCollisionExit(CObject* _pOther)
 	}
 }
 
-void CGTA_Character::DriveUpdate()
-{
-}
-
-void CGTA_Character::State()
-{
-}
-
 void CGTA_Character::Stun()
 {
 	SetCharacterState(E_CharacterState::stun);
@@ -368,7 +332,8 @@ void CGTA_Character::Attack()
 	else {
 		// 총 타입에 따라 Shoot.
 		// 총알 오브젝트 생성.
-		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE);
+		CGTA_Bullet* pBullet = new CGTA_Bullet(E_GroupType::PROJECTILE, this);
+		pBullet->SetOwnerObj(this);
 		pBullet->Init();
 		pBullet->SetDamage(tWeaponInfo.fDamage);
 		float fDegree = GetRotateDegree();
@@ -420,15 +385,6 @@ void CGTA_Character::Drive()
 	SetAIState(E_AIState::drive);
 }
 
-// TODO: 자동 타겟팅 구현하기
-float CGTA_Character::AutoTargeting(const Vector3& _vUpDirVec, const Vector3& _vTargetDirVec)
-{
-	// 공격 시 범위 내에 있으면 자동으로 타겟하기
-	float fDot = CMyMath::GetDot(_vUpDirVec, _vTargetDirVec);
-	float fDegree = acosf(fDot) * CMyMath::Rad2Deg();
-
-	return 0.f;
-}
 
 void CGTA_Character::Dead()
 {
@@ -645,9 +601,7 @@ TWeaponInfo::TWeaponInfo() :
 	iBulletCnt(0), 
 	bSplashDamage(false), 
 	bIsInfinite(false), 
-	fShootCoolTime(1.f),
-	strBulletSound(L""),
-	strVoiceSound(L"")
+	fShootCoolTime(1.f)
 {
 }
 

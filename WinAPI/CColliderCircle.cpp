@@ -4,8 +4,7 @@
 #include "CColliderCircle.h"
 #include "CCamera.h"
 #include "CCore.h"
-
-
+#include "CDebug.h"
 
 CColliderCircle::CColliderCircle(CObject* _pOwnerObject) :
     CCollider(_pOwnerObject),

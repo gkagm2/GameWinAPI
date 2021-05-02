@@ -69,6 +69,7 @@
 
 // Font
 #define STR_FILE_PATH_GTA_Font L"Texture\\GTA\\font.bmp"
+#define STR_FILE_PATH_GTA_Font_A L"Texture\\GTA\\font_a.bmp" // A : alpha
 
 // Data
 #define STR_FILE_PATH_GTA_PlayerAnim_Save L"Data\\AnimFile\\Player.anim"
