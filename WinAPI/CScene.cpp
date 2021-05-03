@@ -55,7 +55,17 @@ void CScene::DeleteAllObjects()
 	CUIManager::GetInstance()->Init();
 }
 
-CObject* CScene::FindObject(wstring _objectName)
+CObject* CScene::FindObject(const wstring& _objectName, E_GroupType _eGroupType)
+{
+	UINT iGroupIdx = (UINT)_eGroupType;
+	for (UINT i = 0; i < m_vecObj[iGroupIdx].size(); ++i) {
+		if (m_vecObj[iGroupIdx][i]->GetObjectName() == _objectName)
+			return m_vecObj[iGroupIdx][i];
+	}
+	return nullptr;
+}
+
+CObject* CScene::FindObject(const wstring& _objectName)
 {
 	for (UINT i = 0; i < (UINT)E_GroupType::END; ++i) {
 		for (UINT j = 0; j < m_vecObj[i].size(); ++j) {

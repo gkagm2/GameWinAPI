@@ -22,7 +22,7 @@
 #include "CTile.h"
 #include "CGTA_EffectUI.h"
 #include "CGTA_ExplosionEffect.h"
-#include "CDebug.h"
+#include "CGTA_SuspectSearchSystem.h"
 
 CGTA_Vehicle::CGTA_Vehicle(E_GroupType _eGroupType) :
 	CObject(_eGroupType = E_GroupType::VEHICLE),
@@ -62,7 +62,7 @@ void CGTA_Vehicle::Init()
 {
 	CRigidbody2D* pRigidbody = new CRigidbody2D(this);
 	pRigidbody->SetMass(11.f);
-	pRigidbody->SetDrag(8.5f);
+	pRigidbody->SetDrag(9.0f);
 
 	// 상속받은 클래스의 init함수 내에서 설정해줘야 함.
 	assert(m_pEngineSound);
@@ -141,6 +141,9 @@ void CGTA_Vehicle::OnCollisionEnter(CObject* _pOther)
 					CGTA_Player* pPlayer = (CGTA_Player*)pBullet->GetOwnerObj();
 					pPlayer->AddMoney(500);
 					CreateObject(pEffect);
+
+					CGTA_SuspectSearchSystem* pSuspectSearchSys = (CGTA_SuspectSearchSystem*)CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_SuspectSearchSystem, E_GroupType::MANAGER);
+					pSuspectSearchSys->PlusKillCnt();
 				}
 				Explosion();
 			}
@@ -231,6 +234,9 @@ void CGTA_Vehicle::OnCollisionStay(CObject* _pOther)
 					pEffectUI->SetText(L"300");
 					CreateObject(pEffectUI);
 					pPlayer->AddMoney(300);
+
+					CGTA_SuspectSearchSystem* pSuspectSearchSys = (CGTA_SuspectSearchSystem*)CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_SuspectSearchSystem, E_GroupType::MANAGER);
+					pSuspectSearchSys->PlusKillCnt();
 				}
 				pCharacter->Dead();
 
@@ -278,27 +284,28 @@ void CGTA_Vehicle::DriveUpdate()
 	Vector3 vHeadDir = GetUpVector();
 	//RotateInfo().Update();
 	if (InputKeyHold(E_Key::LEFT)) {
-		float fSpeed = GetRigidbody()->GetSpeed() * 40.f;
+		float fSpeed = GetRigidbody()->GetSpeed() * 50.f;
 		fSpeed = min(fSpeed, 180.f);
-		RotateRP(-fSpeed * DeltaTime);
+		if (m_bReverse)
+			RotateRP(fSpeed * DeltaTime);
+		else
+			RotateRP(-fSpeed * DeltaTime);
 	}
 	if (InputKeyHold(E_Key::RIGHT)) {
-		float fSpeed = GetRigidbody()->GetSpeed() * 40.f;
+		float fSpeed = GetRigidbody()->GetSpeed() * 50.f;
 		fSpeed = min(fSpeed, 180.f);
-		RotateRP(fSpeed * DeltaTime);
+		if(m_bReverse)
+			RotateRP(-fSpeed * DeltaTime);
+		else
+			RotateRP(fSpeed * DeltaTime);
 	}
 
 	if (InputKeyHold(E_Key::UP)) {
-		Debug->Print(Vector2(10, 300), L"ddd", -GetUpVector().x, -GetUpVector().y, -GetUpVector().z);
-		Debug->Print(Vector2(10, 350), L"d", VehicleInfo().fPower);
-
-		GetRigidbody()->AddForce(-GetUpVector() * VehicleInfo().fPower * DeltaTime);
+		GetRigidbody()->AddForce((-vHeadDir) * VehicleInfo().fPower);
 		m_bReverse = false;
 	}
 	if (InputKeyHold(E_Key::DOWN)) {
-		Debug->Print(Vector2(70, 300), L"ddd", GetUpVector().x, GetUpVector().y, GetUpVector().z);
-		Debug->Print(Vector2(70, 350), L"d", VehicleInfo().fPower);
-		GetRigidbody()->AddForce(GetUpVector() * VehicleInfo().fPower * DeltaTime);
+		GetRigidbody()->AddForce(vHeadDir * VehicleInfo().fPower);
 		m_bReverse = true;
 	}
 
@@ -319,6 +326,9 @@ void CGTA_Vehicle::Explosion()
 	pExplosionEffect->Init();
 	pExplosionEffect->SetPosition(GetPosition());
 	CreateObject(pExplosionEffect);
+
+	m_pRadio->Stop();
+	m_pEngineSound->Stop();
 
 	if (nullptr != m_pDriver) {
 		if (dynamic_cast<CGTA_Character*>(m_pDriver)) {

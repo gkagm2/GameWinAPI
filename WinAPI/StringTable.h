@@ -9,6 +9,7 @@
 #define STR_OBJECT_NAME_UIContainer L"UIContainer"
 #define STR_OBJECT_NAME_Player L"Player"
 #define STR_OBJECT_NAME_TILE L"Tile Object"
+#define STR_OBJECT_NAME_SuspectSearchSystem L"SuspectSearchSystem"
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -88,12 +89,14 @@
 #define STR_FILE_PATH_gta_citizen L"Texture\\GTA\\gtaCitizen.bmp"
 
 #define STR_FILE_PATH_gta_cops L"Texture\\GTA\\gtaCops.bmp"
+#define STR_FILE_PATH_gta_CopFaceUI L"Texture\\GTA\\copFace.bmp"
 
 #define STR_FILE_NAME_gta_item L"Texture\\GTA\\gtaItems.bmp"
 #define STR_FILE_PATH_gta_item L"Texture\\GTA\\gtaItems.bmp"
 
 #define STR_FILE_NAME_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1.bmp"
 #define STR_FILE_PATH_Vehicle_car_Cops1Anim L"Texture\\GTA\\car1.bmp"
+#define STR_FILE_PATH_Vehicle_car_Normal L"Texture\\GTA\\car2.bmp"
 
 #define STR_FILE_PATH_Vehicle_car_alpha L"Texture\\GTA\\car1.bmp"
 
@@ -183,7 +186,7 @@
 #define Sound_Collision_CarPedSquash L"Sound\\GTA\\SFX_COLLISION_CAR_PED_SQUASH"
 
 #define Sound_Car_Standard_engine L"Sound\\GTA\\SFX_STANDARD_SALOON_ENGINE"
-#define Sound_Car_Sport_engine L"SFX_SPORTS_SALOON_ENGINE"
+#define Sound_Car_Sport_engine L"Sound\\GTA\\SFX_SPORTS_SALOON_ENGINE"
 
 #define Sound_Explosion L"Sound\\GTA\\SFX_SML_EXPLOSION"	
 

@@ -34,6 +34,7 @@
 #include "CGTA_EffectUI.h"
 
 #include "CSound.h"
+#include "CGTA_SuspectSearchSystem.h"
 
 // TEST
 #include "CCore.h"
@@ -244,9 +245,12 @@ void CGTA_Character::OnCollisionEnter(CObject* _pOther)
 				CGTA_EffectUI* pEffectUI = new CGTA_EffectUI(E_GroupType::UI);
 				pEffectUI->Init();
 				pEffectUI->SetEffectPos(GetPosition());
-				pEffectUI->SetText(L"200"); // TODO : 플레이어 머니 올리기
+				pEffectUI->SetText(L"200");
 				CreateObject(pEffectUI);
 				pPlayer->AddMoney(200);
+
+				CGTA_SuspectSearchSystem* pSuspectSearchSys = (CGTA_SuspectSearchSystem*)CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_SuspectSearchSystem, E_GroupType::MANAGER);
+				pSuspectSearchSys->PlusKillCnt();
 			}
 			Dead();
 		}

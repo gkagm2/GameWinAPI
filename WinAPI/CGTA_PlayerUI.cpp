@@ -15,8 +15,8 @@ CGTA_PlayerUI::CGTA_PlayerUI(E_GroupType _eGroupType) :
 	m_vLifeScale{30.f, 30.f, 0.f},
 	m_pWeaponImage(nullptr),
 	m_fLife(0.f),
-	m_pAmmoTextUI(nullptr),
 	m_pMoneyTextUI(nullptr),
+	m_pAmmoTextUI(nullptr),
 	m_pPlayer(nullptr)
 {
 }
@@ -59,10 +59,10 @@ void CGTA_PlayerUI::Init()
 	CreateObject(m_pAmmoTextUI);
 
 	// Money Text Setting
-	/*m_pMoneyTextUI = new CTextUI(E_GroupType::UI);
-	m_pMoneyTextUI->SetPosition(50, tResolution.y * 0.5f + 30.f);
-	m_pMoneyTextUI->SetScale(40, 40, 0);
-	CreateObject(m_pMoneyTextUI);*/
+	m_pMoneyTextUI = new CTextUI(E_GroupType::UI);
+	m_pMoneyTextUI->SetPosition((float)tResolution.x - 250.f , 60.f);
+	m_pMoneyTextUI->SetScale(30, 30, 0);
+	CreateObject(m_pMoneyTextUI);
 }
 
 void CGTA_PlayerUI::Update()
@@ -80,6 +80,11 @@ void CGTA_PlayerUI::Render(HDC _hDC)
 
 	Vector3 vFinalPos = GetFinalPosition();
 	Vector3 vScale = GetScale();
+
+
+	// Render Money
+	int iMoney = m_pPlayer->GetMoney();
+	m_pMoneyTextUI->SetText(L"$" + std::to_wstring(iMoney));
 
 	// Render Weapon ammo
 	if (E_WeaponType::FIST == m_pPlayer->GetCurWeaponType())

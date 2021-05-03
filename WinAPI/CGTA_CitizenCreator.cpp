@@ -14,6 +14,7 @@
 #include "CTimeManager.h"
 #include "CCollider.h"
 #include "CColliderRect.h"
+#include "CGTA_SuspectSearchSystem.h"
 
 
 CGTA_CitizenCreator::CGTA_CitizenCreator(E_GroupType e_GroupType) :
@@ -21,7 +22,7 @@ CGTA_CitizenCreator::CGTA_CitizenCreator(E_GroupType e_GroupType) :
 	m_iCreateMargin(3),
 	m_pCamera(nullptr),
 	m_iCurCitizenCnt(0),
-	m_imaxCitizenCnt(80),
+	m_imaxCitizenCnt(60),
 	m_fCreateCoolTime(7.f),
 	m_fMaxCreateCoolTime(7.f),
 	m_fDeleteCoolTime(0.f),
@@ -29,7 +30,11 @@ CGTA_CitizenCreator::CGTA_CitizenCreator(E_GroupType e_GroupType) :
 	m_fDeleteDistance(1000.f),
 	m_fCreatableMinDistance(0.f),
 	m_fCreatableMaxDistance(0.f),
-	m_pPlayer(nullptr)
+	m_pPlayer(nullptr),
+	m_arrCitizenCnt{ 8,5,2,1,0 },
+	m_arrCopCnt{ 1,3,3,0,0 },
+	m_arrGunCopCnt{ 1,2,5,9,10 },
+	m_pSuspectSearchSys(nullptr)
 {
 	Vector2 vResolution = CCore::GetInstance()->GetResolution();
 	/*float fDistance = vResolution.GetDistance();
@@ -44,6 +49,8 @@ CGTA_CitizenCreator::CGTA_CitizenCreator(E_GroupType e_GroupType) :
 
 	m_fCreatableMinDistance = fDistance * 0.5f;
 	m_fCreatableMaxDistance = m_fDeleteDistance * 0.95f;
+
+	m_pSuspectSearchSys = (CGTA_SuspectSearchSystem*)CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_SuspectSearchSystem, E_GroupType::MANAGER);
 }
 
 CGTA_CitizenCreator::~CGTA_CitizenCreator()
@@ -65,8 +72,13 @@ void CGTA_CitizenCreator::Update()
 		assert(m_pPlayer);
 		return;
 	}
-
 	
+	if (nullptr == m_pSuspectSearchSys) {
+		m_pSuspectSearchSys = (CGTA_SuspectSearchSystem*)CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_SuspectSearchSystem, E_GroupType::MANAGER);
+		assert(m_pSuspectSearchSys);
+		return;
+	}
+
 	vector<CObject*> vecObjs = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::CITIZEN);
 	m_iCurCitizenCnt = (int)vecObjs.size();
 
@@ -78,13 +90,17 @@ void CGTA_CitizenCreator::Update()
 		}
 	}
 	// 일정 거리 이상 떨어진 차량 삭제
-	vector<CObject*> vecVehicleObjs = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::VEHICLE);
+	/*vector<CObject*> vecVehicleObjs = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::VEHICLE);
 	for (UINT i = 0; i < vecVehicleObjs.size(); ++i) {
 		float fDistance = CMyMath::GetDistance(vecVehicleObjs[i]->GetPosition(), m_pPlayer->GetPosition());
 		if (fDistance > m_fDeleteDistance) {
 			DestroyObject(vecVehicleObjs[i]);
 		}
-	}
+	}*/
+
+	if (m_iCurCitizenCnt > m_imaxCitizenCnt)
+		return;
+
 
 	// 일정거리 안으로 들어오게되면 시민 생성.
 	// 주기적으로 생성
@@ -100,9 +116,11 @@ void CGTA_CitizenCreator::Update()
 			return;
 		}
 		vector<CObject*>& vecCitizen = CSceneManager::GetInstance()->GetCurScene()->GetObjects(E_GroupType::CITIZEN);
+
+		int iLevelIdx = (int)m_pSuspectSearchSys->GetCurLeve();
 		
 		// 시민 생성
-		for (int i = 0; i < 8; ++i) { // 2번 시도한다.
+		for (int i = 0; i < m_arrCitizenCnt[iLevelIdx]; ++i) {
 			Vector3 vRespawnPos;
 			TTilePos tRespawnPos;
 			int  tryCnt = 0;
@@ -149,7 +167,7 @@ void CGTA_CitizenCreator::Update()
 		}
 		
 		// 경찰 생성
-		for (int i = 0; i < 2; ++i) { // 10번 시도한다.
+		for (int i = 0; i < m_arrCopCnt[iLevelIdx]; ++i) {
 			Vector3 vRespawnPos;
 			TTilePos tRespawnPos;
 			int  tryCnt = 0;
@@ -196,7 +214,7 @@ void CGTA_CitizenCreator::Update()
 		}
 		
 		// 총든 경찰 생성
-		for (int i = 0; i < 1; ++i) { // 10번 시도한다.
+		for (int i = 0; i < m_arrGunCopCnt[iLevelIdx]; ++i) {
 			Vector3 vRespawnPos;
 			int  tryCnt = 0;
 			int iTileIdx = -1;

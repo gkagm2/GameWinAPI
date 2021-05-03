@@ -67,11 +67,6 @@ void CScene_GtaInGame::Start()
 	AddObject(pUIContainer);
 	LoadAll();
 
-	CGTA_Citizen* m_pCitizen = new CGTA_Citizen(E_GroupType::CITIZEN);
-	m_pCitizen->Init();
-	m_pCitizen->SetPosition(610, 610);
-	CreateObject(m_pCitizen);
-
 	/*CGTA_Citizen* pCitizen = new CGTA_Citizen(E_GroupType::CITIZEN);
 	pCitizen->Init();
 	pCitizen->SetPosition(600, 600);
@@ -109,18 +104,32 @@ void CScene_GtaInGame::Start()
 	pPol2->SetPosition(1200, 1500);
 	AddObject(pPol2);
 
+	CGTA_PoliceCar* pPol3 = pPoliceCar->Clone();
+	pPol3->SetPosition(889.20f, 5836.67f);
+	pPol3->SetTexture(CResourceManager::GetInstance()->GetTexture(STR_FILE_PATH_Vehicle_car_Normal, STR_FILE_PATH_Vehicle_car_Normal));
+	CSound* pEngineSound = CResourceManager::GetInstance()->GetSound(Sound_Car_Sport_engine, Sound_Car_Sport_engine);
+	pPol3->SetEngineSound(pEngineSound);
+	pPol3->VehicleInfo().fPower = pPol3->VehicleInfo().fPower + 10.f;
+	AddObject(pPol3);
+
+	CGTA_PoliceCar* pPol4 = pPol3->Clone();
+	pPol4->SetPosition(5779.33f, 3568.92f);
+	pPol4->RotateRP(-90.f);
+	AddObject(pPol4);
+
+
 	// Vehicle 매니저 추가
 	// CVehicleManager;
 
-	// 용의자 찾기 시스템
-	CGTA_SuspectSearchSystem* pSusSearchSystem = new CGTA_SuspectSearchSystem(E_GroupType::DEFAULT);
+	// 수배 시스템
+	CGTA_SuspectSearchSystem* pSusSearchSystem = new CGTA_SuspectSearchSystem(E_GroupType::MANAGER);
+	pSusSearchSystem->Init();
 	AddObject(pSusSearchSystem);
 
 	// TODO : Item 구현, Item 매니저 구현
 	// Item 설정.
 	// item 정보 save, load 만들기
 
-	// 수배 시스템
 	
 	////// Camera 추가
 	CGTA_Player* pPlayer = (CGTA_Player*)CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_Player);
@@ -138,9 +147,6 @@ void CScene_GtaInGame::Start()
 	pCitizenCreator->Init();
 	pCitizenCreator->SetCamera(pCamera);
 	AddObject((CObject*)pCitizenCreator);
-
-	// Render X
-	CCollider::SetRenderActive(false);
 
 	// 충돌영역 설정
 	CCollisionManager::GetInstance()->ClearAllCollisionGroup();
@@ -172,6 +178,8 @@ void CScene_GtaInGame::PrevUpdate()
 
 void CScene_GtaInGame::Update()
 {
+	Debug->Print(Vector3(MousePosition.x, MousePosition.y), L"dd", MainCamera->GetScreenToWorldPosition(MousePosition).x, MainCamera->GetScreenToWorldPosition(MousePosition).y);
+
 	CScene::Update();
 
 	if (InputKeyPress(E_Key::F4))

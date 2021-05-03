@@ -11,7 +11,7 @@ struct TVehicleInfo {
     float fMoveSpeed;
     float fPower;
 
-    TVehicleInfo() : fHp(150.f), fMoveSpeed(60.f), fPower(12000.F){}
+    TVehicleInfo() : fHp(150.f), fMoveSpeed(60.f), fPower(120.f){}
     void Save(FILE* _pFile);
     void Load(FILE* _pFile);
 };

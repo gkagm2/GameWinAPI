@@ -45,7 +45,8 @@ public:
 	void DeleteObjects(E_GroupType _eType);
 	void DeleteAllObjects();
 
-	CObject* FindObject(wstring _objectName);
+	CObject* FindObject(const wstring& _objectName);
+	CObject* FindObject(const wstring& _objectName, E_GroupType _eGroupType);
 
 	// Camera
 	CCamera* GetMainCamera() { return m_pMainCamera; }

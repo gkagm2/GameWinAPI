@@ -2,11 +2,7 @@
 #include "CRigidbody.h"
 #include "CObject.h"
 #include "CTimeManager.h"
-
-// Test
-#include "CCore.h"
-
-
+#include "CGTA_Vehicle.h"
 
 CRigidbody::CRigidbody(CObject* _pTargetObj) :
 	m_pOwnerObject(_pTargetObj),
@@ -97,7 +93,7 @@ void CRigidbody::LateUpdate()
 		m_vVelocity.Set(0.0f, 0.0f, 0.0f);
 	else
 		m_vVelocity += vDragVec;
-
+	
 	// 최대 속도 제한
 	m_fSpeed = m_vVelocity.GetDistance();
 	if (m_fSpeed > m_fMaxSpeed * DeltaTime) {

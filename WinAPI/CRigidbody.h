@@ -40,7 +40,7 @@ public:
 	void SetMass(float _fMass) { m_fMass = max(_fMass, 0.0f); } // 질량 (0 ~ alpha)
 	float GetMass() const { return m_fMass; }
 	void SetVelocity(Vector3 _fVelocity) { m_vVelocity = _fVelocity; }
-	Vector3 GetVelocity() const { return m_vVelocity; }
+	const Vector3& GetVelocity() const { return m_vVelocity; }
 	void SetDrag(float _fDrag) { m_fDrag = max(_fDrag, 0.0f); } // 공기 저항 (0 ~ alpha)
 	float GetDrag(float _fDrag) const { return m_fDrag; }
 	float GetSpeed() { return m_fSpeed; }
@@ -53,6 +53,8 @@ public:
 public:
 	void AddForce(Vector3 _vForce) { m_vForce += _vForce; } // 힘을 추가하다.
 	void AddVelocity(Vector3 _vVelocity) { m_vVelocity += _vVelocity; } // 속도를 추가하다.
+
+	const Vector3& GetForce() { return m_vForce; } //read only
 
 public:
 	CLONE(CRigidbody);

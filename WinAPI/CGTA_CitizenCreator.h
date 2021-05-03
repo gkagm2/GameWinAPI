@@ -2,6 +2,7 @@
 #include "CObject.h"
 class CGTA_Citizen;
 class CCamera2D;
+class CGTA_SuspectSearchSystem;
 class CGTA_CitizenCreator : public CObject
 {
 private:
@@ -22,6 +23,12 @@ private:
 	float m_fCreatableMaxDistance; // 삭제할 최대 거리
 
 	CObject* m_pPlayer;
+
+	// Level에 따른 비율
+	int m_arrCitizenCnt[5];
+	int m_arrGunCopCnt[5];
+	int m_arrCopCnt[5];
+	CGTA_SuspectSearchSystem* m_pSuspectSearchSys;
 	
 public:
 	virtual void Init() override;

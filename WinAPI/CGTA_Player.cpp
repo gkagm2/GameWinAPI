@@ -27,7 +27,7 @@
 
 #include "CGTA_UIContainer.h"
 #include "CGTA_PlayerUI.h"
-
+#include "CGTA_SuspectSearchSystem.h"
 #include "CGTA_PunchDetector.h"
 
 #include "CDebug.h"
@@ -433,6 +433,10 @@ void CGTA_Player::Attack()
 
 void CGTA_Player::Dead()
 {
+	CGTA_SuspectSearchSystem* pSusSystem = (CGTA_SuspectSearchSystem*)CSceneManager::GetInstance()->GetCurScene()->FindObject(STR_OBJECT_NAME_SuspectSearchSystem, E_GroupType::MANAGER);
+	assert(pSusSystem);
+	pSusSystem->ResetKiilCnt();
+
 	GetCollider()->SetActive(false);
 	CGTA_Character::Dead();
 }

@@ -107,7 +107,6 @@ void CCamera2D::MoveVehicle()
 	float fSpeed = m_pTargetObject->GetRigidbody()->GetSpeed();
 	float fMaxPower = 20.f;
 	fSpeed = min(fMaxPower, fSpeed);
-	Debug->Print(Vector2(40, 200), L"sd", L"Speed : " , fSpeed);
 
 	Vector3 vTargetPos = m_pTargetObject->GetPosition();
 	if (fSpeed > 3) {

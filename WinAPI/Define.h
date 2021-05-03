@@ -50,6 +50,7 @@ enum class E_GroupType {
 	MONSTER,
 	MONSTER_PROJECTILE,
 	PATH_FINDING,
+	MANAGER, // 전체 관리용
 	PREV,
 	UI_CONTAINER,
 	UI =30,

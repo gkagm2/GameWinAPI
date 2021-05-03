@@ -12,8 +12,8 @@ private:
 	vector<CImageUI*> m_vecLifeImages;
 	float m_fLife;
 
-	CTextUI* m_pAmmoTextUI;
 	CTextUI* m_pMoneyTextUI;
+	CTextUI* m_pAmmoTextUI;
 
 	CGTA_Player* m_pPlayer;
 public:
