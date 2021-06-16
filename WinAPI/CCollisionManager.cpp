@@ -103,7 +103,7 @@ void CCollisionManager::CollisionByGroup(UINT _iGroup1Idx, UINT _iGroup2Idx)
 }
 
 // 사각형과 사각형 충돌체크 AABB
-
+/*
 bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _pColRect2, RECT* _ptIntersectionRect)
 {
 	if( (_pColRect1->GetScale().x + _pColRect2->GetScale().x) * 0.5f < abs(_pColRect1->GetPosition().x - _pColRect2->GetPosition().x) ||
@@ -129,8 +129,8 @@ bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _
 
 	return true;
 }
+*/
 
-/*
 // 사각형과 사각형 충돌체크 OBB 2D
 bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _pColRect2, RECT* _ptIntersectionRect) {
 	// 투영시킬 각 사각형의 up, right 벡터
@@ -187,7 +187,6 @@ bool CCollisionManager::_IsCollision(CColliderRect* _pColRect1, CColliderRect* _
 
 	return true;
 }
-*/
 
 // 사각형과 원 충돌체크
 bool CCollisionManager::_IsCollision(CColliderRect* _pColRect, CColliderCircle* _pColCircle)
@@ -357,6 +356,19 @@ void CCollisionManager::SetNotIntersection(CColliderRect* _pColRect, CColliderRe
 		}
 	}
 }
+
+// 회전된 사각형 충돌 시 밀어내기
+void CCollisionManager::SetNotIntersectionOBB(CColliderRect* _pColRect1, CColliderRect* _pColRect2)
+{
+	// 1. 폴리곤 구성
+	// 
+	// 2. 폴리곤 충돌 검사
+
+	// 3. 교차영역이 있는지 확인
+
+	// 4. 
+}
+
 
 void CCollisionManager::SetOnOffCollisionGroup(E_GroupType _eGroup1, E_GroupType _eGroup2, bool _bIsOn)
 {

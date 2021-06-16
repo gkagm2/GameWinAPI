@@ -45,6 +45,7 @@ public:
 	bool IsCollision(const Vector3& _vPoint1, const Vector3& _vPoint2);
 
 	void SetNotIntersection(CColliderRect* _pColRect1, CColliderRect* _pColRect2);
+	void SetNotIntersectionOBB(CColliderRect* _pColRect1, CColliderRect* _pColRect2);
 
 public:
 	// 선택한 두 그룹끼리 충돌을 할지 말지 flag를 세팅한다.
