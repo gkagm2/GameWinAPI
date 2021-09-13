@@ -21,9 +21,12 @@ public:
 
 	HBITMAP& GetBitMap() { return m_hBitmap; }
 
+	TRGB GetPixel(UINT _x, UINT _y);
+	void SetPixel(UINT _x, UINT _y, const TRGB& _tColor);
+
 public:
 	CTexture();
 	~CTexture();
-	
+
 	friend class CResourceManager;
 };

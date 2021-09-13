@@ -145,6 +145,7 @@
     <ClInclude Include="CGTA_EffectUI.h" />
     <ClInclude Include="CGTA_ExplosionEffect.h" />
     <ClInclude Include="CGTA_SuspectSearchSystem.h" />
+    <ClInclude Include="CTerrain.h" />
     <ClInclude Include="C_AI.h" />
     <ClInclude Include="CAIState.h" />
     <ClInclude Include="CAITestObj.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="CGTA_EffectUI.cpp" />
     <ClCompile Include="CGTA_ExplosionEffect.cpp" />
     <ClCompile Include="CGTA_SuspectSearchSystem.cpp" />
+    <ClCompile Include="CTerrain.cpp" />
     <ClCompile Include="C_AI.cpp" />
     <ClCompile Include="CAIState.cpp" />
     <ClCompile Include="CAITestObj.cpp" />

@@ -10,6 +10,7 @@
 #define STR_OBJECT_NAME_Player L"Player"
 #define STR_OBJECT_NAME_TILE L"Tile Object"
 #define STR_OBJECT_NAME_SuspectSearchSystem L"SuspectSearchSystem"
+#define STR_OBJECT_NAME_Terrain L"STR_OBJECT_NAME_Terrain"
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -51,6 +52,11 @@
 
 #define STR_FILE_NAME_UI_BG L"TilePanel2.bmp"
 #define STR_FILE_PATH_UI_BG L"Texture\\Tile\\TilePanel2.bmp"
+
+
+// Test //
+#define STR_FILE_NAME_Terrain L"Terrain"
+#define STR_FILE_PATH_Terrain L"Texture\\Terrain.bmp"
 
 // Shooting Game // 
 

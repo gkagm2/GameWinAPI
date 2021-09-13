@@ -308,6 +308,9 @@
     <Filter Include="Game\5. Object\Gta_PJ\Effect">
       <UniqueIdentifier>{20242de3-3013-48df-b033-9b7bf6ceb647}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\5. Object\Terrain">
+      <UniqueIdentifier>{173317a8-ee1f-450b-a5a5-e363a6691af5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -593,6 +596,9 @@
       <Filter>Game\5. Object\Gta_PJ\UI\DeadEffectUI</Filter>
     </ClInclude>
     <ClInclude Include="CGTA_ExplosionEffect.h" />
+    <ClInclude Include="CTerrain.h">
+      <Filter>Game\5. Object\Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -870,6 +876,9 @@
       <Filter>Game\5. Object\Gta_PJ\UI\DeadEffectUI</Filter>
     </ClCompile>
     <ClCompile Include="CGTA_ExplosionEffect.cpp" />
+    <ClCompile Include="CTerrain.cpp">
+      <Filter>Game\5. Object\Terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="arrow.cur">

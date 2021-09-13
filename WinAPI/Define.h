@@ -24,7 +24,7 @@ private:\
 #define Debug CDebug::GetInstance()
 
 // Scene Type
-enum class E_SceneType{
+enum class E_SceneType {
 	START,
 	STAGE01,
 	TOOL,
@@ -39,6 +39,7 @@ enum class E_GroupType {
 	TILE,
 	DEFAULT,
 	BACKGROUND,
+	TERRAIN,
 	CITIZEN,
 	PLAYER,
 	ITEM,
@@ -53,7 +54,7 @@ enum class E_GroupType {
 	MANAGER, // 전체 관리용
 	PREV,
 	UI_CONTAINER,
-	UI =30,
+	UI = 30,
 	MAIN_CAMERA = 31,
 	END = 32,
 };
@@ -112,7 +113,7 @@ struct TTilePos {
 	int y;
 	TTilePos(int _x, int _y) : x(_x), y(_y) {}
 	TTilePos() : x(0), y(0) {}
-	
+
 	bool operator==(const TTilePos& _rhs) {
 		if (x == _rhs.x && y == _rhs.y)
 			return true;

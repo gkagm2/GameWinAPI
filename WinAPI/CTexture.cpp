@@ -19,7 +19,7 @@ int CTexture::Load(const wchar_t* _pFilePath)
 {
 	// 비트맵 로딩
 	m_hBitmap = (HBITMAP)LoadImage(nullptr, _pFilePath, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
-	
+
 	if (nullptr == m_hBitmap)
 		return E_FAIL;
 
@@ -53,4 +53,47 @@ void CTexture::Create(UINT _iWidth, UINT _iHeight)
 	// 비트맵의 정보 얻기
 	m_tBitmap = {};
 	GetObject(m_hBitmap, sizeof(BITMAP), (void*)&m_tBitmap);
+}
+
+
+TRGB CTexture::GetPixel(UINT _x, UINT _y)
+{
+	TRGB* pPixel = (TRGB*)m_tBitmap.bmBits; // 3byte로 받아옴
+
+	const UINT iWidth = GetWidth();
+	const UINT iHeight = GetHeight();
+
+	// 비트맵 구조는 좌 하단이 중점. (PNG는 좌 상단이 중점) 따라서 좌상단으로 변환
+	_y = iHeight - (_y + 1);
+
+	if (iWidth >= _x || iHeight >= _y) {
+		assert(nullptr && L"픽셀 해상도 범위 초과");
+		return TRGB(255, 0, 255);  // 마젠타
+	}
+
+	// 픽셀의 idx 구하기
+	UINT iIdx = _y * iWidth + _x;
+
+	return pPixel[iIdx];
+}
+
+void CTexture::SetPixel(UINT _x, UINT _y, const TRGB& _tColor)
+{
+	TRGB* pPixel = (TRGB*)m_tBitmap.bmBits; // 3byte로 받아옴
+
+	const UINT iWidth = GetWidth();
+	const UINT iHeight = GetHeight();
+
+	// 비트맵 구조는 좌 하단이 중점. (PNG는 좌 상단이 중점) 따라서 좌상단으로 변환
+	_y = iHeight - (_y + 1);
+
+	if (iWidth <= _x || iHeight <= _y) {
+		assert(nullptr && L"픽셀 해상도 범위 초과");
+		return;
+	}
+
+	// 픽셀의 idx 구하기
+	UINT iIdx = _y * iWidth + _x;
+
+	pPixel[iIdx] = _tColor;
 }
