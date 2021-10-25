@@ -41,7 +41,11 @@ void CCollisionManager::CollisionByGroup(UINT _iGroup1Idx, UINT _iGroup2Idx)
 	for (UINT i = 0; i < vecLeft.size(); ++i) {
 		if (nullptr == vecLeft[i]->GetCollider())
 			continue;
-		for (UINT j = 0; j < vecRight.size(); ++j) {
+
+		UINT j = 0;
+		if (_iGroup1Idx == _iGroup2Idx)
+			j = i;
+		for (; j < vecRight.size(); ++j) {
 			 if(nullptr == vecRight[j]->GetCollider())
 				continue;
 			if (_iGroup1Idx == _iGroup2Idx && i == j)
