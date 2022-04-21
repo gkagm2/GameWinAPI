@@ -5,3 +5,6 @@ Toy Project plan : GTA2 [winapi] [https://trello.com/b/dMvFvB3T/winapigta%EC%99%
 video [https://www.youtube.com/watch?v=DF4n1O7osOI]
 
 프로젝트 속성에서 디버깅 -> 작업 디렉터리에 $(SolutionDir)\OutputFile\bin\ 로 경로 바꾸기.
+
+# 게임 실행 파일
+MyGame 폴더 안에 있음
